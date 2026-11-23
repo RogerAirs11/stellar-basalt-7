@@ -1,0 +1,312 @@
+/* Palette-independent material contract. No page, image, or text is color-inverted. */
+.preferences-root {
+  color: var(--ink);
+  font-family: var(--font-ui);
+  background: var(--canvas);
+  --material-enamel: linear-gradient(180deg, var(--enamel-top), var(--enamel-mid) 48%, var(--enamel-bottom) 49%, var(--enamel-mid));
+  --material-ivory: linear-gradient(180deg, var(--surface-raised), var(--surface-header) 48%, var(--surface-inset) 49%, var(--surface-header));
+  --material-brass: linear-gradient(180deg, var(--brass-light), var(--brass-mid) 48%, var(--brass-dark) 49%, var(--brass-mid));
+  --material-board: linear-gradient(90deg, var(--leather-light), var(--leather), var(--leather-dark));
+  --shadow-raised: inset 1px 1px 0 var(--highlight), inset -1px -1px 0 var(--lowlight), 0 2px 0 var(--paper-edge), 0 4px 7px var(--shadow-color);
+  --shadow-inset: inset 1px 2px 3px var(--shadow-color), inset -1px -1px 0 var(--highlight), 0 1px 0 var(--highlight);
+  --shadow-button: inset 1px 1px 0 var(--highlight), inset -1px -1px 0 var(--lowlight), 0 2px 0 var(--paper-edge), 0 3px 3px var(--shadow-color);
+  --shadow-green: inset 1px 1px 0 #e8f1d543, inset -1px -1px 0 #101c2070, 0 2px 0 var(--leather-dark), 0 3px 4px var(--shadow-color);
+  --shadow-paper: 0 1px 0 var(--highlight), 0 2px 0 var(--paper-edge), 0 4px 0 -1px var(--surface), 0 5px 0 -1px var(--paper-edge), 0 8px 10px -3px var(--shadow-color);
+  --shadow-metal: inset 1px 1px 0 var(--brass-light), inset -1px -1px 0 var(--brass-dark), 0 2px 3px var(--shadow-color);
+}
+.preferences-root [data-edition] { color: var(--ink); font-family: var(--font-ui); }
+.preferences-root [data-edition] :is(h1, h2, h3) { color: var(--ink-strong); text-shadow: none; }
+.preferences-root [data-edition] :is(p, small, dt) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(dd, td) { color: var(--ink); }
+.preferences-root [data-edition] :is(.muted, .faint, .eyebrow, .panel-kicker, .page-bottom-note, .profile-footnote, .note-date, .note-separator) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(input, textarea, select) {
+  color: var(--ink); background-color: var(--surface-raised); border-color: var(--line); accent-color: var(--accent);
+}
+.preferences-root [data-edition] :is(input, textarea)::placeholder { color: var(--ink-faint); }
+.preferences-root [data-edition] :is(input, textarea, select):focus { border-color: var(--focus); }
+.preferences-root [data-edition] :focus-visible { outline-color: var(--focus); }
+.preferences-root [data-edition] .button { color: var(--ink-strong); background: var(--material-ivory); border-color: var(--line); box-shadow: var(--shadow-button); text-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .button:hover:not(:disabled) { background: var(--surface-raised); border-color: var(--accent); }
+.preferences-root [data-edition] .button--primary { color: var(--leather-ink); background: var(--material-enamel); border-color: var(--leather-dark); box-shadow: var(--shadow-green); text-shadow: 0 1px 0 #142a2760; }
+.preferences-root [data-edition] .button--primary:hover:not(:disabled) { background: linear-gradient(var(--enamel-top), var(--enamel-mid)); border-color: var(--leather-dark); }
+.preferences-root [data-edition] .button--quiet { color: var(--accent); background: none; box-shadow: none; text-shadow: none; border-color: transparent; }
+.preferences-root [data-edition] .button--quiet:hover:not(:disabled) { background: var(--accent-soft); border-color: transparent; }
+.preferences-root [data-edition] .button--danger { color: var(--dam); background: linear-gradient(var(--dam-soft), color-mix(in srgb, var(--dam-soft), var(--dam) 15%)); border-color: var(--dam-border); text-shadow: none; box-shadow: var(--shadow-button); }
+.preferences-root [data-edition] .button--danger:hover:not(:disabled) { color: var(--danger); background: var(--dam-soft); }
+.preferences-root [data-edition] .icon-button { color: var(--ink-muted); }
+.preferences-root [data-edition] .icon-button:hover:not(:disabled) { color: var(--accent); background: var(--material-ivory); border-color: var(--line); box-shadow: var(--shadow-button); }
+.preferences-root [data-edition] :is(.text-link, .horse-cell strong, .horse-grid-name, .table-parent a) { color: var(--accent); }
+.preferences-root [data-edition] .text-link:hover { color: var(--accent-hover); }
+.preferences-root [data-edition] kbd { color: var(--ink-muted); background: var(--material-ivory); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .star-button.is-saved { color: var(--gold); }
+.preferences-root [data-edition] .star-button.is-saved svg { fill: var(--gold); filter: drop-shadow(0 1px 0 var(--highlight)); }
+.preferences-root [data-edition] .sex-badge { color: var(--sire); border-color: var(--sire-border); background: linear-gradient(color-mix(in srgb, var(--sire-soft), var(--surface-raised) 30%), var(--sire-soft)); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .sex-badge--dam { color: var(--dam); border-color: var(--dam-border); background: linear-gradient(color-mix(in srgb, var(--dam-soft), var(--surface-raised) 30%), var(--dam-soft)); }
+.preferences-root [data-edition] .status { color: var(--accent); }
+.preferences-root [data-edition] .status--in-training { color: var(--gold); }
+.preferences-root [data-edition] .status--retired { color: var(--ink-muted); }
+.preferences-root [data-edition] .status-dot { background: var(--accent); border-color: color-mix(in srgb, var(--accent), #142c20 30%); box-shadow: inset 0 1px 0 #f6f4dc70, 0 0 0 2px color-mix(in srgb, var(--accent), transparent 87%); }
+.preferences-root [data-edition] .status--in-training .status-dot { background: var(--gold); border-color: var(--gold); }
+.preferences-root [data-edition] .status--retired .status-dot { background: var(--ink-faint); border-color: var(--ink-faint); }
+.preferences-root [data-edition] .line-key.sire-key { background: var(--sire); }
+.preferences-root [data-edition] .line-key.dam-key { background: var(--dam); }
+.preferences-root [data-edition] .line-key.root-key { background: var(--accent); }
+
+/* Shell and working surfaces. */
+.preferences-root [data-edition] .desk-surround { background: linear-gradient(var(--wood-shade), var(--wood-shade)), var(--material-wood) center / 1000px auto; }
+.preferences-root [data-edition] .app-shell { border-color: var(--brass-dark); background: var(--paper); box-shadow: 0 0 0 1px var(--brass-mid), 0 0 0 4px var(--shadow-color), 0 8px 32px var(--shadow-color); }
+.preferences-root [data-edition] .desk-menubar { color: var(--leather-ink); background: var(--material-leather), var(--material-enamel); border-color: var(--leather-dark); box-shadow: inset 0 1px 0 #d5dfaf50; }
+.preferences-root [data-edition] :is(.desktop-app-label, .desk-menus > button, .desk-menu-anchor > button, .edition-label) { color: var(--leather-ink); }
+.preferences-root [data-edition] .desktop-app-label > span { color: var(--leather-muted); }
+.preferences-root [data-edition] .desktop-app-label > svg { color: var(--brass-light); }
+.preferences-root [data-edition] :is(.desk-menubar, .sidebar, .status-bar) .status-dot { background: #bdd497; border-color: #99b87c; }
+.preferences-root [data-edition] .site-header { background: var(--material-linen), linear-gradient(100deg, var(--surface-header), var(--surface), var(--surface-header)); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .brand-seal { color: var(--brass-ink); background: var(--material-brass); border-color: var(--brass-dark); box-shadow: var(--shadow-metal); }
+.preferences-root [data-edition] .brand-seal svg { --mark-detail: var(--brass-mid); filter: drop-shadow(0 1px 0 var(--brass-light)); }
+.preferences-root [data-edition] .seal-rim { border-color: var(--brass-dark); box-shadow: inset 0 1px 0 var(--brass-light), 0 1px 0 var(--brass-light); }
+.preferences-root [data-edition] .brand-name { color: var(--accent); text-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .brand-period { color: var(--gold); }
+.preferences-root [data-edition] :is(.brand-tagline, .account-button, .account-label, .workspace-date, .breadcrumb, .fold-welcome) { color: var(--ink-muted); }
+.preferences-root [data-edition] .account-label > strong { color: var(--accent); }
+.preferences-root [data-edition] .account-label small { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.avatar, .heading-forest) { background: var(--material-enamel); color: var(--leather-ink); border-color: var(--leather-dark); box-shadow: var(--shadow-green); }
+.preferences-root [data-edition] .global-search { background: var(--surface-raised); border-color: var(--line); color: var(--ink-muted); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .global-search svg { color: var(--ink-muted); }
+.preferences-root [data-edition] .global-search:hover { background: var(--surface); border-color: var(--accent); }
+.preferences-root [data-edition] .header-tool.icon-button { background: var(--material-ivory); border-color: var(--line); color: var(--ink-muted); box-shadow: var(--shadow-button); }
+.preferences-root [data-edition] .primary-nav { background: linear-gradient(var(--wood-shade), var(--wood-shade)), var(--material-wood) center / 900px auto; border-bottom-color: var(--paper-edge); box-shadow: inset 0 1px 0 var(--brass-light), 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .primary-nav a { color: var(--ink-muted); background: var(--material-ivory); border-color: var(--paper-edge); box-shadow: inset 1px 1px 0 var(--highlight), inset -1px 0 0 var(--lowlight); text-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .primary-nav a.active { color: var(--accent); background: var(--material-linen), var(--surface); border-color: var(--line); }
+.preferences-root [data-edition] .primary-nav a.active::after { background: var(--surface); }
+.preferences-root [data-edition] .primary-nav a.active::before { background: var(--accent); box-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .primary-nav a:not(.active):hover { background: var(--surface-raised); }
+.preferences-root [data-edition] .nav-section-number { color: var(--ink-faint); }
+.preferences-root [data-edition] .nav-help { color: var(--brass-ink); text-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] :is(.workspace-location, .status-bar) { background: var(--material-linen), var(--material-ivory); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.breadcrumb > span:last-child, .status-bar strong) { color: var(--accent); }
+.preferences-root [data-edition] :is(.footer-motto, .status-bar > button) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.toolbar-divider, .footer-divider) { background: var(--line); box-shadow: 1px 0 0 var(--highlight); }
+.preferences-root [data-edition] .workspace-main { background: var(--material-paper), var(--material-linen), var(--canvas); }
+.preferences-root [data-edition] .sidebar { color: var(--leather-ink); background: var(--material-leather), var(--material-board); border-color: var(--leather-dark); box-shadow: inset -3px 0 6px #10251d25, 2px 0 0 var(--paper-edge); }
+.preferences-root [data-edition] .sidebar::before { border-color: color-mix(in srgb, var(--leather-muted), transparent 70%); }
+.preferences-root [data-edition] .sidebar-nameplate { background: var(--material-brass); color: var(--brass-ink); border-color: var(--brass-dark); box-shadow: var(--shadow-metal); text-shadow: 0 1px 0 var(--brass-light); }
+.preferences-root [data-edition] :is(.sidebar-label, .sidebar-footnote, .sidebar .subtle-count) { color: var(--leather-muted); }
+.preferences-root [data-edition] .sidebar-section + .sidebar-section { border-color: #c5d3a837; box-shadow: 0 -1px 0 #152a2540; }
+.preferences-root [data-edition] :is(.side-nav > a, .side-nav > button) { color: var(--leather-ink); }
+.preferences-root [data-edition] .side-nav > a.active { color: var(--brass-ink); background: var(--material-linen), var(--material-brass); border-color: var(--brass-light) var(--brass-dark) var(--brass-dark) var(--brass-light); box-shadow: var(--shadow-metal); text-shadow: 0 1px 0 var(--brass-light); }
+.preferences-root [data-edition] :is(.side-nav > a:hover:not(.active), .side-nav > button:hover) { background: #dae7c81a; color: var(--leather-ink); border-color: #c1d0ad40; }
+.preferences-root [data-edition] .nav-count { color: var(--leather-ink); background: var(--leather-dark); border-color: #172b2940; box-shadow: inset 0 1px 2px #14292350, 0 1px 0 #becfa52b; }
+.preferences-root [data-edition] .side-nav > a.active .nav-count { color: var(--brass-ink); background: var(--brass-mid); border-color: var(--brass-dark); box-shadow: inset 0 1px 2px var(--shadow-color), 0 1px 0 var(--brass-light); }
+.preferences-root [data-edition] .field-guide { background: var(--material-leather), linear-gradient(120deg, var(--brass-dark), var(--brass-mid), var(--brass-dark)); border-color: var(--brass-dark); color: var(--leather-ink); box-shadow: 2px 1px 0 var(--paper), 3px 2px 0 var(--paper-edge), 5px 5px 7px #10251d40, inset 0 1px 0 var(--brass-light); }
+.preferences-root [data-edition] .guide-book-content { border-color: color-mix(in srgb, var(--brass-light), transparent 40%); }
+.preferences-root [data-edition] :is(.guide-volume, .guide-book-content strong, .guide-book-bottom) { color: #fff2ce; text-shadow: 0 1px 1px #4e37273d; }
+.preferences-root [data-edition] .desk-section-marker { color: var(--gold); background: var(--surface-inset); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .desk-welcome-message { color: var(--ink-muted); border-color: var(--line); }
+
+/* Welcome artwork stays natural; only the wash and light level change. */
+.preferences-root [data-edition] .welcome-hero { background: var(--paper); border-color: var(--paper-edge); box-shadow: inset 0 1px 0 var(--highlight), 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .hero-wash { background: linear-gradient(90deg, var(--paper) 0%, color-mix(in srgb, var(--paper), transparent 5%) 26%, color-mix(in srgb, var(--paper), transparent 40%) 48%, transparent 76%); }
+.preferences-root [data-edition] :is(.hero-copy h1, .hero-manifesto) { color: var(--ink-strong); text-shadow: none; }
+.preferences-root [data-edition] .hero-copy h1 span { color: var(--gold); }
+.preferences-root [data-edition] :is(.hero-eyebrow, .hero-description) { color: var(--ink-muted); }
+.preferences-root [data-edition] .hero-secondary { color: var(--accent); }
+.preferences-root [data-edition] .hero-eyebrow::before { background: var(--gold); box-shadow: 0 1px 0 var(--highlight); }
+.preferences-root[data-mode='dark'] .hero-image { filter: brightness(.65) saturate(.78); }
+.preferences-root [data-edition] .desk-findbar { border-color: var(--line); background: var(--material-linen), var(--material-ivory); box-shadow: inset 0 1px 0 var(--highlight), 0 2px 0 var(--shadow-color); }
+.preferences-root [data-edition] :is(.findbar-label, .findbar-count, .findbar-count strong) { color: var(--ink-muted); }
+.preferences-root [data-edition] .desk-findbar input { background: var(--surface-raised); }
+.preferences-root [data-edition] .desk-findbar select { background: var(--material-ivory); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] :is(.desk-record-sheet, .desk-pedigree-sheet, .desk-ledger, .panel, .horse-grid-item, .directory-register, .collection-sheet) { background: var(--material-paper), var(--paper-light); border-color: var(--line); box-shadow: var(--shadow-paper); }
+.preferences-root [data-edition] .desk-window-heading h2 { color: inherit; }
+.preferences-root [data-edition] .heading-forest { color: var(--leather-ink); background: var(--material-leather), var(--material-enamel); }
+.preferences-root [data-edition] .heading-blue { color: var(--leather-ink); background: linear-gradient(#6b8890, #53717e 48%, #3d5e6a 49%, #53717e); border-color: #36515e; }
+.preferences-root[data-mode='dark'] [data-edition] .heading-blue { background: linear-gradient(#476671, #324e5a 48%, #263f4a 49%, #395862); }
+.preferences-root [data-edition] .engraved-caption { color: inherit; opacity: .8; }
+.preferences-root [data-edition] :is(.heading-ledger, .panel-heading, .desk-record-footer, .panel-footer) { color: var(--ink-strong); background: var(--material-linen), var(--material-ivory); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); text-shadow: none; }
+.preferences-root [data-edition] :is(.mounted-photo, .preview-record-photo) { background: var(--surface); border-color: var(--paper-edge); box-shadow: var(--shadow-paper); }
+.preferences-root [data-edition] .mounted-photo > img { border-color: var(--line); }
+.preferences-root [data-edition] :is(.mounted-photo-label, .mounted-photo-label span, .featured-record-code, .featured-record-meta, .featured-lineage dt, .featured-results span, .pedigree-footer-note, .ledger-record-count) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.featured-record-name, .featured-lineage dd, .featured-results strong) { color: var(--accent); }
+.preferences-root [data-edition] .featured-lineage { border-color: var(--line-soft); box-shadow: 0 1px 0 var(--highlight), inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .featured-results > div { border-color: var(--line-soft); }
+.preferences-root [data-edition] .pedigree-preview { background-color: var(--accent-soft); background-image: linear-gradient(color-mix(in srgb, var(--line), transparent 70%) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--line), transparent 70%) 1px, transparent 1px); }
+.preferences-root [data-edition] :is(.preview-legend > span, .tree-caption) { color: var(--ink-muted); }
+.preferences-root [data-edition] .mini-node { background: var(--accent-soft); border-color: var(--line); color: var(--accent); box-shadow: var(--shadow-raised); }
+.preferences-root [data-edition] .mini-root { background: var(--material-enamel); border-color: var(--leather-dark); color: var(--leather-ink); box-shadow: var(--shadow-green); }
+.preferences-root [data-edition] .mini-root :is(small, .node-label) { color: var(--leather-muted); }
+.preferences-root [data-edition] .mini-sire { background: linear-gradient(var(--surface-raised), var(--sire-soft)); border-color: var(--sire-border); border-inline-start-color: var(--sire); color: var(--sire); }
+.preferences-root [data-edition] .mini-dam { background: linear-gradient(var(--surface-raised), var(--dam-soft)); border-color: var(--dam-border); border-inline-start-color: var(--dam); color: var(--dam); }
+.preferences-root [data-edition] :is(.mini-sire, .mini-dam) :is(small, .node-label, .node-label > span) { color: inherit; opacity: .86; }
+.preferences-root [data-edition] .mini-root::after, .preferences-root [data-edition] .mini-tree-branches::before { background: var(--line); box-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .mini-tree-branches > .mini-node::before { background: var(--sire-border); }
+.preferences-root [data-edition] .mini-tree-branches > .mini-dam::before { background: var(--dam-border) !important; }
+.preferences-root [data-edition] :is(.tree-caption > span, .home-signoff > span) { background: var(--line); box-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .home-signoff :is(svg, p) { color: var(--ink-faint); }
+.preferences-root [data-edition] .desk-ledger-table th { background: var(--surface-header); color: var(--ink-muted); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .desk-ledger-table td { border-color: var(--line-soft); }
+.preferences-root [data-edition] .desk-ledger-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-inset), transparent 60%); }
+.preferences-root [data-edition] .desk-ledger-table tbody tr:hover { background: var(--accent-soft); }
+.preferences-root [data-edition] .desk-ledger-table .ledger-number-column { color: var(--ink-faint); border-inline-end-color: var(--dam-border); }
+.preferences-root [data-edition] :is(.horse-cell small, .ledger-year, .ledger-year small) { color: var(--ink-muted); }
+.preferences-root [data-edition] .horse-cell img { background: var(--paper); border-color: var(--paper-edge); }
+.preferences-root [data-edition] :is(.ledger-view-tabs, .segmented-control) { background: var(--surface-inset); border-color: var(--line); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .ledger-view-tabs > button { color: var(--ink-muted); }
+.preferences-root [data-edition] .ledger-view-tabs > button.active { color: var(--accent); background: var(--material-ivory); border-color: var(--line); box-shadow: var(--shadow-button); }
+.preferences-root [data-edition] .ledger-view-tabs > button > span { color: var(--gold); }
+.preferences-root [data-edition] .desk-notebook { background: var(--material-paper), color-mix(in srgb, var(--paper), var(--gold-soft) 42%); border-color: var(--paper-edge); box-shadow: var(--shadow-paper); }
+.preferences-root [data-edition] .desk-notebook::before { background: color-mix(in srgb, var(--dam), transparent 65%); box-shadow: 3px 0 0 color-mix(in srgb, var(--dam), transparent 87%); }
+.preferences-root [data-edition] .desk-notebook::after { background: linear-gradient(135deg, var(--paper) 45%, var(--paper-edge) 49%, var(--gold-soft) 65%, var(--surface)); }
+.preferences-root [data-edition] :is(.notebook-heading, .notebook-footer) { border-color: var(--line-soft); }
+.preferences-root [data-edition] :is(.notebook-heading h2, .notebook-kicker, .notebook-footer span, .notebook-footer button) { color: var(--ink-muted); }
+.preferences-root [data-edition] .desk-notebook > textarea { color: var(--ink); background-color: transparent; background-image: repeating-linear-gradient(transparent 0 24px, color-mix(in srgb, var(--sire), transparent 79%) 24px 25px); border: 0; }
+
+/* Records and shared data components. */
+.preferences-root [data-edition] :is(.directory-toolbar, .advanced-filters, .registry-scope-tabs, .register-caption, .pagination, .collection-toolbar, .collection-sheet-heading, .collection-sheet-footer) { background: var(--material-linen), var(--surface-header); color: var(--ink-muted); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .registry-scope-tabs > button { color: var(--ink-muted); background: var(--material-ivory); border-color: var(--line); box-shadow: inset 1px 1px 0 var(--highlight); }
+.preferences-root [data-edition] .registry-scope-tabs > button.active { color: var(--accent); background: var(--paper-light); }
+.preferences-root [data-edition] .registry-scope-tabs > button.active::after { background: var(--paper-light); }
+.preferences-root [data-edition] .registry-scope-tabs > button > span { background: var(--surface-inset); border-color: var(--line); color: var(--ink-muted); }
+.preferences-root [data-edition] .registry-scope-tabs > button.active > span { background: var(--accent-soft); color: var(--accent); }
+.preferences-root [data-edition] .directory-search { background: var(--surface-raised); border-color: var(--line); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .directory-search input { background: transparent; }
+.preferences-root [data-edition] :is(.sort-select, .leader-sort) { background: var(--material-ivory); color: var(--ink); border-color: var(--line); }
+.preferences-root [data-edition] .segmented-control .icon-button.active { background: var(--material-ivory); color: var(--accent); border-color: var(--line); box-shadow: var(--shadow-button); }
+.preferences-root [data-edition] .filter-button.is-active { color: var(--accent); background: var(--accent-soft); border-color: var(--focus); }
+.preferences-root [data-edition] .filter-count { background: var(--accent); color: var(--surface); }
+.preferences-root [data-edition] :is(.horse-table th, .season-table th, .leader-table th) { color: var(--ink-muted); background: var(--material-ivory); border-color: var(--line); box-shadow: inset 1px 1px 0 var(--highlight); }
+.preferences-root [data-edition] :is(.horse-table td, .season-table td, .leader-table td) { color: var(--ink); border-color: var(--line-soft); }
+.preferences-root [data-edition] .horse-table tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface-inset), transparent 65%); }
+.preferences-root [data-edition] .horse-table tbody tr:hover { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.preferences-root [data-edition] :is(.table-year, .table-country, .table-parent, .table-parent .faint, .per-page, .page-number, .register-caption > span, .registry-scope-tabs > small) { color: var(--ink-muted); }
+.preferences-root [data-edition] .page-number.active { color: var(--leather-ink); background: var(--material-enamel); border-color: var(--leather-dark); box-shadow: var(--shadow-green); }
+.preferences-root [data-edition] .horse-grid-image { border-color: var(--surface-header); outline-color: var(--paper-edge); }
+.preferences-root [data-edition] .profile-header { background: var(--material-paper), linear-gradient(90deg, var(--paper-edge), var(--surface-header) 12px, var(--paper-light) 19px, var(--paper) 80%); border-color: var(--line); border-inline-start-color: var(--leather); box-shadow: var(--shadow-paper); }
+.preferences-root [data-edition] .profile-header::before { border-color: var(--highlight) var(--lowlight); }
+.preferences-root [data-edition] .profile-photo { background: var(--surface); border-color: var(--paper-edge); box-shadow: 0 0 0 4px var(--paper-light), 0 0 0 5px var(--paper-edge), 0 4px 7px var(--shadow-color); }
+.preferences-root [data-edition] .profile-photo > span { color: var(--leather-ink); background: color-mix(in srgb, var(--leather), transparent 12%); }
+.preferences-root [data-edition] :is(.profile-registration, .profile-meta, .profile-totals span, .chart-readout small, .chart-readout > span:last-child) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.profile-parent-line, .profile-totals strong, .chart-readout strong) { color: var(--accent); }
+.preferences-root [data-edition] .profile-totals { border-color: var(--line); box-shadow: 0 -1px 0 var(--highlight); }
+.preferences-root [data-edition] .profile-totals > div { border-color: var(--line-soft); }
+.preferences-root [data-edition] .record-tabs { border-color: var(--paper-edge); }
+.preferences-root [data-edition] .record-tabs > button { color: var(--ink-muted); background: var(--material-ivory); border-color: var(--line); box-shadow: inset 1px 1px 0 var(--highlight); }
+.preferences-root [data-edition] .record-tabs > button:nth-child(2):not(.active) { background: linear-gradient(var(--surface-raised), var(--sire-soft)); color: var(--sire); border-color: var(--sire-border); }
+.preferences-root [data-edition] .record-tabs > button:nth-child(4):not(.active) { background: linear-gradient(var(--surface-raised), var(--gold-soft)); color: var(--gold); }
+.preferences-root [data-edition] .record-tabs > button.active { background: var(--material-enamel); color: var(--leather-ink); border-color: var(--leather-dark); box-shadow: inset 1px 1px 0 #e4f2c34d; }
+.preferences-root [data-edition] .record-tabs > button.active::after { background: var(--enamel-mid); }
+.preferences-root [data-edition] .record-tabs > span { color: var(--ink-muted); }
+.preferences-root [data-edition] .profile-story > p { color: var(--ink-muted); }
+.preferences-root [data-edition] .particulars-grid > div { border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .particulars-grid dt { color: var(--ink-muted); }
+.preferences-root [data-edition] .particulars-grid dd { color: var(--ink); }
+.preferences-root [data-edition] .family-connections { border-color: var(--line); }
+.preferences-root [data-edition] .family-link--sire { background: linear-gradient(var(--surface-raised), var(--sire-soft)); border-color: var(--sire-border); color: var(--sire); }
+.preferences-root [data-edition] .family-link--dam { background: linear-gradient(var(--surface-raised), var(--dam-soft)); border-color: var(--dam-border); color: var(--dam); }
+.preferences-root [data-edition] .family-link :is(strong, small, svg) { color: inherit; }
+.preferences-root [data-edition] .family-link > span > span { color: var(--ink-muted); }
+.preferences-root [data-edition] .offspring-summary { background: var(--accent-soft); border-color: var(--line); color: var(--accent); }
+.preferences-root [data-edition] .offspring-summary :is(strong, a) { color: var(--accent); }
+.preferences-root [data-edition] .rating-stamp { color: var(--accent); background: var(--accent-soft); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .demo-label { color: var(--ink-muted); background: var(--surface-header); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .performance-section { background: var(--material-paper), var(--paper-light); border-color: var(--line); box-shadow: var(--shadow-raised); }
+.preferences-root [data-edition] :is(.performance-context, .performance-context strong, .performance-context > span) { color: var(--accent); border-color: var(--line-soft); }
+.preferences-root [data-edition] .chart-year-selector button { color: var(--ink-muted); }
+.preferences-root [data-edition] .chart-year-selector button.active { color: var(--accent); border-color: var(--line); background: var(--accent-soft); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .season-table tfoot td { background: var(--accent-soft); }
+.preferences-root [data-edition] :is(.note-form, .saved-notes > article) { background: var(--material-paper), color-mix(in srgb, var(--paper), var(--gold-soft) 25%); border-color: var(--line); box-shadow: var(--shadow-paper); }
+.preferences-root [data-edition] :is(.note-form textarea, .field-notepaper) { background-color: var(--paper-light); background-image: repeating-linear-gradient(transparent 0 25px, color-mix(in srgb, var(--sire), transparent 80%) 25px 26px); }
+.preferences-root [data-edition] :is(.saved-note-heading, .saved-notes article > p) { color: var(--ink); border-color: var(--line-soft); }
+.preferences-root [data-edition] .saved-note-heading time { color: var(--ink-muted); }
+.preferences-root [data-edition] .collection-folder { color: var(--accent); background: var(--material-paper), var(--material-ivory); border-color: var(--line); border-inline-start-color: var(--folder-color); box-shadow: var(--shadow-raised); }
+.preferences-root [data-edition] .collection-folder::before { background: var(--surface-header); border-color: var(--line); }
+.preferences-root [data-edition] .collection-folder strong { color: var(--accent); }
+.preferences-root [data-edition] .collection-folder.active { color: var(--leather-ink); background: var(--material-enamel); border-color: var(--leather-dark); box-shadow: var(--shadow-green); }
+.preferences-root [data-edition] .collection-folder.active strong { color: var(--leather-ink); }
+.preferences-root [data-edition] .collection-folder.active small { color: var(--leather-muted); }
+.preferences-root [data-edition] :is(.new-folder, .collection-folders > p) { color: var(--ink-muted); border-color: var(--line); }
+.preferences-root [data-edition] :is(.insights-filter, .insight-totals > a, .registry-health, .sex-distribution) { border-color: var(--line); }
+.preferences-root [data-edition] :is(.insights-filter > span, .insight-totals strong, .leader-table strong, .quality-row strong, .sex-distribution strong) { color: var(--accent); }
+.preferences-root [data-edition] :is(.insight-totals > a > span, .insight-totals > a, .insights-filter select, .birth-chart-column > span, .quality-row > span:first-child) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.breed-bar-track, .quality-track) { background: var(--surface-inset); border-color: var(--line); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .birth-chart { background-image: repeating-linear-gradient(to top, transparent 0, transparent 43px, var(--line-soft) 44px, transparent 45px); }
+.preferences-root [data-edition] .birth-chart-column > div > span { border-color: var(--line); box-shadow: inset 2px 1px 0 var(--highlight), inset -2px 0 0 var(--lowlight), 2px 0 2px var(--shadow-color); }
+.preferences-root [data-edition] :is(.quality-track > span, .chart-color-0) { background: linear-gradient(90deg, var(--enamel-top), var(--accent), var(--enamel-mid)); }
+.preferences-root [data-edition] .chart-color-1 { background: linear-gradient(90deg, var(--sire-border), var(--sire)); }
+.preferences-root [data-edition] .chart-color-2 { background: linear-gradient(90deg, var(--dam-border), var(--dam)); }
+.preferences-root [data-edition] .chart-color-3 { background: linear-gradient(90deg, var(--brass-light), var(--gold)); }
+
+/* Dialogs, command search, and immediate appearance controls. */
+.preferences-root [data-edition] :is(.modal, .desk-menu-popover, .activity-popover) { color: var(--ink); background: var(--material-paper), var(--paper); border-color: var(--line); box-shadow: inset 1px 1px 0 var(--highlight), 0 0 0 3px var(--surface-header), 0 0 0 4px var(--paper-edge), 0 20px 75px #101b2560; }
+.preferences-root [data-edition] :is(.modal-heading, .popover-title, .command-footer, .preview-navigation) { background: var(--material-linen), var(--material-ivory); color: var(--ink-strong); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .modal-heading .icon-button { background: var(--material-ivory); border-color: var(--line); }
+.preferences-root [data-edition] :is(.modal-heading h2, .modal-heading p, .field, .command-results button strong, .preview-record-info h3) { color: var(--ink-strong); }
+.preferences-root [data-edition] :is(.menu-category, .desk-menu-popover > button, .command-group-label, .command-results button small, .command-footer, .preview-navigation > span, .popover-footnote) { color: var(--ink-muted); }
+.preferences-root [data-edition] .desk-menu-popover > button:hover { background: var(--accent-soft); border-color: var(--line); }
+.preferences-root [data-edition] :is(.menu-separator, .form-footer) { border-color: var(--line-soft); box-shadow: 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .form-note { color: var(--ink-muted); background: var(--surface-inset); border-color: var(--line); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .form-note :is(strong, svg) { color: var(--accent); }
+.preferences-root [data-edition] .form-error { color: var(--danger); background: var(--dam-soft); border-inline-start-color: var(--danger); }
+.preferences-root [data-edition] .save-collection-list label { background: var(--paper-light); border-color: var(--line); }
+.preferences-root [data-edition] .save-collection-list label:has(input:checked) { background: var(--accent-soft); border-color: var(--focus); }
+.preferences-root [data-edition] .command-input { background: var(--surface-raised); border-color: var(--line); color: var(--ink-muted); box-shadow: var(--shadow-inset); }
+.preferences-root [data-edition] .command-input input { background: transparent; border: 0; box-shadow: none; }
+.preferences-root [data-edition] .command-results button { color: var(--ink-muted); }
+.preferences-root [data-edition] .command-results button.active { background: var(--accent-soft); border-color: var(--line); box-shadow: inset 0 1px 0 var(--highlight); }
+.preferences-root [data-edition] .command-results button img { background: var(--surface-header); border-color: var(--paper-edge); }
+.preferences-root [data-edition] :is(.activity-popover-item, .activity-popover > a, .quick-guide > div:not(.guide-footer)) { border-color: var(--line-soft); color: var(--accent); }
+.preferences-root [data-edition] .activity-popover > a:hover { background: var(--accent-soft); }
+.preferences-root [data-edition] .activity-popover :is(strong, small) { color: var(--ink-muted); }
+.preferences-root [data-edition] :is(.preview-record-info dl, .preview-racing, .preview-racing > div) { border-color: var(--line-soft); }
+.preferences-root [data-edition] .preview-racing { background: var(--surface-header); }
+.preferences-root [data-edition] .preview-racing strong { color: var(--accent); }
+.preferences-root [data-edition] :is(.preview-racing span, .preview-record-info dt, .preview-record-info dd, .shortcut-guide dt, .shortcut-guide dd, .preference-switches small) { color: var(--ink-muted); }
+.preferences-root [data-edition] .preference-switches strong { color: var(--ink-strong); }
+.preferences-root [data-edition] .toast { background: var(--material-leather), var(--material-enamel); border-color: var(--leather-dark); color: var(--leather-ink); box-shadow: var(--shadow-green), 0 5px 22px var(--shadow-color); }
+.appearance-quick-controls { display: flex; align-items: center; gap: 6px; }
+.preferences-root [data-edition] .language-switch { display: inline-flex; align-items: center; justify-content: center; height: 31px; min-width: 31px; padding: 0 5px; border: 1px solid var(--line); border-radius: 3px; color: var(--accent); background: var(--material-ivory); box-shadow: var(--shadow-button); font-family: var(--font-persian-ui); font-size: 12px; font-weight: 600; }
+.preferences-root [data-edition] .density-control { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-muted); }
+.preferences-root [data-edition] .density-control select { min-height: 23px; padding: 2px 16px 2px 4px; font-size: 9px; background: transparent; border: 0; box-shadow: none; color: var(--accent); }
+.appearance-dialog { width: min(680px, 100%); }
+.appearance-content { padding: 3px 24px 20px; }
+.preference-section { padding: 20px 0; border-bottom: 1px solid var(--line-soft); }
+.preference-section:last-child { border-bottom: 0; padding-bottom: 0; }
+.preference-section-title { display: flex; align-items: center; gap: 9px; color: var(--accent); margin-bottom: 9px; }
+.preference-section-title h3 { font-family: var(--font-display); font-size: 17px; font-weight: 500; }
+.preference-section > p { font-size: 11px; line-height: 1.7; }
+.palette-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin-top: 13px; }
+.palette-option { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 9px; color: var(--ink); background: var(--surface-raised); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow-raised); text-align: start; font-size: 11px; }
+.palette-option.selected { outline: 2px solid var(--accent); outline-offset: 2px; }
+.palette-option > svg { margin-inline-start: auto; color: var(--accent); }
+.palette-swatch { width: 100%; height: 27px; display: flex; border: 1px solid #0000001f; border-radius: 2px; overflow: hidden; box-shadow: inset 0 1px 0 #ffffff50; }
+.palette-swatch > i { flex: 1; }
+.palette-swatch > i:first-child { flex: 1.5; }
+.palette-theory { font-size: 10px; color: var(--ink-muted); margin: 12px 0 15px; }
+.mode-row { display: flex; align-items: center; gap: 16px; }
+.mode-row > small { max-width: 265px; font-size: 10px; line-height: 1.7; }
+.preference-segment { display: inline-flex; padding: 3px; gap: 3px; background: var(--surface-inset); border: 1px solid var(--line); border-radius: 4px; box-shadow: var(--shadow-inset); }
+.preference-segment > button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 13px; border: 1px solid transparent; border-radius: 3px; font: 11px var(--font-ui); color: var(--ink-muted); background: transparent; min-width: 82px; }
+.preference-segment > button.active { color: var(--accent); background: var(--material-ivory); border-color: var(--line); box-shadow: var(--shadow-button); }
+.preference-segment > button[lang='fa'] { font-family: var(--font-persian-ui); }
+.preference-segment small { font: 8px var(--font-mono); color: var(--ink-faint); }
+.font-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px; }
+.font-sample { color: var(--ink-strong); padding: 15px; min-height: 72px; border: 1px solid var(--line); background: var(--paper-light); border-radius: 3px; box-shadow: var(--shadow-inset); }
+.font-sample--en { font: 500 19px/1.55 var(--font-english-display); }
+.font-sample--fa { font: 500 18px/1.8 var(--font-persian-display); }
+.preference-hint { margin: -7px 0 16px; }
+.appearance-footer { position: sticky; bottom: 0; padding: 12px 22px; background: var(--material-linen), var(--surface-header); border-top: 1px solid var(--line); box-shadow: 0 -2px 7px var(--shadow-color); display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 2; }
+.appearance-footer > span { display: flex; align-items: flex-start; gap: 6px; font-size: 9px; color: var(--ink-muted); max-width: 235px; }
+.appearance-footer > span > svg { flex-shrink: 0; margin-top: 1px; }
+.appearance-footer > div { display: flex; align-items: center; gap: 8px; }
+.preferences-root [data-edition] .appearance-footer .button { white-space: normal; }
+@media (max-width: 640px) {
+  .appearance-content { padding-inline: 17px; }
+  .palette-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+  .palette-option { font-size: 12px; }
+  .mode-row { align-items: flex-start; gap: 11px; }
+  .mode-row > small { font-size: 9px; }
+  .font-options-grid { grid-template-columns: 1fr; gap: 19px; }
+  .appearance-footer { flex-wrap: wrap; padding: 10px 16px; }
+  .appearance-footer > span { max-width: none; font-size: 10px; }
+  .appearance-footer > div { width: 100%; justify-content: space-between; }
+  .preference-section-title h3 { font-size: 16px; }
+}

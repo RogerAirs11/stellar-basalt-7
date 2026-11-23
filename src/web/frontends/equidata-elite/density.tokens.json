@@ -1,0 +1,10 @@
+{
+  "gutter": 18,
+  "gap": 12,
+  "panel-padding": 12,
+  "control-height": 36,
+  "touch-height": 44,
+  "body-size": 15,
+  "label-size": 13,
+  "content-max": 1480
+}

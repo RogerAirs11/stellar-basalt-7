@@ -1,0 +1,428 @@
+/* Heritage Newsroom (public reader) + Editorial Studio — R32.
+   ---------------------------------------------------------------------------
+   Scroll architecture (user task 3b): the DESKTOP (≥981px) newsroom is an
+   app-style workspace with exactly TWO scroll layers — `.heritage-news-feed`
+   (sidebar list) and `.heritage-news-reader-scroll` (article body). The page
+   itself never scrolls; the footer is intentionally hidden on this route.
+   R129 PHONE CONTRACT: at ≤980px there is exactly ONE scroller — the
+   document. Every internal overflow/height cap is force-reset so the page
+   scrolls with native momentum on every device class (the R124/R126a
+   app-style chain is desktop-only by design and now defensively mirrored
+   off on phones after the "can't scroll on phone" report).
+   The Editorial Studio lives on /newsroom/studio with its own composer/queue
+   layout (user task 3): publishing controls are no longer rendered below
+   reader content.
+   R129 ENCODING: post kinds use the exclusive editorial family from
+   heritage.tokens.css (--enc-kind-news / --enc-kind-article /
+   --enc-kind-update) — card edge, kind chip, tab dot, reader bar and sources
+   all speak the same hue per kind. The reserved sex pair (--sire/--dam) is
+   no longer borrowed anywhere in this file. */
+
+:root[data-frontend="heritage"] .heritage-newsroom{display:grid;gap:10px;max-width:1500px;margin:0 auto;padding-bottom:0}
+/* App-style workspace (user task 3b, refined R33 per user feedback): exactly two
+   scroll layers — the feed sidebar and the reader body. The page hero was
+   replaced by a single-line topbar; the reader scrolls the cover image too. */
+/* R124: the chain that makes the two layers REAL. The workspace was never
+   height-bounded, so the feed grew to full content height (5k px) and the
+   sidebar titles scrolled together with the article. On the newsroom route
+   the shell is capped to the viewport and the content column becomes a
+   flex column with overflow hidden — the feed and the reader then scroll
+   independently inside it.
+   R126a (live regression): the chain only worked in the SIDEBAR layout,
+   where Navigation.css makes .h102-workspace a grid the content can
+   stretch into. In the TABS layout the workspace is display:block, so an
+   auto-height block sat between the capped shell and the flex-basis-0
+   newsroom — the page collapsed to a ~36px sliver. The tabs workspace now
+   becomes its own height-propagating flex column.
+   R129: 100vh fallback precedes 100dvh (older iOS Safari), the internal
+   scrollers get explicit touch-momentum + gutter rules, and the whole chain
+   is force-reset at ≤980px (see the phone contract block below). */
+@media(min-width:981px){
+  html[data-page="newsroom"] .app-shell{height:100vh;height:100dvh;min-height:0;overflow:hidden}
+  html[data-page="newsroom"] .app-shell .h102-workspace{flex:1 1 0px;min-height:0;align-items:stretch;grid-template-rows:minmax(0,1fr)}
+  html[data-page="newsroom"] .app-shell:not([data-navigation-layout="sidebar"]) .h102-workspace{display:flex;flex-direction:column}
+  html[data-page="newsroom"] .app-shell:not([data-navigation-layout="sidebar"]) .h102-content{flex:1 1 0px}
+  html[data-page="newsroom"] .app-shell .h102-content{
+    display:flex;flex-direction:column;min-height:0;overflow:hidden;
+  }
+  html[data-page="newsroom"] .app-shell .h102-sidebar{position:static;max-block-size:none;block-size:auto;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;margin-block:var(--h-nav-gap-small) 0}
+  :root[data-frontend="heritage"] .heritage-newsroom{flex:1 1 0px;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+  :root[data-frontend="heritage"] .heritage-news-topbar,
+  :root[data-frontend="heritage"] .heritage-news-tabs,
+  :root[data-frontend="heritage"] .heritage-news-message{flex:none}
+  :root[data-frontend="heritage"] .heritage-news-grid{flex:1;min-height:0}
+  html[data-page="newsroom"] .site-footer{display:none}
+  :root[data-frontend="heritage"] .heritage-newsroom>.heritage-demo-admin{display:none}
+}
+
+/* ── R129 PHONE SCROLL CONTRACT (≤980px) ─────────────────────────────────
+   One scroller: the document. Defensively resets every member of the
+   desktop height/overflow chain (they are desktop-scoped already, but a
+   reset here makes the phone layout immune to future leakage and to
+   browser-specific 100dvh/toolbar quirks), restores native momentum
+   scrolling, and reserves the floating dock's stack height so the last
+   card / article footer is never buried under the dock. */
+@media(max-width:980px){
+  html[data-page="newsroom"] .app-shell{height:auto!important;min-height:0!important;overflow:visible!important}
+  html[data-page="newsroom"] .app-shell .h102-workspace{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}
+  html[data-page="newsroom"] .app-shell .h102-content{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important}
+  html[data-page="newsroom"] .app-shell .h102-sidebar{overflow:visible!important}
+  :root[data-frontend="heritage"] .heritage-newsroom{
+    display:grid;flex:none;height:auto;min-height:0;
+    overflow:visible;touch-action:pan-y;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-y:auto;
+  }
+  :root[data-frontend="heritage"] .heritage-news-grid,
+  :root[data-frontend="heritage"] .heritage-news-feed,
+  :root[data-frontend="heritage"] .heritage-news-reader,
+  :root[data-frontend="heritage"] .heritage-news-reader-scroll{
+    overflow:visible!important;max-height:none!important;min-height:0;height:auto;
+    touch-action:pan-y;-webkit-overflow-scrolling:touch;
+  }
+  /* The floating phone dock must never bury the last feed card or the
+     article's source list (same contract as the R128 browse pager fix). */
+  html[data-page="newsroom"][data-tab-hierarchy="docked"][data-dock-active="1"] .heritage-newsroom{
+    padding-bottom:calc(var(--h-mobile-dock-stack-height,0px) + 14px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+/* ── R129 kind tokens: every hue in this sheet resolves through the token
+   kernel — no local literals, no borrowed sex pair. The card/reader carry a
+   --enc-kind custom property set by the .kind-* class so descendants (edge,
+   chip, dot, bar, sources) inherit one coherent tone. */
+:root[data-frontend="heritage"] .kind-news{--enc-kind:var(--enc-kind-news)}
+:root[data-frontend="heritage"] .kind-article{--enc-kind:var(--enc-kind-article)}
+:root[data-frontend="heritage"] .kind-update{--enc-kind:var(--enc-kind-update)}
+
+/* R33 compact topbar → R129: one functional line with an encoded identity —
+   a kind-neutral masthead whose count chip speaks tabular numerals. Actions
+   wrap onto their own row instead of ever jamming (phones), and every control
+   keeps a ≥38px touch target. */
+:root[data-frontend="heritage"] .heritage-news-topbar{display:flex;justify-content:space-between;align-items:center;gap:8px 14px;padding:8px 2px 9px;border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:8px}
+:root[data-frontend="heritage"] .heritage-news-topbar-title{display:flex;align-items:baseline;gap:10px;min-width:0;flex:1 1 auto}
+:root[data-frontend="heritage"] .heritage-news-topbar-title b{font-size:17px;line-height:1.1}
+:root[data-frontend="heritage"] .heritage-news-topbar-title small{font-size:max(var(--h-font-floor,10px),11px);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+:root[data-frontend="heritage"] .heritage-news-topbar-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;min-width:0;max-width:100%}
+:root[data-frontend="heritage"] .heritage-news-count{display:inline-flex;align-items:baseline;gap:6px;padding:6px 11px;border:1px solid var(--line);background:var(--panel-solid);border-radius:6px;flex:none}
+:root[data-frontend="heritage"] .heritage-news-count strong{font-size:15px;line-height:1.05;font-family:var(--h-font-numeric,var(--number-font));font-variant-numeric:tabular-nums}
+:root[data-frontend="heritage"] .heritage-news-count small{font-size:max(var(--h-font-floor,10px),11px);line-height:1.2;color:var(--muted)}
+:root[data-frontend="heritage"] .demo-admin-cta{border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));background:color-mix(in srgb,var(--accent) 10%,var(--panel-solid));color:var(--ink);border-radius:6px;padding:9px 12px;min-height:38px;font:800 12px/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .demo-admin-cta:hover{background:color-mix(in srgb,var(--accent) 16%,var(--panel-strong))}
+:root[data-frontend="heritage"] .demo-admin-cta:disabled{opacity:.55;cursor:wait}
+:root[data-frontend="heritage"] .heritage-studio-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid color-mix(in srgb,var(--accent) 48%,var(--line));background:color-mix(in srgb,var(--accent) 14%,var(--panel-strong));color:var(--ink);border-radius:7px;padding:9px 14px;min-height:38px;font:800 var(--h-font-caption)/1.1 var(--h-font-ui);cursor:pointer;transition:background .16s var(--h-ds-ease-standard),transform .16s var(--h-ds-ease-standard)}
+:root[data-frontend="heritage"] .heritage-studio-cta:hover{background:color-mix(in srgb,var(--accent) 22%,var(--panel-strong));transform:translateY(-1px)}
+
+/* ── R129 kind tabs: each filter carries its kind hue as a dot; the active
+   tab tints with the same hue. One glance teaches the feed's color grammar. */
+:root[data-frontend="heritage"] .heritage-news-tabs{margin:0}
+:root[data-frontend="heritage"] .heritage-news-tabs .heritage-kind-dot{width:8px;height:8px;border-radius:50%;background:var(--metal);box-shadow:0 0 0 2px color-mix(in srgb,var(--metal) 18%,transparent);flex:none}
+:root[data-frontend="heritage"] .heritage-news-tabs button{display:inline-flex;align-items:center;gap:7px}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="news"] .heritage-kind-dot{background:var(--enc-kind-news);box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-kind-news) 20%,transparent)}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="article"] .heritage-kind-dot{background:var(--enc-kind-article);box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-kind-article) 20%,transparent)}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="update"] .heritage-kind-dot{background:var(--enc-kind-update);box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-kind-update) 20%,transparent)}
+/* Active tab = its kind tone as a full chip (the "all" tab keeps the accent). */
+:root[data-frontend="heritage"] .heritage-news-tabs button.active{border-color:color-mix(in srgb,var(--accent) 46%,var(--line));background:color-mix(in srgb,var(--accent) 12%,var(--panel-strong));color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="news"].active{border-color:color-mix(in srgb,var(--enc-kind-news) 46%,var(--line));background:color-mix(in srgb,var(--enc-kind-news) 13%,var(--panel-strong))}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="article"].active{border-color:color-mix(in srgb,var(--enc-kind-article) 46%,var(--line));background:color-mix(in srgb,var(--enc-kind-article) 13%,var(--panel-strong))}
+:root[data-frontend="heritage"] .heritage-news-tabs button[data-kind="update"].active{border-color:color-mix(in srgb,var(--enc-kind-update) 46%,var(--line));background:color-mix(in srgb,var(--enc-kind-update) 13%,var(--panel-strong))}
+
+/* The two scroll layers. */
+:root[data-frontend="heritage"] .heritage-news-grid{display:grid;grid-template-columns:minmax(320px,.8fr) minmax(0,1.2fr);gap:14px;align-items:stretch;min-width:0;min-height:0}
+:root[data-frontend="heritage"] .heritage-news-feed{display:grid;gap:10px;align-content:start;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;min-width:0;padding:1px;min-height:0;scrollbar-width:thin;scrollbar-gutter:stable;grid-auto-rows:min-content}
+/* ── R131 feed card: the compressed card (2-line title, 2-line summary,
+   92px over-cropped square thumb) is replaced by a breathing-room editorial
+   card: a 3:2 thumb at its natural ratio beside a body column (chip → title →
+   summary → meta), three-line clamps, larger type and real padding — titles,
+   subtitles and photos stop clipping while the list stays scannable. The body
+   wrapper (R131) keeps the grid one thumb + one column: no row-spanning, so
+   no engine can collapse the text rows. Content sets the height; nothing clips. */
+:root[data-frontend="heritage"] .heritage-news-card{position:relative;display:grid;grid-template-columns:132px minmax(0,1fr);gap:0 14px;align-items:start;width:100%;min-width:0;border:1px solid var(--line);border-inline-start:3px solid var(--enc-kind,var(--metal));background:var(--panel-solid);color:var(--ink);border-radius:7px;padding:12px 13px;text-align:start;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.05);transition:border-color .14s var(--h-ds-ease-standard),background-color .14s var(--h-ds-ease-standard),transform .14s var(--h-ds-ease-standard)}
+html[dir="rtl"][data-frontend="heritage"] .heritage-news-card{padding:12px 13px}
+:root[data-frontend="heritage"] .heritage-news-card:hover{transform:translateY(-1px)}
+:root[data-frontend="heritage"] .heritage-news-card:hover,
+:root[data-frontend="heritage"] .heritage-news-card.selected{border-color:color-mix(in srgb,var(--enc-kind,var(--accent)) 38%,var(--line));background:color-mix(in srgb,var(--enc-kind,var(--accent)) 6%,var(--panel-strong))}
+:root[data-frontend="heritage"] .heritage-news-card.selected{box-shadow:0 0 0 1px color-mix(in srgb,var(--enc-kind,var(--accent)) 34%,transparent),0 6px 18px -8px color-mix(in srgb,var(--enc-kind,var(--accent)) 26%,transparent)}
+:root[data-frontend="heritage"] .heritage-news-card img,
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback{grid-row:1;width:132px;height:88px;object-fit:cover;border-radius:5px;border:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback{position:relative;display:block;background:linear-gradient(145deg,color-mix(in srgb,var(--enc-kind,var(--metal)) 26%,var(--panel-strong)),color-mix(in srgb,var(--enc-kind,var(--metal)) 8%,var(--bg-elev)))}
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback::after{content:"◆";position:absolute;inset:0;display:grid;place-items:center;font-size:17px;color:color-mix(in srgb,var(--enc-kind,var(--metal)) 62%,var(--ink));text-shadow:0 1px 2px rgba(0,0,0,.12)}
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-card-body{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding-block:1px}
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-card-body strong,
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-card-body p,
+:root[data-frontend="heritage"] .heritage-news-card .heritage-news-card-body small{max-width:100%}
+:root[data-frontend="heritage"] .heritage-news-card strong{font-size:14.5px;font-weight:680;line-height:1.38;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+:root[data-frontend="heritage"] .heritage-news-card p{font-size:max(var(--h-font-floor,10px),12.5px);line-height:1.55;margin:0;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+:root[data-frontend="heritage"] .heritage-news-card small{font-size:max(var(--h-font-floor,10px),11px);color:var(--faint);line-height:1.35;font-family:var(--h-font-numeric,var(--number-font));font-variant-numeric:tabular-nums}
+/* Kind chip — the enc-chip grammar with the exclusive editorial tone. */
+:root[data-frontend="heritage"] .heritage-news-kind{--enc-tone:var(--enc-kind,var(--metal));justify-self:start;display:inline-flex;align-items:center;font-size:max(var(--h-font-floor,10px),10.5px);font-weight:900;line-height:1.1;text-transform:uppercase;letter-spacing:.045em;border:1px solid color-mix(in srgb,var(--enc-tone) var(--enc-hairline,38%),var(--line));border-radius:7px;padding:3px 8px;background:color-mix(in srgb,var(--enc-tone) var(--enc-tint,13%),transparent);color:color-mix(in srgb,var(--enc-tone) 78%,var(--ink))}
+
+/* ── Reader — R129: a kind-hued identity bar caps the article, the header is
+   a proper editorial masthead (chip row → headline → lede → byline), body
+   headings carry the kind tone, and sources read as encoded chips. */
+:root[data-frontend="heritage"] .heritage-news-reader{position:relative;padding:0;overflow:hidden;min-width:0;min-height:0;display:flex;flex-direction:column;outline:none}
+:root[data-frontend="heritage"] .heritage-news-reader::before{content:"";position:absolute;inset-inline:0;top:0;height:3px;background:linear-gradient(90deg,var(--enc-kind,var(--accent)),color-mix(in srgb,var(--enc-kind,var(--accent)) 20%,transparent));z-index:1}
+html[dir="rtl"][data-frontend="heritage"] .heritage-news-reader::before{background:linear-gradient(270deg,var(--enc-kind,var(--accent)),color-mix(in srgb,var(--enc-kind,var(--accent)) 20%,transparent))}
+:root[data-frontend="heritage"] .heritage-news-reader-back{display:none}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-gutter:stable}
+/* R33: the cover figure now lives INSIDE the scroll flow — it scrolls away with
+   the rest of the article instead of pinning to the top of the reader. */
+:root[data-frontend="heritage"] .heritage-news-reader figure{margin:0 0 4px;position:relative;background:var(--bg-elev)}
+:root[data-frontend="heritage"] .heritage-news-reader figure img{display:block;width:100%;max-height:340px;object-fit:cover}
+:root[data-frontend="heritage"] .heritage-news-reader figcaption{position:absolute;inset-inline-end:8px;bottom:8px;max-width:82%;padding:5px 8px;border-radius:5px;background:rgba(10,12,15,.8);font-size:max(var(--h-font-floor,10px),11px);line-height:1.3;color:#fff}
+:root[data-frontend="heritage"] .heritage-news-reader figcaption a{color:inherit}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>header{display:grid;gap:9px;padding:20px 24px 15px;border-bottom:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>header>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+:root[data-frontend="heritage"] .heritage-news-reader h2{font-size:clamp(24px,2.6vw,38px);line-height:1.12;margin:0;overflow-wrap:anywhere}
+:root[data-frontend="heritage"] .heritage-news-reader header p{font-size:14px;line-height:1.6;color:var(--muted);margin:0}
+:root[data-frontend="heritage"] .heritage-news-reader header small{font-size:max(var(--h-font-floor,10px),11.5px);color:var(--faint);font-family:var(--h-font-numeric,var(--number-font));font-variant-numeric:tabular-nums}
+/* Google-grounded badge: provenance semantics → the positive/status family,
+   never the reserved sex pair. */
+:root[data-frontend="heritage"] .heritage-grounded{display:inline-flex;align-items:center;gap:5px;font-size:max(var(--h-font-floor,10px),11px);font-weight:700;color:var(--h-positive,var(--h-success,#2c7a4b))}
+:root[data-frontend="heritage"] .heritage-news-body{padding:20px 24px;font-size:15px;line-height:1.85}
+:root[data-frontend="heritage"] .heritage-news-body h2,
+:root[data-frontend="heritage"] .heritage-news-body h3,
+:root[data-frontend="heritage"] .heritage-news-body h4{margin:24px 0 9px;line-height:1.25;padding-inline-start:10px;border-inline-start:3px solid color-mix(in srgb,var(--enc-kind,var(--accent)) 55%,var(--line))}
+:root[data-frontend="heritage"] .heritage-news-body a{color:color-mix(in srgb,var(--enc-kind,var(--accent)) 72%,var(--ink));text-decoration:underline;text-underline-offset:2px}
+:root[data-frontend="heritage"] .heritage-news-body p,
+:root[data-frontend="heritage"] .heritage-news-body ul{margin:0 0 16px}
+/* Sources — encoded link chips, wrap-safe, never clipped. */
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>footer{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 24px 20px;border-top:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>footer>strong{flex-basis:100%;font-size:max(var(--h-font-floor,10px),10.5px);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>footer a{display:inline-flex;align-items:center;gap:5px;max-width:100%;font-size:max(var(--h-font-floor,10px),11px);line-height:1.35;color:color-mix(in srgb,var(--enc-kind,var(--accent)) 74%,var(--ink));overflow-wrap:anywhere;border:1px solid color-mix(in srgb,var(--enc-kind,var(--accent)) 30%,var(--line));border-radius:7px;padding:5px 10px;background:color-mix(in srgb,var(--enc-kind,var(--accent)) 7%,transparent)}
+:root[data-frontend="heritage"] .heritage-news-reader-scroll>footer a:hover{background:color-mix(in srgb,var(--enc-kind,var(--accent)) 14%,transparent)}
+:root[data-frontend="heritage"] .heritage-news-empty{position:relative;padding:30px;display:grid;gap:7px;font-size:14px;min-height:200px;align-content:center;justify-items:center;text-align:center}
+:root[data-frontend="heritage"] .heritage-news-empty::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--enc-kind,var(--accent));box-shadow:0 0 0 3px color-mix(in srgb,var(--enc-kind,var(--accent)) 18%,transparent);margin-bottom:4px}
+:root[data-frontend="heritage"] .heritage-news-empty strong{font-size:15px}
+:root[data-frontend="heritage"] .heritage-news-empty span{color:var(--muted);max-width:52ch}
+:root[data-frontend="heritage"] .heritage-news-message{border:1px solid var(--line);border-radius:7px;padding:10px 12px;background:var(--panel-solid);font-size:13px;line-height:1.45}
+:root[data-frontend="heritage"] .heritage-demo-admin{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:19px}
+:root[data-frontend="heritage"] .heritage-demo-admin h2{margin:4px 0;font-size:22px}
+:root[data-frontend="heritage"] .heritage-demo-admin p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+:root[data-frontend="heritage"] .heritage-news-session{min-width:130px!important}
+:root[data-frontend="heritage"] .heritage-news-session strong{font-size:12px!important}
+:root[data-frontend="heritage"] .heritage-news-session small{font-size:11.5px!important}
+html[dir="rtl"][data-frontend="heritage"] .heritage-news-card{text-align:right}
+
+/* ── Editorial Studio (/newsroom/studio) — R34 four-level container hierarchy.
+   L01 .heritage-studio-shell  — one framed workspace container on the page
+   L02 .heritage-studio-col    — compose column / queue column
+   L03 .heritage-studio-card   — AI agent card, editor card, queue list
+   L04 field wells & action bars (.heritage-ai-controls, .heritage-editor-fields, .heritage-ai-actions, .heritage-editor-save, .heritage-studio-ai-feedback) */
+:root[data-frontend="heritage"] .heritage-studio{display:grid;max-width:1500px;margin:0 auto;padding-bottom:54px}
+:root[data-frontend="heritage"] .heritage-studio-shell{display:grid;gap:16px;border:1px solid var(--line);border-radius:var(--h-ds-radius-lg,18px);background:color-mix(in srgb,var(--panel-solid) 72%,transparent);backdrop-filter:blur(14px);padding:20px 20px 22px;box-shadow:0 24px 60px -30px color-mix(in srgb,var(--ink) 45%,transparent)}
+:root[data-frontend="heritage"] .heritage-studio-shell-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:2px 4px 15px;border-bottom:1px solid color-mix(in srgb,var(--line) 80%,transparent)}
+:root[data-frontend="heritage"] .heritage-studio-shell-title h1{margin:2px 0 4px;font-size:var(--h-banner-title);line-height:1.08}
+:root[data-frontend="heritage"] .heritage-studio-shell-title p{max-width:760px;margin:0;color:var(--muted);font-size:var(--h-banner-lede);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root[data-frontend="heritage"] .heritage-studio-head-actions{display:flex;gap:9px}
+:root[data-frontend="heritage"] .heritage-studio-head-actions .ghost{border:1px solid var(--line);background:var(--panel-solid);color:var(--ink);border-radius:7px;padding:9px 13px;font:700 var(--h-font-caption)/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .heritage-studio-head-actions .ghost:hover{background:var(--panel-strong)}
+:root[data-frontend="heritage"] .heritage-studio-notice{padding:18px;color:var(--muted);font-size:var(--h-font-body);border:1px dashed var(--line);border-radius:8px;background:color-mix(in srgb,var(--panel-solid) 45%,transparent)}
+:root[data-frontend="heritage"] .heritage-studio-message{border:1px solid var(--line);border-radius:7px;padding:10px 12px;background:var(--panel-solid);font-size:13px;line-height:1.5}
+:root[data-frontend="heritage"] .heritage-studio-message a{color:var(--accent);text-decoration:underline;overflow-wrap:anywhere}
+:root[data-frontend="heritage"] .heritage-studio-message.is-error{border-color:color-mix(in srgb,var(--h-danger,#e5484d) 46%,var(--line));background:color-mix(in srgb,var(--h-danger,#e5484d) 9%,var(--panel-solid));color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-studio-message.is-info{border-color:color-mix(in srgb,var(--accent) 34%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--panel-solid))}
+:root[data-frontend="heritage"] .heritage-studio-columns{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.78fr);gap:16px;align-items:start}
+:root[data-frontend="heritage"] .heritage-studio-col{display:grid;gap:15px;min-width:0;border:1px solid color-mix(in srgb,var(--line) 86%,transparent);border-radius:9px;padding:15px;background:color-mix(in srgb,var(--ink) 3%,transparent)}
+:root[data-frontend="heritage"] .heritage-studio-col-compose{align-content:start}
+:root[data-frontend="heritage"] .heritage-studio-col-queue{position:sticky;top:calc(var(--h-chrome-topbar,66px) + 12px);align-content:start;gap:12px}
+:root[data-frontend="heritage"] .heritage-studio-card{display:grid;gap:14px;padding:17px;border:1px solid var(--line);border-radius:8px;background:var(--panel-solid)}
+:root[data-frontend="heritage"] .heritage-studio-card>header{display:grid;gap:3px;padding:0 2px 12px;border-bottom:1px solid color-mix(in srgb,var(--line) 72%,transparent)}
+:root[data-frontend="heritage"] .heritage-studio-card h2{margin:0;font-size:20px}
+:root[data-frontend="heritage"] .heritage-studio-card .eyebrow{font-size:var(--h-font-micro)}
+:root[data-frontend="heritage"] .heritage-studio-ai-feedback{display:grid;gap:5px;border:1px dashed color-mix(in srgb,var(--line) 90%,transparent);border-radius:7px;background:color-mix(in srgb,var(--ink) 2.5%,transparent);padding:10px 12px}
+:root[data-frontend="heritage"] .heritage-studio-ai-feedback p{margin:0;font-size:var(--h-font-caption);line-height:1.5}
+:root[data-frontend="heritage"] .heritage-studio-ai-feedback p.warning{color:var(--h-warning)}
+:root[data-frontend="heritage"] .heritage-studio-ai-feedback p.attempt{color:var(--muted)}
+
+/* Queue column: header + filter pills + tokenized list. */
+:root[data-frontend="heritage"] .heritage-studio-queue-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 2px 0}
+:root[data-frontend="heritage"] .heritage-studio-queue-head h2{margin:2px 0 0;font-size:18px}
+:root[data-frontend="heritage"] .heritage-studio-queue-head .ghost{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:5px;padding:6px 10px;font:700 var(--h-font-micro)/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .heritage-studio-queue-head .ghost:hover{background:var(--panel-strong)}
+:root[data-frontend="heritage"] .heritage-studio-queue-filters{display:flex;flex-wrap:wrap;gap:6px}
+:root[data-frontend="heritage"] .heritage-studio-queue-filters>span{border:1px solid var(--line);border-radius:var(--h-ds-radius-pill);padding:5px 10px;font:700 var(--h-font-micro)/1 var(--h-font-data);color:var(--muted);background:var(--bg-elev)}
+:root[data-frontend="heritage"] .heritage-studio-queue-filters .status-draft{color:var(--h-warning)}
+:root[data-frontend="heritage"] .heritage-studio-queue-filters .status-published{color:var(--h-success)}
+:root[data-frontend="heritage"] .heritage-studio-queue-list{display:grid;gap:7px;max-height:min(64vh,720px);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:2px;border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:7px;background:color-mix(in srgb,var(--ink) 2%,transparent);padding:9px}
+:root[data-frontend="heritage"] .heritage-studio-queue-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"kind status" "title status" "meta status";gap:3px 10px;align-items:center;border:1px solid var(--line);border-radius:7px;background:var(--panel-solid);color:var(--ink);padding:10px 12px;text-align:start;cursor:pointer;transition:border-color .15s var(--h-ds-ease-standard),background .15s var(--h-ds-ease-standard)}
+:root[data-frontend="heritage"] .heritage-studio-queue-item:hover{border-color:color-mix(in srgb,var(--accent) 34%,var(--line))}
+:root[data-frontend="heritage"] .heritage-studio-queue-item.selected{border-color:color-mix(in srgb,var(--accent) 48%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--panel-strong))}
+:root[data-frontend="heritage"] .heritage-studio-queue-item .queue-item-kind{grid-area:kind;justify-self:start;font:800 var(--h-font-micro)/1 var(--h-font-data);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-studio-queue-item strong{grid-area:title;font:700 var(--h-font-body)/1.3 var(--h-font-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root[data-frontend="heritage"] .heritage-studio-queue-item small{grid-area:meta;font:500 var(--h-font-micro)/1.3 var(--h-font-data);color:var(--faint)}
+:root[data-frontend="heritage"] .heritage-studio-queue-item .queue-item-status{grid-area:status;justify-self:end;font:800 var(--h-font-micro)/1.1 var(--h-font-data);border-radius:var(--h-ds-radius-pill);padding:5px 9px;border:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-studio-queue-item .queue-item-status.status-draft{color:var(--h-warning);border-color:color-mix(in srgb,var(--h-warning) 40%,var(--line))}
+:root[data-frontend="heritage"] .heritage-studio-queue-item .queue-item-status.status-published{color:var(--h-success);border-color:color-mix(in srgb,var(--h-success) 40%,var(--line))}
+:root[data-frontend="heritage"] .heritage-studio-queue-item .queue-item-status.status-archived{color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-studio-queue-empty{margin:0;color:var(--muted);font-size:var(--h-font-body);padding:18px 4px;line-height:1.6}
+
+/* L04 — inset field wells and action bars inside each card. */
+:root[data-frontend="heritage"] .heritage-ai-controls,
+:root[data-frontend="heritage"] .heritage-editor-fields{display:grid;grid-template-columns:1fr 1fr;gap:11px;border:1px solid color-mix(in srgb,var(--line) 78%,transparent);border-radius:7px;background:color-mix(in srgb,var(--ink) 3%,transparent);padding:13px}
+:root[data-frontend="heritage"] .heritage-ai-controls label,
+:root[data-frontend="heritage"] .heritage-editor-fields label{display:grid;gap:6px;font-size:12px;font-weight:800;color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-ai-controls input,
+:root[data-frontend="heritage"] .heritage-ai-controls select,
+:root[data-frontend="heritage"] .heritage-ai-controls textarea,
+:root[data-frontend="heritage"] .heritage-editor-fields input,
+:root[data-frontend="heritage"] .heritage-editor-fields select,
+:root[data-frontend="heritage"] .heritage-editor-fields textarea{width:100%;min-height:38px;border:1px solid var(--line);background:var(--bg-elev);color:var(--ink);border-radius:5px;padding:9px 10px;font:500 13px/1.4 var(--h-font-ui);box-sizing:border-box}
+:root[data-frontend="heritage"] .heritage-ai-controls .span-2,
+:root[data-frontend="heritage"] .heritage-editor-fields .span-2{grid-column:1/-1}
+:root[data-frontend="heritage"] .heritage-ground-toggle{grid-template-columns:auto 1fr!important;align-items:center;background:var(--bg-elev);padding:9px;border-radius:6px}
+:root[data-frontend="heritage"] .heritage-ground-toggle input{width:auto;min-height:0}
+:root[data-frontend="heritage"] .heritage-ai-actions,
+:root[data-frontend="heritage"] .heritage-editor-save{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid color-mix(in srgb,var(--line) 78%,transparent);border-radius:7px;background:color-mix(in srgb,var(--ink) 2.5%,transparent);padding:11px 12px}
+:root[data-frontend="heritage"] .heritage-editor-save span:last-child{color:var(--faint);font-size:var(--h-font-caption)}
+
+
+/* Studio responsive: collapse to one column, unstick the queue, shrink the shell. */
+@media(max-width:1100px){
+  :root[data-frontend="heritage"] .heritage-studio-columns{grid-template-columns:minmax(0,1fr)}
+  :root[data-frontend="heritage"] .heritage-studio-col-queue{position:static}
+  :root[data-frontend="heritage"] .heritage-studio-queue-list{max-height:420px}
+}
+/* Mobile newsroom (<=980px): single-surface master-detail swap. The feed and
+   the reader never share the screen; `.is-reading` (toggled by NewsroomPage)
+   decides which surface is visible. The back button exists only here.
+   R129: the swap now lives INSIDE the one-scroller phone contract — the page
+   scrolls natively, the back button is sticky under the chrome, and every
+   reading surface is re-padded for phones (compact rhythm, no wasted gutters,
+   nothing clips under the floating dock). */
+@media(max-width:980px){
+  :root[data-frontend="heritage"] .heritage-news-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+  :root[data-frontend="heritage"] .heritage-newsroom:not(.is-reading) .heritage-news-reader{display:none}
+  :root[data-frontend="heritage"] .heritage-newsroom.is-reading .heritage-news-feed{display:none}
+  :root[data-frontend="heritage"] .heritage-newsroom.is-reading .heritage-news-grid{grid-template-columns:minmax(0,1fr)}
+  :root[data-frontend="heritage"] .heritage-newsroom.is-reading .heritage-news-topbar{display:none}
+  :root[data-frontend="heritage"] .heritage-news-reader-back{position:sticky;top:calc(var(--h-chrome-topbar-height,64px) + 6px);z-index:5;display:inline-flex;align-items:center;gap:6px;margin:0 0 8px;border:1px solid color-mix(in srgb,var(--line-strong) 80%,transparent);background:color-mix(in srgb,var(--panel-solid) 88%,transparent);backdrop-filter:blur(14px) saturate(1.05);-webkit-backdrop-filter:blur(14px) saturate(1.05);color:var(--ink);border-radius:7px;padding:9px 12px;min-height:40px;font:700 var(--h-font-caption)/1.1 var(--h-font-ui);cursor:pointer;box-shadow:0 4px 14px -6px rgba(0,0,0,.25)}
+  /* R131 NOTE: the feed's load-bearing `grid-auto-rows:min-content` now lives
+     on the base .heritage-news-feed rule — with `auto` rows Chrome computes
+     each card's max-content contribution as ~0 and every card collapses to
+     its min-height (the "compressed, clipped news cards" report).
+     min-content sizes each row to the card's real content. */
+  /* Compact phone rhythm for the reading surfaces. */
+  :root[data-frontend="heritage"] .heritage-news-reader-scroll>header{padding:14px 14px 12px;gap:7px}
+  :root[data-frontend="heritage"] .heritage-news-reader h2{font-size:clamp(20px,5.6vw,26px);line-height:1.18}
+  :root[data-frontend="heritage"] .heritage-news-reader header p{font-size:13px;line-height:1.55}
+  :root[data-frontend="heritage"] .heritage-news-body{padding:14px;font-size:14.5px;line-height:1.8}
+  :root[data-frontend="heritage"] .heritage-news-body h2,
+  :root[data-frontend="heritage"] .heritage-news-body h3,
+  :root[data-frontend="heritage"] .heritage-news-body h4{margin:19px 0 8px}
+  :root[data-frontend="heritage"] .heritage-news-reader-scroll>footer{padding:12px 14px 16px}
+  :root[data-frontend="heritage"] .heritage-news-reader figure img{max-height:230px}
+  :root[data-frontend="heritage"] .heritage-news-card img,
+  :root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback{width:120px;height:80px}
+  /* Topbar anti-jam: title takes its own line from the actions on narrow
+     phones; actions wrap onto as many rows as they need — never clipped. */
+  :root[data-frontend="heritage"] .heritage-news-topbar-title{flex:1 1 100%}
+  :root[data-frontend="heritage"] .heritage-news-topbar-actions{justify-content:flex-start;flex-wrap:wrap}
+}
+@media(max-width:560px){
+  /* Phone: full-width editorial card with a 16:9 top cover — the photo keeps
+     its natural framing (no more half-cropped squares), the headline gets the
+     whole row, and the summary breathes at three full lines. */
+  :root[data-frontend="heritage"] .heritage-news-card{grid-template-columns:minmax(0,1fr);gap:0;padding:0 0 12px}
+  html[dir="rtl"][data-frontend="heritage"] .heritage-news-card{padding:0 0 12px}
+  :root[data-frontend="heritage"] .heritage-news-card img,
+  :root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback{width:100%;height:auto;aspect-ratio:16/9;min-height:150px;border-radius:6px 6px 0 0;border-inline:0;border-top:0}
+  :root[data-frontend="heritage"] .heritage-news-card .heritage-news-card-body{padding:0 12px;margin-top:10px;gap:6px}
+  :root[data-frontend="heritage"] .heritage-news-card strong{font-size:14.5px;-webkit-line-clamp:3}
+  :root[data-frontend="heritage"] .heritage-news-card p{font-size:max(var(--h-font-floor,10px),12.5px);-webkit-line-clamp:3}
+}
+@media(max-width:480px){
+  :root[data-frontend="heritage"] .heritage-news-card .heritage-news-thumb-fallback::after{font-size:15px}
+  :root[data-frontend="heritage"] .heritage-news-topbar-title b{font-size:15.5px}
+  :root[data-frontend="heritage"] .heritage-news-count strong{font-size:13.5px}
+  :root[data-frontend="heritage"] .heritage-studio-cta span:last-child{white-space:nowrap}
+}
+@media(max-width:720px){
+  :root[data-frontend="heritage"] .heritage-studio-shell{padding:13px;gap:12px;border-radius:9px}
+  :root[data-frontend="heritage"] .heritage-studio-shell-head{flex-direction:column;align-items:flex-start;gap:10px}
+  :root[data-frontend="heritage"] .heritage-studio-col{padding:10px}
+  :root[data-frontend="heritage"] .heritage-studio-card{padding:13px}
+  :root[data-frontend="heritage"] .heritage-ai-controls,
+  :root[data-frontend="heritage"] .heritage-editor-fields{grid-template-columns:1fr}
+}
+
+/* R37 — guest demo banner in the Editorial Studio (auto demo-admin sign-in). */
+:root[data-frontend="heritage"] .heritage-studio-notice.heritage-studio-guest-note{border-style:solid;border-color:color-mix(in srgb,var(--accent) 38%,var(--line));background:color-mix(in srgb,var(--accent) 7%,var(--panel-solid));color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-studio-notice.heritage-studio-guest-note::before{content:"◆";display:inline-block;margin-inline-end:8px;color:var(--accent);font-size:max(var(--h-font-floor,10px),9px);vertical-align:1px}
+
+/* R117-17 — the governed bilingual editorial workflow: separate language
+   readiness + media-rights indicators, explicit workflow actions, the
+   immutable version history, the honest fallback note in the public reader,
+   and the editor-only (noindex) preview overlay. */
+:root[data-frontend="heritage"] .heritage-editor-readiness{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
+:root[data-frontend="heritage"] .heritage-editor-readiness>span{border:1px solid var(--line);border-radius:var(--h-ds-radius-pill);padding:5px 10px;font:700 var(--h-font-micro)/1 var(--h-font-data);color:var(--muted);background:var(--bg-elev)}
+:root[data-frontend="heritage"] .heritage-editor-readiness .readiness-lang.is-complete{color:var(--h-positive,var(--h-success,#2c7a4b));border-color:color-mix(in srgb,var(--h-positive,var(--h-success,#2c7a4b)) 40%,var(--line))}
+:root[data-frontend="heritage"] .heritage-editor-readiness .readiness-lang.is-partial,
+:root[data-frontend="heritage"] .heritage-editor-readiness .readiness-media.is-unattributed{color:var(--h-warning);border-color:color-mix(in srgb,var(--h-warning) 40%,var(--line))}
+:root[data-frontend="heritage"] .heritage-editor-readiness .readiness-lang.is-missing{color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-editor-readiness .readiness-media.is-attributed{color:var(--h-positive,var(--h-success,#2c7a4b))}
+:root[data-frontend="heritage"] .heritage-editor-workflow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-editor-workflow .danger{border-color:color-mix(in srgb,#b3392b 45%,var(--line));color:#b3392b}
+:root[data-frontend="heritage"] .heritage-studio-history{margin-top:12px;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--bg-elev)}
+:root[data-frontend="heritage"] .heritage-studio-history header{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+:root[data-frontend="heritage"] .heritage-studio-history-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;max-height:260px;overflow:auto}
+:root[data-frontend="heritage"] .heritage-studio-history-list li{display:flex;flex-direction:column;gap:1px;border:1px solid var(--line);border-radius:5px;padding:7px 9px;background:var(--panel-solid)}
+:root[data-frontend="heritage"] .heritage-studio-history-list .history-cause{font:700 var(--h-font-micro)/1.2 var(--h-font-data);color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-studio-history-list .history-cause-publish{color:var(--h-positive,var(--h-success,#2c7a4b))}
+:root[data-frontend="heritage"] .heritage-studio-history-list .history-cause-retract{color:#b3392b}
+:root[data-frontend="heritage"] .heritage-studio-history-list .history-transition{font-size:11px;color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-studio-history-list small{font-size:10px;color:var(--muted)}
+:root[data-frontend="heritage"] .heritage-news-fallback-note{margin:10px 0;padding:8px 12px;border:1px dashed color-mix(in srgb,var(--h-warning) 45%,var(--line));border-radius:7px;background:color-mix(in srgb,var(--h-warning) 6%,var(--panel-solid));color:var(--muted);font-size:12.5px}
+:root[data-frontend="heritage"] .heritage-preview-overlay{position:fixed;inset:0;z-index:2147483500;display:flex;flex-direction:column;padding-top:var(--h-chrome-topbar-height,64px);background:color-mix(in srgb,var(--bg-base,#111) 88%,transparent);backdrop-filter:blur(3px)}
+:root[data-frontend="heritage"] .heritage-preview-banner{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);background:var(--panel-solid)}
+:root[data-frontend="heritage"] .heritage-preview-banner strong{color:var(--h-warning);font-size:12px;letter-spacing:.06em}
+:root[data-frontend="heritage"] .heritage-preview-banner span{color:var(--muted);font-size:11px}
+:root[data-frontend="heritage"] .heritage-preview-banner button{margin-inline-start:auto}
+:root[data-frontend="heritage"] .heritage-preview-reader{max-width:760px;width:100%;margin:0 auto;overflow:auto;padding:28px 22px 60px}
+:root[data-frontend="heritage"] .heritage-preview-reader header{margin-bottom:14px}
+:root[data-frontend="heritage"] .heritage-preview-reader h2{margin:6px 0 4px}
+:root[data-frontend="heritage"] .heritage-preview-reader footer{display:flex;flex-direction:column;gap:4px;margin-top:16px}
+@media(max-width:720px){
+  :root[data-frontend="heritage"] .heritage-preview-banner{padding:10px 12px;gap:8px}
+}
+/* ── Turn 30: inline article figures + blockquotes (reader + studio preview) ── */
+:root[data-frontend="heritage"] .heritage-news-body .heritage-news-inline-figure{margin:18px 0 20px}
+:root[data-frontend="heritage"] .heritage-news-body .heritage-news-inline-figure img{width:100%;border-radius:12px;border:1px solid var(--line);display:block;aspect-ratio:auto}
+:root[data-frontend="heritage"] .heritage-news-body .heritage-news-inline-figure figcaption{margin-top:6px;font-size:11.5px;color:var(--muted);font-family:var(--h-font-data)}
+:root[data-frontend="heritage"] .heritage-news-body blockquote{margin:14px 0 18px;padding:10px 16px;border-inline-start:3px solid var(--h-accent,#8a5a2b);background:color-mix(in srgb,var(--h-accent,#8a5a2b) 5%,var(--panel-solid));border-radius:0 10px 10px 0;color:var(--ink);font-size:14.5px;line-height:1.8}
+
+/* ── Turn 30: newsroom reader comments ── */
+:root[data-frontend="heritage"] .heritage-news-comments{margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+:root[data-frontend="heritage"] .heritage-news-comments-title{margin:0 0 12px;font-size:15px;display:flex;align-items:baseline;gap:6px}
+:root[data-frontend="heritage"] .heritage-news-comments-title span{color:var(--muted);font:600 12px/1 var(--h-font-data)}
+:root[data-frontend="heritage"] .heritage-news-comments-empty{color:var(--muted);font-size:13px;margin:0 0 14px}
+:root[data-frontend="heritage"] .heritage-news-comments-list{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:12px}
+:root[data-frontend="heritage"] .heritage-news-comment{display:flex;gap:10px;align-items:flex-start}
+:root[data-frontend="heritage"] .heritage-news-comment-avatar{flex:0 0 auto;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--h-accent,#8a5a2b) 16%,var(--panel-solid));border:1px solid var(--line);font:700 13px/1 var(--h-font-data);color:var(--h-accent,#8a5a2b)}
+:root[data-frontend="heritage"] .heritage-news-comment-main{min-width:0;flex:1;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--panel-solid)}
+:root[data-frontend="heritage"] .heritage-news-comment-head{display:flex;align-items:baseline;gap:8px;margin-bottom:3px}
+:root[data-frontend="heritage"] .heritage-news-comment-head strong{font-size:13px}
+:root[data-frontend="heritage"] .heritage-news-comment-head small{color:var(--muted);font-size:11px}
+:root[data-frontend="heritage"] .heritage-news-comment-main p{margin:0;font-size:13.5px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+:root[data-frontend="heritage"] .heritage-news-comment-likes{display:inline-block;margin-top:5px;color:var(--muted);font-size:11px}
+:root[data-frontend="heritage"] .heritage-news-comment-form{display:flex;flex-direction:column;gap:8px}
+:root[data-frontend="heritage"] .heritage-news-comment-form-row{display:flex;gap:8px}
+:root[data-frontend="heritage"] .heritage-news-comment-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;font-size:13.5px;background:var(--panel-solid);color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-news-comment-form textarea{border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;font-size:13.5px;resize:vertical;min-height:64px;background:var(--panel-solid);color:var(--ink)}
+:root[data-frontend="heritage"] .heritage-news-comment-form-row button{border:1px solid var(--line);border-radius:10px;padding:8px 16px;background:var(--bg-elev);cursor:pointer;font:600 13px/1 var(--h-font-data)}
+:root[data-frontend="heritage"] .heritage-news-comment-form-row button:disabled{opacity:.5;cursor:default}
+:root[data-frontend="heritage"] .heritage-news-comment-notice{margin:0;font-size:12px;color:var(--h-positive,var(--h-success,#2c7a4b))}
+:root[data-frontend="heritage"] .heritage-news-comment-error{margin:0;font-size:12px;color:#b3392b}
+@media(max-width:720px){
+  :root[data-frontend="heritage"] .heritage-news-comment-form-row{flex-direction:column}
+}
+
+/* ── R135: phone bottom polish — the feed and the reader must end cleanly
+     above the dock, and the last card must not sit flush on the panel edge. ── */
+@media(max-width:720px){
+  :root[data-frontend="heritage"] .heritage-news-feed{padding-bottom:12px}
+  :root[data-frontend="heritage"] .heritage-news-feed .heritage-news-card:last-child{margin-bottom:1px}
+  :root[data-frontend="heritage"] .heritage-news-reader-scroll{padding-bottom:calc(var(--h-mobile-dock-stack-height,0px) + env(safe-area-inset-bottom,0px) + 20px)!important}
+  :root[data-frontend="heritage"] .heritage-news-comments{margin-top:20px;padding-top:14px}
+  :root[data-frontend="heritage"] .heritage-news-comment-main{padding:8px 10px}
+  :root[data-frontend="heritage"] .heritage-news-body figure{margin-inline:0}
+}

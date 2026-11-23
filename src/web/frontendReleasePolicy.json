@@ -1,0 +1,56 @@
+{
+  "activeFrontends": [
+    "heritage",
+    "equidata-elite",
+    "retro-astra",
+    "fei-classic",
+    "classic-registry",
+    "modern-horse"
+  ],
+  "activeExternalFrontends": [
+    "equidata-elite",
+    "retro-astra",
+    "fei-classic",
+    "classic-registry",
+    "modern-horse"
+  ],
+  "requiredProductionAssets": {
+    "equidata-elite": [
+      "assets/frontends/equidata-elite/dashboard-mockup.webp",
+      "assets/frontends/equidata-elite/genome-closeup.webp",
+      "assets/frontends/equidata-elite/hero-mane.webp",
+      "assets/frontends/equidata-elite/hologram-horse.webp",
+      "assets/frontends/equidata-elite/lineage-horse.webp",
+      "assets/frontends/equidata-elite/market-horse.webp",
+      "assets/frontends/equidata-elite/performance-horse.webp"
+    ],
+    "retro-astra": [],
+    "fei-classic": [
+      "assets/frontends/fei-classic/donor-logo.webp",
+      "assets/frontends/fei-classic/donor-ranking.webp"
+    ],
+    "classic-registry": [],
+    "heritage": [
+      "assets/fallbacks/registry-mark.svg",
+      "assets/fallbacks/abstract-day.svg",
+      "assets/fallbacks/abstract-night.svg",
+      "assets/fallbacks/registry-divider.svg",
+      "assets/fallbacks/record-image-unavailable.svg",
+      "assets/horses/placeholders/manifest.json",
+      "fonts/fonts.css"
+    ],
+    "modern-horse": []
+  },
+  "retiredPublicAssetRoots": [],
+  "_retired": {
+    "_note": "R53 \u2014 q8mx-ch-wd and prism-ultra were retired at the owner's request. The curated set is now Core (heritage), EquiData Elite, Retro Astra, FEI Classic and Classic Registry. Their source and assets were removed from the repo; this record documents the retirement only.",
+    "q8mx-ch-wd": {
+      "retiredAt": "R53",
+      "reason": "owner consolidation of the frontend catalogue"
+    },
+    "prism-ultra": {
+      "retiredAt": "R53",
+      "reason": "owner consolidation of the frontend catalogue"
+    }
+  }
+}

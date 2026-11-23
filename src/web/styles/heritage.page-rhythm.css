@@ -1,0 +1,682 @@
+/* R38 — one tokenized page rhythm for the whole Heritage core frontend.
+ * ------------------------------------------------------------------------
+ * User report: the Statistics (Tahlil) tab and the Registry table used visibly
+ * larger paddings than every other page, and non-home banners wasted vertical
+ * space. Root cause: pages grew their own local paddings in scattered CSS
+ * layers instead of consuming one shared token set.
+ *
+ * This layer is the single authority that maps every non-home page and every
+ * page banner onto the --h-page-* / --h-banner-* tokens declared in
+ * heritage.tokens.css. The home hero keeps its own showcase scale.
+ *
+ * Layer contract: loads AFTER the legacy component layers (so it can retune
+ * them without fighting specificity) and BEFORE heritage.layout.css (so the
+ * Appearance Studio layout sliders remain the final word for user tuning).
+ * The Appearance Studio "Reset" pins exactly the token defaults shipped here.
+ */
+
+/* ── 0 · R54 global whisper placeholders ────────────────────────────────
+ * Owner decision: example/placeholder text must be MUCH less visible across
+ * the whole frontend — hints should whisper, never compete with real input.
+ * The advanced rail applies an even quieter variant on top of this. */
+:root[data-frontend="heritage"] :is(input,textarea)::placeholder{
+  color:color-mix(in srgb,var(--muted) 62%,transparent);
+  opacity:.55;
+}
+:root[data-frontend="heritage"] .search-wrap input::placeholder{
+  color:color-mix(in srgb,var(--muted) 72%,transparent);
+  opacity:.6;
+}
+
+/* ── 1 · Page containers ────────────────────────────────────────────────
+ * Every content page breathes with the same top / gutter / bottom rhythm
+ * and separates its top-level sections with one shared gap. */
+:root[data-frontend="heritage"] .page,
+:root[data-frontend="heritage"] .heritage-studio.page,
+:root[data-frontend="heritage"] .heritage-newsroom.page{
+  padding-top:var(--h-page-top);
+  padding-bottom:var(--h-page-bottom);
+  padding-inline:var(--h-page-inline);
+}
+:root[data-frontend="heritage"] .page>*+*,
+:root[data-frontend="heritage"] .heritage-studio.page>*+*{
+  margin-top:var(--h-page-gap);
+}
+
+/* Data-dense workspaces share the wide content track. */
+:root[data-frontend="heritage"] .heritage-newsroom{max-width:var(--h-data-page-max)}
+
+/* ── 2 · Compact banner standard ────────────────────────────────────────
+ * Every non-home page banner is a compact two-line strip: kicker + title on
+ * the first baseline row, one-line lede under it, meta block on the right.
+ * The markup stays untouched — the grid below places the existing
+ * (eyebrow, h1, p) children onto those rows. */
+:root[data-frontend="heritage"] .premium-page-head>div:first-child{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  gap:3px 12px;
+  align-items:baseline;
+}
+:root[data-frontend="heritage"] .premium-page-head>div:first-child>.eyebrow{
+  grid-row:1;
+  margin:0;
+  white-space:nowrap;
+}
+:root[data-frontend="heritage"] .premium-page-head>div:first-child>h1{
+  grid-row:1;
+  grid-column:2;
+  font-family:var(--serif);
+  font-size:var(--h-banner-title);
+  font-weight:400;
+  line-height:1.05;
+  margin:0;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+:root[data-frontend="heritage"] .premium-page-head>div:first-child>p{
+  grid-row:2;
+  grid-column:1/-1;
+  margin:0;
+  font-size:var(--h-banner-lede);
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+
+/* Registry Desk banner rides the same standard (its h1 previously fell back
+ * to the browser default size — the quiet source of the "every page looks
+ * different" complaint). */
+:root[data-frontend="heritage"] .heritage-desk-head h1{
+  font-family:var(--serif);
+  font-size:var(--h-banner-title);
+  font-weight:400;
+  line-height:1.05;
+  margin:0;
+  min-width:0;
+}
+:root[data-frontend="heritage"] .heritage-desk-head p{
+  margin:3px 0 0;
+  font-size:var(--h-banner-lede);
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+:root[data-frontend="heritage"] .heritage-desk-head .eyebrow{
+  margin:0 0 2px;
+}
+
+/* Person / horse profile header: same compact banner rhythm (it is a page
+ * header surface, not the home hero). */
+:root[data-frontend="heritage"] .premium-profile{
+  padding:12px 16px;
+  gap:var(--h-page-gap) 18px;
+}
+:root[data-frontend="heritage"] .premium-profile .profile-main h1{
+  font-size:var(--h-banner-title);
+  margin:2px 0 1px;
+  line-height:1.05;
+}
+:root[data-frontend="heritage"] .premium-profile .native-name{
+  font-size:var(--h-banner-lede);
+  margin-top:2px;
+}
+:root[data-frontend="heritage"] .person-hero{
+  padding-bottom:10px;
+  gap:var(--h-page-gap);
+}
+:root[data-frontend="heritage"] .person-hero h1{
+  font-size:var(--h-banner-title);
+  margin:3px 0;
+}
+
+/* Newsroom topbar already follows the compact standard; pin its page
+ * container to the shared rhythm so the reading list starts at the same
+ * optical line as every other page. */
+
+/* ── 4 · Nested surface inset ───────────────────────────────────────────
+ * R39: a painted panel that hosts other painted surfaces (cards, KPI tiles,
+ * nested stages) must reserve its own inset so children never sit edge to
+ * edge with the parent frame — the collision made the outermost cards' rounded
+ * corners look cropped/squarish against the container border. One token
+ * (--h-panel-pad) governs every nesting level, matching the card inset the
+ * profile workspaces already use, so the whole UI reads one rhythm. */
+:root[data-frontend="heritage"] .stats-tab-stage,
+:root[data-frontend="heritage"] .stats-nested-workspace,
+:root[data-frontend="heritage"] .stats-nested-stage{
+  padding:var(--h-panel-pad,12px)!important;
+}
+/* The stage is a grid (.stats-section) — children separate through the same
+ * token-bound gap, never stacked margins. */
+:root[data-frontend="heritage"] .stats-tab-stage{gap:var(--h-page-gap)}
+/* Nested stages already separate children via grid gap; keep it token-bound. */
+:root[data-frontend="heritage"] .stats-nested-stage{gap:var(--h-page-gap)}
+
+/* ── 5 · Desktop focus ───────────────────────────────────────────────────
+ * Phone widths keep their dedicated mobile layers (mobile dock, docked
+ * tabs, compact newsroom) — nothing below 981px is retuned here. */
+@media(max-width:980px){
+  :root[data-frontend="heritage"] .page,
+  :root[data-frontend="heritage"] .heritage-studio.page,
+  :root[data-frontend="heritage"] .heritage-newsroom.page{
+    padding-top:12px;
+    padding-inline:12px;
+  }
+  :root[data-frontend="heritage"] .premium-page-head>div:first-child{
+    grid-template-columns:1fr;
+  }
+  :root[data-frontend="heritage"] .premium-page-head>div:first-child>.eyebrow,
+  :root[data-frontend="heritage"] .premium-page-head>div:first-child>h1{
+    grid-row:auto;
+    grid-column:1;
+  }
+  :root[data-frontend="heritage"] .premium-page-head>div:first-child>p{
+    white-space:normal;
+  }
+}
+/* R129 — true-phone rhythm (≤720px): the owner asked phones to waste as
+   little space as possible. Side gutters drop to 8px, the page top to 8px,
+   and the page bottom footroom shrinks (the floating dock already reserves
+   its own stack height; the site-footer keeps its margin there). Panel
+   insets follow via --h-panel-pad so every tab tightens together.
+   R130 — FULL-BLEED PHONE: the owner asked for "complete wide cards that
+   span the entire screen" with little-to-no margins. Gutters are now ZERO:
+   every card/panel/banner runs edge-to-edge and keeps its own inner inset
+   (--h-panel-pad / card paddings) so content never touches the glass. */
+@media(max-width:720px){
+  /* html:root prefix matches the token kernel's specificity (0,2,1) — a bare
+     :root[...] override loses to it and the phone rhythm silently never
+     applied (the R129/R130 audit catch). */
+  html:root[data-frontend="heritage"]{
+    --h-page-top:0px;
+    --h-page-inline:0px;
+    --h-page-bottom:10px;
+    --h-page-gap:8px;
+    --h-panel-pad:12px;
+  }
+  html:root[data-frontend="heritage"] .page,
+  html:root[data-frontend="heritage"] .heritage-studio.page,
+  html:root[data-frontend="heritage"] .heritage-newsroom.page{
+    padding-top:var(--h-page-top);
+    padding-inline:var(--h-page-inline);
+  }
+  /* Full-bleed edge treatment: at 0 gutters a card's own border meets the
+     glass. The browse sheet flattens to an edge-to-edge rail (padding 0 —
+     the compact-density 12px inset is a desktop choice; phone cards carry
+     their own insets). html:root matches the density layer's specificity
+     and this file loads after it. */
+  html:root[data-frontend="heritage"] .table-panel{padding:0;border-radius:4px}
+}
+
+/* ── 6 · R40 semantic banner zones ────────────────────────────────────────
+ * User report: the Statistics hero clipped its provenance chips (the
+ * "● snapshot ready" pill was cut off beside the subtitle) and the
+ * workspace-context head wasted vertical space by stacking kicker, title
+ * and body. Root fix: every banner reads as three semantic zones, each
+ * with its own visual identity —
+ *   identity (kicker + title)  →  one baseline row, shared with the metric
+ *   description (lede)         →  full-width line that wraps to 2 lines max
+ *   provenance (chips)         →  a wrap-safe meta strip with its own hairline
+ * Nothing is clipped: zones never share a constrained width. */
+:root[data-frontend="heritage"] .stats-hero{
+  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-areas:
+    "identity metric"
+    "lede     lede"
+    "meta     meta";
+  gap:4px var(--h-banner-gap);
+  align-items:center;
+}
+:root[data-frontend="heritage"] .stats-hero-copy{grid-area:identity}
+:root[data-frontend="heritage"] .stats-hero-number{
+  grid-area:metric;
+  display:grid;
+  gap:2px;
+  align-content:center;
+}
+:root[data-frontend="heritage"] .stats-hero p.stats-hero-lede{
+  grid-area:lede;
+  grid-column:1/-1;
+  max-width:100%;
+  margin:0;
+  color:var(--muted);
+  font-size:var(--h-banner-lede);
+  line-height:1.45;
+  white-space:normal;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+/* Provenance is its own strip: hairline top border, muted numeric voice,
+ * chips wrap instead of clipping. The ready-pill keeps its good tone and
+ * reads as status, the date/version as quiet metadata. */
+:root[data-frontend="heritage"] .stats-hero .stats-provenance{
+  grid-area:meta;
+  grid-column:1/-1;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:4px 14px;
+  max-width:none;
+  margin:2px 0 0;
+  padding-top:6px;
+  border-top:1px solid var(--h-glass-border-soft);
+  color:var(--faint);
+  font:600 var(--h-data-meta,11px)/1.35 var(--h-font-numeric);
+}
+:root[data-frontend="heritage"] .stats-hero .stats-provenance>span{white-space:nowrap;flex:none}
+:root[data-frontend="heritage"] .stats-hero .stats-provenance .data-chip{margin-inline-end:2px}
+
+/* Workspace-context head: kicker + title + body share ONE baseline row on
+ * wide viewports (the body yields to its own line only when space runs out).
+ * The route trail joins the subtab rail as a quiet inline prefix. */
+:root[data-frontend="heritage"] .stats-workspace-context{padding:8px 12px}
+:root[data-frontend="heritage"] .stats-workspace-context .stats-section-head{
+  display:grid;
+  grid-template-columns:auto auto minmax(0,1fr);
+  align-items:baseline;
+  column-gap:10px;
+  row-gap:2px;
+  max-width:none!important;
+}
+:root[data-frontend="heritage"] .stats-workspace-context .stats-section-head>span{
+  grid-row:1;grid-column:1;
+  white-space:nowrap;
+  font-size:var(--h-font-micro,11px);
+}
+:root[data-frontend="heritage"] .stats-workspace-context .stats-section-head h2{
+  grid-row:1;grid-column:2;
+  font-size:var(--h-section-title,17px)!important;
+  margin:0!important;
+  white-space:nowrap;
+}
+:root[data-frontend="heritage"] .stats-workspace-context .stats-section-head p{
+  grid-row:1;grid-column:3;
+  min-width:0;
+  margin:0;
+  color:var(--muted);
+  font-size:var(--h-font-micro,11px);
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media(max-width:1180px){
+  :root[data-frontend="heritage"] .stats-workspace-context .stats-section-head{grid-template-columns:auto minmax(0,1fr)}
+  :root[data-frontend="heritage"] .stats-workspace-context .stats-section-head h2{grid-column:2}
+  :root[data-frontend="heritage"] .stats-workspace-context .stats-section-head p{
+    grid-row:2;grid-column:1/-1;white-space:normal;
+  }
+}
+/* The trail prefixes the subtab rail on one line: where you are, then the
+ * views you can switch between — one horizontal strip instead of two. */
+:root[data-frontend="heritage"] .stats-workspace-context .workspace-route-trail{
+  margin:0;
+  font-size:var(--h-font-micro,11px);
+  opacity:.85;
+}
+:root[data-frontend="heritage"] .stats-workspace-context .stats-subtabs{margin-top:0}
+
+/* Tab-rail labels: the explanatory small line was doubling every rail's
+ * height. Keep the bold rail name inline; the long explanations stay in
+ * the aria labels and tooltips where they belong. */
+:root[data-frontend="heritage"] :is(.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.profile-workspace-nav,.profile-subnav) .tab-rail-label{display:inline-flex;align-items:baseline;gap:0;flex:none;max-width:34%}
+:root[data-frontend="heritage"] :is(.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.profile-workspace-nav,.profile-subnav) .tab-rail-label small{display:none}
+:root[data-frontend="heritage"] :is(.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.profile-workspace-nav,.profile-subnav) .tab-rail-label b{white-space:nowrap}
+
+/* ── 7 · Pedigree viewport stage ──────────────────────────────────────────
+ * The visualizer pane is exactly one viewport tall: toolbar, view switch,
+ * meta strip and the map itself all fit inside the user's screen. Scrolling
+ * toward the section snaps to its start like a magnet (proximity snap, so
+ * it only engages when the user is already close). */
+:root[data-frontend="heritage"] .pedigree-section{
+  scroll-snap-align:start;
+  scroll-margin-top:calc(var(--h-topbar-height,66px) + 6px);
+}
+html[data-frontend="heritage"]:has(.pedigree-section.pedigree-pane-visualizer){
+  scroll-snap-type:y proximity;
+}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer{
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100svh - var(--h-topbar-height,66px) - var(--h-page-top,18px) - 10px);
+}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-section-toolbar{flex:none}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  margin-top:10px;
+}
+/* Only the ACTIVE geometry becomes the flex stage; the inactive ones keep
+ * their display:none from the view-switch rules. */
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell.desktop-map .pedigree-map-visual,
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell.desktop-radial .pedigree-radial-view,
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell.desktop-lineage .pedigree-desktop-lineage{
+  flex:1;
+  min-height:0;
+  display:flex!important;
+  flex-direction:column!important;
+}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell .pedigree-scroll.modern-pedigree{
+  flex:1;
+  min-height:0!important;
+  max-height:none!important;
+}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell .pedigree-radial-host{
+  min-height:0!important;
+  flex:1;
+}
+/* The compact lineage ledger scrolls inside the same one-viewport stage. */
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell .pedigree-desktop-lineage{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+}
+:root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer .pedigree-map-shell .pedigree-desktop-lineage .ped-ledger-tree{
+  flex:1;
+  min-height:0;
+  overflow:visible;
+}
+/* Compact pedigree toolbar: same one-line banner rhythm as every other
+ * page — kicker + title inline, lede inline after the title, controls right. */
+:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  gap:6px 14px;
+}
+:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>div:first-child{
+  min-width:0;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  align-items:baseline;
+  column-gap:10px;
+  row-gap:2px;
+}
+:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>div:first-child>span{
+  grid-row:1;grid-column:1;
+  margin:0;
+  white-space:nowrap;
+  font-size:var(--h-font-micro,11px);
+}
+:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>div:first-child h2{
+  grid-row:1;grid-column:2;
+  margin:0;
+  white-space:nowrap;
+}
+:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>div:first-child p{
+  grid-column:1/-1;
+  margin:0;
+  color:var(--muted);
+  font-size:var(--h-font-micro,11px);
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media(max-width:980px){
+  :root[data-frontend="heritage"] .pedigree-section.pedigree-pane-visualizer{min-height:0}
+  :root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>div:first-child p{white-space:normal}
+  :root[data-frontend="heritage"] :is(.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.profile-workspace-nav,.profile-subnav) .tab-rail-label{max-width:40%}
+}
+
+/* ── 8 · Advanced search rail (R54 studio-parity overhaul) ─────────────────
+ * The rail now speaks the same design language as the Appearance Studio:
+ * eyebrow + serif title header, indexed panel sections, the studio's frosted
+ * material recipe, choice-button facet selects, and whisper-quiet placeholders.
+ * It ALWAYS slides in from the RIGHT edge — exactly like the studio sidebar —
+ * in both LTR and RTL (owner decision), so FA opens on the right. */
+:root[data-frontend="heritage"] .advanced-registry-rail-scrim{
+  position:fixed;
+  z-index:2119;
+  inset:0;
+  background:rgba(8,10,9,.34);
+  backdrop-filter:blur(2px) saturate(.92);
+  -webkit-backdrop-filter:blur(2px) saturate(.92);
+  animation:advanced-rail-scrim-in .18s ease-out;
+}
+@keyframes advanced-rail-scrim-in{from{opacity:0}to{opacity:1}}
+:root[data-frontend="heritage"] .advanced-registry-rail{
+  position:fixed!important;
+  z-index:2120;
+  top:var(--h-chrome-topbar-height,64px)!important;
+  bottom:0!important;
+  right:0!important;
+  left:auto!important;
+  width:min(448px,calc(100vw - 24px));
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:15px 16px 18px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  border:1px solid color-mix(in srgb,var(--h-glass-border) 88%,rgba(255,255,255,.11));
+  border-radius:11px 0 0 11px;
+  background-color:color-mix(in srgb,var(--panel-solid) 34%,transparent);
+  background-image:
+    radial-gradient(90% 70% at 16% 8%,color-mix(in srgb,var(--accent) 6%,transparent),transparent 74%),
+    linear-gradient(145deg,rgba(255,255,255,.035),transparent 42%,color-mix(in srgb,var(--metal) 2.5%,transparent));
+  -webkit-backdrop-filter:blur(max(34px,var(--h-contract-panel-blur,28px))) saturate(1.24) contrast(1.02);
+  backdrop-filter:blur(max(34px,var(--h-contract-panel-blur,28px))) saturate(1.24) contrast(1.02);
+  box-shadow:-24px 0 74px rgba(0,0,0,.32),inset 1px 0 rgba(255,255,255,.12);
+  animation:advanced-rail-in .22s cubic-bezier(.22,.9,.3,1);
+  color:var(--ink);
+}
+@keyframes advanced-rail-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+
+/* Studio-style header: eyebrow → serif title → muted explainer. */
+:root[data-frontend="heritage"] .adv-rail-head{
+  flex:none;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:start;
+  gap:14px;
+  padding:2px 4px 12px;
+  border-bottom:1px solid color-mix(in srgb,var(--h-glass-border-soft) 76%,transparent);
+}
+:root[data-frontend="heritage"] .adv-rail-title{display:grid;gap:4px;min-width:0}
+:root[data-frontend="heritage"] .adv-rail-eyebrow{
+  color:color-mix(in srgb,var(--accent) 78%,var(--muted));
+  font:850 10px/1.2 var(--h-font-data,ui-monospace,monospace);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+:root[data-frontend="heritage"] .adv-rail-title>strong{
+  color:var(--ink);
+  font:500 var(--h-section-title,18px)/1.15 var(--h-font-display,var(--font-display,serif));
+  letter-spacing:-.01em;
+}
+:root[data-frontend="heritage"] .adv-rail-title>small{max-width:380px;color:var(--muted);font:650 11.5px/1.55 var(--h-font-ui,inherit)}
+:root[data-frontend="heritage"] .adv-rail-close{
+  width:32px;height:32px;display:grid;place-items:center;padding:0;
+  border:1px solid color-mix(in srgb,var(--accent) 12%,var(--h-glass-border-soft));
+  border-radius:7px;
+  background:color-mix(in srgb,var(--panel-solid) 55%,transparent);
+  color:color-mix(in srgb,var(--muted) 88%,var(--ink-2));
+  font-size:13px;
+  transition:border-color .15s ease,color .15s ease,background .15s ease;
+}
+:root[data-frontend="heritage"] .adv-rail-close:hover{
+  color:var(--ink);
+  border-color:color-mix(in srgb,var(--accent) 34%,var(--h-glass-border-soft));
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+}
+
+/* Indexed panel sections — the studio's theme-settings-block recipe. */
+:root[data-frontend="heritage"] .adv-rail-section{
+  flex:none;
+  display:grid;
+  gap:10px;
+  padding:12px 13px 13px;
+  border:1px solid color-mix(in srgb,var(--h-glass-border-soft) 84%,transparent);
+  border-radius:10px;
+  background:color-mix(in srgb,var(--panel-solid) 46%,transparent);
+  box-shadow:0 8px 24px rgba(0,0,0,.12),inset 0 1px rgba(255,255,255,.06);
+}
+:root[data-frontend="heritage"] .adv-rail-section-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 2px 2px;
+  border-bottom:1px dashed color-mix(in srgb,var(--accent) 15%,var(--h-glass-border-soft));
+}
+:root[data-frontend="heritage"] .adv-rail-index{
+  flex:none;
+  display:grid;
+  place-items:center;
+  width:26px;height:26px;
+  border:1px solid color-mix(in srgb,var(--accent) 26%,var(--h-glass-border-soft));
+  border-radius:6px;
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+  color:color-mix(in srgb,var(--accent) 80%,var(--ink));
+  font:800 10px/1 var(--h-font-data,ui-monospace,monospace);
+}
+:root[data-frontend="heritage"] .adv-rail-section-copy{min-width:0;flex:1}
+:root[data-frontend="heritage"] .adv-rail-section-copy strong{display:block;color:var(--ink);font:800 12.5px/1.25 var(--h-font-ui,inherit)}
+:root[data-frontend="heritage"] .adv-rail-section-copy small{display:block;margin-top:2px;color:var(--muted);font:650 10.5px/1.45 var(--h-font-ui,inherit)}
+:root[data-frontend="heritage"] .adv-rail-section-head .facet-reset{flex:none;margin-inline-start:auto}
+
+/* Field grid + inputs — token surfaces with the studio's focus glow. */
+:root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:0;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid label{display:grid;gap:4px;min-width:0}
+:root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid label>span{
+  color:color-mix(in srgb,var(--muted) 86%,var(--ink));
+  font:750 10px/1.2 var(--h-font-ui,inherit);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid input{
+  height:34px;
+  padding:0 10px;
+  border:1px solid color-mix(in srgb,var(--h-glass-border-soft) 92%,transparent);
+  border-radius:7px;
+  background:color-mix(in srgb,var(--panel-solid) 62%,transparent);
+  color:var(--ink);
+  font:600 12px/1 var(--h-font-ui,inherit);
+  outline:0;
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid input:focus{
+  border-color:color-mix(in srgb,var(--accent) 55%,var(--h-glass-border-soft));
+  background:color-mix(in srgb,var(--panel-solid) 82%,transparent);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 13%,transparent);
+}
+
+/* Footer actions: live count chip + clear. */
+:root[data-frontend="heritage"] .adv-rail-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:2px 2px 0;
+}
+:root[data-frontend="heritage"] .adv-rail-count{
+  color:var(--muted);
+  font:700 10px/1 var(--h-font-data,ui-monospace,monospace);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+:root[data-frontend="heritage"] .adv-rail-count.active{color:color-mix(in srgb,var(--accent) 82%,var(--ink))}
+:root[data-frontend="heritage"] .adv-rail-clear{
+  height:30px;
+  padding:0 13px;
+  border:1px solid color-mix(in srgb,var(--accent) 12%,var(--h-glass-border-soft));
+  border-radius:7px;
+  background:color-mix(in srgb,var(--panel-solid) 55%,transparent);
+  color:color-mix(in srgb,var(--muted) 88%,var(--ink-2));
+  font:750 10.5px/1 var(--h-font-ui,inherit);
+  transition:border-color .15s ease,color .15s ease,background .15s ease;
+}
+:root[data-frontend="heritage"] .adv-rail-clear:hover:not(:disabled){
+  color:var(--ink);
+  border-color:color-mix(in srgb,var(--accent) 34%,var(--h-glass-border-soft));
+  background:color-mix(in srgb,var(--accent) 10%,transparent);
+}
+:root[data-frontend="heritage"] .adv-rail-clear:disabled{opacity:.45;cursor:not-allowed}
+
+/* Facet section: every facet is a studio choice row — micro label + glass select. */
+:root[data-frontend="heritage"] .advanced-registry-rail .heritage-facet-strip.adv-rail-facets{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  margin:0;
+  border:0;
+  padding:0;
+  background:transparent;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets label{
+  display:grid;
+  gap:4px;
+  min-width:0;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets label>span{
+  color:color-mix(in srgb,var(--muted) 86%,var(--ink));
+  font:750 10px/1.2 var(--h-font-ui,inherit);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets select{
+  height:34px;
+  width:100%;
+  padding:0 9px;
+  border:1px solid color-mix(in srgb,var(--accent) 10%,var(--h-glass-border-soft));
+  border-radius:7px;
+  background:color-mix(in srgb,var(--panel-solid) 62%,transparent);
+  color:color-mix(in srgb,var(--muted) 88%,var(--ink-2));
+  font:650 11.5px/1 var(--h-font-ui,inherit);
+  outline:0;
+  cursor:pointer;
+  transition:border-color .15s ease,color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets select:hover{color:var(--ink);border-color:color-mix(in srgb,var(--accent) 30%,var(--h-glass-border-soft))}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets select:focus{
+  color:var(--ink);
+  border-color:color-mix(in srgb,var(--accent) 55%,var(--h-glass-border-soft));
+  background:color-mix(in srgb,var(--panel-solid) 82%,transparent);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 13%,transparent);
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets.has-filters label:has(select:not([value=""])):has(option:checked:not([value=""])) select{
+  color:var(--ink);
+  border-color:color-mix(in srgb,var(--accent) 42%,var(--h-glass-border-soft));
+  box-shadow:inset 0 0 0 999px color-mix(in srgb,var(--accent) 8%,transparent),inset 0 0 0 1px color-mix(in srgb,var(--accent) 22%,transparent);
+}
+:root[data-frontend="heritage"] .advanced-registry-rail .adv-rail-facets .facet-reset{justify-self:start;height:30px}
+
+/* R54: placeholders whisper, never shout — examples stay out of the way. */
+:root[data-frontend="heritage"] .advanced-registry-rail :is(input,textarea)::placeholder{
+  color:color-mix(in srgb,var(--muted) 55%,transparent);
+  opacity:.5;
+}
+
+@media(max-width:720px){
+  :root[data-frontend="heritage"] .advanced-registry-rail{
+    top:auto;
+    inset-inline:0;
+    bottom:0;
+    width:auto;
+    max-height:80svh;
+    border-radius:11px 11px 0 0;
+    border-inline:0;
+    border-bottom:0;
+    border-top:1px solid var(--h-glass-border);
+    box-shadow:0 -18px 50px rgba(0,0,0,.24);
+    animation:advanced-rail-in-mobile .22s cubic-bezier(.22,.9,.3,1);
+  }
+  @keyframes advanced-rail-in-mobile{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  :root[data-frontend="heritage"] .advanced-registry-rail .advanced-registry-grid{grid-template-columns:1fr 1fr}
+  :root[data-frontend="heritage"] .adv-rail-title>small{display:none}
+}

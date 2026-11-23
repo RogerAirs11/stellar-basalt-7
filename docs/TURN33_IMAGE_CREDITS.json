@@ -1,0 +1,27 @@
+{
+ "round": "turn 33 (R133)",
+ "rule": "all images webp <= 50 kB (repo-wide hard rule)",
+ "sources": {
+  "asbdavani_blog": {
+   "description": "Real Iranian race-day photographs harvested from the official asbdavani.app blog (race reports 2024-2026), visually reviewed via contact sheets; documents/notices filtered out",
+   "files": "public/images/races/race-*.webp + public/images/horses/sq-img-*.webp",
+   "credit": "asbdavani.app blog"
+  },
+  "asbdavani_youtube": {
+   "description": "Frames from official asbdavani YouTube race videos (video thumbnails)",
+   "files": "public/images/races/yt-*.webp + public/images/horses/sq-yt-*.webp",
+   "credit": "asbdavani YouTube"
+  },
+  "web_search": {
+   "description": "Breed portraits and discipline photographs from public web sources (news/YouTube/press), visually reviewed",
+   "files": "public/images/races/web-*.webp + public/images/horses/sp2-*.webp",
+   "credit": "web sources (representative)"
+  }
+ },
+ "counts": {
+  "real_race_photos": 58,
+  "web_photos": 62,
+  "square_portraits": 96
+ },
+ "note": "Horse profile credits always state when a photo is representative of the career rather than a passport-verified image of the individual animal."
+}

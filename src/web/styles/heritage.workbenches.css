@@ -1,0 +1,269 @@
+/* Native operations and editors share one skin-owned, tokenized form system. */
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) {
+  --ops-space-xs: .375rem;
+  --ops-space-sm: .75rem;
+  --ops-space-md: 1rem;
+  --ops-space-lg: 1.5rem;
+  --ops-control-size: 2.75rem;
+  --ops-radius: var(--radius-md, .75rem);
+  --ops-panel: var(--panel-solid, var(--panel, Canvas));
+  --ops-input: var(--bg-elev, var(--panel, Canvas));
+  --ops-border: var(--line-strong, var(--line, GrayText));
+  --ops-ink: var(--ink, CanvasText);
+  --ops-muted: var(--muted, GrayText);
+  --ops-accent: var(--accent, LinkText);
+  --ops-title-size: clamp(1.5rem, 3vw, 1.875rem);
+  min-inline-size: 0;
+  color: var(--ops-ink);
+  line-height: 1.6;
+}
+.app-shell .h-mod-workbench {
+  box-sizing: border-box;
+  inline-size: min(100%, 72rem);
+  margin: var(--h-page-gap, 1rem) auto;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  background: var(--ops-panel);
+  border: 1px solid var(--ops-border);
+  border-radius: var(--ops-radius);
+}
+.app-shell .heritage-operations-page > .section-title,
+.app-shell .heritage-operations-page > section[data-h-surface-role="panel"],
+.app-shell .heritage-operations-page > .table-toolbar,
+.app-shell .heritage-operations-page .h-mod-domain-grid > section {
+  padding: var(--ops-space-lg);
+  border: 1px solid var(--ops-border);
+  border-radius: var(--ops-radius);
+  background: var(--ops-panel);
+  min-inline-size: 0;
+}
+.app-shell .heritage-operations-page .h-mod-domain-grid {
+  grid-template-columns: minmax(14rem, .7fr) minmax(0, 2fr);
+  gap: var(--ops-space-md);
+}
+.app-shell .heritage-operations-page > .table-toolbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--ops-space-sm); }
+.app-shell .heritage-operations-page .table-filter { flex: 1 1 12rem; min-inline-size: 0; }
+.app-shell .heritage-operations-page .h-operations-link { display: inline-flex; align-items: center; min-block-size: var(--ops-control-size); color: var(--ops-accent); text-underline-offset: .2em; }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(h1, h2, h3, h4, p, li, label, small, strong, a) {
+  overflow-wrap: anywhere;
+}
+.app-shell .heritage-operations-page > .section-title h1 {
+  font-family: var(--serif);
+  font-size: var(--ops-title-size);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(h3, .h-mod-section-title) {
+  font-size: 1.125rem;
+  line-height: 1.45;
+  margin: 0 0 var(--ops-space-sm);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(.h-mod-note, .h-mod-state-note, .h-mod-explainer, small) {
+  color: var(--ops-muted);
+  font-size: .875rem;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(button, select, input, textarea) {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  font: inherit;
+  font-size: .9375rem;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) button {
+  min-block-size: var(--ops-control-size);
+  border: 1px solid var(--ops-border);
+  border-radius: var(--radius-sm, .5rem);
+  padding: .55rem var(--ops-space-md);
+  background: var(--ops-input);
+  color: var(--ops-ink);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) button:is([type="submit"], .primary, .h-mod-primary) {
+  border-color: var(--ops-accent);
+  background: color-mix(in srgb, var(--ops-accent) 16%, var(--ops-panel));
+  font-weight: 650;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ops-accent) 12%, var(--ops-panel));
+  border-color: var(--ops-accent);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) button:disabled { opacity: .6; cursor: not-allowed; }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(button, input, select, textarea, summary, a):focus-visible {
+  outline: 2px solid var(--ops-accent);
+  outline-offset: 3px;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  inline-size: 100%;
+  min-block-size: var(--ops-control-size);
+  padding: .6rem .75rem;
+  border: 1px solid var(--ops-border);
+  border-radius: var(--radius-sm, .5rem);
+  background: var(--ops-input);
+  color: var(--ops-ink);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) textarea { resize: vertical; min-block-size: 7rem; }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(form, .h-mod-editor-fields) {
+  display: grid;
+  gap: var(--ops-space-md);
+  min-inline-size: 0;
+  margin-block: var(--ops-space-sm);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(form, .h-mod-fieldset, .h-mod-editor-fields) > label,
+.app-shell .h-mod-workbench .h-mod-field { display: grid; gap: var(--ops-space-xs); min-inline-size: 0; margin-block: .35rem; }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) fieldset {
+  display: grid;
+  min-inline-size: 0;
+  gap: var(--ops-space-sm);
+  margin: 0;
+  padding: var(--ops-space-md);
+  border: 1px solid var(--ops-border);
+  border-radius: var(--ops-radius);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) legend { padding-inline: .4rem; font-weight: 650; max-inline-size: 100%; }
+.app-shell .h-mod-workbench .h-mod-editor-fields { border: 0; padding: 0; }
+.app-shell .h-mod-workbench :is(.h-mod-categories, .h-mod-choice-grid) { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--ops-space-sm); }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(.h-mod-check, label:has(> input[type="checkbox"]), label:has(> input[type="radio"])) {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  min-inline-size: 0;
+  padding-block: .4rem;
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) input:is([type="checkbox"], [type="radio"]) {
+  flex: 0 0 1.125rem;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  min-block-size: 0;
+  margin: .2rem 0 0;
+  accent-color: var(--ops-accent);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(.h-mod-actions, .table-actions, .h-mod-conflict-actions, .h-mod-view-toggle) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ops-space-sm);
+  margin-block: var(--ops-space-sm);
+}
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) details { border-block-start: 1px solid var(--ops-border); margin-block: var(--ops-space-sm); }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) summary { padding-block: var(--ops-space-sm); cursor: pointer; font-weight: 600; min-block-size: var(--ops-control-size); box-sizing: border-box; }
+.app-shell :is(.heritage-operations-page, .h-mod-workbench) :is(.h-mod-conflict, [role="alert"]) {
+  padding: var(--ops-space-md);
+  border-inline-start: 3px solid var(--ops-accent);
+  background: color-mix(in srgb, var(--ops-accent) 7%, var(--ops-panel));
+  border-radius: var(--radius-sm, .5rem);
+  overflow-wrap: anywhere;
+}
+.app-shell .heritage-operations-page :is(.h-mod-workspace-list, .h-mod-task-list) { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ops-space-sm); }
+.app-shell .heritage-operations-page .h-mod-workspace-list button { padding: var(--ops-space-sm); inline-size: 100%; border: 1px solid var(--ops-border); }
+.app-shell .heritage-operations-page .h-mod-workspace-list button[aria-current="true"] { border-color: var(--ops-accent); background: color-mix(in srgb, var(--ops-accent) 12%, var(--ops-panel)); box-shadow: none; }
+.app-shell .heritage-operations-page .h-mod-workspace-list small { font-size: .8125rem; }
+.app-shell .heritage-operations-page .h-mod-request-row header { flex-wrap: wrap; align-items: center; }
+.app-shell .heritage-operations-page .h-mod-request-row header strong { flex: 1 1 15rem; min-inline-size: 0; }
+.app-shell .heritage-operations-page .h-mod-request-row header > span { font-size: .8125rem; border: 1px solid var(--ops-border); padding: .2rem .6rem; border-radius: 99rem; }
+
+/* R113: native master/detail service workbench, one bounded column on mobile. */
+.app-shell .h-service-page h1 { font-size: clamp(1.45rem, 2.6vw, 2rem); line-height: 1.35; overflow-wrap: anywhere; }
+.app-shell .h-service-grid { display: grid; align-items: start; }
+.app-shell .h-service-grid > section { min-inline-size: 0; }
+.app-shell .h-service-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--ops-space-sm); }
+.app-shell .h-service-list .h-service-summary { display: grid; gap: var(--ops-space-xs); inline-size: 100%; text-align: start; }
+.app-shell .h-service-summary[aria-pressed="true"] { border-color: var(--ops-accent); background: color-mix(in srgb, var(--ops-accent) 12%, var(--ops-panel)); }
+.app-shell .h-service-summary span { font-size: .875rem; }
+.app-shell .h-service-meta { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: var(--ops-space-sm); }
+.app-shell .h-service-meta > div { min-inline-size: 0; }
+.app-shell .h-service-meta dt { font-size: .8125rem; color: var(--ops-muted); }
+.app-shell .h-service-meta dd { margin: 0; overflow-wrap: anywhere; }
+.app-shell :is(.h-service-note,.h-service-confirm,.h-service-result) { margin-block: var(--ops-space-md); padding: var(--ops-space-md); border: 1px solid var(--ops-border); border-radius: var(--ops-radius); }
+.app-shell .h-service-note p { white-space: pre-wrap; }
+.app-shell .h-service-confirm { background: color-mix(in srgb,var(--ops-accent) 10%,var(--ops-panel)); }
+.app-shell .h-service-confirm button + button { margin-inline-start: var(--ops-space-sm); }
+.app-shell .h-service-detail .table-actions form { flex: 1 1 100%; }
+.app-shell .h-service-feedback .h-service-result:first-child { margin-block-start: 0; }
+.app-shell .h-service-feedback .h-service-result:last-child { margin-block-end: 0; }
+@media (max-width: 760px) {
+  .app-shell .heritage-operations-page.h-service-page .h-service-grid { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 390px) {
+  .app-shell .h-service-meta { grid-template-columns: minmax(0,1fr); }
+}
+.app-shell .heritage-operations-page .h-workspace-header { display: flex; flex-wrap: wrap; gap: var(--ops-space-sm); align-items: flex-start; justify-content: space-between; }
+.app-shell .heritage-operations-page .h-workspace-header > div { flex: 1 1 15rem; min-inline-size: 0; }
+.app-shell .heritage-operations-page .h-workspace-header h3 { margin-block-end: .25rem; }
+.app-shell .heritage-operations-page .h-workspace-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .35rem; padding: .35rem; border: 1px solid var(--ops-border); border-radius: var(--ops-radius); margin-block: var(--ops-space-md); }
+.app-shell .heritage-operations-page .h-workspace-tabs button { border-color: transparent; padding-inline: .5rem; background: transparent; }
+.app-shell .heritage-operations-page button:is([aria-selected="true"], [aria-pressed="true"]) { background: color-mix(in srgb, var(--ops-accent) 16%, var(--ops-panel)); border-color: var(--ops-accent); font-weight: 650; }
+.app-shell .heritage-operations-page .h-workspace-panel[hidden] { display: none; }
+.app-shell .heritage-operations-page .h-workspace-panel { min-inline-size: 0; }
+.app-shell .heritage-operations-page .h-workspace-panel > section { margin-block: var(--ops-space-md); padding-block: var(--ops-space-md); border-block-start: 1px solid var(--ops-border); background: transparent; }
+.app-shell .heritage-operations-page .h-mod-task-bucket { margin-block: var(--ops-space-lg); }
+.app-shell .heritage-operations-page .h-mod-task-list .registry-row-clickable { display: grid; gap: .25rem; inline-size: 100%; text-align: start; }
+.app-shell .heritage-operations-page .h-mod-task-list .h-task-action { color: var(--ops-accent); font-size: .8125rem; font-weight: 650; }
+.app-shell .heritage-operations-page .h-mod-calendar-nav { display: flex; justify-content: space-between; align-items: center; gap: var(--ops-space-sm); }
+.app-shell .heritage-operations-page .h-mod-calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .25rem; }
+.app-shell .heritage-operations-page .h-mod-calendar-cell { min-inline-size: 0; min-block-size: 4rem; padding: .3rem; border: 1px solid var(--ops-border); border-radius: .3rem; }
+.app-shell .heritage-operations-page .h-mod-calendar-cell ul { list-style: none; padding: 0; margin: .25rem 0 0; }
+.app-shell .heritage-operations-page .h-mod-calendar-cell button { inline-size: 100%; font-size: .75rem; padding: .25rem; min-block-size: var(--ops-control-size); }
+.app-shell .heritage-operations-page .h-mod-calendar-cell.pad { opacity: .35; }
+.app-shell .heritage-operations-page .h-mod-calendar-cell.has-overdue { border-color: var(--ops-accent); }
+.app-shell .heritage-operations-page .h-workspace-herd { display: grid; gap: var(--ops-space-sm); list-style: none; padding: 0; }
+.app-shell .heritage-operations-page .h-workspace-herd a { display: block; padding: var(--ops-space-sm); border: 1px solid var(--ops-border); border-radius: var(--radius-sm, .5rem); color: var(--ops-accent); }
+.app-shell .h-account-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--ops-space-lg); margin: 0; }
+.app-shell .h-account-details > div { min-inline-size: 0; }
+.app-shell .h-account-details dt { color: var(--ops-muted); font-size: .875rem; }
+.app-shell .h-account-details dd { margin: .25rem 0 0; font-weight: 600; overflow-wrap: anywhere; }
+.app-shell .h-account-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--ops-space-sm); padding-block: var(--ops-space-lg); margin-block-end: var(--ops-space-md); border-block-end: 1px solid var(--ops-border); }
+@media (max-width: 1000px) {
+  .app-shell .heritage-operations-page .h-mod-domain-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-shell .heritage-operations-page .h-mod-workspace-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+}
+@media (max-width: 520px) {
+  .app-shell .heritage-operations-page { --ops-space-lg: 1rem; }
+  .app-shell .heritage-operations-page .h-workspace-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell .heritage-operations-page .h-mod-calendar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell .heritage-operations-page .h-mod-calendar-cell.pad { display: none; }
+  .app-shell .heritage-operations-page .h-mod-calendar-cell { min-block-size: 4.5rem; }
+}
+
+/* R117-18 — privacy redaction operator queue: receipt-driven fulfillment
+   indicator (a grant is a decision, never an execution). */
+.privacy-redaction-panel .privacy-redaction-list{display:flex;flex-direction:column;gap:10px}
+.privacy-redaction-row{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid rgba(120,96,64,.25);border-radius:7px;background:rgba(255,252,245,.55)}
+.privacy-redaction-row header{display:flex;flex-direction:column;gap:2px}
+.privacy-redaction-row .privacy-request-note{margin:0;font-style:italic;opacity:.85}
+.privacy-redaction-states{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.82rem}
+.privacy-status{padding:2px 8px;border-radius:7px;border:1px solid rgba(120,96,64,.3);font-size:.74rem;letter-spacing:.02em}
+.privacy-fulfillment{padding:2px 8px;border-radius:7px;font-size:.74rem;font-weight:600;border:1px solid transparent}
+.privacy-fulfillment.fulfillment-completed{color:#1c7a43;border-color:rgba(28,122,67,.35);background:rgba(28,122,67,.08)}
+.privacy-fulfillment.fulfillment-blocked{color:#9a6700;border-color:rgba(154,103,0,.35);background:rgba(154,103,0,.08)}
+.privacy-fulfillment.fulfillment-pending{color:#66788a;border-color:rgba(102,120,138,.3)}
+.privacy-fulfillment.fulfillment-muted{color:#66788a}
+.privacy-hold-flag{padding:2px 8px;border-radius:7px;font-size:.72rem;background:rgba(154,103,0,.12);color:#9a6700}
+.privacy-redaction-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.privacy-redaction-actions input{flex:1 1 240px}
+.privacy-receipt pre{max-height:200px;overflow:auto;white-space:pre-wrap;word-break:break-all;font-size:.68rem;background:rgba(0,0,0,.04);border-radius:4px;padding:6px 8px;margin:6px 0}
+
+/* ── R131: the directory (professionals) filter rail. The page used to reuse
+   .table-filter — a search-input grid whose first column is a 30px icon slot —
+   so its <select> labels were squeezed into the icon column and clipped
+   ("همه دسته‌ها" showing as fragments). This is the proper labeled-field
+   layout: caption above the control, controls that never clip, full-width
+   fields on phones. */
+.directory-toolbar{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--panel-solid)}
+.directory-field{display:grid;gap:5px;min-width:0;flex:1 1 210px}
+.directory-field-name{flex:1.4 1 240px}
+.directory-field>span{font:800 max(var(--h-font-floor,10px),11px)/1 var(--h-font-ui);letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.directory-field select,
+.directory-field input{width:100%;min-width:0;min-height:42px;box-sizing:border-box;border:1px solid var(--line-strong);border-radius:6px;background:var(--input);color:var(--ink);padding:8px 11px;font:600 13.5px/1.35 var(--h-font-ui)}
+.directory-field select{appearance:none;-webkit-appearance:none;background-image:linear-gradient(45deg,transparent 49%,var(--muted) 50%),linear-gradient(-45deg,transparent 49%,var(--muted) 50%);background-position:calc(100% - 17px) 55%,calc(100% - 12px) 55%;background-size:5px 5px;background-repeat:no-repeat;padding-inline-end:30px;text-overflow:ellipsis}
+html[dir="rtl"] .directory-field select{background-position:12px 55%,17px 55%;padding-inline-end:11px;padding-inline-start:30px}
+.directory-field select:focus-visible,
+.directory-field input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.directory-clear{min-height:42px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg-elev);color:var(--ink);padding:8px 14px;font:700 var(--h-font-caption)/1 var(--h-font-ui);cursor:pointer}
+.directory-clear:hover{background:var(--panel-strong)}
+@media(max-width:640px){
+  .directory-toolbar{padding:9px;gap:9px}
+  .directory-field{flex:1 1 100%}
+  .directory-clear{flex:1 1 100%}
+}

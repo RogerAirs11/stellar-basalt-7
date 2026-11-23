@@ -1,0 +1,31 @@
+.retro-astra-transplant .retro-service-desk { display:grid; gap:1rem; min-inline-size:0; }
+.retro-astra-transplant .retro-service-desk > .collection-sheet { margin:0; }
+.retro-astra-transplant .retro-service-desk > .page-heading { gap:1rem; }
+.retro-astra-transplant .retro-service-desk > .page-heading > div { min-inline-size:0; }
+.retro-astra-transplant .retro-service-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; padding:1rem; }
+.retro-astra-transplant .retro-service-toolbar [aria-pressed='true'] { border-color:var(--accent); background:var(--accent-soft); color:var(--ink-strong); }
+.retro-astra-transplant .retro-service-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr)); gap:.85rem; padding:1rem; }
+.retro-astra-transplant .retro-service-card { display:flex; flex-direction:column; align-items:flex-start; gap:.7rem; padding:1rem; min-inline-size:0; background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--radius-sm); overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-service-card > .button { margin-block-start:auto; }
+.retro-astra-transplant .retro-service-card h2,.retro-astra-transplant .retro-service-card h3 { font-size:1.1rem; color:var(--ink-strong); }
+.retro-astra-transplant .retro-service-card-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:.6rem; flex-wrap:wrap; inline-size:100%; }
+.retro-astra-transplant .retro-service-status { font-size:.8rem; border:1px solid var(--line); border-radius:999px; padding:.2rem .6rem; background:var(--accent-soft); color:var(--ink-strong); }
+.retro-astra-transplant .retro-service-detail-body { display:grid; gap:1rem; padding:1rem; min-inline-size:0; overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-service-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.9rem; margin:0; }
+.retro-astra-transplant .retro-service-facts dt { font-weight:700; color:var(--ink-muted); }
+.retro-astra-transplant .retro-service-facts dd { margin:.3rem 0 0; white-space:pre-wrap; overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-service-private { padding:1rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-raised); display:grid; gap:.5rem; }
+.retro-astra-transplant .retro-service-private p { white-space:pre-wrap; overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-service-note { color:var(--ink-muted); font-size:.875rem; line-height:1.7; }
+.retro-astra-transplant .retro-service-recovery { padding:1rem; display:grid; gap:.6rem; }
+.retro-astra-transplant .retro-service-recovery .desk-notice { margin:0; }
+.retro-astra-transplant .retro-service-privacy { padding:1rem; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.retro-astra-transplant .retro-service-privacy > summary { padding-block:.3rem; cursor:pointer; font-weight:700; }
+.retro-astra-transplant .retro-service-privacy > p { margin-block:.75rem; }
+.retro-astra-transplant .retro-service-desk .button { max-inline-size:100%; white-space:normal; text-align:center; }
+@media(max-width:600px) {
+  .retro-astra-transplant .retro-service-desk > .page-heading { flex-direction:column; align-items:stretch; }
+  .retro-astra-transplant .retro-service-desk > .page-heading .heading-actions { justify-content:flex-start; }
+  .retro-astra-transplant .retro-service-toolbar { align-items:stretch; }
+  .retro-astra-transplant .retro-service-toolbar .button { flex:1 1 8rem; }
+}

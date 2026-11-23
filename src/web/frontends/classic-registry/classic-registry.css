@@ -1,0 +1,69 @@
+.classic-registry-host{position:relative;width:100%;height:calc(100dvh - env(safe-area-inset-bottom,0px));min-height:680px;background:#e9edf1;overflow:hidden;color:#182331;font-family:Tahoma,Verdana,Arial,"Noto Sans Arabic",sans-serif}
+.classic-registry-workspace-shell{position:relative;display:flex;width:100%;height:100%;min-width:0;min-height:0;background:#e9edf1}
+.classic-registry-frame{display:block;flex:1 1 auto;width:100%;height:100%;min-width:0;min-height:680px;border:0;background:#fff;transition:width .16s ease,filter .16s ease}
+
+/* Native AI route stays inside the Classic workspace. Compact pane, same live iframe. */
+.classic-registry-ai-open .classic-registry-frame{width:calc(100% - clamp(360px,32vw,480px));flex:1 1 auto;border-inline-end:1px solid #9eacb9}
+.classic-registry-ai-pane{flex:0 0 clamp(360px,32vw,480px);width:clamp(360px,32vw,480px);height:100%;min-width:0;min-height:0;overflow:hidden;padding:5px;background:linear-gradient(#edf1f4,#e5eaee);border-inline-start:1px solid #fff;box-shadow:-7px 0 20px rgb(18 37 57 / .11);z-index:2}
+/* The AI research pane always lives on the PHYSICAL right side, even in the
+   Farsi (RTL) layout — the app iframe fills the remaining left area.
+   The html[dir] overrides live in the shell stylesheet (global selectors
+   are forbidden inside frontend plugin CSS). */
+.classic-registry-ai-pane .hdb-ai-full{height:100%;min-height:0;max-width:none}
+
+/* Classic only defines visual tokens. All AI structure/markdown/composer rules are shared and DRY. */
+.hdb-ai-theme-classic-registry{
+  --ai-font:Tahoma,Verdana,Arial,"Noto Sans Arabic",sans-serif;
+  --ai-title-font:Georgia,"Times New Roman",serif;
+  --ai-mono:Consolas,"Courier New",monospace;
+  --ai-bg:#fff;--ai-thread-bg:#fff;--ai-panel-bg:linear-gradient(#fafbfc,#e7ecf1);--ai-control-bg:#fff;--ai-code-bg:#182736;
+  --ai-text:#182331;--ai-muted:#5f6d79;--ai-accent:#175d94;--ai-accent-soft:#edf5fb;--ai-danger:#9b2d2d;
+  --ai-border:#b9c3ce;--ai-user-bg:#eaf3fb;--ai-assistant-bg:#f7f9fa;
+  --ai-radius:2px;--ai-control-radius:2px;--ai-message-radius:2px;--ai-font-size:10.5px;
+  --ai-shadow:0 1px 2px rgb(18 37 57 / .12)
+}
+.hdb-ai-theme-classic-registry .hdb-ai-sessionbar :is(select,button),.hdb-ai-theme-classic-registry .hdb-ai-controlstrip :is(select,button){box-shadow:inset 0 1px #fff}
+.hdb-ai-theme-classic-registry .hdb-ai-send{border-radius:2px;background:linear-gradient(#2a6ea7,#185787);border-color:#0d416c;box-shadow:inset 0 1px #ffffff35}
+.hdb-ai-theme-classic-registry .hdb-ai-welcome{background:linear-gradient(#f7fbfe,#edf5fb)}
+.hdb-ai-theme-classic-registry .hdb-ai-code,.hdb-ai-theme-classic-registry .hdb-ai-table-wrap{border-radius:2px}
+
+/* R60: compact icon-only support entry point — a small dense square button in
+   this frontend's classic-desktop control language. Icon-only everywhere keeps
+   the corner footprint minimal; the aria-label carries the spoken name. */
+.hdb-ai-launcher-classic-registry{--ai-fab-bg:linear-gradient(#2a5d8d,#1a456d);--ai-fab-accent:#1a5e96;--ai-fab-text:#fff;--ai-fab-font:Tahoma,Verdana,Arial,sans-serif}
+.hdb-ai-launcher-classic-registry .hdb-ai-fab{width:34px;height:34px;min-width:34px;border-radius:3px;border-color:#0b2944;padding:0;background:linear-gradient(#2a5d8d,#1a456d);color:#fff;box-shadow:0 3px 10px rgb(18 37 57 / .26),inset 0 1px #ffffff2d}
+.hdb-ai-launcher-classic-registry.open .hdb-ai-fab{width:34px;min-width:34px;height:34px;border-radius:3px;padding:0}
+.hdb-ai-launcher-classic-registry .hdb-ai-fab-status{inset:auto 3px 3px auto}
+
+@media(max-width:1040px){.classic-registry-ai-open .classic-registry-frame{width:calc(100% - 380px)}.classic-registry-ai-pane{flex-basis:380px;width:380px}}
+@media(max-width:820px){.classic-registry-ai-open .classic-registry-frame{width:100%;filter:saturate(.9) brightness(.95)}.classic-registry-ai-pane{position:absolute;inset:6px 6px 6px auto;width:min(430px,calc(100% - 12px));height:auto;border:1px solid #788899;box-shadow:0 10px 34px rgb(18 37 57 / .25)}}
+@media(max-width:600px){.classic-registry-host,.classic-registry-frame{min-height:100dvh}.classic-registry-ai-pane{inset:0;width:100%;height:100dvh;max-height:100dvh;min-height:0;padding:0;border:0;overflow:hidden}.classic-registry-ai-pane .hdb-ai-theme-classic-registry{border:0}.hdb-ai-launcher-classic-registry{bottom:76px}}
+
+/* R88: remove the 680px minimum that clipped small iframe hosts. */
+.classic-registry-host { display:flex; flex-direction:column; min-height:0; }
+.classic-registry-host .classic-registry-workspace-shell { flex:1 1 auto; height:auto; min-height:0; }
+.classic-registry-host .classic-registry-frame { min-height:0; }
+.classic-registry-r88-links { display:flex; gap:16px; flex-wrap:wrap; padding:4px 12px; flex:0 0 auto; font-size:14px; }
+.classic-registry-r88-links a { color:inherit; min-height:36px; display:inline-flex; align-items:center; text-underline-offset:3px; }
+.classic-registry-r88-links a:focus-visible { outline:3px solid currentColor; outline-offset:2px; }
+@media(pointer:coarse) { .classic-registry-r88-links a { min-height:44px; } }
+
+/* Host-owned profile entry screens use one compact, labelled form for either entity. */
+.classic-registry-host.classic-registry-editor-host { --classic-editor-utility-height:calc(64px + env(safe-area-inset-bottom,0px)); height:var(--classic-editor-height,100dvh); min-height:0; }
+.classic-registry-host .classic-registry-editor-route { flex-direction:column; gap:12px; padding:16px; overflow:auto; overscroll-behavior:contain; scroll-padding-block:16px; align-items:stretch; }
+.classic-registry-editor-utility-space { flex:0 0 var(--classic-editor-utility-height); border-block-start:1px solid #b9c3ce; background:#e9edf1; }
+.classic-registry-editor-host ~ .frontend-switcher { direction:inherit; }
+.classic-registry-editor-title { margin:0 0 12px; font-size:clamp(20px,4vw,26px); line-height:1.4; overflow-wrap:anywhere; }
+.classic-registry-target { --classic-entry-paper:#fdfbf6; --classic-entry-ink:#182331; --classic-entry-border:#9eacb9; --classic-entry-accent:#175d94; --classic-entry-error:#9b2d2d; flex:0 0 auto; width:100%; max-width:48rem; min-width:0; margin-inline:auto; padding:clamp(16px,3vw,28px); border:1px solid var(--classic-entry-border); background:var(--classic-entry-paper); color:var(--classic-entry-ink); border-radius:4px; box-shadow:0 2px 6px rgb(18 37 57 / .08); overflow-wrap:anywhere; }
+.classic-registry-target h1 { margin:0 0 12px; font:600 clamp(22px,4vw,30px)/1.4 Georgia,"Times New Roman",serif; }
+.classic-registry-target p { margin:0 0 16px; line-height:1.65; }
+.classic-registry-target form { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:end; margin-block:20px; }
+.classic-registry-target label { display:block; margin-block-end:6px; font-weight:700; }
+.classic-registry-target input { display:block; width:100%; min-width:0; min-height:44px; padding:8px 10px; border:1px solid var(--classic-entry-border); border-radius:3px; background:#fff; color:var(--classic-entry-ink); scroll-margin-block:2.25rem; }
+.classic-registry-target button { min-height:44px; padding:8px 18px; border:1px solid var(--classic-entry-accent); border-radius:3px; background:var(--classic-entry-accent); color:#fff; font-weight:700; white-space:normal; }
+.classic-registry-target button:disabled { background:#e9edf1; border-color:var(--classic-entry-border); color:#505b5f; cursor:not-allowed; }
+.classic-registry-target a { color:var(--classic-entry-accent); text-underline-offset:3px; }
+.classic-registry-target :is(input,button,a):focus-visible { outline:3px solid var(--classic-entry-accent); outline-offset:3px; }
+.classic-registry-target .classic-registry-target-error { grid-column:1/-1; margin:0; color:var(--classic-entry-error); }
+@media(max-width:480px) { .classic-registry-host .classic-registry-editor-route { padding:12px; } .classic-registry-target form { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:720px) { .classic-registry-host.classic-registry-editor-host { --classic-editor-utility-height:calc(128px + env(safe-area-inset-bottom,0px)); } }

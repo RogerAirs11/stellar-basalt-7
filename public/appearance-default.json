@@ -1,0 +1,84 @@
+{
+  "_readme": "Operator startup default for the Heritage appearance (v22 preset). Fresh visitors — before any Appearance Studio change is stored — start from this file. Edit it (or paste an Appearance Studio export here) to re-theme every default surface. Users who tune their own look in the studio keep their personal localStorage settings. R136: this is the owner-supplied v22 export of 2026-10-25, verbatim (material/ambient/shine/color/navigation/presentation); the companion visualAssets projection (flat engine, adaptive art, crescent-horse brand emblem, achaemenid sun-medallion splash) is pinned in heritageVisualAssets.ts.",
+  "version": 22,
+  "palette": "auto",
+  "mode": "light",
+  "scene": "full",
+  "glassMode": false,
+  "tabHierarchy": "contextual",
+  "material": {
+    "major": { "transparency": 62, "shade": -100, "saturation": 134, "blur": 24 },
+    "panel": { "transparency": 57, "shade": -100, "saturation": 100, "blur": 22 },
+    "card": { "transparency": 53, "shade": -76, "saturation": 120, "blur": 6 },
+    "control": { "transparency": 41, "shade": -100, "saturation": 130, "blur": 2 }
+  },
+  "ambient": {
+    "motion": "animated",
+    "pattern": "chromatic",
+    "scope": "surfaces",
+    "dither": false,
+    "visibility": 74,
+    "brightness": -50,
+    "saturation": 220,
+    "motionSeconds": 14,
+    "layers": "major"
+  },
+  "shine": {
+    "energy": 5,
+    "brightness": 50,
+    "saturation": 100,
+    "motion": true,
+    "seconds": 10,
+    "haloSoftness": 12
+  },
+  "color": {
+    "semanticCueStrength": 4,
+    "semanticBackgroundVisibility": 76,
+    "semanticBackgroundBrightness": -19,
+    "semanticBackgroundSaturation": 200,
+    "semanticTextVisibility": 100,
+    "semanticBrightness": 9,
+    "semanticSaturation": 200,
+    "contextStrength": 15,
+    "contextBackgroundVisibility": 43,
+    "contextBrightness": 30,
+    "contextSaturation": 100,
+    "schemeStrength": 22,
+    "schemeBrightness": -2,
+    "schemeContrast": -4,
+    "schemeSaturation": 200,
+    "reverseLightBrightness": true
+  },
+  "navigation": {
+    "controlProminence": 100,
+    "selectedStateStrength": 78,
+    "selectedStateSaturation": 155,
+    "selectedStateGlow": 68,
+    "selectedStateMotion": 58
+  },
+  "presentation": {
+    "density": "compact",
+    "performanceMode": "auto"
+  },
+  "visualAssets": {
+    "version": 1,
+    "backgroundArt": "adaptive",
+    "backgroundFocusX": 50,
+    "backgroundFocusY": 50,
+    "backgroundBottomFade": true,
+    "backgroundFitWidth": true,
+    "backgroundParallax": false,
+    "backgroundEngine": "flat",
+    "background3DStrength": 100,
+    "background3DZoom": 100,
+    "background3DAutoMotion": true,
+    "background3DBlur": false,
+    "favoriteBackgrounds": [],
+    "brandArt": "library-logo-antique_gold_crescent_horse_emblem",
+    "brandScale": 100,
+    "favoriteBrands": [],
+    "splashArt": "library-logo-achaemenid_horse_sun_medallion",
+    "splashScale": 100,
+    "favoriteSplashes": []
+  }
+}

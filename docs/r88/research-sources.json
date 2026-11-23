@@ -1,0 +1,178 @@
+[
+  {
+    "id": "IR-01",
+    "title": "Iran member report to the 2025 WAHO conference",
+    "url": "https://www.waho.org/iran/",
+    "observed_at": "2026-10-03",
+    "observation": "The 2025 Arabian registry report states approximately 1,000-1,200 registered foals per year. This is breed-specific annual registration flow, not all horses, all breeders, platform customers, or total addressable revenue.",
+    "evidence_quality": "Primary registry report; indexed text available; direct open intermittently failed."
+  },
+  {
+    "id": "IR-02",
+    "title": "Sheyhe published product",
+    "url": "https://sheyhe.com/",
+    "observed_at": "2026-10-03",
+    "observation": "Advertises bilingual horse and pedigree information, offspring and results, horse listings and equipment. Product overlap is substantial; its user count, transaction volume and revenue were not verified.",
+    "evidence_quality": "Primary competitor product page."
+  },
+  {
+    "id": "IR-03",
+    "title": "Chaharnal published product",
+    "url": "https://chaharnal.com/",
+    "observed_at": "2026-10-03",
+    "observation": "Publishes horse and equipment listings, riding-club discovery and educational content. Advertised prices and listings do not prove completed sales or willingness to pay for this platform.",
+    "evidence_quality": "Primary competitor product page."
+  },
+  {
+    "id": "IR-04",
+    "title": "Iran Horse published service offering",
+    "url": "https://iran-horse.com/",
+    "observed_at": "2026-10-03",
+    "observation": "A local offering spanning equipment and horse-related services; review as a potential distribution/merchant partner as well as a competitor. No revenue or conversion claims verified.",
+    "evidence_quality": "Primary business page; capability observation only."
+  },
+  {
+    "id": "INT-01",
+    "title": "HorseTelex subscriptions",
+    "url": "https://www.horsetelex.com/pages/view/subscriptions",
+    "observed_at": "2026-10-03",
+    "observation": "Published PLUS and TOP plans illustrate a free-core/paid-professional product pattern. Observed annual prices: EUR22.50 and EUR75 including VAT. Foreign prices are not an Iranian willingness-to-pay benchmark.",
+    "evidence_quality": "Primary supplier price page."
+  },
+  {
+    "id": "INT-02",
+    "title": "ehorses premium subscriptions",
+    "url": "https://info.ehorses.de/premium/abo-de?ref=fn",
+    "observed_at": "2026-10-03",
+    "observation": "Published seller subscriptions demonstrate paid exposure tools. Observed Premium EUR59.98 and Premium Plus EUR99.99 per month; geography, plan terms and volumes differ from Iran.",
+    "evidence_quality": "Primary competitor pricing page; not an Iranian price estimate."
+  },
+  {
+    "id": "COST-01",
+    "title": "Zarinpal tariff",
+    "url": "https://www.zarinpal.com/pricing",
+    "observed_at": "2026-10-03",
+    "observation": "Published standard gateway charge: 0.5%, capped at 16,000 toman, plus 500 toman per transaction. Shaparak charges are additional; the calculator does not estimate them.",
+    "evidence_quality": "Primary supplier page, observed 2026-10-03; confirm merchant contract before billing."
+  },
+  {
+    "id": "COST-02",
+    "title": "Liara tariff",
+    "url": "https://liara.ir/pricing/",
+    "observed_at": "2026-10-03",
+    "observation": "Example IaaS: 2 GB memory, 1 vCPU, 20 GB disk at 1,475,000 toman/month; IPv4 and traffic extra. Cost reference only, not Worker compatibility certification.",
+    "evidence_quality": "Primary supplier page, observed 2026-10-03."
+  },
+  {
+    "id": "COST-03",
+    "title": "Kavenegar tariff",
+    "url": "https://kavenegar.com/pricing.html",
+    "observed_at": "2026-10-03",
+    "observation": "Standard account free; published paid annual account tiers are separate from usage. Obtain route-specific OTP/notification unit prices and delivery terms rather than assuming a universal SMS fee.",
+    "evidence_quality": "Primary supplier page; no verified per-message price used."
+  },
+  {
+    "id": "PAY-01",
+    "title": "Zarinpal server verification documentation",
+    "url": "https://www.zarinpal.com/docs/sdk/nodejs/method/verify",
+    "observed_at": "2026-10-03",
+    "observation": "Payment completion requires server-side verification; use a trusted stored amount and unique authority. An already-verified response must not create duplicate entitlement.",
+    "evidence_quality": "Primary integration documentation; live integration not executed."
+  },
+  {
+    "id": "SCI-01",
+    "title": "UC Davis VGL PSSM1",
+    "url": "https://vgl.ucdavis.edu/test/pssm1",
+    "observed_at": "2026-10-03",
+    "observation": "PSSM1 is autosomal dominant. Presence of a risk-associated genotype is not a complete clinical assessment.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-02",
+    "title": "UC Davis VGL MH",
+    "url": "https://vgl.ucdavis.edu/test/mh",
+    "observed_at": "2026-10-03",
+    "observation": "Equine malignant hyperthermia is autosomal dominant. Do not display a one-copy result as a recessive unaffected carrier.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-03",
+    "title": "UC Davis VGL HYPP",
+    "url": "https://vgl.ucdavis.edu/test/hypp",
+    "observed_at": "2026-10-03",
+    "observation": "HYPP is dominant; distinct one-copy and two-copy results remain distinct even when grouped in the same risk-status bucket.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-04",
+    "title": "UC Davis VGL agouti",
+    "url": "https://vgl.ucdavis.edu/test/agouti-horse",
+    "observed_at": "2026-10-03",
+    "observation": "Agouti assay references ASIP; legacy ASLIP label is not a valid replacement gene symbol.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-05",
+    "title": "UC Davis VGL dun",
+    "url": "https://vgl.ucdavis.edu/test/dun-horse",
+    "observed_at": "2026-10-03",
+    "observation": "Dun locus annotation references TBX3. Legacy TMEM38 labeling needs report review, not an automatic scientific conclusion.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-06",
+    "title": "UC Davis VGL cream",
+    "url": "https://vgl.ucdavis.edu/test/cream",
+    "observed_at": "2026-10-03",
+    "observation": "Cream and champagne must not be conflated; cream references SLC45A2.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-07",
+    "title": "UC Davis VGL champagne",
+    "url": "https://vgl.ucdavis.edu/test/champagne",
+    "observed_at": "2026-10-03",
+    "observation": "Champagne references SLC36A1. A legacy cream_SLC36A1 row is ambiguous without its original report.",
+    "evidence_quality": "Primary university veterinary genetics laboratory."
+  },
+  {
+    "id": "SCI-08",
+    "title": "UC Davis CEH PSSM overview",
+    "url": "https://ceh.vetmed.ucdavis.edu/health-topics/polysaccharide-storage-myopathy-pssm",
+    "observed_at": "2026-10-03",
+    "observation": "Do not equate unsupported PSSM2 commercial genetic claims with the validated PSSM1 assay. Unknown assays stay uninterpreted.",
+    "evidence_quality": "Primary university veterinary source."
+  },
+  {
+    "id": "ROLE-01",
+    "title": "ECAHO commissions and groups",
+    "url": "https://www.ecaho.org/about-ecaho/commissions-groups",
+    "observed_at": "2026-10-03",
+    "observation": "In ECAHO show context DC means Disciplinary Committee. Model separately from course designer, judge, steward and ringmaster.",
+    "evidence_quality": "Primary equestrian organization."
+  },
+  {
+    "id": "ROLE-02",
+    "title": "FEI official lists",
+    "url": "https://inside.fei.org/fei/your-role/officials/fei-officials-lists",
+    "observed_at": "2026-10-03",
+    "observation": "Credentials are role-, discipline-, issuer- and time-specific. A directory profile is not proof of an appointment or license.",
+    "evidence_quality": "Primary equestrian organization."
+  },
+  {
+    "id": "RIGHTS-01",
+    "title": "FEI website terms",
+    "url": "https://www.fei.org/terms-conditions",
+    "observed_at": "2026-10-03",
+    "observation": "Public web access is not unrestricted permission for commercial copying. Obtain appropriate permission or licensed access before ingesting competitor/authority databases.",
+    "evidence_quality": "Primary terms; legal review still required for the actual arrangement."
+  },
+  {
+    "id": "UX-01",
+    "title": "WCAG 2.2 target size minimum",
+    "url": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html",
+    "observed_at": "2026-10-03",
+    "observation": "WCAG 2.2 AA target-size criterion uses 24 CSS pixels with specified exceptions; project touch-control target is deliberately 44 pixels. Compact does not mean inaccessible.",
+    "evidence_quality": "Primary accessibility standard explanation."
+  }
+]

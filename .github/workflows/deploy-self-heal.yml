@@ -1,0 +1,16 @@
+# R95: automatic retries and unattended DDL were unsafe release bypasses.
+# This compatibility entrypoint performs no deployment or schema mutation.
+name: Deployment Repair Requires Review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  refuse-unreviewed-repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the normal approved production workflow
+        run: |
+          echo "Automatic deployment repair is disabled. Review R95_MIGRATION_RUNBOOK.md, backups, and the exact failing migration."
+          echo "Use Deploy Production after exact-revision approval and successful full CI. Never resolve migration failures through blind retries."
+          exit 1

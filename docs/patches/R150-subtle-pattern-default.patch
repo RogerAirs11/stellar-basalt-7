@@ -1,0 +1,96 @@
+--- a/src/web/heritageVisualAssets.ts
++++ b/src/web/heritageVisualAssets.ts
+@@ -139,7 +139,14 @@
+   .sort((a,b)=>a.label.localeCompare(b.label));
+ const EXTRA_LOGO_OPTIONS=buildLibraryLogoOptions(EXTRA_LOGO_LIBRARY);
+ 
++/* R150 — "none" wallpaper: a fine-grained, very faint girih star-and-cross
++   lattice rendered from an inline SVG tile (no photo, no network fetch).
++   One tile variant per mode keeps the strokes barely-there on both themes. */
++const SUBTLE_PATTERN_TILE_DARK="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.32)' stroke-width='1'%3E%3Crect x='24' y='24' width='48' height='48'/%3E%3Cpolygon points='48,10.6 85.4,48 48,85.4 10.6,48'/%3E%3Cg transform='rotate(45)'%3E%3Crect x='-24' y='-24' width='48' height='48'/%3E%3Crect x='72' y='-24' width='48' height='48'/%3E%3Crect x='-24' y='72' width='48' height='48'/%3E%3Crect x='72' y='72' width='48' height='48'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E";
++const SUBTLE_PATTERN_TILE_LIGHT="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='rgba(23,32,38,0.22)' stroke-width='1'%3E%3Crect x='24' y='24' width='48' height='48'/%3E%3Cpolygon points='48,10.6 85.4,48 48,85.4 10.6,48'/%3E%3Cg transform='rotate(45)'%3E%3Crect x='-24' y='-24' width='48' height='48'/%3E%3Crect x='72' y='-24' width='48' height='48'/%3E%3Crect x='-24' y='72' width='48' height='48'/%3E%3Crect x='72' y='72' width='48' height='48'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E";
++
+ export const HERITAGE_BACKGROUND_OPTIONS:readonly HeritageBackgroundOption[]=[
++  {id:"none",label:"No wallpaper — subtle pattern",labelFa:"بدون تصویر — الگوی محو",source:null,mode:"both"},
+   {id:"adaptive",label:"Adaptive Day / Night",labelFa:"تطبیقی روز / شب",source:null,mode:"both"},
+   ...LEGACY_BACKGROUND_OPTIONS,
+   ...buildGeneratedOptions(GENERATED_DARK_WALLPAPERS,"dark"),
+@@ -185,13 +192,13 @@
+ };
+ 
+ /**
+- * Product built-in default, projected from the user-supplied v22 appearance
+- * export (R136, 2026-10-25): adaptive day/night background on the flat engine,
+- * the antique gold crescent-horse emblem as the header logo and the Achaemenid
+- * horse-and-sun medallion splash.
++ * Product built-in default (owner directive, R150): no photo wallpaper — a
++ * very subtle girih lattice pattern on the flat engine, the antique gold
++ * crescent-horse emblem as the header logo and the Achaemenid horse-and-sun
++ * medallion splash.
+  */
+ export const DEFAULT_VISUAL_ASSETS:HeritageVisualAssetsSnapshot={
+-  backgroundArt:"adaptive",backgroundFocusX:50,backgroundFocusY:50,backgroundBottomFade:true,backgroundFitWidth:true,backgroundParallax:false,backgroundEngine:"flat",background3DStrength:100,background3DZoom:100,background3DAutoMotion:true,background3DBlur:false,favoriteBackgrounds:[],
++  backgroundArt:"none",backgroundFocusX:50,backgroundFocusY:50,backgroundBottomFade:true,backgroundFitWidth:true,backgroundParallax:false,backgroundEngine:"flat",background3DStrength:100,background3DZoom:100,background3DAutoMotion:true,background3DBlur:false,favoriteBackgrounds:[],
+   brandArt:EXTRA_LOGO_OPTIONS.some(option=>option.id==="library-logo-antique_gold_crescent_horse_emblem")?"library-logo-antique_gold_crescent_horse_emblem":"registry-neutral",brandScale:100,favoriteBrands:[],
+   splashArt:EXTRA_LOGO_OPTIONS.some(option=>option.id==="library-logo-achaemenid_horse_sun_medallion")?"library-logo-achaemenid_horse_sun_medallion":"registry-neutral",splashScale:100,favoriteSplashes:[],
+   customBackground:"",customBrand:"",customSplash:""
+@@ -271,6 +278,7 @@
+ 
+ export function resolveHeritageBackgroundSource(value=snapshot,mode:HeritageMode=(typeof document!=="undefined"&&document.documentElement.dataset.mode==="light"?"light":"dark")){
+   if(value.backgroundArt==="custom"&&value.customBackground)return value.customBackground;
++  if(value.backgroundArt==="none")return mode==="light"?SUBTLE_PATTERN_TILE_LIGHT:SUBTLE_PATTERN_TILE_DARK;
+   if(value.backgroundArt==="adaptive")return mode==="light"?HERITAGE_DECORATION.day:HERITAGE_DECORATION.night;
+   return resolveBuiltInBackgroundOption(value.backgroundArt,mode)?.source??(mode==="light"?HERITAGE_DECORATION.day:HERITAGE_DECORATION.night);
+ }
+@@ -361,7 +369,7 @@
+   const previous=snapshot;
+   const splashFallback:HeritageSplashArt=previous.splashArt==="custom"?"heritage":previous.splashArt;
+   const next=normalizeVisualAssetsSnapshot(raw,splashFallback,previous.customBackground,previous.customBrand,previous.customSplash);
+-  if(raw.backgroundArt==="custom"&&!previous.customBackground)next.backgroundArt=previous.backgroundArt==="custom"?"adaptive":previous.backgroundArt;
++  if(raw.backgroundArt==="custom"&&!previous.customBackground)next.backgroundArt=previous.backgroundArt==="custom"?"none":previous.backgroundArt;
+   if(raw.brandArt==="custom"&&!previous.customBrand)next.brandArt=previous.brandArt==="custom"?"brand":previous.brandArt;
+   if(raw.splashArt==="custom"&&!previous.customSplash)next.splashArt=previous.splashArt==="custom"?"heritage":previous.splashArt;
+   snapshot={...previous,...next};
+--- a/src/web/heritage/AppearanceStudio.tsx
++++ b/src/web/heritage/AppearanceStudio.tsx
+@@ -184,7 +184,7 @@
+         <label className="theme-background-fade-toggle theme-checkbox-row" title={L("Scroll parallax & zoom overscan. OFF (recommended, default): the wallpaper fits perfectly with zero zoom and never moves while you scroll. ON: a small vertical overscan is retained so the background can drift gently as the page scrolls.","پارالاکس اسکرول و بزرگ‌نمایی اضافه. خاموش (پیش‌فرض و پیشنهادی): پس‌زمینه کاملاً برازش می‌شود، بدون هیچ بزرگ‌نمایی و بدون حرکت هنگام اسکرول. فعال: کمی فضای اضافه عمودی حفظ می‌شود تا پس‌زمینه هنگام اسکرول آرام جابه‌جا شود.")}><input type="checkbox" checked={visualAssets.backgroundParallax} onChange={event=>setHeritageVisualAssets({backgroundParallax:event.target.checked})}/><span className="theme-checkbox-copy"><strong>{L("Scroll parallax & overscan","پارالاکس اسکرول و بزرگ‌نمایی")}</strong><small>{visualAssets.backgroundParallax?L("On · wallpaper breathes with scrolling (slight zoom retained)","فعال · پس‌زمینه با اسکرول نفس می‌کشد (کمی بزرگ‌نمایی حفظ می‌شود)"):L("Off · perfectly fitted, zero zoom, no scroll movement (default)","خاموش · برازش کامل، بدون بزرگ‌نمایی و بدون حرکت اسکرول (پیش‌فرض)")}</small></span></label>
+         {currentBackgroundScene3D&&<><div className="theme-background-engine-grid">{(["flat","layers"] as HeritageBackgroundEngine[]).map(engine=>{const supported=engine==="flat"||currentBackgroundScene3D.layerSources.length>0;const active=currentBackgroundEngine===engine;return <button key={engine} type="button" className={`theme-background-engine-chip ${active?"active":""}`} aria-pressed={active} disabled={!supported} onClick={()=>supported&&setHeritageVisualAssets({backgroundEngine:engine})}><span><strong>{backgroundEngineLabel(engine)}</strong><small>{supported?backgroundEngineSub(engine):L("Not available for this wallpaper","برای این پس‌زمینه موجود نیست")}</small></span></button>})}</div><div className="theme-asset-controls two">{assetRange(L("3D strength","شدت سه‌بعدی"),visualAssets.background3DStrength,20,180,value=>setHeritageVisualAssets({background3DStrength:value}))}{assetRange(L("3D zoom","بزرگ‌نمایی سه‌بعدی"),visualAssets.background3DZoom,75,125,value=>setHeritageVisualAssets({background3DZoom:value}))}</div><label className="theme-background-fade-toggle theme-checkbox-row" title={L("Adds a small autonomous drift so the wallpaper feels alive even before scrolling or moving the mouse.","یک حرکت خودکار ظریف اضافه می‌کند تا پس‌زمینه حتی قبل از حرکت ماوس یا اسکرول زنده‌تر حس شود.")}><input type="checkbox" checked={visualAssets.background3DAutoMotion} onChange={event=>setHeritageVisualAssets({background3DAutoMotion:event.target.checked})}/><span className="theme-checkbox-copy"><strong>{L("Autonomous drift","حرکت خودکار")}</strong><small>{visualAssets.background3DAutoMotion?L("On · subtle living motion is active","فعال · حرکت ظریف زنده فعال است"):L("Off · motion responds only to pointer and scroll","خاموش · حرکت فقط به ماوس و اسکرول پاسخ می‌دهد")}</small></span></label><label className="theme-background-fade-toggle theme-checkbox-row" title={L("Adds a touch of atmospheric softness to the far layers. Most noticeable in the multi-layer renderer.","به لایه‌های دورتر کمی نرمی فضایی می‌دهد و در حالت چندلایه بیشتر دیده می‌شود.")}><input type="checkbox" checked={visualAssets.background3DBlur} onChange={event=>setHeritageVisualAssets({background3DBlur:event.target.checked})}/><span className="theme-checkbox-copy"><strong>{L("Atmospheric layer blur","مه‌ماتی لایه‌ها")}</strong><small>{visualAssets.background3DBlur?L("Enabled · distant layers soften slightly","فعال · لایه‌های دور کمی نرم می‌شوند"):L("Off · keep every layer crisp","خاموش · همه لایه‌ها واضح می‌مانند")}</small></span></label><small className="theme-background-engine-note">{L("These new built-in wallpapers include the provided sample assets, so Heritage can render them as classic flat art, as a multi-layer parallax scene, or through a depth-map driven mesh. Future 3D wallpapers can be added by registering another scene pack in the same background catalog.","این پس‌زمینه‌های داخلی جدید شامل دارایی‌های نمونهٔ ارائه‌شده هستند؛ بنابراین Heritage می‌تواند آن‌ها را به‌صورت تصویر تخت، صحنه پارالاکس چندلایه یا مش مبتنی بر نقشه عمق رندر کند. در آینده نیز می‌توان با ثبت یک scene pack دیگر در همین فهرست، پس‌زمینه‌های سه‌بعدی بیشتری اضافه کرد.")}</small></>}
+         <label className="theme-background-fade-toggle theme-checkbox-row" title={L("Adds a soft fade from the scene into the page foundation near the bottom. Leave this off when you want the background artwork to remain continuously visible.","در بخش پایینی صحنه یک محوشدگی نرم به رنگ پایه صفحه اضافه می‌کند. اگر می‌خواهید تصویر پس‌زمینه تا پایین بدون محوشدگی دیده شود، این گزینه را خاموش بگذارید.")}><input type="checkbox" checked={visualAssets.backgroundBottomFade} onChange={event=>setHeritageVisualAssets({backgroundBottomFade:event.target.checked})}/><span className="theme-checkbox-copy"><strong>{L("Bottom background fade","محوشدگی پایین پس‌زمینه")}</strong><small>{visualAssets.backgroundBottomFade?L("Enabled · scene fades into the page foundation","فعال · تصویر در پایین به رنگ پایه صفحه محو می‌شود"):L("Off · no lower-edge wash or fade","خاموش · هیچ پوشش یا محوشدگی در پایین اعمال نمی‌شود")}</small></span></label>
+-        <div className="theme-asset-actions"><button type="button" onClick={()=>backgroundFileRef.current?.click()}>{visualAssets.customBackground?L("Replace custom background","جایگزینی پس‌زمینه سفارشی"):L("Upload custom background","بارگذاری پس‌زمینه سفارشی")}</button>{visualAssets.customBackground&&<button type="button" onClick={()=>{setHeritageVisualAssets({customBackground:"",backgroundArt:visualAssets.backgroundArt==="custom"?"adaptive":visualAssets.backgroundArt});refreshPaletteAfterSceneChange();}}>{L("Remove custom","حذف سفارشی")}</button>}<input ref={backgroundFileRef} className="theme-json-file" type="file" accept="image/*" onChange={event=>void uploadAsset("background",event)}/></div>
++        <div className="theme-asset-actions"><button type="button" onClick={()=>backgroundFileRef.current?.click()}>{visualAssets.customBackground?L("Replace custom background","جایگزینی پس‌زمینه سفارشی"):L("Upload custom background","بارگذاری پس‌زمینه سفارشی")}</button>{visualAssets.customBackground&&<button type="button" onClick={()=>{setHeritageVisualAssets({customBackground:"",backgroundArt:visualAssets.backgroundArt==="custom"?"none":visualAssets.backgroundArt});refreshPaletteAfterSceneChange();}}>{L("Remove custom","حذف سفارشی")}</button>}<input ref={backgroundFileRef} className="theme-json-file" type="file" accept="image/*" onChange={event=>void uploadAsset("background",event)}/></div>
+         </div>
+       </details>
+       <details className="theme-artwork-group theme-artwork-subsection"><summary className="theme-subgroup-head theme-subgroup-toggle"><span className="theme-subgroup-glyph">◇</span><div><strong>{L("Header logo","لوگوی سربرگ")}</strong><small>{L("Choose the compact mark used in the persistent top bar.","نشان فشرده مورد استفاده در نوار بالایی دائمی را انتخاب کنید.")}</small></div><span className="theme-subgroup-chevron" aria-hidden="true">⌄</span></summary><div className="theme-subgroup-body">
+--- a/src/web/styles/heritage.assets.css
++++ b/src/web/styles/heritage.assets.css
+@@ -18,6 +18,17 @@
+ :root[data-frontend="heritage"] .profile-emblem img,
+ :root[data-frontend="heritage"] .login-crest{scale:var(--h-splash-art-scale);object-fit:contain!important;}
+ 
++/* R150 — "none" wallpaper (default): render the girih lattice as a fine
++   repeating tile instead of a cover-scaled photo. The gradient tint layer
++   keeps its natural size; only the pattern layer repeats. */
++:root[data-frontend="heritage"][data-background-art="none"] body::before,
++:root[data-frontend="heritage"][data-background-art="none"] .app-shell::before,
++:root[data-frontend="heritage"][data-background-art="none"] .hero-scene,
++:root[data-frontend="heritage"][data-background-art="none"] .login-art::before{
++  background-repeat:no-repeat,repeat!important;
++  background-size:auto,120px 120px!important;
++}
++
+ .theme-artwork-section .theme-settings-block-head{margin-bottom:0}
+ .theme-artwork-group{display:grid;gap:10px;padding:12px 13px;border-top:1px solid color-mix(in srgb,var(--line) 76%,transparent)}
+ .theme-artwork-group:first-of-type{border-top:0}
+--- a/tests/unit/r148AssetAvailability.test.ts
++++ b/tests/unit/r148AssetAvailability.test.ts
+@@ -9,6 +9,9 @@
+ import ParticleHorseSplash from "../../src/web/heritage/ParticleHorseSplash";
+ 
+ const shipped = (source: string) => {
++  /* R150: self-contained data URIs (e.g. the subtle "none"-wallpaper SVG tile)
++     have no file on disk by design — they are their own payload. */
++  if (source.startsWith("data:")) return;
+   const pathname = source.split(/[?#]/, 1)[0];
+   const file = pathname.startsWith("/assets/") ? resolve("public", pathname.slice(1)) : resolve(pathname.replace(/^\//, ""));
+   expect(existsSync(file), `Missing selected asset ${source}`).toBe(true);

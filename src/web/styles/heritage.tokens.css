@@ -1,0 +1,162 @@
+/* Heritage design-token kernel — Core Consolidation v1
+ * Pure variables only. No component selectors, no pseudo painters, no keyframes.
+ * Layering contract:
+ *   app.css -> heritage.system.css (legacy/base) -> THIS TOKEN KERNEL -> color engine ->
+ *   analytics/final -> ambient/motion/navigation -> refinement (narrow optical authority)
+ */
+
+html:root[data-frontend="heritage"]{
+  /* Geometry / material roles — R130 modern sharp scale: panels 20→12,
+     workspaces 26→15. --h-ds-radius-pill collapses from a 999px capsule to a
+     7px control radius; true circles survive because border-radius clamps
+     at 50% of the box, so dots/rings stay round while buttons and chips
+     read crisp and modern. */
+--h-ds-radius-panel:var(--h-radius-panel,12px);
+  --h-ds-radius-workspace:15px;
+  --h-ds-radius-pill:7px;
+
+  /* R38 — one page rhythm for every non-home page.
+     All content pages share these; only the home hero keeps its own scale.
+     heritage.page-rhythm.css consumes them; the Appearance Studio layout
+     sliders override the physical paddings via --h-user-layout-* when tuned. */
+  /* R124 compact rhythm: tighter page paddings/gaps so content outweighs chrome.
+     Mirrored by DEFAULT_HERITAGE_LAYOUT in heritageLayout.ts (with the same
+     R38-style legacy-default migration for stored snapshots). */
+  --h-page-top:12px;             /* page top padding */
+  --h-page-bottom:24px;          /* page bottom padding */
+  --h-page-inline:18px;          /* page side gutters */
+  --h-page-gap:10px;              /* vertical gap between top-level sections */
+  --h-data-page-max:1720px;       /* max content width for data-dense pages */
+  --h-section-title:20px;        /* in-page section/workspace heading */
+  --h-banner-pad-block:9px;      /* compact banner vertical padding */
+  --h-banner-pad-inline:16px;    /* compact banner horizontal padding */
+  --h-banner-gap:18px;           /* gap between banner title block and meta */
+  --h-banner-radius:10px;       /* compact banner corner radius */
+  --h-banner-title:25px;         /* compact banner h1 size (all pages) */
+  --h-banner-lede:var(--ds-text-xs); /* compact banner one-line lede */
+  --h-banner-count:22px;         /* compact banner metric number */
+  --h-panel-pad:12px;             /* shared panel/card inset (non-banner surfaces) */
+
+  /* Shared optical primitives: component modules consume these instead of
+     inventing local highlight/shadow constants. */
+  --h-ds-highlight-hairline:rgba(255,255,255,.035);
+  --h-ds-highlight-hover:rgba(255,255,255,.08);
+  --h-ds-highlight-active:rgba(255,255,255,.24);
+  --h-ds-shadow-quiet:rgba(0,0,0,.08);
+  --h-ds-shadow-faint:rgba(0,0,0,.055);
+  --h-ds-on-accent:#fff;
+
+  /* True-frost response. User blur is the single upstream input. */
+  --h-ds-frost-major-min:10px;
+  --h-ds-frost-major-max:64px;
+  --h-ds-frost-panel-min:9px;
+  --h-ds-frost-panel-max:50px;
+  --h-ds-frost-control-min:7px;
+  --h-ds-frost-control-max:36px;
+  --h-ds-frost-card-min:5px;
+  --h-ds-frost-card-max:30px;
+  --h-ds-frost-major-scale:1;
+  --h-ds-frost-panel-scale:.78;
+  --h-ds-frost-control-scale:.56;
+  --h-ds-frost-card-scale:.47;
+  --h-ds-frost-saturation:1.10;
+  --h-ds-frost-saturation-light:1.06;
+
+  /* Motion / interaction rhythm */
+--h-ds-transition-base:210ms;
+  --h-ds-transition-slow:340ms;
+  --h-ds-ease-standard:cubic-bezier(.2,.72,.2,1);
+--h-ds-nav-transition:transform var(--h-ds-transition-base) var(--h-ds-ease-standard),opacity var(--h-ds-transition-base) ease,background-color var(--h-ds-transition-base) ease,color var(--h-ds-transition-base) ease,box-shadow var(--h-ds-transition-slow) var(--h-ds-ease-standard);
+
+  /* Ambient / shine composition roles. Strength is supplied at runtime. */
+/* Navigation: deliberately distinct from the reserved pedigree sex colors. */
+  --h-ds-nav-tone-teal:color-mix(in srgb,var(--h-scheme-base) 48%,#2f9f8e);
+  --h-ds-nav-tone-amber:color-mix(in srgb,var(--h-scheme-base) 46%,#c89435);
+  --h-ds-nav-tone-violet:color-mix(in srgb,var(--h-scheme-base) 48%,#8270bd);
+  --h-ds-nav-tone-copper:color-mix(in srgb,var(--h-scheme-base) 48%,#b76748);
+  --h-ds-nav-tone-sage:color-mix(in srgb,var(--h-scheme-base) 48%,#65956d);
+  --h-ds-nav-tone-steel:color-mix(in srgb,var(--h-scheme-base) 54%,#6b838a);
+  --h-ds-nav-tone-main:color-mix(in srgb,var(--accent) 74%,var(--h-ds-nav-tone-teal));
+  --h-ds-nav-inactive-opacity:.58;
+  /* Navigation remains legible and stationary at every prominence setting. */
+  --h-ds-nav-control-opacity:1;
+  --h-ds-nav-control-scale:1;
+  --h-ds-nav-active-scale:1;
+/* Pedigree material parity. Exact sire/dam hues remain semantic-only. */
+/* Final workspace ownership list is encoded by selectors in refinement.css;
+   * these values keep its material response predictable. */
+  --h-ds-workspace-rim:color-mix(in srgb,var(--line-strong) 64%,transparent);
+}
+
+html:root[data-frontend="heritage"][data-mode="light"]{
+  --h-ds-nav-inactive-opacity:.64;
+  --h-ds-workspace-rim:color-mix(in srgb,var(--line-strong) 58%,rgba(255,255,255,.18));
+}
+
+/* ============================================================
+   R128 — Semantic encoding layer (the visual-meaning contract).
+   One authority answers "which color MEANS what" for every
+   registry surface: browse table, phone cards, search results,
+   pedigree chips. Components consume these tokens; they never
+   invent local hues for the same semantics.
+
+   Families (mutually exclusive, never cross-reused):
+     sex        → reserved pedigree pair (sire cyan / dam rose)
+                  + amber gelding + neutral unknown
+     lifecycle  → status semantics (success / warning / muted†)
+     coat       → PHYSICAL horse coat constants — a bay chip is
+                  bay-colored in every palette, mode and theme
+     breed      → stable hue families per studbook population
+   ============================================================ */
+html:root[data-frontend="heritage"]{
+  /* Sex — the pedigree pair stays reserved for sex everywhere. */
+  --enc-sex-male:var(--h-sire);
+  --enc-sex-female:var(--h-dam);
+  --enc-sex-gelding:var(--h-warning);
+  --enc-sex-unknown:var(--metal);
+
+  /* Lifecycle — a status signal, not decoration. */
+  --enc-life-active:var(--h-success);
+  --enc-life-inactive:var(--h-warning);
+  --enc-life-deceased:color-mix(in srgb,#8d7fae 52%,var(--h-semantic-neutral,#7c7568));
+
+  /* Breed hue families — stable, distinguishable, mid-tone so chips
+     stay readable on both light and dark surfaces. */
+  --enc-breed-arabian:#c9a227;
+  --enc-breed-partbred:#8270bd;
+  --enc-breed-thoroughbred:#3f9d6b;
+  --enc-breed-turkoman:#2f9f8e;
+  --enc-breed-sport:#4f8fd8;
+  --enc-breed-kurdish:#65956d;
+  --enc-breed-plateau:#b76748;
+  --enc-breed-caspian:#38a3b8;
+  --enc-breed-darehshouri:#c05c7f;
+  --enc-breed-friesian:#5b5f6b;
+  --enc-breed-imported:#6b838a;
+  --enc-breed-convert:#8a8578;
+  --enc-breed-other:var(--metal);
+
+  /* Encoding chip geometry — one shared rhythm for every chip shape. */
+  --enc-chip-radius:5px;
+  --enc-chip-gap:4px;
+  --enc-chip-h:22px;
+  --enc-chip-pad:3px 7px;
+  --enc-chip-text:var(--ds-text-2xs,10px);
+  /* Tint strengths for chip fills and hairlines (both modes). */
+  --enc-tint:13%;
+  --enc-tint-strong:22%;
+  --enc-hairline:38%;
+
+  /* ------------------------------------------------------------
+     R129 — Editorial kind family (newsroom content semantics).
+     A fourth exclusive family: what a post IS. Never reused for
+     sex / lifecycle / coat / breed — the newsroom encodes with
+     these, and only the newsroom does.
+       news    → editorial blue   (fresh reporting)
+       article → violet           (long-form analysis)
+       update  → amber            (platform changelog)
+     ------------------------------------------------------------ */
+  --enc-kind-news:#3d84c6;
+  --enc-kind-article:#9061c2;
+  --enc-kind-update:#c89435;
+}

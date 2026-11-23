@@ -1,0 +1,1 @@
+import{b as e,j as a}from"./Shell-W6qTUj6B.js";const n=e.createContext(null);function d({children:t}){const[r,o]=e.useState("ramin"),[s,i]=e.useState("nika"),u=e.useMemo(()=>({sId:r,mId:s,setS:o,setM:i}),[r,s]);return a.jsx(n.Provider,{value:u,children:t})}function x(){const t=e.useContext(n);if(!t)throw new Error("BreedingProvider missing");return t}export{d as B,x as u};

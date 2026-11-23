@@ -1,0 +1,122 @@
+/* Heritage motion + interaction module — v0.42.16 Hotfix 27 compatibility
+ * Loaded after heritage.final.css and heritage.ambient.css.
+ * Owns only: balanced ambient energy, optional specular motion, interaction
+ * prominence, and cross-view pedigree material parity.
+ */
+
+/* ========================================================================== */
+/* 1. BALANCED AMBIENT ENERGY                                                  */
+/* ========================================================================== */
+/* Both ambient patterns are centred around the same visual midpoint. Lift and
+ * depth lobes use matched area + matched alpha in both light and dark modes.
+ * The strength slider feeds gradient energy directly, so values above 100% do
+ * not get clipped by element opacity and can reach the requested stronger range.
+ */
+
+html:root[data-frontend="heritage"][data-palette]{
+  --h-ambient-balanced-lift:var(--h-ambient-scheme-lift)!important;
+  --h-ambient-balanced-depth:var(--h-ambient-scheme-depth)!important;
+  --h-ambient-chromatic-a-lift:color-mix(in srgb,var(--h-ambient-chromatic-a,var(--h-ambient-scheme-tone)) 84%,white)!important;
+  --h-ambient-chromatic-c-depth:color-mix(in srgb,var(--h-ambient-chromatic-c,var(--h-ambient-scheme-tone)) 84%,black)!important;
+}
+
+
+
+
+
+/* ========================================================================== */
+/* 2. OPTIONAL BROAD SPECULAR MOTION                                           */
+/* ========================================================================== */
+/* This is deliberately a second visual layer, not another ambient/GAS field.
+ * The host-sized canvas never moves; only a very broad gradient centre glides
+ * side to side. No hard edge, mask, blur animation or off-element rectangle. */
+
+
+
+
+/* ========================================================================== */
+/* 3. INTERACTIVE CONTROL PROMINENCE                                           */
+/* ========================================================================== */
+html:root[data-frontend="heritage"] :is(
+  .main-nav button,.profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.segmented button,.theme-settings-choice button,.ped-fit-group button,
+  .ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button
+){
+  background:color-mix(in srgb,var(--h-tab-tone,var(--accent)) var(--h-user-control-tint-alpha,14%),color-mix(in srgb,var(--panel-solid) 86%,transparent))!important;
+  border-color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) var(--h-user-control-border-alpha,51%),var(--line))!important;
+  color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 54%,var(--ink))!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,var(--h-ds-highlight-active) 67%,transparent),0 3px 10px color-mix(in srgb,black var(--h-user-control-shadow-alpha,14%),transparent)!important;
+  opacity:1!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"] :is(
+  .main-nav button,.profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.segmented button,.theme-settings-choice button,.ped-fit-group button,
+  .ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button
+){
+  background:color-mix(in srgb,var(--h-tab-tone,var(--accent)) var(--h-user-control-tint-alpha,14%),var(--panel-solid))!important;
+  color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 62%,var(--ink))!important;
+}
+html:root[data-frontend="heritage"] :is(
+  .main-nav button,.profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.segmented button,.theme-settings-choice button,.ped-fit-group button,
+  .ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button
+):is(.active,.is-active,[aria-selected="true"]){
+  background:color-mix(in srgb,var(--h-tab-tone,var(--accent)) var(--h-user-control-active-alpha,30%),var(--panel-solid))!important;
+  border-color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) var(--h-user-control-active-border-alpha,68%),var(--line-strong))!important;
+  color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 76%,var(--ink))!important;
+  box-shadow:inset 0 1px 0 var(--h-ds-highlight-active),inset 0 0 0 1px color-mix(in srgb,var(--h-tab-tone,var(--accent)) 16%,transparent),0 5px 16px color-mix(in srgb,var(--h-tab-tone,var(--accent)) 13%,transparent)!important;
+  font-weight:900!important;
+}
+html:root[data-frontend="heritage"] :is(.primary,.login-submit){
+  background:color-mix(in srgb,var(--accent) 78%,var(--panel-solid))!important;
+  border-color:color-mix(in srgb,var(--accent-strong) 78%,var(--line-strong))!important;
+  color:var(--h-ds-on-accent)!important;
+  box-shadow:inset 0 1px 0 var(--h-ds-highlight-active),0 7px 18px color-mix(in srgb,var(--accent) 18%,transparent)!important;
+}
+html:root[data-frontend="heritage"] .ghost{
+  background:color-mix(in srgb,var(--accent) var(--h-user-control-tint-alpha,14%),var(--panel-solid))!important;
+  border-color:color-mix(in srgb,var(--accent) var(--h-user-control-border-alpha,51%),var(--line))!important;
+}
+
+
+/* Role-aware color accents make the primary dock and pedigree-view controls
+ * read as navigation, without increasing transparency or adding motion. */
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-primary button:nth-child(1){--h-tab-tone:var(--h-ds-nav-tone-steel,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-primary button:nth-child(2){--h-tab-tone:var(--h-ds-nav-tone-teal,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-primary button:nth-child(3){--h-tab-tone:var(--h-ds-nav-tone-violet,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-primary button:nth-child(4){--h-tab-tone:var(--h-ds-nav-tone-copper,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-primary button:nth-child(5){--h-tab-tone:var(--h-ds-nav-tone-amber,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-secondary button:nth-child(1){--h-tab-tone:var(--h-ds-nav-tone-main,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-secondary button:nth-child(2){--h-tab-tone:var(--h-ds-nav-tone-teal,var(--accent))}
+html:root[data-frontend="heritage"] .heritage-app-dock-row.dock-secondary button:nth-child(3){--h-tab-tone:var(--h-ds-nav-tone-amber,var(--accent))}
+html:root[data-frontend="heritage"] .ped-desktop-view-switch button:nth-child(1){--h-tab-tone:var(--h-ds-nav-tone-teal,var(--accent))}
+html:root[data-frontend="heritage"] .ped-desktop-view-switch button:nth-child(2){--h-tab-tone:var(--h-ds-nav-tone-violet,var(--accent))}
+html:root[data-frontend="heritage"] .ped-desktop-view-switch button:nth-child(3){--h-tab-tone:var(--h-ds-nav-tone-sage,var(--accent))}
+html:root[data-frontend="heritage"] .ped-mobile-view-switch button:nth-child(1){--h-tab-tone:var(--h-ds-nav-tone-steel,var(--accent))}
+html:root[data-frontend="heritage"] .ped-mobile-view-switch button:nth-child(2){--h-tab-tone:var(--h-ds-nav-tone-teal,var(--accent))}
+html:root[data-frontend="heritage"] .ped-mobile-view-switch button:nth-child(3){--h-tab-tone:var(--h-ds-nav-tone-sage,var(--accent))}
+html:root[data-frontend="heritage"] .ped-mobile-view-switch button:nth-child(4){--h-tab-tone:var(--h-ds-nav-tone-copper,var(--accent))}
+html:root[data-frontend="heritage"] .ped-mobile-view-switch button:nth-child(5){--h-tab-tone:var(--h-ds-nav-tone-amber,var(--accent))}
+
+/* ========================================================================== */
+/* 4. PEDIGREE VISUAL PARITY — MAP / LINEAGE / RADIAL                         */
+/* ========================================================================== */
+/* R24: pedigree base paint moved entirely to heritage.material.css. Motion
+ * may decorate interaction, but it must never own a second Map/Lineage/Radial
+ * fill formula. The role token below is inherited from Material's one source. */
+html:root[data-frontend="heritage"] .pedigree-map-shell .radial-slice text{
+  fill:color-mix(in srgb,var(--h-pedigree-role-ink,var(--accent)) 58%,var(--ink))!important;
+  font-weight:800!important;
+}
+
+@media(prefers-reduced-motion:reduce){
+  html:root[data-frontend="heritage"][data-shine-motion] :is(
+    .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,
+    .table-panel,.record-workspace,.heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,
+    .relationship-lab,.welcome-workspace,.profile-workspace-context,
+    .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+    .horse-premium-pedigree,.horse-reference-intelligence,
+    .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.person-results,.person-hero,
+    .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row
+  )::after{content:none!important;display:none!important;animation:none!important;background:none!important;background-image:none!important;opacity:0!important}
+}

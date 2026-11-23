@@ -1,0 +1,519 @@
+{
+  "snapshot": {
+    "measured_at": "2026-10-27T20:44:22.192Z",
+    "engine": "supabase_postgres (canonical serving generation)",
+    "denominator_default": "horses (no exclusions) — total 95639",
+    "total": 95639,
+    "max_id": 10121581
+  },
+  "metrics": {
+    "record_classes": {
+      "denominator": "all horses",
+      "active": 91498,
+      "inactive": 4141,
+      "dead": 897,
+      "imported": 8738,
+      "sport": 290,
+      "stallion": 3315,
+      "note": "synthetic/placeholder rows: none — the demo seed lives in a separate database, production carries none; 'originality' field could be surveyed later if the client marks synthetic cohorts"
+    },
+    "identifier_coverage_and_conflicts": {
+      "register_no": {
+        "label": "registry number",
+        "covered": 71582,
+        "denominator": 95639,
+        "coverage_pct": 74.85,
+        "duplicate_groups_reported": 15,
+        "duplicate_examples": [
+          {
+            "value": "IR010113",
+            "claimants": 3
+          },
+          {
+            "value": "IR010119",
+            "claimants": 3
+          },
+          {
+            "value": "IR010177",
+            "claimants": 3
+          },
+          {
+            "value": "IR010189",
+            "claimants": 3
+          },
+          {
+            "value": "IR010205",
+            "claimants": 3
+          },
+          {
+            "value": "IR010207",
+            "claimants": 3
+          },
+          {
+            "value": "IR010213",
+            "claimants": 3
+          },
+          {
+            "value": "IR010233",
+            "claimants": 3
+          },
+          {
+            "value": "IR010236",
+            "claimants": 3
+          },
+          {
+            "value": "IR010262",
+            "claimants": 3
+          },
+          {
+            "value": "IR010272",
+            "claimants": 3
+          },
+          {
+            "value": "IR010406",
+            "claimants": 3
+          },
+          {
+            "value": "IR010410",
+            "claimants": 3
+          },
+          {
+            "value": "IR010433",
+            "claimants": 3
+          },
+          {
+            "value": "IR010471",
+            "claimants": 3
+          }
+        ]
+      },
+      "microchip_no": {
+        "label": "microchip",
+        "covered": 66641,
+        "denominator": 95639,
+        "coverage_pct": 69.68,
+        "duplicate_groups_reported": 15,
+        "duplicate_examples": [
+          {
+            "value": "0",
+            "claimants": 6681
+          },
+          {
+            "value": "---------------",
+            "claimants": 5
+          },
+          {
+            "value": "10010000724099000696832",
+            "claimants": 5
+          },
+          {
+            "value": "82FB",
+            "claimants": 4
+          },
+          {
+            "value": "105FB",
+            "claimants": 3
+          },
+          {
+            "value": "134FB",
+            "claimants": 3
+          },
+          {
+            "value": "208210000511861",
+            "claimants": 3
+          },
+          {
+            "value": "250259600428650",
+            "claimants": 3
+          },
+          {
+            "value": "276020000027673",
+            "claimants": 3
+          },
+          {
+            "value": "364099600002706",
+            "claimants": 3
+          },
+          {
+            "value": "364099600003044",
+            "claimants": 3
+          },
+          {
+            "value": "364099600003048",
+            "claimants": 3
+          },
+          {
+            "value": "528210002281482",
+            "claimants": 3
+          },
+          {
+            "value": "5FB",
+            "claimants": 3
+          },
+          {
+            "value": "643110000012976",
+            "claimants": 3
+          }
+        ]
+      },
+      "uel_no": {
+        "label": "UEL number",
+        "covered": 44275,
+        "denominator": 95639,
+        "coverage_pct": 46.29,
+        "duplicate_groups_reported": 15,
+        "duplicate_examples": [
+          {
+            "value": "0",
+            "claimants": 16607
+          },
+          {
+            "value": "364IRN00011؟01T",
+            "claimants": 57
+          },
+          {
+            "value": "364001000000؟01",
+            "claimants": 17
+          },
+          {
+            "value": "364001000000-13",
+            "claimants": 15
+          },
+          {
+            "value": "364001000000-01",
+            "claimants": 12
+          },
+          {
+            "value": "643094100324464",
+            "claimants": 3
+          },
+          {
+            "value": "643094100324519",
+            "claimants": 3
+          },
+          {
+            "value": "(آمريکايي پاسپرت ندارد)",
+            "claimants": 2
+          },
+          {
+            "value": "25000107332890R",
+            "claimants": 2
+          },
+          {
+            "value": "364001000000201",
+            "claimants": 2
+          },
+          {
+            "value": "364001000050901",
+            "claimants": 2
+          },
+          {
+            "value": "364001000452204",
+            "claimants": 2
+          },
+          {
+            "value": "364001001053197",
+            "claimants": 2
+          },
+          {
+            "value": "364001003014100",
+            "claimants": 2
+          },
+          {
+            "value": "364001003075702",
+            "claimants": 2
+          }
+        ]
+      },
+      "lab_no": {
+        "label": "lab number",
+        "covered": 35811,
+        "denominator": 95639,
+        "coverage_pct": 37.44,
+        "duplicate_groups_reported": 15,
+        "duplicate_examples": [
+          {
+            "value": "NOTSENT",
+            "claimants": 23
+          },
+          {
+            "value": "NOTSENTCAUSETODA",
+            "claimants": 5
+          },
+          {
+            "value": "NODNA",
+            "claimants": 4
+          },
+          {
+            "value": "SHOULDNOTSENTCAUS",
+            "claimants": 4
+          },
+          {
+            "value": "NEWDNA",
+            "claimants": 3
+          },
+          {
+            "value": "9903497",
+            "claimants": 2
+          },
+          {
+            "value": "H17-08813",
+            "claimants": 2
+          },
+          {
+            "value": "H17-08941",
+            "claimants": 2
+          },
+          {
+            "value": "H18-03003",
+            "claimants": 2
+          },
+          {
+            "value": "H19-100001",
+            "claimants": 2
+          },
+          {
+            "value": "H19-100489",
+            "claimants": 2
+          },
+          {
+            "value": "H19-100615",
+            "claimants": 2
+          },
+          {
+            "value": "IEF-60609",
+            "claimants": 2
+          },
+          {
+            "value": "IEF-74168",
+            "claimants": 2
+          },
+          {
+            "value": "IEF-75138",
+            "claimants": 2
+          }
+        ]
+      },
+      "life_number": {
+        "label": "life number",
+        "covered": 71057,
+        "denominator": 95639,
+        "coverage_pct": 74.3,
+        "duplicate_groups_reported": 15,
+        "duplicate_examples": [
+          {
+            "value": "0",
+            "claimants": 4884
+          },
+          {
+            "value": "528003201307670",
+            "claimants": 3
+          },
+          {
+            "value": "528003201701363",
+            "claimants": 3
+          },
+          {
+            "value": "616POL16011526A",
+            "claimants": 3
+          },
+          {
+            "value": "752004041301391",
+            "claimants": 3
+          },
+          {
+            "value": "DE331314405495",
+            "claimants": 3
+          },
+          {
+            "value": "DE433331094309",
+            "claimants": 3
+          },
+          {
+            "value": "DE441410148917",
+            "claimants": 3
+          },
+          {
+            "value": "DE441410859912",
+            "claimants": 3
+          },
+          {
+            "value": "DE441411837005",
+            "claimants": 3
+          },
+          {
+            "value": "056001000BA9616",
+            "claimants": 2
+          },
+          {
+            "value": "056002W00001590",
+            "claimants": 2
+          },
+          {
+            "value": "056002W00271114",
+            "claimants": 2
+          },
+          {
+            "value": "056002W00271866",
+            "claimants": 2
+          },
+          {
+            "value": "056002W00292277",
+            "claimants": 2
+          }
+        ]
+      },
+      "passport_no": {
+        "label": "passport number",
+        "covered": 37128,
+        "denominator": 95639,
+        "coverage_pct": 38.82,
+        "duplicate_groups_reported": 1,
+        "duplicate_examples": [
+          {
+            "value": "0",
+            "claimants": 37125
+          }
+        ]
+      }
+    },
+    "names": {
+      "denominator": "all horses",
+      "latin_casefold_collision_groups": 3426,
+      "horses_sharing_a_latin_name_with_another": 8385,
+      "native_names_still_carrying_arabic_yeh_kaf_tatweel": 49100,
+      "horses_with_native_name": 94865,
+      "horses_missing_native_name": 774,
+      "horses_missing_latin_name": 3,
+      "exclusions": "empty/whitespace names excluded from collision grouping"
+    },
+    "dates": {
+      "denominator": "all horses",
+      "missing_birth_year": 4917,
+      "below_floor": 14,
+      "future_year": 0,
+      "with_birth_date": 88101,
+      "date_year_mismatch": 11,
+      "death_before_birth": 0,
+      "dead_flag_inconsistent": 77192,
+      "exclusions": "date casts only applied where birth_date/death_date matches YYYY-MM-DD; garbage date strings (e.g. '0') are counted neither as valid nor as mismatches — they surface via the date-format audit below",
+      "birth_date_non_standard_format": 88101
+    },
+    "parents": {
+      "denominator": "all horses",
+      "both_parents": 59495,
+      "one_parent": 6845,
+      "no_parent": 29299,
+      "self_parent": 0,
+      "same_parent_both_sides": 2,
+      "dangling_references": 0,
+      "dangling_examples": [],
+      "parent_role_conflicts": {
+        "sire_rows_female": 106,
+        "dam_rows_male": 161
+      },
+      "exclusions": "role conflicts use the horse's own sex_desc/sex_code vocabulary; unknown sexes are NOT counted as conflicts"
+    },
+    "ancestry_cycles": {
+      "denominator": "all horses (bounded 12-generation upward walk)",
+      "detected_cycle_horses": 0,
+      "examples": [],
+      "note": "bounded walk: cycles deeper than 12 generations are not reported; parent chains alternate father/mother so every ancestor edge is visited"
+    },
+    "pedigree_completeness": {
+      "denominator": "is_active = 1 horses",
+      "positional_by_generation": {
+        "1": {
+          "expected_slots": 1,
+          "active_horses_with_a_known_ancestor_at_this_level": 66340,
+          "denominator": 91498,
+          "positional_completeness_pct": 72.5
+        },
+        "2": {
+          "expected_slots": 2,
+          "active_horses_with_a_known_ancestor_at_this_level": 66340,
+          "denominator": 91498,
+          "positional_completeness_pct": 72.5
+        },
+        "3": {
+          "expected_slots": 4,
+          "active_horses_with_a_known_ancestor_at_this_level": 56035,
+          "denominator": 91498,
+          "positional_completeness_pct": 61.24
+        },
+        "4": {
+          "expected_slots": 8,
+          "active_horses_with_a_known_ancestor_at_this_level": 46617,
+          "denominator": 91498,
+          "positional_completeness_pct": 50.95
+        },
+        "5": {
+          "expected_slots": 16,
+          "active_horses_with_a_known_ancestor_at_this_level": 40070,
+          "denominator": 91498,
+          "positional_completeness_pct": 43.79
+        },
+        "6": {
+          "expected_slots": 32,
+          "active_horses_with_a_known_ancestor_at_this_level": 34118,
+          "denominator": 91498,
+          "positional_completeness_pct": 37.29
+        },
+        "7": {
+          "expected_slots": 64,
+          "active_horses_with_a_known_ancestor_at_this_level": 25548,
+          "denominator": 91498,
+          "positional_completeness_pct": 27.92
+        },
+        "unique_ancestors_avg_per_pedigreed_horse": 6.93
+      },
+      "note": "positional completeness = share of active horses that HAVE at least one known ancestor at exactly that generation level (missing any slot in between stops the walk); unique-ancestor average is computed over generation <= 7 for horses with any known ancestry"
+    },
+    "evidence": {
+      "change_requests_total": 0,
+      "change_requests_by_status": [],
+      "genetic_tests": {
+        "total": 3927,
+        "verified": 3139,
+        "verified_public": 0,
+        "usable_parentage": 0
+      },
+      "usable_lab_note": "usable laboratory records = verified genetic tests (verified=1); only verified+public_disclosed feed public surfaces"
+    },
+    "performance": {
+      "racing": {
+        "races": 12924,
+        "results": 122063,
+        "results_linked": 121799,
+        "unresolved": 264
+      },
+      "competitions": {
+        "events": 60,
+        "results": 3444,
+        "results_linked": 3444,
+        "unresolved": 0
+      },
+      "note": "racing linkage uses the identity crosswalk (registry_horse_id) only; competition results carry numeric horse_id FKs"
+    },
+    "prioritized_missing_data_and_errors": [
+      "P1 serving-generation reconciliation: canonical table total 95,639 (active 91,498 / inactive 4,141) vs analytics precompute 93,896 (generated 2026-10-23) — delta 1743; refresh the analytics precompute before quoting population figures",
+      "P1 microchip coverage is 69.68% — the strongest global identifier is missing on 28,998 horses",
+      "P1 parent-role conflicts: 106 sires recorded female / 161 dams recorded male — queue for reviewer correction",
+      "P2 2 horses share the same horse on both parent sides — review",
+      "P2 15+ register_no duplicate groups (top examples listed) — route through identifier conflict queue",
+      "P2 11 birth_date/birth_year mismatches — reconcile",
+      "P3 8385 horses share a Latin name with another horse — never auto-merge; use the workbench",
+      "P3 49100 native names still carry Arabic Yeh/Kaf/Tatweel — run the normalizer pass",
+      "P3 racing crosswalk: 264 of 122,063 results unresolved to a registry horse"
+    ],
+    "reconciliation": {
+      "measured_total": 95639,
+      "measured_active": 91498,
+      "measured_inactive": 4141,
+      "note": "the serving analytics precompute (/api/analytics/registry) reported horseCount=93,896 generatedAt=2026-10-23T17:07:59Z at measurement time — the canonical table has grown since (this gap is the finding; refresh the analytics precompute to reconcile)",
+      "serving_analytics_horseCount": 93896,
+      "serving_analytics_generatedAt": "2026-10-23T17:07:59Z",
+      "delta_vs_measured_total": 1743
+    }
+  }
+}

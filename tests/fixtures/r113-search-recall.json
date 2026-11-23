@@ -1,0 +1,1133 @@
+{
+  "basis": "R151 re-record after multi-token fuzzy discovery + compact matching + all-words bonus (ordering identical to R113 baseline)",
+  "cases": [
+    {
+      "query": "id:1",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 150,
+          "matched_by": [
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 id:2",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 150,
+          "matched_by": [
+            "horse-id"
+          ]
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 150,
+          "matched_by": [
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:۱ id:٢",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 150,
+          "matched_by": [
+            "horse-id"
+          ]
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 150,
+          "matched_by": [
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 owner:alpha",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 184,
+          "matched_by": [
+            "owner",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 owner:beta",
+      "results": []
+    },
+    {
+      "query": "id:1 year:2020",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 185,
+          "matched_by": [
+            "horse-id",
+            "birth-year"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 year:2019",
+      "results": []
+    },
+    {
+      "query": "id:1 name:aurora",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 215,
+          "matched_by": [
+            "name-field",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 name:borealis",
+      "results": []
+    },
+    {
+      "query": "id:1 name:\"ماه روشن\"",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 215,
+          "matched_by": [
+            "name-field",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 father:moon",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 192,
+          "matched_by": [
+            "father",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 mother:borealis",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 192,
+          "matched_by": [
+            "mother",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:1 id:2 owner:alpha",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 184,
+          "matched_by": [
+            "owner",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "id:4",
+      "results": []
+    },
+    {
+      "query": "id:999",
+      "results": []
+    },
+    {
+      "query": "id:123",
+      "results": []
+    },
+    {
+      "query": "id:notnumber",
+      "results": []
+    },
+    {
+      "query": "id:1 moon",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 226,
+          "matched_by": [
+            "phrase",
+            "compact-phrase",
+            "horse-id"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "aurora moon",
+      "results": [
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 508,
+          "matched_by": [
+            "phrase",
+            "compact-phrase",
+            "all-words",
+            "register-no",
+            "identifier"
+          ]
+        },
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 308,
+          "matched_by": [
+            "exact-name",
+            "name-prefix",
+            "phrase",
+            "compact-phrase",
+            "all-words"
+          ]
+        },
+        {
+          "id": 3,
+          "register_no": "Aurora Star",
+          "microchip_no": null,
+          "name_latin": "Aurora Star",
+          "name_native": "ستاره",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        },
+        {
+          "id": 6,
+          "register_no": "R6",
+          "microchip_no": null,
+          "name_latin": "Moon Beam",
+          "name_native": null,
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2010,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        }
+      ]
+    },
+    {
+      "query": "AuRoRa MoOn",
+      "results": [
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 508,
+          "matched_by": [
+            "phrase",
+            "compact-phrase",
+            "all-words",
+            "register-no",
+            "identifier"
+          ]
+        },
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 308,
+          "matched_by": [
+            "exact-name",
+            "name-prefix",
+            "phrase",
+            "compact-phrase",
+            "all-words"
+          ]
+        },
+        {
+          "id": 3,
+          "register_no": "Aurora Star",
+          "microchip_no": null,
+          "name_latin": "Aurora Star",
+          "name_native": "ستاره",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        },
+        {
+          "id": 6,
+          "register_no": "R6",
+          "microchip_no": null,
+          "name_latin": "Moon Beam",
+          "name_native": null,
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2010,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        }
+      ]
+    },
+    {
+      "query": "Aurora Star",
+      "results": [
+        {
+          "id": 3,
+          "register_no": "Aurora Star",
+          "microchip_no": null,
+          "name_latin": "Aurora Star",
+          "name_native": "ستاره",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 698,
+          "matched_by": [
+            "exact-name",
+            "name-prefix",
+            "phrase",
+            "compact-phrase",
+            "all-words",
+            "register-no",
+            "identifier"
+          ]
+        },
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 18,
+          "matched_by": []
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        }
+      ]
+    },
+    {
+      "query": "123",
+      "results": [
+        {
+          "id": 5,
+          "register_no": "000123",
+          "microchip_no": null,
+          "name_latin": "123",
+          "name_native": null,
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2018,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 386,
+          "matched_by": [
+            "exact-name",
+            "name-prefix",
+            "phrase",
+            "compact-phrase",
+            "identifier"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "aurra",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 15,
+          "matched_by": [
+            "fuzzy-name"
+          ]
+        },
+        {
+          "id": 3,
+          "register_no": "Aurora Star",
+          "microchip_no": null,
+          "name_latin": "Aurora Star",
+          "name_native": "ستاره",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 15,
+          "matched_by": [
+            "fuzzy-name"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "R1",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 466,
+          "matched_by": [
+            "phrase",
+            "compact-phrase",
+            "register-no",
+            "identifier"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "Moon Beam",
+      "results": [
+        {
+          "id": 6,
+          "register_no": "R6",
+          "microchip_no": null,
+          "name_latin": "Moon Beam",
+          "name_native": null,
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2010,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 308,
+          "matched_by": [
+            "exact-name",
+            "name-prefix",
+            "phrase",
+            "compact-phrase",
+            "all-words"
+          ]
+        },
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 118,
+          "matched_by": [
+            "phrase",
+            "compact-phrase",
+            "all-words"
+          ]
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 18,
+          "matched_by": []
+        }
+      ]
+    },
+    {
+      "query": "name:aurora name:borealis",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 65,
+          "matched_by": [
+            "name-field"
+          ]
+        },
+        {
+          "id": 3,
+          "register_no": "Aurora Star",
+          "microchip_no": null,
+          "name_latin": "Aurora Star",
+          "name_native": "ستاره",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 65,
+          "matched_by": [
+            "name-field"
+          ]
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 65,
+          "matched_by": [
+            "name-field"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "owner:alpha owner:beta breeder:gamma",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 68,
+          "matched_by": [
+            "owner",
+            "breeder"
+          ]
+        },
+        {
+          "id": 2,
+          "register_no": "AURORA MOON",
+          "microchip_no": null,
+          "name_latin": "Borealis Sun",
+          "name_native": "خورشید",
+          "father_id": null,
+          "mother_id": null,
+          "birth_year": 2019,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": null,
+          "father_name_native": null,
+          "mother_name": null,
+          "mother_name_native": null,
+          "score": 68,
+          "matched_by": [
+            "owner",
+            "breeder"
+          ]
+        }
+      ]
+    },
+    {
+      "query": "sire:moon name:aurora",
+      "results": [
+        {
+          "id": 1,
+          "register_no": "R1",
+          "microchip_no": null,
+          "name_latin": "Aurora Moon",
+          "name_native": "ماه روشن",
+          "father_id": 6,
+          "mother_id": 2,
+          "birth_year": 2020,
+          "birth_place_desc": null,
+          "breed_desc": null,
+          "sex_desc": null,
+          "color_desc": null,
+          "main_strain_desc": null,
+          "sub_strain_desc": null,
+          "is_active": 1,
+          "is_dead": 0,
+          "father_name": "Moon Beam",
+          "father_name_native": null,
+          "mother_name": "Borealis Sun",
+          "mother_name_native": "خورشید",
+          "score": 107,
+          "matched_by": [
+            "name-field",
+            "father"
+          ]
+        }
+      ]
+    }
+  ]
+}

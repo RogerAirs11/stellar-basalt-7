@@ -1,0 +1,354 @@
+/* Heritage color system — v0.42.16 Hotfix 28
+ * Variable-only palette, semantic, contextual and scheme-processing engine.
+ * No component paint, pseudo-elements or keyframes belong here.
+ * Import contract: legacy/base -> tokens -> THIS COLOR ENGINE -> component authority.
+ */
+
+html:root[data-frontend="heritage"][data-palette="auto"]{
+  /* Flash-safe fallback. Browser sampling replaces these tokens from the active scene image. */
+  --h-scheme-base-raw:#719ab2!important;--h-scheme-chrome-raw:#8b9bc5!important;
+  --h-scheme-base-vivid:#6dabcf!important;--h-scheme-chrome-vivid:#8ba0da!important;
+  --h-accent-raw:#7eadc8!important;--h-accent-vivid:#79b5d8!important;
+  --h-accent-strong-raw:#b6ccd8!important;--h-accent-strong-vivid:#bcd7e6!important;
+  --accent-soft:rgba(126,173,200,.10)!important;--metal:#bea479!important;--metal-bright:#dac7aa!important;
+  --h-auto-swatch-a:#7eadc8!important;--h-auto-swatch-b:#bea479!important;
+}
+html:root[data-frontend="heritage"][data-palette="neutral"]{
+  --h-scheme-base-raw:#879197!important;
+  --h-scheme-chrome-raw:#a3aaae!important;
+  --h-scheme-base-vivid:#879197!important;
+  --h-scheme-chrome-vivid:#a3aaae!important;
+  --h-accent-raw:#909ba1!important;
+  --h-accent-vivid:#909ba1!important;
+  --h-accent-strong-raw:#c8ced1!important;
+  --h-accent-strong-vivid:#c8ced1!important;
+  --accent-soft:rgba(144,155,161,.08)!important;
+  --metal:#aaa69d!important;
+  --metal-bright:#d3d0c9!important;
+}
+html:root[data-frontend="heritage"][data-palette="heritage"]{
+  --h-scheme-base-raw:#7f956d!important;
+  --h-scheme-chrome-raw:#a9c56d!important;
+  --h-scheme-base-vivid:#7ab648!important;
+  --h-scheme-chrome-vivid:#bfe56b!important;
+  --h-accent-raw:#abc96d!important;
+  --h-accent-vivid:#b9e85d!important;
+  --h-accent-strong-raw:#d6e79c!important;
+  --h-accent-strong-vivid:#e4f6a2!important;
+  --accent-soft:rgba(171,201,109,.10)!important;
+  --metal:#c5a25d!important;
+  --metal-bright:#ecd393!important;
+}
+html:root[data-frontend="heritage"][data-palette="midnight"]{
+  --h-scheme-base-raw:#657f99!important;
+  --h-scheme-chrome-raw:#7fa9c4!important;
+  --h-scheme-base-vivid:#4d8fc9!important;
+  --h-scheme-chrome-vivid:#67b9e8!important;
+  --h-accent-raw:#78a7c7!important;
+  --h-accent-vivid:#61b9ef!important;
+  --h-accent-strong-raw:#b8d3e3!important;
+  --h-accent-strong-vivid:#b9e7ff!important;
+  --accent-soft:rgba(120,167,199,.10)!important;
+  --metal:#b9a16f!important;
+  --metal-bright:#dec997!important;
+}
+html:root[data-frontend="heritage"][data-palette="oxblood"]{
+  --h-scheme-base-raw:#936563!important;
+  --h-scheme-chrome-raw:#bf8179!important;
+  --h-scheme-base-vivid:#bd5d5a!important;
+  --h-scheme-chrome-vivid:#ef766b!important;
+  --h-accent-raw:#c28a80!important;
+  --h-accent-vivid:#eb796e!important;
+  --h-accent-strong-raw:#e2b4aa!important;
+  --h-accent-strong-vivid:#ffc0b4!important;
+  --accent-soft:rgba(194,138,128,.10)!important;
+  --metal:#c3a05f!important;
+  --metal-bright:#e5ca8d!important;
+}
+
+/* Complete dark foundations. */
+/* Auto foundation fallbacks track the bundled night/day scene families. */
+html:root[data-frontend="heritage"][data-mode="dark"][data-palette="auto"]{
+  --bg:#0d0e0f!important;--bg-elev:#131516!important;--bg-elev-2:#1b1e20!important;--bg-elev-3:#232729!important;
+  --panel:rgba(23,25,26,.89)!important;--panel-solid:#17191a!important;--panel-strong:#222628!important;
+  --line:#313537!important;--line-strong:#4a5054!important;--glass:rgba(11,12,12,.80)!important;--table-hover:#1f2224!important;--input:#101212!important;
+  --scene-tint:rgba(13,14,15,.11)!important;
+}
+html:root[data-frontend="heritage"][data-mode="dark"][data-palette="neutral"]{
+  --bg:#0a0c0d!important;--bg-elev:#111416!important;--bg-elev-2:#171b1d!important;--bg-elev-3:#1d2225!important;
+  --panel:rgba(18,21,23,.89)!important;--panel-solid:#131719!important;--panel-strong:#1c2124!important;
+  --line:#2b3235!important;--line-strong:#465055!important;--glass:rgba(11,13,14,.80)!important;--table-hover:#1b2023!important;--input:#0f1213!important;
+  --scene-tint:rgba(9,11,12,.10)!important;
+}
+html:root[data-frontend="heritage"][data-mode="dark"][data-palette="heritage"]{
+  --bg:#080d0b!important;--bg-elev:#0e1713!important;--bg-elev-2:#132019!important;--bg-elev-3:#192920!important;
+  --panel:rgba(14,24,19,.89)!important;--panel-solid:#101b16!important;--panel-strong:#17261f!important;
+  --line:#26382f!important;--line-strong:#3d5548!important;--glass:rgba(8,14,11,.80)!important;--table-hover:#16251e!important;--input:#0b1410!important;
+  --scene-tint:rgba(12,20,15,.10)!important;
+}
+html:root[data-frontend="heritage"][data-mode="dark"][data-palette="midnight"]{
+  --bg:#080b10!important;--bg-elev:#0e141c!important;--bg-elev-2:#131c27!important;--bg-elev-3:#192431!important;
+  --panel:rgba(14,20,29,.89)!important;--panel-solid:#101823!important;--panel-strong:#172230!important;
+  --line:#263746!important;--line-strong:#3d5365!important;--glass:rgba(8,12,18,.80)!important;--table-hover:#16212d!important;--input:#0b1119!important;
+  --scene-tint:rgba(9,15,23,.11)!important;
+}
+html:root[data-frontend="heritage"][data-mode="dark"][data-palette="oxblood"]{
+  --bg:#10090b!important;--bg-elev:#191012!important;--bg-elev-2:#211518!important;--bg-elev-3:#2a1a1e!important;
+  --panel:rgba(25,15,18,.89)!important;--panel-solid:#1b1114!important;--panel-strong:#27181c!important;
+  --line:#43282d!important;--line-strong:#604047!important;--glass:rgba(17,9,11,.80)!important;--table-hover:#25171b!important;--input:#150d0f!important;
+  --scene-tint:rgba(24,10,13,.10)!important;
+}
+
+/* Complete light foundations. */
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="auto"]{
+  --h-scheme-base-raw:#9a7942!important;--h-scheme-chrome-raw:#888c35!important;
+  --h-scheme-base-vivid:#c58b26!important;--h-scheme-chrome-vivid:#afb620!important;
+  --h-accent-raw:#926c2b!important;--h-accent-vivid:#b57d1c!important;--h-accent-strong-raw:#654f2a!important;--h-accent-strong-vivid:#805c1e!important;
+  --accent-soft:rgba(146,108,43,.10)!important;--metal:#8d6f3a!important;--metal-bright:#6d5327!important;--h-auto-swatch-a:#926c2b!important;--h-auto-swatch-b:#8d6f3a!important;
+  --bg:#f2f1f0!important;--bg-elev:#fbfafa!important;--bg-elev-2:#eeecea!important;--bg-elev-3:#e5e2df!important;
+  --panel:rgba(251,250,250,.92)!important;--panel-solid:#fbfafa!important;--panel-strong:#efeeec!important;
+  --line:#d6d3cf!important;--line-strong:#b9b4ac!important;--glass:rgba(251,251,251,.86)!important;--table-hover:#eae9e6!important;--input:#fdfdfd!important;
+  --scene-tint:rgba(242,241,240,.075)!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="neutral"]{
+  --h-scheme-base-raw:#727d82!important;--h-scheme-chrome-raw:#69757a!important;
+  --bg:#f1f1ef!important;--bg-elev:#fafaf8!important;--bg-elev-2:#ececea!important;--bg-elev-3:#e3e3e0!important;
+  --panel:rgba(250,250,248,.92)!important;--panel-solid:#fafaf8!important;--panel-strong:#eeeeeb!important;
+  --line:#d2d4d4!important;--line-strong:#b4b9ba!important;--glass:rgba(250,250,248,.86)!important;--table-hover:#e9eae8!important;--input:#fefefc!important;
+  --h-accent-raw:#6f787d!important;--h-accent-strong-raw:#4f595e!important;--metal:#777873!important;--metal-bright:#555b5d!important;--scene-tint:rgba(248,248,246,.07)!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="heritage"]{
+  --h-scheme-base-raw:#7c9367!important;--h-scheme-chrome-raw:#6f8a4e!important;
+  --bg:#f3f0e8!important;--bg-elev:#fbf9f3!important;--bg-elev-2:#eee9dd!important;--bg-elev-3:#e5dfd1!important;
+  --panel:rgba(251,249,243,.92)!important;--panel-solid:#fbf9f3!important;--panel-strong:#f0ebdf!important;
+  --line:#d7d1c3!important;--line-strong:#bbb39f!important;--glass:rgba(251,249,243,.86)!important;--table-hover:#ece7db!important;--input:#fffdf8!important;
+  --h-accent-raw:#6d8745!important;--h-accent-strong-raw:#4f6830!important;--metal:#8b6d36!important;--metal-bright:#6d5427!important;--scene-tint:rgba(247,244,235,.065)!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="midnight"]{
+  --h-scheme-base-raw:#718ea2!important;--h-scheme-chrome-raw:#557b94!important;
+  --bg:#f0f3f5!important;--bg-elev:#fafcfd!important;--bg-elev-2:#e9eef1!important;--bg-elev-3:#e0e7eb!important;
+  --panel:rgba(250,252,253,.92)!important;--panel-solid:#fafcfd!important;--panel-strong:#ebf0f3!important;
+  --line:#ccd6db!important;--line-strong:#acbbc3!important;--glass:rgba(250,252,253,.86)!important;--table-hover:#e6ecef!important;--input:#fdfeff!important;
+  --h-accent-raw:#477895!important;--h-accent-strong-raw:#315d76!important;--metal:#806d45!important;--metal-bright:#675633!important;--scene-tint:rgba(240,246,249,.07)!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="oxblood"]{
+  --h-scheme-base-raw:#a07069!important;--h-scheme-chrome-raw:#8f5d57!important;
+  --bg:#f5efed!important;--bg-elev:#fdf9f7!important;--bg-elev-2:#f0e6e3!important;--bg-elev-3:#e9ddd9!important;
+  --panel:rgba(253,249,247,.92)!important;--panel-solid:#fdf9f7!important;--panel-strong:#f2e8e5!important;
+  --line:#dbcac6!important;--line-strong:#c0aaa5!important;--glass:rgba(253,249,247,.86)!important;--table-hover:#eee3e0!important;--input:#fffaf8!important;
+  --h-accent-raw:#915a55!important;--h-accent-strong-raw:#70413e!important;--metal:#866a38!important;--metal-bright:#6b5229!important;--scene-tint:rgba(251,242,239,.07)!important;
+}
+
+
+/* Independent semantic color laboratory.
+   Hotfix 23 deliberately separates semantic BACKGROUND paint from semantic
+   FOREGROUND text/accents. A user can therefore desaturate or hide card fills
+   without muting the information-bearing text, or do the inverse. */
+html:root[data-frontend="heritage"]{
+  --h-semantic-neutral:#8b9499;
+  --h-info-raw:#69d8f4;--h-info-vivid:#43e1ff;
+  --h-success-raw:#68e0a8;--h-success-vivid:#45efa6;
+  --h-warning-raw:#ffd166;--h-warning-vivid:#ffd23f;
+  --h-danger-raw:#ff8297;--h-danger-vivid:#ff6286;
+  --h-sire-raw:#62d9ef;--h-sire-vivid:#42e0fa;
+  --h-dam-raw:#ff8cba;--h-dam-vivid:#ff6dae;
+  --h-accent-data-raw:#f3ca63;--h-accent-data-vivid:#ffd33f;
+}
+html:root[data-frontend="heritage"][data-mode="light"]{
+  --h-semantic-neutral:#6b7479;
+  --h-info-raw:#007f9f;--h-info-vivid:#00a9d2;
+  --h-success-raw:#0f8158;--h-success-vivid:#00a970;
+  --h-warning-raw:#996400;--h-warning-vivid:#d18f00;
+  --h-danger-raw:#b73358;--h-danger-vivid:#df3d6d;
+  --h-sire-raw:#0088aa;--h-sire-vivid:#00afd7;
+  --h-dam-raw:#b63b77;--h-dam-vivid:#df478e;
+  --h-accent-data-raw:#9a6500;--h-accent-data-vivid:#d28f00;
+}
+html:root[data-frontend="heritage"]{
+  --h-info-text-desat:color-mix(in srgb,var(--h-info-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-info-text-sat:color-mix(in srgb,var(--h-info-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-info-vivid));
+  --h-info-text-lit:color-mix(in srgb,var(--h-info-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-info-text-tone:color-mix(in srgb,var(--h-info-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-info-bg-desat:color-mix(in srgb,var(--h-info-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-info-bg-sat:color-mix(in srgb,var(--h-info-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-info-vivid));
+  --h-info-bg-lit:color-mix(in srgb,var(--h-info-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-info-bg-tone:color-mix(in srgb,var(--h-info-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-info:color-mix(in srgb,var(--h-info-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-info-bg:var(--h-info-bg-tone)!important;
+
+  --h-success-text-desat:color-mix(in srgb,var(--h-success-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-success-text-sat:color-mix(in srgb,var(--h-success-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-success-vivid));
+  --h-success-text-lit:color-mix(in srgb,var(--h-success-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-success-text-tone:color-mix(in srgb,var(--h-success-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-success-bg-desat:color-mix(in srgb,var(--h-success-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-success-bg-sat:color-mix(in srgb,var(--h-success-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-success-vivid));
+  --h-success-bg-lit:color-mix(in srgb,var(--h-success-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-success-bg-tone:color-mix(in srgb,var(--h-success-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-success:color-mix(in srgb,var(--h-success-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-success-bg:var(--h-success-bg-tone)!important;
+
+  --h-warning-text-desat:color-mix(in srgb,var(--h-warning-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-warning-text-sat:color-mix(in srgb,var(--h-warning-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-warning-vivid));
+  --h-warning-text-lit:color-mix(in srgb,var(--h-warning-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-warning-text-tone:color-mix(in srgb,var(--h-warning-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-warning-bg-desat:color-mix(in srgb,var(--h-warning-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-warning-bg-sat:color-mix(in srgb,var(--h-warning-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-warning-vivid));
+  --h-warning-bg-lit:color-mix(in srgb,var(--h-warning-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-warning-bg-tone:color-mix(in srgb,var(--h-warning-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-warning:color-mix(in srgb,var(--h-warning-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-warning-bg:var(--h-warning-bg-tone)!important;
+
+  --h-danger-text-desat:color-mix(in srgb,var(--h-danger-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-danger-text-sat:color-mix(in srgb,var(--h-danger-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-danger-vivid));
+  --h-danger-text-lit:color-mix(in srgb,var(--h-danger-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-danger-text-tone:color-mix(in srgb,var(--h-danger-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-danger-bg-desat:color-mix(in srgb,var(--h-danger-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-danger-bg-sat:color-mix(in srgb,var(--h-danger-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-danger-vivid));
+  --h-danger-bg-lit:color-mix(in srgb,var(--h-danger-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-danger-bg-tone:color-mix(in srgb,var(--h-danger-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-danger:color-mix(in srgb,var(--h-danger-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-danger-bg:var(--h-danger-bg-tone)!important;
+
+  --h-sire-text-desat:color-mix(in srgb,var(--h-sire-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-sire-text-sat:color-mix(in srgb,var(--h-sire-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-sire-vivid));
+  --h-sire-text-lit:color-mix(in srgb,var(--h-sire-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-sire-text-tone:color-mix(in srgb,var(--h-sire-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-sire-bg-desat:color-mix(in srgb,var(--h-sire-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-sire-bg-sat:color-mix(in srgb,var(--h-sire-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-sire-vivid));
+  --h-sire-bg-lit:color-mix(in srgb,var(--h-sire-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-sire-bg-tone:color-mix(in srgb,var(--h-sire-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-sire:color-mix(in srgb,var(--h-sire-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-sire-bg:var(--h-sire-bg-tone)!important;
+
+  --h-dam-text-desat:color-mix(in srgb,var(--h-dam-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-dam-text-sat:color-mix(in srgb,var(--h-dam-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-dam-vivid));
+  --h-dam-text-lit:color-mix(in srgb,var(--h-dam-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-dam-text-tone:color-mix(in srgb,var(--h-dam-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-dam-bg-desat:color-mix(in srgb,var(--h-dam-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-dam-bg-sat:color-mix(in srgb,var(--h-dam-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-dam-vivid));
+  --h-dam-bg-lit:color-mix(in srgb,var(--h-dam-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-dam-bg-tone:color-mix(in srgb,var(--h-dam-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-dam:color-mix(in srgb,var(--h-dam-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-dam-bg:var(--h-dam-bg-tone)!important;
+
+  --h-data-text-desat:color-mix(in srgb,var(--h-accent-data-raw) calc(100% - var(--h-user-semantic-desaturate,0%)),var(--h-semantic-neutral));
+  --h-data-text-sat:color-mix(in srgb,var(--h-data-text-desat) calc(100% - var(--h-user-semantic-vivid,0%)),var(--h-accent-data-vivid));
+  --h-data-text-lit:color-mix(in srgb,var(--h-data-text-sat) calc(100% - var(--h-user-semantic-brighten,0%)),white);
+  --h-data-text-tone:color-mix(in srgb,var(--h-data-text-lit) calc(100% - var(--h-user-semantic-darken,0%)),black);
+  --h-data-bg-desat:color-mix(in srgb,var(--h-accent-data-raw) calc(100% - var(--h-user-semantic-bg-desaturate,0%)),var(--h-semantic-neutral));
+  --h-data-bg-sat:color-mix(in srgb,var(--h-data-bg-desat) calc(100% - var(--h-user-semantic-bg-vivid,0%)),var(--h-accent-data-vivid));
+  --h-data-bg-lit:color-mix(in srgb,var(--h-data-bg-sat) calc(100% - var(--h-user-semantic-bg-brighten,0%)),white);
+  --h-data-bg:color-mix(in srgb,var(--h-data-bg-lit) calc(100% - var(--h-user-semantic-bg-darken,0%)),black);
+  --h-accent-data:color-mix(in srgb,var(--h-data-text-tone) var(--h-user-semantic-text-visibility,100%),var(--ink))!important;
+  --h-accent-data-bg:var(--h-data-bg)!important;
+
+  --sire:var(--h-sire)!important;--dam:var(--h-dam)!important;--repeat:var(--h-warning)!important;
+  --danger:var(--h-danger)!important;--success:var(--h-success)!important;
+}
+
+/* Contextual block color is intentionally separate from both the global scheme
+   foundation and semantic meaning. It uses the selected palette's accent family
+   but has its own strength/brightness/saturation laboratory. */
+html:root[data-frontend="heritage"][data-palette]{
+  --h-context-neutral:var(--h-semantic-neutral);
+  --h-context-desat:color-mix(in srgb,var(--h-accent-raw) calc(100% - var(--h-user-context-desaturate,0%)),var(--h-context-neutral));
+  --h-context-sat:color-mix(in srgb,var(--h-context-desat) calc(100% - var(--h-user-context-vivid,0%)),var(--h-accent-vivid,var(--h-accent-raw)));
+  --h-context-lit:color-mix(in srgb,var(--h-context-sat) calc(100% - var(--h-user-context-brighten,0%)),white);
+  --h-context-tone:color-mix(in srgb,var(--h-context-lit) calc(100% - var(--h-user-context-darken,0%)),black);
+}
+
+
+/* Scheme brightness/contrast are foundation-only controls. They transform the
+   decorative palette primitives without touching semantic sire/dam/warning/etc. */
+html:root[data-frontend="heritage"][data-palette]{
+  --h-scheme-contrast-anchor:#edf2f4;
+  --h-scheme-neutral-anchor:color-mix(in srgb,var(--panel-solid) 58%,var(--h-semantic-neutral));
+  --h-scheme-base-desat:color-mix(in srgb,var(--h-scheme-base-raw) calc(100% - var(--h-user-scheme-desaturate,0%)),var(--h-scheme-neutral-anchor));
+  --h-scheme-base-sat:color-mix(in srgb,var(--h-scheme-base-desat) calc(100% - var(--h-user-scheme-vivid,0%)),var(--h-scheme-base-vivid,var(--h-scheme-base-raw)));
+  --h-scheme-base-bright:color-mix(in srgb,var(--h-scheme-base-sat) calc(100% - var(--h-user-scheme-brighten,0%)),white);
+  --h-scheme-base-lit:color-mix(in srgb,var(--h-scheme-base-bright) calc(100% - var(--h-user-scheme-darken,0%)),black);
+  --h-scheme-base-soft:color-mix(in srgb,var(--h-scheme-base-lit) calc(100% - var(--h-user-scheme-contrast-down,0%)),var(--panel-solid));
+  --h-scheme-base:color-mix(in srgb,var(--h-scheme-base-soft) calc(100% - var(--h-user-scheme-contrast-up,0%)),var(--h-scheme-contrast-anchor));
+
+  --h-scheme-chrome-desat:color-mix(in srgb,var(--h-scheme-chrome-raw) calc(100% - var(--h-user-scheme-desaturate,0%)),var(--h-scheme-neutral-anchor));
+  --h-scheme-chrome-sat:color-mix(in srgb,var(--h-scheme-chrome-desat) calc(100% - var(--h-user-scheme-vivid,0%)),var(--h-scheme-chrome-vivid,var(--h-scheme-chrome-raw)));
+  --h-scheme-chrome-bright:color-mix(in srgb,var(--h-scheme-chrome-sat) calc(100% - var(--h-user-scheme-brighten,0%)),white);
+  --h-scheme-chrome-lit:color-mix(in srgb,var(--h-scheme-chrome-bright) calc(100% - var(--h-user-scheme-darken,0%)),black);
+  --h-scheme-chrome-soft:color-mix(in srgb,var(--h-scheme-chrome-lit) calc(100% - var(--h-user-scheme-contrast-down,0%)),var(--panel-solid));
+  --h-scheme-chrome:color-mix(in srgb,var(--h-scheme-chrome-soft) calc(100% - var(--h-user-scheme-contrast-up,0%)),var(--h-scheme-contrast-anchor));
+
+  --h-accent-desat:color-mix(in srgb,var(--h-accent-raw,var(--h-scheme-base-raw)) calc(100% - var(--h-user-scheme-desaturate,0%)),var(--h-scheme-neutral-anchor));
+  --h-accent-sat:color-mix(in srgb,var(--h-accent-desat) calc(100% - var(--h-user-scheme-vivid,0%)),var(--h-accent-vivid,var(--h-accent-raw,var(--h-scheme-base-raw))));
+  --h-accent-bright:color-mix(in srgb,var(--h-accent-sat) calc(100% - var(--h-user-scheme-brighten,0%)),white);
+  --h-accent-lit:color-mix(in srgb,var(--h-accent-bright) calc(100% - var(--h-user-scheme-darken,0%)),black);
+  --h-accent-softened:color-mix(in srgb,var(--h-accent-lit) calc(100% - var(--h-user-scheme-contrast-down,0%)),var(--panel-solid));
+  --accent:color-mix(in srgb,var(--h-accent-softened) calc(100% - var(--h-user-scheme-contrast-up,0%)),var(--h-scheme-contrast-anchor))!important;
+  --h-accent-strong-desat:color-mix(in srgb,var(--h-accent-strong-raw,var(--h-scheme-chrome-raw)) calc(100% - var(--h-user-scheme-desaturate,0%)),var(--h-scheme-neutral-anchor));
+  --h-accent-strong-sat:color-mix(in srgb,var(--h-accent-strong-desat) calc(100% - var(--h-user-scheme-vivid,0%)),var(--h-accent-strong-vivid,var(--h-accent-strong-raw,var(--h-scheme-chrome-raw))));
+  --h-accent-strong-bright:color-mix(in srgb,var(--h-accent-strong-sat) calc(100% - var(--h-user-scheme-brighten,0%)),white);
+  --h-accent-strong-lit:color-mix(in srgb,var(--h-accent-strong-bright) calc(100% - var(--h-user-scheme-darken,0%)),black);
+  --h-accent-strong-soft:color-mix(in srgb,var(--h-accent-strong-lit) calc(100% - var(--h-user-scheme-contrast-down,0%)),var(--panel-solid));
+  --accent-strong:color-mix(in srgb,var(--h-accent-strong-soft) calc(100% - var(--h-user-scheme-contrast-up,0%)),var(--h-scheme-contrast-anchor))!important;
+  --accent-soft:color-mix(in srgb,var(--accent) 10%,transparent)!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette]{--h-scheme-contrast-anchor:#171b1d}
+
+
+/* Palette-owned Chromatic Ambient triads — Core Consolidation v1. */
+html:root[data-frontend="heritage"][data-palette="auto"]{
+  --h-v2-chroma-a-raw:#6b9cb8;--h-v2-chroma-a-vivid:#83b9d8;
+  --h-v2-chroma-b-raw:#b86b75;--h-v2-chroma-b-vivid:#d8838e;
+  --h-v2-chroma-c-raw:#b8ae6b;--h-v2-chroma-c-vivid:#d8cd83;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-palette="auto"]{
+  --h-v2-chroma-a-raw:#80622e;--h-v2-chroma-a-vivid:#b67f20;
+  --h-v2-chroma-b-raw:#2e7580;--h-v2-chroma-b-vivid:#20a2b6;
+  --h-v2-chroma-c-raw:#392e80;--h-v2-chroma-c-vivid:#3420b6;
+}
+/* Chromatic Depth: explicit scheme-derived split-complementary triads. */
+html:root[data-frontend="heritage"][data-palette="neutral"]{
+  --h-v2-chroma-a-raw:#8f9ba2;--h-v2-chroma-a-vivid:#b7c5cc;
+  --h-v2-chroma-b-raw:#718aa0;--h-v2-chroma-b-vivid:#83acd0;
+  --h-v2-chroma-c-raw:#8d758e;--h-v2-chroma-c-vivid:#b08bb3;
+}
+html:root[data-frontend="heritage"][data-palette="heritage"]{
+  --h-v2-chroma-a-raw:#b8944d;--h-v2-chroma-a-vivid:#d7b45e;
+  --h-v2-chroma-b-raw:#6178a7;--h-v2-chroma-b-vivid:#7698d6;
+  --h-v2-chroma-c-raw:#4f8f87;--h-v2-chroma-c-vivid:#58b9aa;
+}
+html:root[data-frontend="heritage"][data-palette="midnight"]{
+  --h-v2-chroma-a-raw:#4d9294;--h-v2-chroma-a-vivid:#58bec1;
+  --h-v2-chroma-b-raw:#b97551;--h-v2-chroma-b-vivid:#e28d5a;
+  --h-v2-chroma-c-raw:#9b617c;--h-v2-chroma-c-vivid:#cf779c;
+}
+html:root[data-frontend="heritage"][data-palette="oxblood"]{
+  --h-v2-chroma-a-raw:#985b62;--h-v2-chroma-a-vivid:#c66f79;
+  --h-v2-chroma-b-raw:#4e8f88;--h-v2-chroma-b-vivid:#58baad;
+  --h-v2-chroma-c-raw:#728b54;--h-v2-chroma-c-vivid:#94b967;
+}
+html:root[data-frontend="heritage"][data-palette]{
+  --h-v2-chroma-a-desat:color-mix(in srgb,var(--h-v2-chroma-a-raw) calc(100% - var(--h-user-ambient-desaturate,0%)),var(--h-effect-neutral-anchor,var(--panel-solid)));
+  --h-v2-chroma-b-desat:color-mix(in srgb,var(--h-v2-chroma-b-raw) calc(100% - var(--h-user-ambient-desaturate,0%)),var(--h-effect-neutral-anchor,var(--panel-solid)));
+  --h-v2-chroma-c-desat:color-mix(in srgb,var(--h-v2-chroma-c-raw) calc(100% - var(--h-user-ambient-desaturate,0%)),var(--h-effect-neutral-anchor,var(--panel-solid)));
+  --h-v2-chroma-a-sat:color-mix(in srgb,var(--h-v2-chroma-a-desat) calc(100% - var(--h-user-ambient-vivid,0%)),var(--h-v2-chroma-a-vivid));
+  --h-v2-chroma-b-sat:color-mix(in srgb,var(--h-v2-chroma-b-desat) calc(100% - var(--h-user-ambient-vivid,0%)),var(--h-v2-chroma-b-vivid));
+  --h-v2-chroma-c-sat:color-mix(in srgb,var(--h-v2-chroma-c-desat) calc(100% - var(--h-user-ambient-vivid,0%)),var(--h-v2-chroma-c-vivid));
+  --h-v2-chroma-a-lit:color-mix(in srgb,var(--h-v2-chroma-a-sat) calc(100% - var(--h-user-ambient-brighten,0%)),white);
+  --h-v2-chroma-b-lit:color-mix(in srgb,var(--h-v2-chroma-b-sat) calc(100% - var(--h-user-ambient-brighten,0%)),white);
+  --h-v2-chroma-c-lit:color-mix(in srgb,var(--h-v2-chroma-c-sat) calc(100% - var(--h-user-ambient-brighten,0%)),white);
+  --h-v2-chroma-a:color-mix(in srgb,var(--h-v2-chroma-a-lit) calc(100% - var(--h-user-ambient-darken,0%)),black);
+  --h-v2-chroma-b:color-mix(in srgb,var(--h-v2-chroma-b-lit) calc(100% - var(--h-user-ambient-darken,0%)),black);
+  --h-v2-chroma-c:color-mix(in srgb,var(--h-v2-chroma-c-lit) calc(100% - var(--h-user-ambient-darken,0%)),black);
+}
+
+html:root[data-frontend="heritage"][data-ambient-pattern="organic"]{
+  --h-v2-field-a:var(--h-v2-ambient-base);
+  --h-v2-field-b:var(--h-v2-ambient-lift);
+  --h-v2-field-c:var(--h-v2-ambient-depth);
+}
+html:root[data-frontend="heritage"][data-ambient-pattern="chromatic"]{
+  --h-v2-field-a:var(--h-v2-chroma-a);
+  --h-v2-field-b:var(--h-v2-chroma-b);
+  --h-v2-field-c:var(--h-v2-chroma-c);
+}
+

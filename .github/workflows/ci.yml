@@ -1,0 +1,122 @@
+# Continuous Integration: every push, including main, and every pull request.
+# Quality gate only: typecheck + tests + build. No Cloudflare access needed.
+# Runs in ~2-3 min on the GitHub-hosted runner; the sandbox is NOT involved.
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Typecheck + Tests + Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck (tsc --noEmit)
+        run: npm run typecheck
+
+      - name: Tests (vitest)
+        run: npm test
+
+      - name: Complete native review regression suites (R95-R106)
+        run: npm run test:review-native
+      - name: Source and boundary gates
+        run: |
+          npm run validate:all-source-syntax
+          npm run validate:sql-bindings
+          npm run validate:navigation
+          npm run validate:heritage-boundary
+          npm run validate:css
+
+      - name: Python regression suites (includes overlapping native bridge)
+        run: |
+          python -m pip install --quiet openpyxl
+          npm run test:python
+
+      - name: Build (cloudflare bundle, anti-theft minified)
+        run: npm run build
+
+  # B01/TEST-01: automated both-provider parity gate. The quality job covers the
+  # SQLite side (vitest + python migration smoke run there and on main deploys);
+  # this job proves the ENTIRE migrations/*.sql chain translates through the
+  # production translator (src/db/sqliteSqlToPostgres.ts) and applies cleanly to a
+  # disposable PostgreSQL (production runs supabase_full — Postgres is canonical),
+  # producing the integrity objects verified live in R74. postgres:15 remains
+  # a historical compatibility baseline; it does not attest the deployed major.
+  # R108 release approval additionally requires the same suite on the current
+  # production PostgreSQL major (R107 evidence reported 17.6; re-verify first).
+  parity-postgres:
+    name: SQLite-to-PostgreSQL migration parity gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run pg-parity-gate (migrations + integrity probes)
+        env:
+          PG_CONNECTION_STRING: postgres://postgres:postgres@localhost:5432/postgres
+          PG_PARITY_DISPOSABLE: "yes"
+        run: npm run db:pg-parity
+
+      - name: "Run pg-execution-parity (P01: same seed + command sequence on PostgreSQL, isolated schema)"
+        env:
+          PG_CONNECTION_STRING: postgres://postgres:postgres@localhost:5432/postgres
+          PG_PARITY_DISPOSABLE: "yes"
+        run: npm run db:pg-execution-parity
+
+      - name: "Create disposable hr_test database (R96 N02/N03 gating rule)"
+        run: |
+          node -e "import('postgres').then(({default:postgres})=>{const sql=postgres('postgres://postgres:postgres@localhost:5432/postgres',{max:1});sql.unsafe('CREATE DATABASE hr_test_ci').then(()=>sql.end()).catch(e=>{console.error(e.message);process.exit(1);});})"
+          sleep 1
+
+      - name: "Run pg-r96-concurrency (R96 N02: adapter-backed refund/standing/consent races)"
+        env:
+          PG_CONNECTION_STRING: postgres://postgres:postgres@localhost:5432/hr_test_ci
+          PG_PARITY_DISPOSABLE: "yes"
+        run: node scripts/pg-r96-concurrency.mjs --report audit/r96/evidence-integration/pg-concurrency.json
+
+      - name: "Run r96-n03-rehearse (R96 N03: R95->R96 SQLite upgrade + blocked-migration stop condition)"
+        run: npm run db:r96:n03-rehearse

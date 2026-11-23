@@ -1,0 +1,70 @@
+/* Heritage Core — interaction-state authority (R21)
+ * --------------------------------------------------
+ * Material 01–04 answers WHAT a surface is. This file answers HOW a selected
+ * interactive state announces itself. It intentionally loads after Material,
+ * Lighting and asset authorities so active-state paint cannot be flattened by
+ * the generic control surface pass.
+ */
+
+:root[data-frontend="heritage"]{
+  --h-selected-tone:var(--h-tab-tone,var(--accent));
+}
+
+:root[data-frontend="heritage"] :is(
+  .main-nav,
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .heritage-app-dock-row,.segmented,.theme-settings-choice,.ped-fit-group,
+  .ped-mobile-view-switch,.ped-desktop-view-switch,.pedigree-radial-zoom
+) button:is(.active,.is-active,[aria-selected="true"],[aria-pressed="true"]){
+  --h-selected-tone:var(--h-tab-tone,var(--accent));
+  background-color:color-mix(in srgb,var(--h-selected-tone) var(--h-user-selected-fill-alpha,43%),var(--panel-solid))!important;
+  background-image:linear-gradient(135deg,color-mix(in srgb,white 9%,transparent),transparent 42%,color-mix(in srgb,var(--h-selected-tone) 14%,transparent))!important;
+  border-color:color-mix(in srgb,var(--h-selected-tone) var(--h-user-selected-border-alpha,84%),var(--line-strong))!important;
+  color:color-mix(in srgb,var(--h-selected-tone) var(--h-user-selected-tone-mix,92%),var(--ink))!important;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb,white 24%,transparent),
+    inset 0 0 0 1px color-mix(in srgb,var(--h-selected-tone) 22%,transparent),
+    0 0 var(--h-user-selected-glow-size,23px) color-mix(in srgb,var(--h-selected-tone) var(--h-user-selected-glow-alpha,23%),transparent),
+    0 8px 20px color-mix(in srgb,black 14%,transparent)!important;
+  font-weight:900!important;
+  opacity:1!important;
+  isolation:isolate;
+  filter:saturate(var(--h-user-selected-chroma,1.55)) brightness(var(--h-user-selected-brightness,1.08))!important;
+}
+
+@keyframes heritage-selected-state-breathe{
+  0%,100%{
+    transform:translateY(0) scale(1);
+  }
+  50%{
+    transform:translateY(calc(0px - var(--h-user-selected-pulse-lift,1px))) scale(var(--h-user-selected-pulse-scale,1.007));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb,white 27%,transparent),
+      inset 0 0 0 1px color-mix(in srgb,var(--h-selected-tone) 26%,transparent),
+      0 0 calc(var(--h-user-selected-glow-size,23px) + 6px) color-mix(in srgb,var(--h-selected-tone) var(--h-user-selected-peak-glow-alpha,30%),transparent),
+      0 9px 22px color-mix(in srgb,black 15%,transparent);
+  }
+}
+
+@media(prefers-reduced-motion:no-preference){
+  :root[data-frontend="heritage"] :is(
+    .main-nav,
+    .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+    .heritage-app-dock-row,.segmented,.theme-settings-choice,.ped-fit-group,
+    .ped-mobile-view-switch,.ped-desktop-view-switch,.pedigree-radial-zoom
+  ) button:is(.active,.is-active,[aria-selected="true"],[aria-pressed="true"]){
+    animation:heritage-selected-state-breathe var(--h-user-selected-pulse-seconds,2.55s) ease-in-out infinite!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  :root[data-frontend="heritage"] :is(
+    .main-nav,
+    .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+    .heritage-app-dock-row,.segmented,.theme-settings-choice,.ped-fit-group,
+    .ped-mobile-view-switch,.ped-desktop-view-switch,.pedigree-radial-zoom
+  ) button:is(.active,.is-active,[aria-selected="true"],[aria-pressed="true"]){
+    animation:none!important;
+    transform:none!important;
+  }
+}

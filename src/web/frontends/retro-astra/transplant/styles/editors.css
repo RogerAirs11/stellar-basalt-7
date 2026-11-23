@@ -1,0 +1,40 @@
+.retro-astra-transplant .retro-editor-stack { display:grid; gap:1rem; }
+.retro-astra-transplant .retro-editor { min-inline-size:0; margin:0; }
+.retro-astra-transplant .retro-editor h1 { color:var(--ink-strong); font-family:var(--font-display); font-size:clamp(1.25rem,2.5vw,1.8rem); overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-editor-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; padding:1rem; margin:0; min-inline-size:0; border:0; }
+.retro-astra-transplant .retro-editor-grid > legend { padding-block-start:.5rem; font-weight:700; color:var(--ink-muted); }
+.retro-astra-transplant .retro-editor-field { display:grid; align-content:start; gap:.4rem; min-inline-size:0; }
+.retro-astra-transplant .retro-editor-field > label { color:var(--ink-muted); font-weight:700; font-size:.875rem; }
+.retro-astra-transplant .retro-editor-field :is(input,select,textarea) { inline-size:100%; min-inline-size:0; max-inline-size:100%; min-block-size:2.6rem; padding:.6rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-raised); color:var(--ink); font:inherit; }
+.retro-astra-transplant .retro-editor-field textarea { resize:vertical; line-height:1.6; }
+.retro-astra-transplant .retro-editor-field :is(input,select,textarea):focus-visible { outline:2px solid var(--focus); outline-offset:2px; }
+.retro-astra-transplant .retro-editor-wide { grid-column:1/-1; }
+.retro-astra-transplant .retro-editor-options { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.65rem; border:1px solid var(--line); border-radius:var(--radius-sm); padding:.8rem; margin:0; min-inline-size:0; }
+.retro-astra-transplant .retro-editor-options legend { padding-inline:.3rem; color:var(--ink-muted); font-weight:700; }
+.retro-astra-transplant .retro-editor-options label,.retro-astra-transplant .retro-editor-check { display:flex; align-items:flex-start; gap:.5rem; min-inline-size:0; font-size:.9rem; line-height:1.55; }
+.retro-astra-transplant :is(.retro-editor-options,.retro-editor-check) input[type='checkbox'] { flex:0 0 auto; margin-block-start:.25rem; }
+.retro-astra-transplant .retro-editor-actions { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; }
+.retro-astra-transplant .retro-editor-actions .button { white-space:normal; text-align:center; max-inline-size:100%; }
+.retro-astra-transplant .retro-editor-body,.retro-astra-transplant .retro-editor-help { padding:1rem; overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-editor-help { border-block-start:1px solid var(--line); color:var(--ink-muted); }
+.retro-astra-transplant .retro-editor summary { cursor:pointer; padding-block:.4rem; font-weight:700; }
+.retro-astra-transplant .retro-editor-help ul { padding-inline-start:1.25rem; display:grid; gap:.6rem; }
+.retro-astra-transplant .retro-claim-history { list-style:none; padding:0; display:grid; gap:.75rem; }
+.retro-astra-transplant .retro-claim-history li { padding:.7rem; background:var(--surface-raised); border:1px solid var(--line); border-radius:var(--radius-sm); }
+.retro-astra-transplant .retro-editor-differences { display:grid; gap:.6rem; margin-block:.75rem; }
+.retro-astra-transplant .retro-editor-differences dl { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border:1px solid var(--line); border-radius:var(--radius-sm); margin:0; padding:.75rem; gap:.5rem; }
+.retro-astra-transplant .retro-editor-differences dt { grid-column:1/-1; font-weight:700; }
+.retro-astra-transplant .retro-editor-differences dd { display:grid; margin:0; gap:.3rem; min-inline-size:0; overflow-wrap:anywhere; white-space:pre-wrap; }
+.retro-astra-transplant .retro-editor-hours { padding:.75rem; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.retro-astra-transplant .retro-review-list { display:grid; gap:.75rem; padding:1rem; }
+.retro-astra-transplant .retro-review-request { min-inline-size:0; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-raised); }
+.retro-astra-transplant .retro-review-request > summary { display:flex; flex-wrap:wrap; gap:.5rem 1rem; justify-content:space-between; padding:.9rem; cursor:pointer; color:var(--ink-strong); overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-review-request > summary::before { content:'▸'; flex:0 0 auto; }
+.retro-astra-transplant .retro-review-request[open] > summary::before { content:'▾'; }
+.retro-astra-transplant .retro-review-body { padding:1rem; display:grid; gap:.75rem; min-inline-size:0; border-block-start:1px solid var(--line); overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-review-evidence { display:grid; gap:.5rem; margin:0; }
+.retro-astra-transplant .retro-review-evidence > div { display:grid; grid-template-columns:minmax(0,.4fr) minmax(0,1fr); gap:.7rem; padding-block:.3rem; }
+.retro-astra-transplant .retro-review-evidence dt { color:var(--ink-muted); font-weight:700; }
+.retro-astra-transplant .retro-review-evidence dd { margin:0; min-inline-size:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+.retro-astra-transplant .retro-review-structured { white-space:pre-wrap; overflow-wrap:anywhere; }
+@media(max-width:600px) { .retro-astra-transplant .retro-editor-grid { grid-template-columns:minmax(0,1fr); } .retro-astra-transplant .retro-editor-differences dl { grid-template-columns:minmax(0,1fr); } }

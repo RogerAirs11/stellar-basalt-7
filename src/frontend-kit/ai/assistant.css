@@ -1,0 +1,176 @@
+/* Shared Horse-DB AI system. Layout lives here; each frontend only supplies theme tokens.
+   R32 tokenization: all typography flows through the --ai-* type scale so every
+   frontend (and every chat surface: launcher popover, page, panel) renders with
+   one uniform, theme-controlled voice. Defaults are compact-neutral; Heritage
+   maps them onto its canonical --h-font-* scale in heritage.ai.css. */
+.hdb-ai{
+  --ai-font:inherit;--ai-title-font:inherit;--ai-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --ai-bg:#fff;--ai-thread-bg:#fff;--ai-panel-bg:#f7f8fa;--ai-control-bg:#fff;--ai-code-bg:#11151b;
+  --ai-text:#19202a;--ai-muted:#66717d;--ai-accent:#315fbd;--ai-accent-soft:#eef3ff;--ai-danger:#b73a3a;
+  --ai-border:#d8dde5;--ai-user-bg:#eef4ff;--ai-assistant-bg:#fff;--ai-radius:12px;--ai-control-radius:8px;--ai-message-radius:10px;
+  --ai-shadow:0 18px 52px rgb(18 26 39 / .18);
+  /* Bounded type scale — frontends override these, never the component sizes. */
+  --ai-font-size:12px;      /* base body / bubbles */
+  --ai-font-micro:9.5px;    /* labels, hints, roles */
+  --ai-font-caption:10.5px; /* buttons, controls, chips */
+  --ai-font-control:11px;   /* selects, inputs */
+  --ai-font-code:10.5px;   /* code blocks */
+  --ai-space-1:5px;--ai-space-2:7px;--ai-space-3:9px;--ai-space-4:12px;
+  display:flex;min-width:0;min-height:0;flex-direction:column;overflow:hidden;border:1px solid var(--ai-border);border-radius:var(--ai-radius);background:var(--ai-bg);color:var(--ai-text);box-shadow:var(--ai-shadow);font:var(--ai-font-size)/1.45 var(--ai-font);
+}
+@keyframes hdb-ai-pulse{50%{opacity:.3;transform:scale(.7)}}
+.hdb-ai *{box-sizing:border-box}.hdb-ai button,.hdb-ai select,.hdb-ai input,.hdb-ai textarea{font:inherit;color:inherit}.hdb-ai button{cursor:pointer}.hdb-ai button:disabled,.hdb-ai select:disabled,.hdb-ai input:disabled,.hdb-ai textarea:disabled{cursor:not-allowed;opacity:.5}
+/* Placeholders are deliberately whisper-quiet: examples must hint, not shout. */
+.hdb-ai :is(input,textarea)::placeholder{color:var(--ai-muted);opacity:.45}
+.hdb-ai select:invalid,.hdb-ai input:placeholder-shown{color:inherit}
+
+/* R54: session-only notice shown while the D1 write quota is exhausted. Calm,
+   informational — mirrors .hdb-ai-unavailable geometry so themes cover it free. */
+.hdb-ai-ephemeral-note{flex:0 0 auto;display:flex;align-items:baseline;gap:7px;margin:7px 8px 0;padding:7px 9px;border:1px solid color-mix(in srgb,var(--ai-accent) 26%,var(--ai-border));border-radius:var(--ai-control-radius);background:color-mix(in srgb,var(--ai-accent) 6%,var(--ai-bg));font-size:var(--ai-font-caption)}.hdb-ai-ephemeral-note strong{white-space:nowrap;color:var(--ai-text)}.hdb-ai-ephemeral-note span{color:var(--ai-muted)}
+.hdb-ai-full{width:100%;max-width:1240px;height:min(800px,calc(100dvh - 170px));min-height:520px;margin:0 auto}.hdb-ai-drawer{width:100%;height:100%;min-height:0}
+
+.hdb-ai-icon-button{min-width:29px;height:29px;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 7px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-control-bg);color:var(--ai-text)}.hdb-ai-icon-button:hover:not(:disabled){border-color:color-mix(in srgb,var(--ai-accent) 55%,var(--ai-border));background:var(--ai-accent-soft)}.hdb-ai-icon-button.active{color:var(--ai-accent);border-color:color-mix(in srgb,var(--ai-accent) 48%,var(--ai-border));background:var(--ai-accent-soft)}.hdb-ai-button-label{font-size:var(--ai-font-caption);font-weight:700}.hdb-ai-close{padding:0;width:29px}
+
+.hdb-ai-sessionbar{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:5px 8px;border-bottom:1px solid var(--ai-border);background:color-mix(in srgb,var(--ai-panel-bg) 72%,var(--ai-bg))}.hdb-ai-sessionbar label{min-width:0;flex:1;display:flex;align-items:center;gap:6px}.hdb-ai-sessionbar label>span{flex:none;color:var(--ai-muted);font-size:var(--ai-font-micro);font-weight:700;text-transform:uppercase;letter-spacing:.07em}.hdb-ai-sessionbar select{min-width:0;flex:1;height:27px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-control-bg);padding:0 7px;font-size:var(--ai-font-control)}.hdb-ai-sessionbar .hdb-ai-delete{flex:none;color:var(--ai-danger);font-size:var(--ai-font-caption)}.hdb-ai-sessionbar .hdb-ai-delete span{white-space:nowrap}
+
+.hdb-ai-unavailable{flex:0 0 auto;display:flex;align-items:baseline;gap:7px;margin:7px 8px 0;padding:7px 9px;border:1px solid color-mix(in srgb,#d49a2a 46%,var(--ai-border));border-radius:var(--ai-control-radius);background:color-mix(in srgb,#e8a82e 9%,var(--ai-bg));font-size:var(--ai-font-caption)}.hdb-ai-unavailable strong{white-space:nowrap}.hdb-ai-unavailable span{color:var(--ai-muted)}
+.hdb-ai-local-research{flex:0 0 auto;display:grid;gap:4px;margin:7px 8px 0;padding:9px 11px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-accent-soft);font-size:12px;line-height:1.65;color:var(--ai-text);overflow-wrap:anywhere}.hdb-ai-local-research span{color:var(--ai-muted)}
+
+.hdb-ai-thread{flex:1;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding:12px 12px;display:flex;flex-direction:column;gap:3px;background:var(--ai-thread-bg);scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--ai-muted) 30%,transparent) transparent}
+.hdb-ai-welcome{align-self:stretch;display:grid;gap:5px;padding:11px 12px;border:1px solid color-mix(in srgb,var(--ai-accent) 23%,var(--ai-border));border-radius:var(--ai-message-radius);background:linear-gradient(135deg,var(--ai-accent-soft),color-mix(in srgb,var(--ai-bg) 88%,transparent))}.hdb-ai-welcome b{font:700 calc(var(--ai-font-size) + 2px)/1.35 var(--ai-title-font)}.hdb-ai-welcome>span{color:var(--ai-muted);font-size:var(--ai-font-caption);line-height:1.5}.hdb-ai-quick-prompts{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}.hdb-ai-quick-prompts button{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:4px 7px;border:1px solid var(--ai-border);border-radius:7px;background:var(--ai-control-bg);color:var(--ai-muted);font-size:var(--ai-font-micro)}.hdb-ai-quick-prompts button:hover:not(:disabled){color:var(--ai-accent);border-color:color-mix(in srgb,var(--ai-accent) 45%,var(--ai-border))}
+/* R56 Telegram-style bubbles: sender-aligned chat balloons with soft asymmetric
+   tails, compact same-sender rhythm, meta tucked inside the bubble foot. The
+   user balloon hugs the inline-end side (right in EN, left in FA) exactly like
+   a native RTL messenger; the AI balloon answers from the inline-start side. */
+.hdb-ai-message{position:relative;max-width:min(78%,720px);padding:7px 10px 5px;border:1px solid var(--ai-border);border-radius:var(--ai-message-radius);border-end-start-radius:var(--ai-message-radius);border-end-end-radius:4px;background:var(--ai-assistant-bg);overflow-wrap:anywhere}
+.hdb-ai-message.user{margin-left:auto;margin-right:0;border-color:color-mix(in srgb,var(--ai-accent) 26%,var(--ai-border));border-radius:var(--ai-message-radius);border-end-end-radius:var(--ai-message-radius);border-end-start-radius:4px;background:var(--ai-user-bg)}
+.hdb-ai-message.assistant{margin-left:0;margin-right:auto}
+.hdb-ai-message.user+.hdb-ai-message.user,.hdb-ai-message.assistant+.hdb-ai-message.assistant{margin-top:-1px}
+.hdb-ai-message.streaming{border-style:dashed}
+.hdb-ai-role{display:flex;align-items:baseline;justify-content:flex-end;gap:5px;margin-top:3px;color:var(--ai-muted);font-size:var(--ai-font-micro);line-height:1.2;opacity:.85}
+.hdb-ai-role strong{color:color-mix(in srgb,var(--ai-accent) 70%,var(--ai-text));font-size:var(--ai-font-micro);letter-spacing:.05em;text-transform:uppercase;font-weight:700}
+.hdb-ai-role span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hdb-ai-status{align-self:flex-start;display:flex;align-items:center;gap:6px;padding:2px 4px;color:var(--ai-muted);font-size:var(--ai-font-caption)}.hdb-ai-thinking-dot{width:6px;height:6px;border-radius:50%;background:var(--ai-accent);animation:hdb-ai-pulse 1s ease-in-out infinite}
+/* Native-messenger typing indicator: an AI balloon with three live dots that
+   appears the instant a turn starts — before any network event arrives. */
+.hdb-ai-typing{align-self:flex-start;display:flex;align-items:center;gap:4px;min-height:26px;padding:8px 11px;border:1px solid var(--ai-border);border-end-start-radius:var(--ai-message-radius);border-end-end-radius:4px;background:var(--ai-assistant-bg)}
+.hdb-ai-typing i{width:6px;height:6px;border-radius:50%;background:var(--ai-muted);animation:hdb-ai-typing-bounce 1.2s ease-in-out infinite}
+.hdb-ai-typing i:nth-child(2){animation-delay:.15s}.hdb-ai-typing i:nth-child(3){animation-delay:.3s}
+@keyframes hdb-ai-typing-bounce{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
+.hdb-ai-message-images,.hdb-ai-attachments{display:flex;gap:5px;flex-wrap:wrap}.hdb-ai-message-images{margin:0 0 6px}.hdb-ai-message-images img,.hdb-ai-attachments img{width:58px;height:44px;object-fit:cover;border:1px solid var(--ai-border);border-radius:4px}.hdb-ai-attachments span{position:relative}.hdb-ai-attachments span button{position:absolute;inset:-5px -5px auto auto;width:17px;height:17px;display:grid;place-items:center;padding:0;border:1px solid #fff;border-radius:50%;background:#20242b;color:#fff}
+.hdb-ai-refs{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}.hdb-ai-refs a{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:3px 6px;border:1px solid color-mix(in srgb,var(--ai-accent) 28%,var(--ai-border));border-radius:7px;background:var(--ai-accent-soft);color:var(--ai-accent);text-decoration:none;font-size:var(--ai-font-micro)}.hdb-ai-evidence{margin-top:6px;color:var(--ai-muted);font-size:var(--ai-font-micro)}.hdb-ai-evidence summary{cursor:pointer;color:var(--ai-accent);font-weight:700}.hdb-ai-evidence>div{padding:3px 1px}.hdb-ai-evidence small{opacity:.72}
+
+.hdb-ai-compose{flex:0 0 auto;display:grid;gap:5px;padding:7px 10px 9px;border-top:1px solid var(--ai-border);background:var(--ai-panel-bg)}
+.hdb-ai-controlstrip{display:flex;align-items:center;gap:4px;min-width:0}.hdb-ai-controlstrip-spacer{flex:1;min-width:2px}.hdb-ai-controlstrip .hdb-ai-icon-button{height:27px;min-width:27px;padding:0 6px}.hdb-ai-image-row{display:flex;gap:4px}.hdb-ai-image-row input{min-width:0;flex:1;height:29px;padding:0 8px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-control-bg);outline:none;font-size:var(--ai-font-control)}.hdb-ai-image-row button{height:29px;padding:0 9px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-control-bg);font-size:var(--ai-font-caption);font-weight:700}.hdb-ai-error{padding:5px 7px;border-radius:var(--ai-control-radius);background:color-mix(in srgb,var(--ai-danger) 8%,var(--ai-bg));color:var(--ai-danger);font-size:var(--ai-font-caption);line-height:1.4}.hdb-ai-composer-box{overflow:hidden;border:1px solid var(--ai-border);border-radius:calc(var(--ai-control-radius) + 2px);background:var(--ai-control-bg);transition:border-color .15s,box-shadow .15s}.hdb-ai-composer-box:focus-within{border-color:color-mix(in srgb,var(--ai-accent) 64%,var(--ai-border));box-shadow:0 0 0 2px color-mix(in srgb,var(--ai-accent) 11%,transparent)}.hdb-ai-composer-box textarea{display:block;width:100%;min-height:44px;max-height:132px;resize:vertical;padding:8px 9px 4px;border:0;outline:0;background:transparent;line-height:1.45}
+/* R62: the composer action row is a single aligned control line — 28px controls,
+   one 6px rhythm, baseline-aligned to the textarea box inset. */
+.hdb-ai-compose-actions{display:flex;align-items:center;gap:6px;min-height:30px;padding:3px 5px 5px}.hdb-ai-compose-actions .hdb-ai-icon-button{width:28px;min-width:28px;height:28px;padding:0;border-color:transparent;background:transparent}.hdb-ai-compose-hint{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ai-muted);font-size:var(--ai-font-micro)}
+/* R62: the send control follows the core design language — a glass rounded-rect
+   pill (9px radius like the platform tabs) with an accent-tinted surface and
+   hairline border instead of the old fixed-34px gradient circle that clipped
+   its own label. Auto width; icon + label breathe on a 6px gap. */
+.hdb-ai-send{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:28px;padding:0 11px;border:1px solid color-mix(in srgb,var(--ai-accent) 46%,var(--ai-border));border-radius:9px;background:color-mix(in srgb,var(--ai-accent) 14%,var(--ai-control-bg));color:var(--ai-accent);font-size:var(--ai-font-caption);font-weight:800;letter-spacing:.01em;box-shadow:inset 0 1px color-mix(in srgb,#fff 10%,transparent);transition:background-color .14s ease,border-color .14s ease,filter .14s ease}.hdb-ai-send:hover:not(:disabled){background:color-mix(in srgb,var(--ai-accent) 23%,var(--ai-control-bg));border-color:color-mix(in srgb,var(--ai-accent) 66%,var(--ai-border));filter:brightness(1.04)}.hdb-ai-send:active:not(:disabled){filter:brightness(.96)}.hdb-ai-send:disabled{opacity:.45;box-shadow:none}.hdb-ai-attach-count{position:absolute;transform:translate(8px,-8px);min-width:13px;height:13px;padding:0 3px;display:grid;place-items:center;border-radius:7px;background:var(--ai-accent);color:#fff;font-size:7px;font-weight:800}
+
+/* Markdown: safe React rendering, no raw HTML injection. */
+.hdb-ai-markdown{min-width:0;color:inherit;line-height:1.58}.hdb-ai-markdown>:first-child{margin-top:0!important}.hdb-ai-markdown>:last-child{margin-bottom:0!important}.hdb-ai-markdown p{margin:.38em 0}.hdb-ai-markdown h1,.hdb-ai-markdown h2,.hdb-ai-markdown h3,.hdb-ai-markdown h4,.hdb-ai-markdown h5,.hdb-ai-markdown h6{margin:.85em 0 .35em;font-family:var(--ai-title-font);line-height:1.25;color:var(--ai-text)}.hdb-ai-markdown h1{font-size:1.35em}.hdb-ai-markdown h2{font-size:1.23em}.hdb-ai-markdown h3{font-size:1.13em}.hdb-ai-markdown h4,.hdb-ai-markdown h5,.hdb-ai-markdown h6{font-size:1em}.hdb-ai-markdown ul,.hdb-ai-markdown ol{margin:.4em 0;padding-inline-start:1.55em}.hdb-ai-markdown li{margin:.18em 0}.hdb-ai-markdown li>input{margin-inline-end:.4em;vertical-align:-1px}.hdb-ai-markdown blockquote{margin:.55em 0;padding:.15em 0 .15em .85em;border-inline-start:3px solid color-mix(in srgb,var(--ai-accent) 45%,var(--ai-border));color:var(--ai-muted)}.hdb-ai-markdown hr{margin:.7em 0;border:0;border-top:1px solid var(--ai-border)}.hdb-ai-markdown a{color:var(--ai-accent);text-decoration-thickness:1px;text-underline-offset:2px}.hdb-ai-markdown code:not(pre code){padding:.1em .35em;border:1px solid color-mix(in srgb,var(--ai-border) 85%,transparent);border-radius:4px;background:color-mix(in srgb,var(--ai-muted) 8%,transparent);font-family:var(--ai-mono);font-size:.92em}.hdb-ai-code{margin:.55em 0;overflow:hidden;border:1px solid color-mix(in srgb,var(--ai-border) 86%,#000);border-radius:8px;background:var(--ai-code-bg);color:#eef2f6}.hdb-ai-code-head{height:27px;display:flex;align-items:center;justify-content:space-between;padding:0 7px;border-bottom:1px solid #ffffff1c;background:#ffffff0a;color:#b8c2ce;font:var(--ai-font-micro)/1 var(--ai-mono);text-transform:uppercase}.hdb-ai-code-head button{height:21px;padding:0 6px;border:1px solid #ffffff25;border-radius:4px;background:#ffffff0c;color:#d8e1ea;font:var(--ai-font-micro)/1 var(--ai-font)}.hdb-ai-code pre{margin:0;padding:9px 10px;overflow:auto;font:var(--ai-font-code)/1.55 var(--ai-mono);tab-size:2}.hdb-ai-code pre code{font:inherit}.hdb-ai-table-wrap{max-width:100%;margin:.55em 0;overflow:auto;border:1px solid var(--ai-border);border-radius:5px}.hdb-ai-markdown table{width:100%;border-collapse:collapse;font-size:.94em}.hdb-ai-markdown th,.hdb-ai-markdown td{padding:5px 7px;border-bottom:1px solid var(--ai-border);border-inline-end:1px solid var(--ai-border);text-align:start;vertical-align:top}.hdb-ai-markdown th{background:var(--ai-panel-bg);font-weight:800}.hdb-ai-markdown tr:last-child td{border-bottom:0}.hdb-ai-markdown :is(th,td):last-child{border-inline-end:0}.hdb-ai-md-image{display:block;max-width:100%;max-height:280px;margin:.5em 0;border:1px solid var(--ai-border);border-radius:7px;object-fit:contain}
+
+/* Tech-support style launcher: compact popup anchored to the same bottom corner. */
+/* R52: the chat window now AUTO-SCALES with the user's viewport — grows on large
+   screens (up to 740px tall), shrinks on short ones (floor 430px), always fits
+   above the launcher button. Mobile keeps its dedicated full-width layout below. */
+.hdb-ai-launcher{position:fixed;z-index:2147482000;inset:auto 16px calc(16px + env(safe-area-inset-bottom,0px)) auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;
+  /* Token bridge (R54): the FAB lives OUTSIDE the .hdb-ai component scope, so
+     the shared --ai-* tokens are re-anchored here. Frontends map --ai-fab-*
+     hooks exactly like they map the chat panel tokens. */
+  --ai-accent:var(--ai-fab-accent,#315fbd);
+  --ai-bg:var(--ai-fab-surface,#fff);
+  --ai-font-caption:var(--ai-fab-font-size,11.5px)}
+.hdb-ai-launcher[dir=rtl]{inset:auto 16px calc(16px + env(safe-area-inset-bottom,0px)) auto;align-items:flex-start}.hdb-ai-popover{width:min(400px,calc(100vw - 24px));height:min(720px,max(430px,calc(100dvh - 84px)));pointer-events:auto;transform-origin:bottom right;animation:hdb-ai-pop .16s ease-out}.hdb-ai-launcher[dir=rtl] .hdb-ai-popover{transform-origin:bottom right}@keyframes hdb-ai-pop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+/* R60: the launcher button speaks the SAME tokenized control language as the
+   rest of each frontend — a compact icon-only glass disc. It reads as a quiet
+   piece of app chrome rather than a floating ad: translucent surface, blur,
+   hairline accent border, one restrained shadow. Frontends remap --ai-fab-*
+   hooks exactly like the chat panel tokens. */
+.hdb-ai-fab{
+  position:relative;
+  width:38px;height:38px;min-width:38px;
+  display:flex;align-items:center;justify-content:center;
+  gap:0;padding:0;
+  border:1px solid color-mix(in srgb,var(--ai-accent) 40%,transparent);
+  border-radius:50%;
+  background:color-mix(in srgb,var(--ai-bg) 82%,transparent);
+  -webkit-backdrop-filter:blur(12px) saturate(1.12);
+  backdrop-filter:blur(12px) saturate(1.12);
+  color:var(--ai-fab-icon,var(--ai-accent));
+  box-shadow:0 4px 14px rgb(0 0 0 / .14),inset 0 1px 0 rgb(255 255 255 / .18);
+  pointer-events:auto;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+.hdb-ai-fab:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--ai-accent) 68%,transparent);box-shadow:0 6px 18px rgb(0 0 0 / .18),inset 0 1px 0 rgb(255 255 255 / .22)}
+.hdb-ai-fab:active{transform:translateY(0) scale(.96)}
+.hdb-ai-fab:focus-visible{outline:2px solid color-mix(in srgb,var(--ai-accent) 60%,transparent);outline-offset:2px}
+.hdb-ai-fab-icon{display:grid;place-items:center}
+/* The text label is retired from the button face (icon-only, minimal footprint);
+   the spoken name stays available through the button's aria-label. */
+.hdb-ai-fab-label{display:none}
+.hdb-ai-fab-status{position:absolute;inset:auto 3px 3px auto;width:6px;height:6px;border:1.5px solid color-mix(in srgb,var(--ai-bg) 88%,#fff);border-radius:50%;background:#9098a2;box-shadow:0 1px 2px rgb(0 0 0 / .28)}
+.hdb-ai-launcher[data-ai-readiness="ready"] .hdb-ai-fab-status{background:#34b66a}.hdb-ai-launcher[data-ai-readiness="unavailable"] .hdb-ai-fab-status{background:#e0a32f}.hdb-ai-launcher[data-ai-readiness="checking"] .hdb-ai-fab-status{animation:hdb-ai-pulse 1.2s ease-in-out infinite}
+.hdb-ai-launcher.open .hdb-ai-fab{border-color:color-mix(in srgb,var(--ai-accent) 62%,transparent)}
+
+/* R54 smart compactness: on phones, progressively retire lower-priority chat
+   chrome BEFORE touching anything the user needs to answer. Hidden first:
+   provider/model/timestamp details on bubbles, the "Recent" picker label, and
+   the welcome explainer (the quick prompts stay — they are one-tap starters). */
+@media(max-width:720px){.hdb-ai{min-height:0;max-height:100dvh}.hdb-ai-button-label{display:none}.hdb-ai-full{height:calc(100dvh - 160px);min-height:0}.hdb-ai-launcher{inset:auto 8px calc(76px + env(safe-area-inset-bottom,0px)) auto}.hdb-ai-launcher[dir=rtl]{inset:auto 8px calc(76px + env(safe-area-inset-bottom,0px)) auto}.hdb-ai-popover{position:fixed;inset:8px 8px calc(128px + env(safe-area-inset-bottom,0px));width:auto;height:auto;min-height:0;max-height:none;overflow:hidden;overscroll-behavior:contain}.hdb-ai-fab{width:40px;min-width:40px;height:40px}.hdb-ai-message{max-width:95%}.hdb-ai-compose-hint{display:none}.hdb-ai-unavailable{align-items:flex-start;flex-direction:column;gap:2px}.hdb-ai-ephemeral-note{align-items:flex-start;flex-direction:column;gap:2px}.hdb-ai-role span{display:none}.hdb-ai-sessionbar label>span{display:none}.hdb-ai-welcome>span{display:none}.hdb-ai-welcome b{font-size:calc(var(--ai-font-size) + 1px)}}
+@media(max-width:420px){.hdb-ai-controlstrip{gap:3px}.hdb-ai-thread{padding:8px 7px}.hdb-ai-compose{padding:6px}.hdb-ai-message{max-width:97%;padding:6px 8px}.hdb-ai-quick-prompts{gap:3px}.hdb-ai-quick-prompts button{padding:4px 6px;max-width:46%}}
+
+/* R31.8 diagnostics + optimistic-send polish. Shared across all frontend themes. */
+.hdb-ai{position:relative}
+.hdb-ai-message.pending{opacity:.78;border-style:dashed}.hdb-ai-message.pending .hdb-ai-role span{font-style:italic}
+.hdb-ai-diagnostics{position:absolute;z-index:8;inset:8px 8px auto auto;width:min(520px,calc(100% - 16px));max-height:min(300px,48%);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--ai-border);border-radius:calc(var(--ai-control-radius) + 4px);background:color-mix(in srgb,var(--ai-bg) 94%,transparent);box-shadow:0 14px 34px rgb(0 0 0 / .18);backdrop-filter:blur(18px) saturate(1.08);-webkit-backdrop-filter:blur(18px) saturate(1.08)}
+.hdb-ai[dir=rtl] .hdb-ai-diagnostics{inset:8px auto auto 8px}
+.hdb-ai-diagnostics>header{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 8px;border-bottom:1px solid var(--ai-border);background:var(--ai-panel-bg)}
+.hdb-ai-diagnostics>header>span:first-child{min-width:0;display:grid;gap:1px}.hdb-ai-diagnostics>header strong{font-size:var(--ai-font-caption)}.hdb-ai-diagnostics>header small{color:var(--ai-muted);font-size:var(--ai-font-micro)}.hdb-ai-diagnostics>header>span:last-child{display:flex;gap:4px}.hdb-ai-diagnostics button{height:24px;display:inline-flex;align-items:center;gap:4px;padding:0 7px;border:1px solid var(--ai-border);border-radius:var(--ai-control-radius);background:var(--ai-control-bg);font-size:var(--ai-font-micro);font-weight:700}.hdb-ai-diagnostics pre{flex:1;min-height:0;margin:0;padding:8px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ai-muted);background:transparent;font:var(--ai-font-micro)/1.5 var(--ai-mono)}
+.hdb-ai-error{display:flex;align-items:center;justify-content:space-between;gap:8px}.hdb-ai-error>span{min-width:0;flex:1}.hdb-ai-error>button{flex:none;height:24px;display:inline-flex;align-items:center;gap:4px;padding:0 7px;border:1px solid color-mix(in srgb,var(--ai-danger) 35%,var(--ai-border));border-radius:var(--ai-control-radius);background:color-mix(in srgb,var(--ai-danger) 5%,var(--ai-control-bg));color:inherit;font-size:var(--ai-font-micro);font-weight:700}
+@media(max-width:600px){.hdb-ai-diagnostics{inset:5px 5px auto;width:calc(100% - 10px);max-height:42%}.hdb-ai[dir=rtl] .hdb-ai-diagnostics{inset:5px 5px auto}.hdb-ai-error{align-items:flex-start;flex-direction:column}.hdb-ai-error>button{align-self:flex-end}}
+
+/* External Markdown images are opt-in: model output must not silently contact
+   third-party image hosts. These controls inherit the active frontend tokens. */
+.hdb-ai-md-image-gate{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:100%;margin:7px 0;padding:8px 10px;border:1px solid var(--ai-border,rgba(127,127,127,.22));border-radius:var(--ai-radius-sm,10px);background:var(--ai-surface-soft,rgba(127,127,127,.06))}
+.hdb-ai-md-image-gate>span{display:grid;min-width:0;gap:1px}.hdb-ai-md-image-gate strong{font:inherit;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hdb-ai-md-image-gate small{opacity:.62;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hdb-ai-md-image-gate button{flex:none;border:1px solid var(--ai-border-strong,var(--ai-border,rgba(127,127,127,.28)));border-radius:7px;padding:5px 9px;background:var(--ai-control-bg,transparent);color:inherit;cursor:pointer;font:inherit;font-size:.82em}
+
+/* Auto-linked registry entities (horses/people) inside AI answer text.
+   Distinct from generic links: soft pill-underline, accent tint, tiny ↗ cue on
+   hover so users can see the name opens a profile without leaving the chat. */
+.hdb-ai-markdown a[href^="/horse/"],.hdb-ai-markdown a[href^="/person/"]{padding:.06em .3em;margin-inline:-.1em;border-radius:6px;background:color-mix(in srgb,var(--ai-accent) 10%,transparent);text-decoration:none;font-weight:650;transition:background .15s ease,color .15s ease}
+.hdb-ai-markdown a[href^="/horse/"]:hover,.hdb-ai-markdown a[href^="/person/"]:hover{background:color-mix(in srgb,var(--ai-accent) 20%,transparent);text-decoration:underline;text-underline-offset:3px}
+.hdb-ai-markdown a[href^="/horse/"]::after,.hdb-ai-markdown a[href^="/person/"]::after{content:"↗";display:inline-block;margin-inline-start:.18em;font-size:.78em;opacity:.55;vertical-align:.08em}
+
+/* ------------------------------------------------------------------
+   R66-chat — completeness pass (shared by every frontend surface):
+   - the composer box is no longer user-resizable; it auto-grows with
+     the draft (capped by the existing max-height) so Enter-to-send and
+     long prompts both feel native.
+   - "jump to latest" pill appears when the user scrolls up mid-stream.
+   - every finished assistant answer carries a quiet copy affordance.
+   ------------------------------------------------------------------ */
+.hdb-ai-composer-box textarea{resize:none}
+.hdb-ai-thread-shell{flex:1;min-height:0;position:relative;display:flex;flex-direction:column}
+.hdb-ai-thread-shell>.hdb-ai-thread{flex:1}
+.hdb-ai-jump{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--ai-border);border-radius:7px;background:var(--ai-control-bg);
+  color:var(--ai-text);box-shadow:0 6px 18px rgb(18 26 39 / .16);font-size:14px;line-height:1;
+}
+.hdb-ai-jump:hover{border-color:color-mix(in srgb,var(--ai-accent) 55%,var(--ai-border));color:var(--ai-accent);background:var(--ai-accent-soft)}
+.hdb-ai-message{position:relative}
+.hdb-ai-copy-msg{
+  position:absolute;top:6px;inset-inline-end:8px;display:inline-flex;align-items:center;gap:3px;
+  height:22px;padding:0 7px;border:1px solid transparent;border-radius:7px;
+  background:transparent;color:var(--ai-muted);font-size:var(--ai-font-micro);font-weight:600;
+  opacity:0;transition:opacity .12s ease,color .12s ease;
+}
+.hdb-ai-message:hover .hdb-ai-copy-msg,.hdb-ai-copy-msg:focus-visible{opacity:1}
+.hdb-ai-copy-msg:hover{color:var(--ai-accent);border-color:color-mix(in srgb,var(--ai-accent) 40%,var(--ai-border));background:var(--ai-accent-soft)}
+

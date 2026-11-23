@@ -1,0 +1,12 @@
+/* Canonical navigation GROUP accents, not shared business logic or a new UI skin.
+   Color supplements explicit headings, counts, indentation and aria-current. */
+:is(.h102-group,.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group="registry"] { --nav-group-hue:210; }
+:is(.h102-group,.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group="research"] { --nav-group-hue:272; }
+:is(.h102-group,.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group="business"] { --nav-group-hue:35; }
+:is(.h102-group,.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group="governance"] { --nav-group-hue:153; }
+:is(.h102-group,.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group="showcase"] { --nav-group-hue:337; }
+:is(.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group] { --nav-group-accent:hsl(var(--nav-group-hue,210) 58% 46%); border-inline-start:3px solid var(--nav-group-accent); padding-inline-start:8px; margin-block:8px; }
+:is(.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group] :is(ul,.side-nav) { margin-inline-start:8px; padding-inline-start:6px; border-inline-start:1px solid color-mix(in srgb,var(--nav-group-accent) 35%,transparent); }
+:is(.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group] a[aria-current="page"] { border-inline-start:3px solid var(--nav-group-accent); font-weight:750; text-decoration:underline; text-underline-offset:3px; }
+.nav-group-count { font-size:.75em; font-variant-numeric:tabular-nums; margin-inline-start:auto; padding-inline:6px; border:1px solid color-mix(in srgb,var(--nav-group-accent,currentColor) 40%,transparent); border-radius:4px; }
+@media(forced-colors:active){:is(.edx102-group,.fc102-group,.astra-nav-group,.classic-nav-group)[data-group] { border-color:CanvasText; } a[aria-current="page"] { outline:2px solid Highlight; }}

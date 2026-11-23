@@ -1,0 +1,40 @@
+# Horse-DB-3 R31.9 -> R31.10 exact source delta manifest
+
+baseline_archive=HORSE-DB-3-R31.9-AI-ARCHITECTURE-REPAIR-CERTIFIED-FULL-SOURCE-NO-DB-2026-09-16.zip
+baseline_sha256=46519878b506a00380c50d4661cdf521209736c8d39d7750a9789eae3c517dbe
+baseline_files=1019
+candidate_files=1022
+added=3
+changed=20
+removed=0
+unchanged=999
+
+## ADDED
+R31_10_SOURCE_SHA256_MANIFEST.txt
+docs/R31_10_AI_MOBILE_SCROLL_AND_PROVIDER_REFINEMENTS_2026-09-16.md
+docs/R31_10_CERTIFICATION_2026-09-16.md
+
+## CHANGED
+.env.example
+CHANGELOG.md
+PROJECT_STATE.md
+TODO.md
+docs/R31_AI_OPERATIONS.md
+docs/R31_SOURCE_DELTA_MANIFEST.txt
+src/ai/core/types.ts
+src/ai/providers/deepseek/client.ts
+src/ai/providers/gemini/client.ts
+src/ai/runtime/config.ts
+src/ai/runtime/orchestrator.ts
+src/frontend-kit/ai/AssistantPanel.tsx
+src/frontend-kit/ai/assistant.css
+src/types/cloudflare-env.d.ts
+src/web/frontends/classic-registry/classic-registry.css
+src/web/styles/heritage.ai.css
+tools/local-sqlite-vite.ts
+tools/test-ai-provider-protocols.mjs
+tools/validate-ai-assistant.mjs
+tools/validate-mobile-ux-system.mjs
+
+## REMOVED
+(none)

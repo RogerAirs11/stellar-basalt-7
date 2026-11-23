@@ -1,0 +1,48 @@
+{
+  "candidate_kind": "FULL_REAL_DATA_D1_SERVING_OPTIMIZED_SOURCE",
+  "date": "2026-09-08",
+  "base_hardened_candidate_sha256": "8b1d2008e5c6d968e04a86b53c2180e474eb08b9ae20e026a8dd4d02c7cfe1b7",
+  "serving_db": {
+    "file": "horse-registry-v5-d1-serving-optimized.sqlite",
+    "size": 196677632,
+    "sha256": "8006638e7b952ca077ac0659e15db210574d1d53cce4ea1f73e167a537eab544"
+  },
+  "d1_export": {
+    "files": 151,
+    "statements": 567572,
+    "sql_bytes": 269137098,
+    "manifest_sha256": "58c7619b7eaea86d29d0607c6d530702fe95bd8825370c76630ec2573df14f85"
+  },
+  "validation": {
+    "python": "31/31 PASS",
+    "exact_final_replay": "PASS",
+    "full_second_replay_idempotency": "PASS",
+    "fts_queries": "85/85 parity",
+    "trigram_queries": "86/86 parity",
+    "role_membership_queries": "100/100 parity",
+    "integrity": "ok",
+    "foreign_key_violations": 0,
+    "source_docs_validation": "PASS",
+    "source_syntax_validation": "PASS",
+    "operational_inventory": "PASS",
+    "free_tier_budget_validator": "PASS",
+    "full_node_lockfile_gate": "PENDING_EXTERNAL_EAI_AGAIN"
+  },
+  "source_delta": {
+    "base": "Horse-Registry-v1.1.8-Showcase-Release-v5-Source-With-Docs-2026-09-08.zip",
+    "added": [
+      "docs/V5_D1_SERVING_FINAL_REPLAY_VALIDATION_2026-09-08.json",
+      "docs/V5_D1_SERVING_OPTIMIZATION_REPORT_2026-09-08.md",
+      "docs/V5_D1_SERVING_OPTIMIZATION_WORKLOG_2026-09-08.md",
+      "tests/python/test_d1_serving_db.py",
+      "tools/build_d1_serving_db.py"
+    ],
+    "changed": [
+      "src/search/refresh.ts",
+      "tools/export_sqlite_to_d1.py",
+      "tools/import_xlsx.py"
+    ],
+    "removed": []
+  },
+  "remote_status": "NOT_YET_PROMOTED_TO_FULL_REAL_DATA_D1"
+}

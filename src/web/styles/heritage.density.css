@@ -1,0 +1,58 @@
+/*
+ * Heritage density + performance presentation modes (R32 / user task 5b).
+ * ---------------------------------------------------------------------
+ * data-density="compact" reduces paddings, gaps and section chrome so smaller
+ * screens fit meaningfully more content without shrinking the type scale.
+ * Phones default to compact; the Appearance Studio exposes the choice.
+ * data-perf="lite" (set by the appearance runtime for weak devices or manual
+ * selection) additionally stops the heaviest decorative work.
+ */
+
+/* ── Compact density ──────────────────────────────────────────────────── */
+html[data-frontend="heritage"][data-density="compact"] .page{padding-block:14px;padding-bottom:34px}
+html[data-frontend="heritage"][data-density="compact"] .premium-page-head{padding-block:10px 14px}
+html[data-frontend="heritage"][data-density="compact"] .premium-page-head h1{margin-block:3px 6px}
+html[data-frontend="heritage"][data-density="compact"] .premium-page-head p{margin-block:0 4px}
+html[data-frontend="heritage"][data-density="compact"] .section-title{margin-block:10px}
+html[data-frontend="heritage"][data-density="compact"] .panel,
+html[data-frontend="heritage"][data-density="compact"] .table-panel,
+html[data-frontend="heritage"][data-density="compact"] .pedigree-section{padding:12px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-desk-grid{gap:10px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-studio-grid{gap:10px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-studio-card{padding:13px;gap:10px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-news-grid{gap:10px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-news-feed{gap:6px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-news-reader>header{padding:14px 16px 10px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-news-body{padding:13px 16px}
+html[data-frontend="heritage"][data-density="compact"] .stats-grid,
+html[data-frontend="heritage"][data-density="compact"] .premium-features,
+html[data-frontend="heritage"][data-density="compact"] .details-grid,
+html[data-frontend="heritage"][data-density="compact"] .lineage-cards{gap:8px}
+html[data-frontend="heritage"][data-density="compact"] .people-registry-row{height:38px}
+html[data-frontend="heritage"][data-density="compact"] .people-registry-rows{max-height:min(460px,58vh)}
+html[data-frontend="heritage"][data-density="compact"] .desk-panel{padding:11px}
+html[data-frontend="heritage"][data-density="compact"] .result-grid{gap:5px}
+html[data-frontend="heritage"][data-density="compact"] .result-card{padding:7px 9px}
+html[data-frontend="heritage"][data-density="compact"] .admin-grid{gap:10px}
+html[data-frontend="heritage"][data-density="compact"] .stat-grid{gap:8px}
+html[data-frontend="heritage"][data-density="compact"] .workspace-summary{padding:13px}
+html[data-frontend="heritage"][data-density="compact"] .stats-subnav,
+html[data-frontend="heritage"][data-density="compact"] .stats-subtabs{gap:5px}
+html[data-frontend="heritage"][data-density="compact"] .ped-card{padding:5px 7px}
+html[data-frontend="heritage"][data-density="compact"] .heritage-news-card{padding:7px}
+
+/* Pedigree containers fit their viewport instead of forcing a second page
+ * scroll (user task 5): compact height caps with internal scroll only. */
+html[data-frontend="heritage"][data-density="compact"] .pedigree-scroll{min-height:clamp(340px,52vh,560px)}
+html[data-frontend="heritage"][data-density="compact"] .modern-pedigree{max-height:56vh}
+
+/* ── Performance: lite mode ───────────────────────────────────────────── */
+/* Decorative animation is stopped in heritage.lighting.css; here we tame the
+ * expensive compositor work: heavy blur chains and parallax engines. */
+html[data-frontend="heritage"][data-perf="lite"]{--h-v2-frost-runtime-scale:.55}
+html[data-frontend="heritage"][data-perf="lite"] .heritage-bg-layer{filter:none!important}
+html[data-frontend="heritage"][data-perf="lite"] .heritage-v2-lighting-overlay::before{filter:none}
+/* Below-fold heavy sections render only when scrolled near them. */
+html[data-frontend="heritage"] .pedigree-section,
+html[data-frontend="heritage"] .premium-features,
+html[data-frontend="heritage"] .stats-grid{content-visibility:auto;contain-intrinsic-size:auto 640px}

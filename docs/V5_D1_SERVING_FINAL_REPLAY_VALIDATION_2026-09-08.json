@@ -1,0 +1,208 @@
+{
+  "source": "/mnt/data/horse_registry_serving_opt/horse-registry-v5-d1-serving-optimized.sqlite",
+  "replay": "/mnt/data/horse_registry_serving_opt/replay-serving-exact-final.sqlite",
+  "table_hash_parity": {
+    "source_imports": {
+      "source": [
+        1,
+        "2d4b0c7fea0f89ff2b3f31f82565f93dca528d3fc1490490deb1ab5219e93ed2"
+      ],
+      "replay": [
+        1,
+        "2d4b0c7fea0f89ff2b3f31f82565f93dca528d3fc1490490deb1ab5219e93ed2"
+      ],
+      "equal": true
+    },
+    "horses": {
+      "source": [
+        78089,
+        "31866ed9009af18ee1de9c22eb1773a6553c9775b6e57ea54bc7bfa9935fb744"
+      ],
+      "replay": [
+        78089,
+        "31866ed9009af18ee1de9c22eb1773a6553c9775b6e57ea54bc7bfa9935fb744"
+      ],
+      "equal": true
+    },
+    "people": {
+      "source": [
+        26646,
+        "397538c8b0330806d645801195bd553958bba99e3eaf7cc423e19480c7512527"
+      ],
+      "replay": [
+        26646,
+        "397538c8b0330806d645801195bd553958bba99e3eaf7cc423e19480c7512527"
+      ],
+      "equal": true
+    },
+    "horse_people": {
+      "source": [
+        110469,
+        "b36359b036332538a235baef08656eb53c6d7fe8956ee55ca49d13b9018ca88f"
+      ],
+      "replay": [
+        110469,
+        "b36359b036332538a235baef08656eb53c6d7fe8956ee55ca49d13b9018ca88f"
+      ],
+      "equal": true
+    },
+    "horse_aliases": {
+      "source": [
+        0,
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "replay": [
+        0,
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "equal": true
+    },
+    "data_quality_issues": {
+      "source": [
+        4677,
+        "1e818c23a9cf0bb98285edb39822c1e32fd318a34e2cbfd49982eb4ae01d02de"
+      ],
+      "replay": [
+        4677,
+        "1e818c23a9cf0bb98285edb39822c1e32fd318a34e2cbfd49982eb4ae01d02de"
+      ],
+      "equal": true
+    },
+    "analytics_snapshots": {
+      "source": [
+        2,
+        "ef77164a4a702565f9c252087ba326710864158952e9b6a54a34447e1e078de5"
+      ],
+      "replay": [
+        2,
+        "ef77164a4a702565f9c252087ba326710864158952e9b6a54a34447e1e078de5"
+      ],
+      "equal": true
+    },
+    "horse_reference_intelligence": {
+      "source": [
+        71545,
+        "ba966cd27a415df8c238163b6003fd5f90c3af6ea546ed1d0ca09a365bedc523"
+      ],
+      "replay": [
+        71545,
+        "ba966cd27a415df8c238163b6003fd5f90c3af6ea546ed1d0ca09a365bedc523"
+      ],
+      "equal": true
+    },
+    "person_registry_stats": {
+      "source": [
+        26646,
+        "6c685a9a0feaaa7b3c8ff0e1c08f6f3e1dafba6a8dcd5b6d5fe5fdb5e2cb5b06"
+      ],
+      "replay": [
+        26646,
+        "6c685a9a0feaaa7b3c8ff0e1c08f6f3e1dafba6a8dcd5b6d5fe5fdb5e2cb5b06"
+      ],
+      "equal": true
+    },
+    "registry_runtime_counters": {
+      "source": [
+        1,
+        "4b2e9712f2a3cc1a83a20d53e53ee48d2372293cd093ea107a5262fc569622d7"
+      ],
+      "replay": [
+        1,
+        "4b2e9712f2a3cc1a83a20d53e53ee48d2372293cd093ea107a5262fc569622d7"
+      ],
+      "equal": true
+    },
+    "horse_registry_people_summary": {
+      "source": [
+        57775,
+        "3ccd26300791f81441dcbe30e9d47225da67aea738477d51865d8af908508b86"
+      ],
+      "replay": [
+        57775,
+        "3ccd26300791f81441dcbe30e9d47225da67aea738477d51865d8af908508b86"
+      ],
+      "equal": true
+    },
+    "registry_filter_counts": {
+      "source": [
+        412,
+        "2b6e933fec53ff9661b2cc92ec5e0e46568f337c1aa737da67813c27be038bd6"
+      ],
+      "replay": [
+        412,
+        "2b6e933fec53ff9661b2cc92ec5e0e46568f337c1aa737da67813c27be038bd6"
+      ],
+      "equal": true
+    },
+    "registry_state": {
+      "source": [
+        1,
+        "6291c636182017ba8c08421644847525239c727755afbb7c871d2aa1d8d2e717"
+      ],
+      "replay": [
+        1,
+        "6291c636182017ba8c08421644847525239c727755afbb7c871d2aa1d8d2e717"
+      ],
+      "equal": true
+    },
+    "horse_search_source": {
+      "source": [
+        78089,
+        "48503b6348a30d35513a87d76622d1e9a4a479a60baac24de17fb8cabfb43bec"
+      ],
+      "replay": [
+        78089,
+        "48503b6348a30d35513a87d76622d1e9a4a479a60baac24de17fb8cabfb43bec"
+      ],
+      "equal": true
+    }
+  },
+  "counts": {
+    "source_imports": 1,
+    "horses": 78089,
+    "people": 26646,
+    "horse_people": 110469,
+    "horse_aliases": 0,
+    "data_quality_issues": 4677,
+    "analytics_snapshots": 2,
+    "horse_reference_intelligence": 71545,
+    "person_registry_stats": 26646,
+    "registry_runtime_counters": 1,
+    "horse_registry_people_summary": 57775,
+    "registry_filter_counts": 412,
+    "registry_state": 1,
+    "horse_search_source": 78089,
+    "horse_search_fts": 78089,
+    "horse_search_trigram": 78089,
+    "horse_role_search_trigram": 57777
+  },
+  "fts_schema": {
+    "horse_search_fts": "CREATE VIRTUAL TABLE horse_search_fts USING fts5(name_latin,name_native,identifiers,owners,breeders,father_name,mother_name,places,breed,all_text,content='horse_search_source',content_rowid='horse_id',tokenize='unicode61 remove_diacritics 2')",
+    "horse_search_trigram": "CREATE VIRTUAL TABLE horse_search_trigram USING fts5(all_text,content='horse_search_source',content_rowid='horse_id',tokenize='trigram')",
+    "horse_role_search_trigram": "CREATE VIRTUAL TABLE horse_role_search_trigram USING fts5(owner,breeder,importer,passport_receiver,tokenize='trigram',columnsize=0)"
+  },
+  "raw_json_nonnull": 0,
+  "integrity": "ok",
+  "foreign_key_violations": 0,
+  "removed_indexes_absent": {
+    "idx_hri_cohort": true,
+    "idx_hri_dpi": true,
+    "idx_hri_kinship": true,
+    "idx_horses_microchip_no": true,
+    "idx_people_name_latin": true
+  },
+  "role_docsize_shadow_present": 0,
+  "fts_search_parity": {
+    "queries": 85,
+    "mismatches": []
+  },
+  "trigram_search_parity": {
+    "queries": 86,
+    "mismatches": []
+  },
+  "role_membership_parity": {
+    "queries": 100,
+    "mismatches": []
+  },
+  "overall_pass": true
+}

@@ -1,0 +1,26 @@
+R31.2 validation summary — 2026-09-16
+
+PASS validate-ai-assistant.mjs
+PASS validate-frontends.mjs
+PASS validate-production-frontend-assets.mjs --source
+PASS validate-css-architecture.mjs
+PASS validate-source-syntax.mjs (248 TS/TSX files, 0 parse diagnostics, 0 unresolved browser names)
+PASS validate-mobile-ux-system.mjs
+PASS validate-platform-contract.mjs
+PASS test-ai-provider-protocols.mjs
+PASS test-ai-runtime-policies.mjs
+PASS test-ai-storage.mjs
+PASS validate-visible-surface-parity.mjs
+PASS validate-presentation-parity.mjs
+PASS explicit integration assertions:
+  - floating launcher no longer self-hides
+  - Core /assistant route
+  - Core desktop AI nav
+  - Core mobile AI dock
+  - Classic Registry /f/classic-registry/assistant native route
+  - Classic iframe AI Research navigation
+  - Classic AI capability optional/non-blocking
+  - Core ai_assistant surfaced
+PASS src/ai preservation: 22 files, 0 byte differences vs R31.1 base
+
+NOT COMPLETED: clean npm dependency install/build/typecheck. npm ci did not complete in sandbox; partial node_modules was removed before packaging.

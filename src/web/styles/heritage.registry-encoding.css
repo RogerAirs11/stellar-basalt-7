@@ -1,0 +1,454 @@
+/* ============================================================================
+   R128 — REGISTRY SEMANTIC ENCODING AUTHORITY
+   ============================================================================
+   This file is the SINGLE owner of the registry's visual-encoding system:
+   the meaning-bearing chips (sex / lifecycle / coat / breed), the phone
+   registry card system (Detailed + Narrow), the phone view toggle, and the
+   results pager.
+
+   Layering contract:
+     - Meaning tokens live in heritage.tokens.css (--enc-*).
+     - Classification logic lives in src/frontend-kit/registryEncoding.ts.
+     - Geometry + painting live HERE. No other sheet redefines card geometry.
+     - Material/glass responses (heritage.final.css, heritage.material.css,
+       app.css glass groups) keep applying ON TOP of this structure — they
+     theme the surfaces, they never reshape them.
+
+   Encoding grammar (identical on every surface, so the eye learns it once):
+     ▌ edge/accent + chip tone  = SEX      (sire cyan ♂ / dam rose ♀ / amber ◇)
+     ● dot                      = BREED    (stable hue per studbook population)
+     ■ physical swatch          = COAT     (a bay chip is bay-colored, always)
+     † / ○ glyph chip           = LIFECYCLE (only shown for non-active records —
+                                the 95% constant stays quiet, the exception
+                                speaks; nothing is hidden, one tap opens all)
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   PART 1 — Encoding chips (shared by phone cards, result cards, profile tags)
+   ---------------------------------------------------------------------------- */
+.enc-chip{
+  --enc-tone:var(--metal);
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  min-height:var(--enc-chip-h,22px);
+  padding:var(--enc-chip-pad,3px 7px);
+  border-radius:var(--enc-chip-radius,7px);
+  border:1px solid color-mix(in srgb,var(--enc-tone) var(--enc-hairline,38%),var(--line));
+  background:color-mix(in srgb,var(--enc-tone) var(--enc-tint,13%),transparent);
+  color:color-mix(in srgb,var(--enc-tone) 76%,var(--ink));
+  font:700 var(--enc-chip-text,10px)/1 var(--h-font-ui,var(--sans));
+  white-space:nowrap;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.enc-chip>*{flex:none}
+.enc-chip .enc-chip-flow{overflow:hidden;text-overflow:ellipsis}
+
+/* Sex tones — the reserved pedigree pair, plus amber gelding and neutral unknown. */
+.enc-chip.enc-sex-male{--enc-tone:var(--enc-sex-male)}
+.enc-chip.enc-sex-female{--enc-tone:var(--enc-sex-female)}
+.enc-chip.enc-sex-gelding{--enc-tone:var(--enc-sex-gelding)}
+.enc-chip.enc-sex-unknown{--enc-tone:var(--enc-sex-unknown)}
+
+/* Year is a neutral numeric fact — metal tone, tabular figures, no hue story. */
+.enc-chip-year{--enc-tone:var(--metal);font-family:var(--h-font-numeric,var(--number-font));font-variant-numeric:tabular-nums}
+
+/* Breed tones — one stable hue family per studbook population. */
+.enc-chip-breed{--enc-tone:var(--enc-breed-other)}
+.enc-chip.breed-arabian{--enc-tone:var(--enc-breed-arabian)}
+.enc-chip.breed-partbred{--enc-tone:var(--enc-breed-partbred)}
+.enc-chip.breed-thoroughbred{--enc-tone:var(--enc-breed-thoroughbred)}
+.enc-chip.breed-turkoman{--enc-tone:var(--enc-breed-turkoman)}
+.enc-chip.breed-sport{--enc-tone:var(--enc-breed-sport)}
+.enc-chip.breed-kurdish{--enc-tone:var(--enc-breed-kurdish)}
+.enc-chip.breed-plateau{--enc-tone:var(--enc-breed-plateau)}
+.enc-chip.breed-caspian{--enc-tone:var(--enc-breed-caspian)}
+.enc-chip.breed-darehshouri{--enc-tone:var(--enc-breed-darehshouri)}
+.enc-chip.breed-friesian{--enc-tone:var(--enc-breed-friesian)}
+.enc-chip.breed-imported{--enc-tone:var(--enc-breed-imported)}
+.enc-chip.breed-convert{--enc-tone:var(--enc-breed-convert)}
+
+/* Lifecycle tones — status semantics; only rendered for non-active records. */
+.enc-chip-life{--enc-tone:var(--enc-life-inactive)}
+.enc-chip-life.enc-life-active{--enc-tone:var(--enc-life-active)}
+.enc-chip-life.enc-life-inactive{--enc-tone:var(--enc-life-inactive)}
+.enc-chip-life.enc-life-deceased{--enc-tone:var(--enc-life-deceased)}
+
+/* Breed dot — the population's hue as a 7px pin. */
+.enc-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--enc-tone,var(--metal));
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-tone,var(--metal)) 22%,transparent);
+}
+
+/* Coat swatch — a PHYSICAL color chip. Real horse coats, not palette hues:
+   this is the one place where a literal color IS the information. Dual-tone
+   coats (skewbald, greying progressions) show both halves. */
+.enc-swatch{
+  --enc-swatch:#9c9c9c;
+  --enc-swatch-alt:var(--enc-swatch);
+  width:12px;height:12px;
+  border-radius:50%;
+  background:linear-gradient(90deg,var(--enc-swatch) 0 50%,var(--enc-swatch-alt) 50% 100%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.30),inset 0 1px 1px rgba(255,255,255,.22),0 0 0 1px color-mix(in srgb,var(--line-strong) 55%,transparent);
+}
+.enc-swatch-xs{width:9px;height:9px;border-radius:3px}
+.enc-swatch-unknown{--enc-swatch:color-mix(in srgb,var(--metal) 34%,transparent);--enc-swatch-alt:var(--enc-swatch)}
+
+/* Breed-hued text for plain (non-chip) contexts: desktop table cells and
+   result-card meta lines. */
+.enc-breed-text{font-weight:650;color:var(--ink-2,var(--ink))}
+.enc-breed-text.enc-breed-arabian{color:color-mix(in srgb,var(--enc-breed-arabian) 70%,var(--ink))}
+.enc-breed-text.enc-breed-partbred{color:color-mix(in srgb,var(--enc-breed-partbred) 70%,var(--ink))}
+.enc-breed-text.enc-breed-thoroughbred{color:color-mix(in srgb,var(--enc-breed-thoroughbred) 70%,var(--ink))}
+.enc-breed-text.enc-breed-turkoman{color:color-mix(in srgb,var(--enc-breed-turkoman) 70%,var(--ink))}
+.enc-breed-text.enc-breed-sport{color:color-mix(in srgb,var(--enc-breed-sport) 70%,var(--ink))}
+.enc-breed-text.enc-breed-kurdish{color:color-mix(in srgb,var(--enc-breed-kurdish) 70%,var(--ink))}
+.enc-breed-text.enc-breed-plateau{color:color-mix(in srgb,var(--enc-breed-plateau) 70%,var(--ink))}
+.enc-breed-text.enc-breed-caspian{color:color-mix(in srgb,var(--enc-breed-caspian) 70%,var(--ink))}
+.enc-breed-text.enc-breed-darehshouri{color:color-mix(in srgb,var(--enc-breed-darehshouri) 70%,var(--ink))}
+.enc-breed-text.enc-breed-friesian{color:color-mix(in srgb,var(--enc-breed-friesian) 70%,var(--ink))}
+.enc-breed-text.enc-breed-imported{color:color-mix(in srgb,var(--enc-breed-imported) 70%,var(--ink))}
+.enc-breed-text.enc-breed-convert{color:color-mix(in srgb,var(--enc-breed-convert) 70%,var(--ink))}
+
+/* Lifecycle pin for dense rows (desktop id cell): a colored point that only
+   appears when the record is NOT active. */
+.enc-life-dot{
+  display:inline-block;
+  width:7px;height:7px;border-radius:50%;
+  margin-inline-end:6px;
+  vertical-align:0;
+  background:var(--enc-life-inactive);
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-life-inactive) 22%,transparent);
+}
+.enc-life-dot.enc-life-inactive{background:var(--enc-life-inactive);box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-life-inactive) 22%,transparent)}
+.enc-life-dot.enc-life-deceased{background:var(--enc-life-deceased);box-shadow:0 0 0 2px color-mix(in srgb,var(--enc-life-deceased) 22%,transparent)}
+
+/* Desktop table alignment: the coat pin rides inline before the breed label,
+   the lifecycle pin rides before the HorseNo. */
+.registry-table .enc-swatch-xs{display:inline-block;vertical-align:-1px;margin-inline-end:5px}
+.registry-table .cell-breed>.enc-breed-text{display:inline}
+.result-card .meta .enc-swatch-xs{display:inline-block;vertical-align:-1px;margin-inline-end:4px}
+
+/* ----------------------------------------------------------------------------
+   PART 2 — Phone registry card system (≤720px)
+   ----------------------------------------------------------------------------
+   Mathematical anatomy of the Detailed card (three stacked zones + edge):
+
+     ▌  NAME (semibold, ellipsis)          ≈ match · #1234 · reg-no
+     ▌  native/secondary name (muted)
+        [♀ sex] [1995] [● breed] [■ coat] [† status?]      ← wraps, never clips
+        ─ sire label/name ───────── dam label/name ─       ← dashed split
+
+   Nothing absolute-positioned except the 4px sex edge; no reserved chevron
+   gutter (the whole card is the tap target); content sets the height.
+   ---------------------------------------------------------------------------- */
+.mobile-registry-view-toggle{display:none}
+
+@media(max-width:720px){
+  html[data-page="browse"][data-frontend="heritage"] .mobile-registry-list{
+    flex:1;min-height:0;
+    display:flex;flex-direction:column;align-content:start;
+    gap:5px;padding:4px; /* R130 full-bleed: cards run edge-to-edge */
+    overflow-y:auto;overflow-x:hidden;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    background:color-mix(in srgb,var(--bg-elev) 72%,transparent);
+    position:relative;
+  }
+  .mobile-loading{position:sticky;top:0;z-index:2}
+
+  .mobile-registry-card{
+    position:relative;
+    display:flex;flex-direction:column;
+    /* Intrinsic height, never a shrink target: a 50-card flex column must not
+       squeeze its records (the phone list scrolls; it does not compress). */
+    flex:0 0 auto;
+    gap:5px;
+    min-width:0;
+    padding:8px 10px 8px 15px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--h-registry-row-base,var(--panel-solid));
+    color:var(--ink);
+    text-align:start;
+    cursor:pointer;
+    overflow:hidden;
+    transition:border-color .14s ease,background-color .14s ease,transform .14s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  html[dir="rtl"] .mobile-registry-card{padding:8px 15px 8px 10px}
+  .mobile-registry-card:active{transform:scale(.994)}
+  .mobile-registry-list>.mobile-registry-card:nth-child(even){background:var(--h-registry-row-alt,var(--panel-strong))}
+  .mobile-registry-list>.mobile-registry-card:is(:hover,:focus-visible){
+    background:var(--h-registry-row-hover);
+    border-color:color-mix(in srgb,var(--accent) 42%,var(--line-strong));
+  }
+  .mobile-registry-card:focus-visible{outline:2px solid color-mix(in srgb,var(--accent) 65%,transparent);outline-offset:1px}
+
+  /* SEX edge — the reserved pedigree pair. */
+  .mobile-horse-accent{
+    position:absolute;
+    inset-block:7px;inset-inline-start:0;
+    width:4px;
+    border-radius:0 3px 3px 0;
+    background:var(--enc-sex-unknown);
+  }
+  html[dir="rtl"] .mobile-horse-accent{border-radius:3px 0 0 3px}
+  .mobile-registry-card.sex-male .mobile-horse-accent{background:var(--enc-sex-male)}
+  .mobile-registry-card.sex-female .mobile-horse-accent{background:var(--enc-sex-female)}
+  .mobile-registry-card.sex-gelding .mobile-horse-accent{background:var(--enc-sex-gelding)}
+
+  /* Zone 1 — identity. */
+  .mobile-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;min-width:0}
+  .mobile-card-title{min-width:0;display:flex;flex-direction:column;gap:1px}
+  .mobile-card-title strong{
+    font-family:var(--h-font-ui,var(--sans));
+    font-size:13px;font-weight:650;line-height:1.22;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .mobile-native{
+    font-size:10.5px;line-height:1.2;color:var(--muted);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .mobile-card-id{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:1px;max-width:46%}
+  html[dir="rtl"] .mobile-card-id{align-items:flex-start}
+  .mobile-card-id b{
+    font-family:var(--h-font-numeric,var(--number-font));
+    font-size:11px;font-weight:700;line-height:1.1;
+    color:var(--metal-bright,var(--metal));
+    font-variant-numeric:tabular-nums;
+  }
+  .mobile-card-id small{
+    font-family:var(--h-font-numeric,var(--number-font));
+    font-size:max(var(--h-font-floor,10px),9.5px);line-height:1.15;color:var(--faint,var(--muted));
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+  }
+  .mobile-match{
+    color:var(--accent);font-size:10px;font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;
+  }
+
+  /* Zone 2 — the encoding chip rail. Wraps instead of clipping: every fact
+     stays reachable, and the rail still fits one line on 360px screens for
+     the common sex+year+breed+coat set. */
+  .mobile-card-chips{display:flex;flex-wrap:wrap;gap:var(--enc-chip-gap,4px);min-width:0}
+  .mobile-card-chips .enc-chip{min-height:21px;padding:2px 7px;font-size:10px}
+
+  /* Zone 3 — lineage: a dashed split, sire hue left of the reading direction,
+     dam hue right, so parentage reads as a pair without stealing a row each. */
+  .mobile-lineage{
+    min-width:0;
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:2px 10px;
+    border-top:1px dashed color-mix(in srgb,var(--line-strong) 62%,var(--line));
+    padding-top:5px;
+  }
+  .mobile-lineage small{
+    display:block;
+    font-size:max(var(--h-font-floor,10px),9.5px);line-height:1.1;letter-spacing:.02em;
+    color:var(--muted);
+  }
+  .mobile-lineage.sire small{color:color-mix(in srgb,var(--enc-sex-male) 72%,var(--ink))}
+  .mobile-lineage.dam small{color:color-mix(in srgb,var(--enc-sex-female) 72%,var(--ink))}
+  .mobile-lineage b{
+    display:block;
+    font-size:10.5px;font-weight:640;line-height:1.25;
+    color:var(--ink-2,var(--ink));
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  /* ---- Narrow mode: the phone ledger. Identity + facts in two tight rows;
+         secondary names and lineage are one tap away on the record itself. ---- */
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.mobile-view-compact .mobile-registry-list{gap:3px;padding:4px}
+  .table-panel.mobile-view-compact .mobile-registry-card{
+    min-height:58px!important;
+    gap:3px;
+    padding:6px 9px 6px 13px;
+    border-radius:5px;
+  }
+  html[dir="rtl"] .table-panel.mobile-view-compact .mobile-registry-card{padding:6px 13px 6px 9px}
+  .table-panel.mobile-view-compact .mobile-horse-accent{inset-block:6px;width:3px}
+  .table-panel.mobile-view-compact .mobile-card-title strong{font-size:12.5px;line-height:1.18}
+  .table-panel.mobile-view-compact .mobile-card-id b{font-size:10.5px}
+  .table-panel.mobile-view-compact .mobile-card-chips .enc-chip{min-height:19px;padding:2px 6px;font-size:max(var(--h-font-floor,10px),9.5px);gap:3px}
+  .table-panel.mobile-view-compact :is(.mobile-native,.mobile-match,.mobile-lineage,.mobile-card-id small){display:none!important}
+
+  /* ---- Phone view toggle (Detailed / Narrow). ---- */
+  html[data-page="browse"][data-frontend="heritage"] .mobile-registry-view-toggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin:4px 6px 5px;
+    padding:4px 5px 4px 9px;
+    min-height:38px;
+    border:1px solid color-mix(in srgb,var(--line-strong) 72%,transparent);
+    border-radius:7px;
+    background:color-mix(in srgb,var(--panel-solid) 46%,transparent);
+    box-shadow:inset 0 1px rgba(255,255,255,.045);
+    backdrop-filter:blur(12px) saturate(1.04);
+    -webkit-backdrop-filter:blur(12px) saturate(1.04);
+  }
+  html[dir="rtl"][data-page="browse"][data-frontend="heritage"] .mobile-registry-view-toggle{padding:4px 9px 4px 5px}
+  .mobile-registry-view-label{color:var(--muted);font:750 10.5px/1 var(--h-font-ui,var(--sans));white-space:nowrap}
+  .mobile-registry-view-segment{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:2px;padding:2px;min-width:166px;
+    border:1px solid var(--line);border-radius:5px;
+    background:color-mix(in srgb,var(--bg-elev) 68%,transparent);
+  }
+  .mobile-registry-view-segment button{
+    min-width:0;min-height:28px;padding:4px 8px;
+    border:1px solid transparent;border-radius:4px;
+    background:transparent;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    font:800 10.5px/1 var(--h-font-ui,var(--sans));
+    cursor:pointer;
+    transition:background-color .14s ease,border-color .14s ease,color .14s ease,transform .14s ease,box-shadow .14s ease;
+  }
+  .mobile-registry-view-segment button>span{font-size:12px;line-height:1}
+  .mobile-registry-view-segment button:is(.active,[aria-pressed="true"]){
+    color:var(--ink);
+    border-color:color-mix(in srgb,var(--accent) 46%,var(--line));
+    background:color-mix(in srgb,var(--accent) 13%,var(--panel-strong));
+    box-shadow:inset 0 1px rgba(255,255,255,.065),0 2px 8px color-mix(in srgb,var(--accent) 8%,transparent);
+  }
+  .mobile-registry-view-segment button:active{transform:translateY(1px)}
+
+  /* ---- Pager: a real pagination bar, not an afterthought. Count centered,
+         twin thumb buttons spanning the full width on phones. ---- */
+  .table-pager{
+    display:grid;grid-template-columns:1fr;
+    justify-items:center;gap:5px;
+    padding:8px;
+    font-size:10.5px;
+    background:color-mix(in srgb,var(--panel-solid) 92%,transparent);
+  }
+  .pager-range{color:var(--muted);text-align:center;font-variant-numeric:tabular-nums;line-height:1.35}
+  .pager-range bdi{font-family:var(--h-font-numeric,var(--number-font))}
+  .pager-buttons{display:flex;width:100%;gap:8px}
+  :where(html[data-frontend="heritage"]) .pager-button{
+    flex:1;min-height:42px;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    font-weight:800;font-size:11.5px;
+    border-radius:7px;
+  }
+  :where(html[data-frontend="heritage"]) .pager-button:is(:hover:not(:disabled)){transform:translateY(-1px)}
+  .pager-arrow{display:inline-block;line-height:1}
+  html[dir="rtl"] .pager-arrow{transform:scaleX(-1)}
+}
+
+@media(max-width:390px){
+  .mobile-registry-view-label{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .mobile-registry-view-toggle{justify-content:flex-end;padding-inline:4px}
+  .mobile-registry-view-segment{width:100%;min-width:0}
+  .mobile-card-title strong{font-size:12.5px}
+  .mobile-lineage{gap:2px 7px}
+}
+
+/* ----------------------------------------------------------------------------
+   PART 3 — Dock-aware browse workspace.
+   The browse page is a fixed-height workspace with the footer suppressed, so
+   the floating phone dock used to paint OVER the pager. The workspace now
+   reserves exactly the dock stack height plus breathing room.
+   ---------------------------------------------------------------------------- */
+@media(max-width:820px){
+  html[data-page="browse"][data-frontend="heritage"][data-tab-hierarchy="docked"] .browse-page{
+    padding-bottom:calc(var(--h-mobile-dock-stack-height,0px) + 10px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   PART 4 — Forced-colors safety: encoding survives high-contrast modes.
+   Chips keep their labels (text always carries the fact); the physical coat
+   swatch is exempt from forced-color adjustment because its literal color IS
+   the data.
+   ---------------------------------------------------------------------------- */
+@media(forced-colors:active){
+  .enc-chip{border-color:CanvasText;color:CanvasText;background:transparent}
+  .enc-swatch{forced-color-adjust:none}
+  .enc-dot{background:CanvasText;box-shadow:none}
+  .mobile-horse-accent{background:CanvasText}
+  .mobile-lineage{border-top-color:CanvasText}
+}
+
+/* ============================================================================
+   R135 — phone-first registry explorer chrome
+   ----------------------------------------------------------------------------
+   The explorer's vertical budget belongs to the search box and the result
+   cards. The advanced-search chip and the sort picker moved INTO the title
+   row (small, low-key); the Detailed/Narrow switch lives in the advanced
+   rail (03 Display); pagination buttons are gone in favour of infinite
+   scroll with a slim progress bar. Everything reuses the shared toolbar
+   control tokens — no parallel design system.
+   ============================================================================ */
+html[data-page="browse"][data-frontend="heritage"] .browse-head{grid-template-columns:minmax(0,1fr) auto auto;align-items:end}
+.browse-head-tools{display:flex;align-items:center;gap:6px;z-index:2;grid-column:3;grid-row:1;justify-self:end;align-self:center}
+html[data-page="browse"][data-frontend="heritage"] .browse-head .browse-count{grid-column:2;grid-row:1;text-align:right}
+.browse-head-tools .advanced-toggle{min-height:31px;padding:0 9px;font-size:max(var(--h-font-floor,10px),10.5px)}
+.browse-head-tools .advanced-toggle .advanced-count{margin-inline-start:2px}
+.browse-sort-picker{position:relative;display:inline-flex;align-items:center;gap:5px;min-height:31px;padding:0 8px;border:1px solid var(--line);border-radius:7px;background:color-mix(in srgb,var(--bg-elev) 84%,transparent);color:var(--muted);font-size:max(var(--h-font-floor,10px),10px);font-weight:700;cursor:pointer;transition:.16s ease}
+.browse-sort-picker:hover{color:var(--ink);border-color:var(--line-strong)}
+.browse-sort-picker select{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.browse-sort-picker::after{content:"⌄";font-size:9px;line-height:1;opacity:.7}
+.table-reg{color:var(--metal);font-family:var(--h-font-numeric,var(--number-font));font-variant-numeric:tabular-nums}
+.registry-load-more{gap:8px;min-height:40px}
+.registry-load-more-sentinel{width:100%;height:1px}
+.registry-more-button{min-height:32px;padding:0 14px;font-weight:800}
+.table-pager .pager-range bdi{font-family:var(--h-font-numeric,var(--number-font))}
+
+/* R159 tablet tier (721-900px): the R157 phone compaction used to stop at
+   720px, so tablets still paid for the lede paragraph, ornament, subbar and
+   full-size controls. Same dense head as phones, labels kept where width
+   allows; the desktop table stays with its adaptive column-yield tiers. */
+@media(max-width:900px){
+  html[data-page="browse"][data-frontend="heritage"] .premium-page-head{padding:8px 10px;margin-bottom:6px;gap:6px;align-items:center}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head h1{font-size:18px;margin:0}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head .eyebrow,
+  html[data-page="browse"][data-frontend="heritage"] .browse-head p,
+  html[data-page="browse"][data-frontend="heritage"] .page-head-ornament{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head-tools{gap:4px;padding:0}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head .browse-count{gap:4px;padding:0}
+  html[data-page="browse"][data-frontend="heritage"] .browse-count small{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .browse-count strong{font-size:14px}
+  html[data-page="browse"][data-frontend="heritage"] .browse-count span{font-size:max(var(--h-font-floor,10px),7px)}
+  html[data-page="browse"][data-frontend="heritage"] .table-subbar{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .table-toolbar{padding:6px 8px;gap:6px}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head-tools .advanced-toggle{min-height:28px;min-width:28px;padding:0 7px}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head-tools .advanced-toggle .advanced-toggle-label{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .browse-sort-picker{min-height:28px;padding:0 7px;font-size:10px}
+}
+@media(max-width:720px){
+  /* One dense head row: title + (advanced · sort) + count. */
+  html[data-page="browse"][data-frontend="heritage"] .premium-page-head{padding:7px 8px;margin-bottom:5px;gap:6px;grid-template-columns:minmax(0,1fr) auto auto;grid-template-rows:auto;align-items:center}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head h1{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head .eyebrow{display:none}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head-tools{grid-column:3;grid-row:1;gap:4px;padding:0}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head .browse-count{grid-column:2;grid-row:1;gap:4px;padding:0;justify-self:end;align-self:center}
+  html[data-page="browse"][data-frontend="heritage"] .browse-count strong{font-size:13px}
+  html[data-page="browse"][data-frontend="heritage"] .browse-count span{font-size:max(var(--h-font-floor,10px),6.5px)}
+  .browse-head-tools .advanced-toggle{min-height:28px;min-width:28px;padding:0 6px}
+  .browse-head-tools .advanced-toggle .advanced-toggle-label{display:none}
+  .browse-head-tools .advanced-toggle .registry-toolbar-icon{font-size:13px}
+  .browse-sort-picker{min-height:28px;padding:0 7px;font-size:10px}
+  html[data-page="browse"][data-frontend="heritage"] .browse-head-tools .relevance-badge{display:none}
+  /* Toolbar: search first, exports/columns collapse to icon chips. */
+  html[data-page="browse"][data-frontend="heritage"] .table-toolbar{grid-template-columns:1fr auto;padding:5px;gap:5px;align-items:center}
+  html[data-page="browse"][data-frontend="heritage"] .table-actions{flex-direction:row;gap:4px}
+  html[data-page="browse"][data-frontend="heritage"] .registry-toolbar-control span:not(.registry-toolbar-icon):not(.advanced-count){display:none}
+  html[data-page="browse"][data-frontend="heritage"] .registry-toolbar-control{min-height:30px;min-width:30px;padding:0 7px}
+  html[data-page="browse"][data-frontend="heritage"] .registry-export-actions{gap:4px}
+  /* The load-more bar replaces the old pager chrome. */
+  html[data-page="browse"][data-frontend="heritage"] .registry-load-more{padding:6px 8px;gap:6px}
+  html[data-page="browse"][data-frontend="heritage"] .registry-load-more .pager-range{font-size:max(var(--h-font-floor,10px),9.5px)}
+  html[data-page="browse"][data-frontend="heritage"] .registry-more-button{flex:1;min-height:36px}
+  /* The density switch lives inside the advanced rail now — full-width row. */
+  .adv-rail-display .mobile-registry-view-toggle{margin:0;padding:4px 5px 4px 9px}
+  .adv-rail-display .mobile-registry-view-segment{flex:1}
+}
+@media(max-width:720px){
+  html[dir="rtl"][data-page="browse"][data-frontend="heritage"] .browse-head-tools{justify-self:start}
+}

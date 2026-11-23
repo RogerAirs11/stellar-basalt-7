@@ -1,0 +1,19 @@
+{
+  "name": "Horse Registry",
+  "short_name": "Registry",
+  "description": "Next-generation horse registry, search and pedigree explorer",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0b0f0e",
+  "theme_color": "#0b0f0e",
+  "icons": [
+    {
+      "src": "/assets/fallbacks/registry-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

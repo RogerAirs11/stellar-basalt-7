@@ -1,0 +1,137 @@
+/* R148: missing optional donor textures fall back to scoped CSS gradients.
+   Original assets, when supplied, are selected by assetCatalog.ts. */
+/* ============================================================================
+   R64 — EXACT donor header (data.fei.org/Default.aspx capture, sandbox replica).
+   Every rule below is copied VERBATIM from the donor's own stylesheets —
+   CoreAppCss (top bar / top nav band) + MainMenuCss (ASP.NET menu tabs and
+   dropdowns) + the page's inline #topMenu block — with only three mechanical
+   changes:
+     1. selectors are scoped under .fei-classic-ui (R62 lesson: frontends share
+        one document stylesheet — never leak);
+     2. image URLs point at our copy of the original assets
+        (/assets/frontends/fei-classic/images/…);
+     3. the JS-set inline styles of Sys.WebForms.Menu (position:absolute;
+        top:100%; left:0 on open submenus) are baked into CSS — React only
+        toggles display.
+   Loaded LAST in entry.tsx so it outranks the legacy approximated layers.
+   ========================================================================== */
+
+/* ── neutralise the legacy approximated header chrome on the wrapper ──
+   The old layers paint .fei-donor-header as a 132px dome composition; the
+   donor design paints nothing on the wrapper — the .top-bar and .top-nav
+   children carry the whole look. */
+.fei-classic-ui .fei-donor-header.fei-donor-header-exact{
+  height:auto!important;min-height:0!important;
+  border-top:0!important;border-bottom:0!important;
+  background:none!important;box-shadow:none!important;
+  position:relative!important;z-index:20!important;user-select:none;
+  letter-spacing:normal!important;
+}
+
+/* ── restore the donor's content-box metrics ──
+   The donor stylesheets predate border-box (no global reset) — the repo's
+   donor-exact layer sets box-sizing:border-box on everything, which would
+   shave the 190px tab widths / 46px tab heights by their paddings. */
+.fei-classic-ui .top-bar,.fei-classic-ui .top-bar *,
+.fei-classic-ui .top-nav,.fei-classic-ui .top-nav *{box-sizing:content-box}
+
+/* ── CoreAppCss: top bar (grey striped strip, home button, centred dome logo) ── */
+.fei-classic-ui .top-bar{width:100%;background:var(--fei-top-links,linear-gradient(#f8f8f8,#e9e9e9)) repeat-x;float:left}
+.fei-classic-ui .top-bar-body{width:1200px;background:var(--fei-top-links,linear-gradient(#f8f8f8,#e9e9e9)) repeat-x;height:48px;position:relative;margin:0 auto}
+/* R66: the dome logo is optically CENTRED on the band at every width (the
+   donor's hard left:343px sits 42px left of the 1200px centre and read as
+   broken symmetry). transform keeps the 429px donor img untouched. */
+.fei-classic-ui .top-bar-body h1.top-bar-body-logo{margin:0;border-width:0;position:absolute;left:50%;transform:translateX(-50%)}
+.fei-classic-ui .top-bar-body-logo a{display:block}
+.fei-classic-ui .top-bar-body-logo img{display:block;border:0;width:429px;height:105px}
+.fei-classic-ui .loginstatus{float:right;font-size:1.1em;margin-right:3px;margin-top:10px;position:relative;z-index:5}
+.fei-classic-ui .loginstatus a,.fei-classic-ui .loginstatus span{color:#7a1082}
+.fei-classic-ui .loginstatus a:hover{text-decoration:underline}
+.fei-classic-ui .loginstatus .fei-welcome{color:#7a1082;font-size:1em}
+.fei-classic-ui .loginstatus .fei-locale-link{margin-left:8px;padding-left:8px;border-left:1px solid #d9c3db;font-size:1em}
+.fei-classic-ui[dir="rtl"] .loginstatus .fei-locale-link{margin-left:0;margin-right:8px;padding-left:0;padding-right:8px;border-left:0;border-right:1px solid #d9c3db}
+.fei-classic-ui .extlinks{float:left;font-size:1.1em;margin-left:3px;margin-top:10px;position:relative;z-index:5}
+.fei-classic-ui .extlinks a{color:#7a1082;text-decoration:none;display:inline-flex;align-items:center}
+.fei-classic-ui .extlinks a:hover{text-decoration:underline}
+.fei-classic-ui .extlinks img{border:0;vertical-align:middle}
+.fei-classic-ui .extlinks span{padding-left:3px;font-size:1.3em;color:#7a1082}
+.fei-classic-ui .extlinks subscript{font-size:9px;padding-left:2px;color:#7a1082;align-self:flex-end;line-height:1.6}
+
+/* ── CoreAppCss: top navigation band ── */
+.fei-classic-ui .top-nav{width:100%;background:var(--fei-top-nav-bg,linear-gradient(#f9f9f9,#dedddd)) repeat-x;float:left}
+.fei-classic-ui .top-nav a:hover{color:#fff;text-decoration:underline}
+.fei-classic-ui .top-nav-body{width:1064px;height:69px;position:relative;margin:0 auto;font-size:14px;text-align:center;z-index:12010}
+
+/* ── the page's inline #topMenu block (verbatim) ── */
+.fei-classic-ui #topMenu img.icon{border-style:none;vertical-align:middle}
+.fei-classic-ui #topMenu img.separator{border-style:none;display:block}
+.fei-classic-ui #topMenu img.horizontal-separator{border-style:none;vertical-align:middle}
+.fei-classic-ui #topMenu ul{list-style:none;margin:0;padding:0;width:auto}
+.fei-classic-ui #topMenu ul.dynamic{z-index:1;margin-top:-18px}
+.fei-classic-ui #topMenu a{text-decoration:none;white-space:nowrap;display:block}
+/* R66: tab labels and dropdown rows are CENTER-aligned (owner request) and
+   inherit the locale-aware UI font from the modern layer. */
+.fei-classic-ui #topMenu a.static{width:190px;text-align:center;text-decoration:none;padding-left:0.15em;padding-right:0.15em}
+.fei-classic-ui #topMenu a.dynamic{width:190px;text-align:center;text-decoration:none}
+
+/* ── MainMenuCss: ASP.NET menu tabs + dropdowns (verbatim) ── */
+.fei-classic-ui div.nav,.fei-classic-ui div.nav ul.level1{height:69px}
+.fei-classic-ui div.nav{margin:0 auto}
+.fei-classic-ui div.nav ul.level1{margin-bottom:10px;float:left;width:100%}
+.fei-classic-ui div.nav ul.level1 li.static{border-right:solid 1px #d2d1d2;float:left;padding-left:0;padding-right:0;position:relative;background:none!important;height:60px;padding-top:7px}
+.fei-classic-ui div.nav ul.level1 li:last-child{border-right-width:0}
+.fei-classic-ui div.nav ul.level1 li.static a.level1{
+  background:var(--fei-top-nav-closed-noarrow,linear-gradient(#f6f6f6,#e7e6e7)) no-repeat;
+  font-weight:normal;display:block;padding:5px;text-decoration:none;padding-top:17px;height:46px;color:#787878}
+.fei-classic-ui div.nav ul.level1 li.has-popup a.level1{background:var(--fei-top-nav-closed,linear-gradient(#f6f6f6,#e7e6e7)) no-repeat}
+.fei-classic-ui div.nav ul.level1 li.static a.highlighted,
+.fei-classic-ui div.nav ul.level1 li.static:hover a.level1,
+.fei-classic-ui div.nav ul.level1 li.static.open a.level1{
+  background:var(--fei-top-nav-noarrow,linear-gradient(#85128d,#65096d)) no-repeat;
+  text-decoration:underline;color:#fff!important}
+.fei-classic-ui div.nav ul.level1 li.has-popup a.highlighted,
+.fei-classic-ui div.nav ul.level1 li.has-popup:hover a.level1,
+.fei-classic-ui div.nav ul.level1 li.has-popup.open a.level1{
+  background:var(--fei-top-nav,linear-gradient(#85128d,#65096d)) no-repeat}
+.fei-classic-ui div.nav ul.level1 ul{
+  display:none;
+  background:var(--fei-top-nav-sub-top,linear-gradient(#dedddd,#efefef)) left top no-repeat;
+  -moz-box-sizing:content-box;background-color:#efefef;text-align:center;padding:0;margin:0}
+.fei-classic-ui div.nav ul.level1 ul li{background:none!important;padding-top:1px;border-bottom:solid 1px #d7d7d7;float:none;position:relative;margin-top:15px;height:30px}
+.fei-classic-ui div.nav ul.level1 ul a{color:#787878!important;background-image:none!important;white-space:nowrap;margin:0 0;height:30px}
+.fei-classic-ui div.nav ul.level1 li.static ul.level2 li a.selected{color:#787878!important}
+.fei-classic-ui div.nav ul.level1 li.static ul.level2 li a.highlighted,
+.fei-classic-ui div.nav ul.level1 li.static ul.level2 li a:hover{color:#7a1082!important}
+/* Sys.WebForms.Menu open-state inline style, baked in (React toggles display) */
+.fei-classic-ui #topMenu ul.level1 ul.level2.dynamic{position:absolute;top:100%;left:0}
+
+/* ── RTL mirroring (donor is LTR-only; FA mirrors the whole header) ── */
+.fei-classic-ui[dir="rtl"] .extlinks{float:right;margin-left:0;margin-right:3px}
+.fei-classic-ui[dir="rtl"] .extlinks span{padding-left:0;padding-right:3px}
+.fei-classic-ui[dir="rtl"] .extlinks subscript{padding-left:0;padding-right:2px}
+.fei-classic-ui[dir="rtl"] .loginstatus{float:left;margin-right:0;margin-left:3px}
+.fei-classic-ui[dir="rtl"] .top-bar-body h1.top-bar-body-logo{left:auto;right:50%;transform:translateX(50%)}
+.fei-classic-ui[dir="rtl"] .top-nav-body{font-size:14px}
+.fei-classic-ui[dir="rtl"] div.nav ul.level1{float:right}
+.fei-classic-ui[dir="rtl"] div.nav ul.level1 li.static{float:right;border-right:0;border-left:solid 1px #d2d1d2}
+.fei-classic-ui[dir="rtl"] div.nav ul.level1 li:last-child{border-left-width:0}
+.fei-classic-ui[dir="rtl"] div.nav ul.level1 ul{text-align:center}
+.fei-classic-ui[dir="rtl"] #topMenu ul.level1 ul.level2.dynamic{left:auto;right:0}
+.fei-classic-ui[dir="rtl"] .top-nav-body>div[style]{clear:right!important}
+
+/* ── mobile contract (unchanged Horse DB responsive implementation) ──
+   ≤767px the donor header hides entirely; the existing mobile bar, bottom
+   nav and drawer take over (their own layers keep styling them). */
+@media(max-width:767px){
+  .fei-classic-ui .top-bar,.fei-classic-ui .top-nav{display:none!important}
+}
+.fei-classic-ui .fei-drawer-head img.fei-drawer-fei-logo{display:block;height:40px;width:auto;border:0}
+.fei-classic-ui .fei-mobile-logo img{object-position:center top}
+
+/* ── keep the page flow below the floated donor bands ── */
+.fei-classic-ui .fei-content-shell{clear:both}
+
+/* ── print: hide donor chrome like the legacy layers did ── */
+@media print{
+  .fei-classic-ui .top-bar,.fei-classic-ui .top-nav{display:none!important}
+}

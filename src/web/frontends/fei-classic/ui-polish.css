@@ -1,0 +1,44 @@
+/* R111: current semantic nav/button markup must not depend on legacy div/a selectors. */
+@media(min-width:768px){
+  .fei-classic-ui .fei-donor-header.fei-donor-header-exact{display:flow-root;height:auto!important;min-height:0!important}
+  .fei-classic-ui .top-bar,.fei-classic-ui .top-nav{float:none!important;box-sizing:border-box!important}
+  .fei-classic-ui .top-bar-body{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"identity brand account";align-items:center;gap:16px;box-sizing:border-box!important;width:min(1200px,100%)!important;min-height:72px;height:auto!important;padding:12px 24px!important}
+  .fei-classic-ui .top-bar-body .extlinks{grid-area:identity;float:none!important;margin:0!important;min-width:0}
+  .fei-classic-ui .top-bar-body .extlinks a{display:flex;flex-wrap:wrap;gap:5px;line-height:1.5;font-size:14px}
+  .fei-classic-ui .top-bar-body .extlinks img{width:38px;height:20px;object-fit:contain}
+  .fei-classic-ui .top-bar-body .extlinks small{font-size:12px}
+  /* R116: [dir] raises specificity to (0,4,1) so this LATER rule beats the
+     R67 absolute-centring !important pair in fei-classic-modern.css — its
+     [dir="rtl"] variant was out-specifying this block, re-applying
+     translateX(-50%) to a grid-placed static logo and pushing the dome half
+     its width (≈214px) left of centre in Persian. Grid + static + no
+     transform keeps the brand cell exactly centred in both directions. */
+  .fei-classic-ui .top-bar-body h1.top-bar-body-logo,
+  .fei-classic-ui[dir] .top-bar-body h1.top-bar-body-logo{grid-area:brand;position:static!important;transform:none!important;margin:0!important;line-height:1}
+  .fei-classic-ui .top-bar-body .loginstatus{grid-area:account;float:none!important;margin:0!important;display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;gap:10px;min-width:0;line-height:1.5;font-size:14px}
+  .fei-classic-ui .loginstatus .fei-welcome{overflow-wrap:anywhere}
+  .fei-classic-ui .top-nav-body{width:min(1200px,100%)!important;max-width:none!important;height:auto!important;min-height:52px;padding:0 24px!important;box-sizing:border-box!important}
+  .fei-classic-ui #topMenu{height:auto!important;width:100%;position:relative;box-sizing:border-box}
+  .fei-classic-ui #topMenu>ul.level1{display:flex!important;flex-direction:row!important;float:none!important;align-items:stretch;list-style:none;margin:0!important;padding:0!important;width:100%!important;height:auto!important;min-height:52px}
+  .fei-classic-ui #topMenu>ul.level1>li{position:relative!important;float:none!important;flex:1 1 0;min-width:0;height:auto!important;margin:0!important;padding:0!important;border:0!important;border-inline-end:1px solid #ddd!important;box-sizing:border-box!important}
+  .fei-classic-ui #topMenu>ul.level1>li:last-child{border-inline-end:0!important}
+  .fei-classic-ui #topMenu .fc102-nav-button{display:flex!important;justify-content:center;align-items:center;gap:8px;width:100%;height:100%;min-height:52px;margin:0!important;padding:10px 8px!important;box-sizing:border-box!important;border:0;border-radius:0;background:transparent;color:#521558;box-shadow:none;font:600 14px/1.4 var(--fei-font-body,Arial,sans-serif);text-align:center;white-space:normal!important}
+  .fei-classic-ui #topMenu .fc102-nav-button[aria-expanded]::after{content:'▾';font-size:12px}
+  .fei-classic-ui #topMenu .fc102-nav-button:hover,.fei-classic-ui #topMenu .fc102-nav-button[aria-expanded="true"]{background:#70216f!important;color:#fff!important;transform:none!important}
+  .fei-classic-ui #topMenu ul.level1>li>ul.level2.dynamic{position:absolute!important;left:auto!important;right:auto!important;inset-block-start:100%!important;inset-inline-start:0!important;margin:0!important;padding:4px!important;width:max-content!important;min-width:100%;max-width:300px;box-sizing:border-box;background:#fff!important;border:1px solid #cdbbd1;border-top:3px solid #70216f;border-radius:0 0 4px 4px;box-shadow:0 8px 20px #26162922;z-index:30}
+  .fei-classic-ui #topMenu ul.level1>li:last-child>ul.level2.dynamic{inset-inline-start:auto!important;inset-inline-end:0!important}
+  .fei-classic-ui #topMenu ul.level2>li{float:none!important;width:100%!important;height:auto!important;margin:0!important;padding:0!important;border:0!important}
+  .fei-classic-ui #topMenu ul.level2>li>a{display:block!important;width:auto!important;height:auto!important;min-height:44px;box-sizing:border-box;padding:10px 12px!important;margin:0!important;font:14px/1.5 var(--fei-font-body,Arial,sans-serif);text-align:start!important;white-space:normal!important;color:#521558!important;background:#fff!important}
+  .fei-classic-ui #topMenu ul.level2>li>a:hover,.fei-classic-ui #topMenu ul.level2>li>a.selected{background:#f1e7f3!important;color:#401147!important}
+  .fei-classic-ui #topMenu :is(button,a):focus-visible{outline:3px solid #8a298a!important;outline-offset:-3px!important}
+}
+/* Source-only screenshots use neutral chrome instead of repeating illustrated photos as sprites. */
+.fei-classic-ui[data-source-preview="true"] :is(.top-bar,.top-bar-body,.top-nav){background-image:none!important;background:linear-gradient(#faf8fb,#ede6ef)!important}
+.fei-classic-ui[data-source-preview="true"] .top-bar{border-top:3px solid #70216f}
+.fei-classic-ui[data-source-preview="true"] .top-nav{border-block:1px solid #d7cdda}
+.fei-classic-ui[data-source-preview="true"] .extlinks img{display:none}
+.fei-classic-ui[data-source-preview="true"] .fei-donor-ranking-visual{height:auto!important;width:100%!important}
+.fei-classic-ui[data-source-preview="true"] .fei-donor-ranking-visual>img{height:180px!important;width:100%!important;object-fit:cover!important}
+.fei-classic-ui[data-source-preview="true"] .fei-donor-ranking-hotspots{position:static!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto!important;gap:8px;padding-block:12px;pointer-events:auto!important}
+.fei-classic-ui[data-source-preview="true"] .fei-donor-ranking-hotspots button{min-height:44px!important;min-width:0;padding:8px!important;background:#f5edf6!important;color:#70146f!important;border:1px solid #d9c6df!important;border-radius:3px!important}
+.fei-classic-ui[data-source-preview="true"] .fei-donor-ranking-hotspots button>span{font-size:14px;line-height:1.5}

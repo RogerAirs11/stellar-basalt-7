@@ -1,0 +1,631 @@
+/*
+ * Horse-DB-3 Federation Classic — FEI reference header/menu overlay
+ * Visual authority: user-supplied FEI Database demo HTML, 2026-09-15.
+ * Scope: header/navigation/dropdowns + mobile navigation visual language only.
+ * This file is intentionally imported AFTER fei-classic.css so it can be
+ * layered onto later R29.x Classic work without replacing functional CSS.
+ */
+
+/* Desktop shell: match the compact 132px legacy FEI header geometry. */
+.fei-classic-ui .fei-donor-header {
+  position: relative;
+  z-index: 20;
+  height: 132px;
+  box-sizing: border-box;
+  border-top: 4px solid #201052;
+  background: linear-gradient(
+    to bottom,
+    #fff 0,
+    #fff 12px,
+    #d7d7d7 51px,
+    #fff 52px,
+    #fff 97px,
+    #ebebeb 128px
+  );
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+}
+
+.fei-classic-ui .fei-top-strip {
+  position: relative;
+  height: 52px;
+  background: transparent;
+}
+
+.fei-classic-ui .fei-top-inner {
+  height: 52px;
+  max-width: none;
+  margin: 0;
+  padding: 6px 3.7% 0 6%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+/* Left utility/brand: smaller, lighter, and closer to the supplied FEI demo. */
+.fei-classic-ui .fei-db-home {
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #6b176f;
+  padding: 0;
+  box-shadow: none;
+  text-align: start;
+  white-space: nowrap;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fei-classic-ui .fei-db-home:hover {
+  color: #51095c;
+  transform: none;
+  text-decoration: underline;
+}
+
+.fei-classic-ui .fei-home-pill {
+  width: 43px;
+  height: 14px;
+  min-width: 43px;
+  border-radius: 8px;
+  background: linear-gradient(#91488f, #51095c);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: none;
+  margin-inline-end: 3px;
+}
+
+.fei-classic-ui .fei-home-pill .fc-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.fei-classic-ui .fei-db-home > span:nth-child(2) {
+  font-size: 17px;
+  line-height: 17px;
+  font-weight: 400;
+}
+
+.fei-classic-ui .fei-db-home small {
+  margin-top: 1px;
+  font-size: 9px;
+  line-height: 10px;
+  color: #6b176f;
+  font-weight: 400;
+}
+
+.fei-classic-ui .fei-auth-control {
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #6b176f;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fei-classic-ui .fei-auth-control .fei-link {
+  color: #6b176f;
+  font-size: 13px;
+}
+
+.fei-classic-ui .fei-welcome {
+  color: #666;
+  font-size: 11px;
+}
+
+.fei-classic-ui .fei-locale {
+  min-height: 18px;
+  height: 18px;
+  border: 0;
+  background: transparent;
+  color: #6b176f;
+  padding: 0 3px;
+  box-shadow: none;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.fei-classic-ui .fei-locale:hover {
+  color: #51095c;
+  text-decoration: underline;
+  transform: none;
+}
+
+/* Center mark: remove the oversized dome/reflection and use the reference's
+   compact centered-logo treatment while retaining Horse DB branding. */
+.fei-classic-ui .fei-logo-dome {
+  pointer-events: none;
+  position: absolute;
+  left: 50%;
+  right: auto;
+  top: 0;
+  z-index: 22;
+  transform: translateX(-50%);
+}
+
+.fei-classic-ui[dir="rtl"] .fei-logo-dome {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+}
+
+.fei-classic-ui .fei-dome-shape {
+  position: relative;
+  width: 336px;
+  height: 68px;
+  overflow: visible;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.fei-classic-ui .fei-dome-logo {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  border: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  color: #6b176f;
+}
+
+.fei-classic-ui .fei-dome-logo:hover {
+  transform: translateX(-50%);
+  opacity: .88;
+}
+
+.fei-classic-ui .fei-dome-logo-svg {
+  display: block;
+  width: auto;
+  max-width: 336px;
+  height: 60px;
+  filter: none;
+}
+
+.fei-classic-ui .fei-logo-reflection {
+  display: none;
+}
+
+/* Five-block desktop navigation copied closely from the reference proportions. */
+.fei-classic-ui .fei-nav-desktop {
+  display: block;
+  position: absolute;
+  z-index: 21;
+  top: 52px;
+  left: 10.9%;
+  right: auto;
+  width: 74.1%;
+  height: 76px;
+  background: transparent;
+  box-shadow: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fei-classic-ui[dir="rtl"] .fei-nav-desktop {
+  left: auto;
+  right: 10.9%;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul {
+  display: flex;
+  width: 100%;
+  height: 76px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul > li {
+  position: relative;
+  width: 20%;
+  flex: 0 0 20%;
+  min-width: 0;
+  padding: 15px 8px 0;
+  border-inline-start: 0;
+  border-inline-end: 1px solid #d5d5d5;
+  box-sizing: border-box;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul > li:last-child {
+  border-inline-end: 0;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul > li > button {
+  width: 100%;
+  height: 45px;
+  margin: 0;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #777;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  text-shadow: 0 1px #fff;
+  box-shadow: none;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul > li > button > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Current route remains subtly identifiable, but the strong purple cap is a
+   hover/focus state just like the supplied HTML. */
+.fei-classic-ui .fei-nav-desktop > ul > li > button.active {
+  border-radius: 0;
+  background: transparent;
+  color: #6b176f;
+  font-weight: 400;
+  text-shadow: 0 1px #fff;
+  box-shadow: none;
+}
+
+.fei-classic-ui .fei-nav-desktop > ul > li:hover > button,
+.fei-classic-ui .fei-nav-desktop > ul > li:focus-within > button,
+.fei-classic-ui .fei-nav-desktop > ul > li:hover > button.active,
+.fei-classic-ui .fei-nav-desktop > ul > li:focus-within > button.active {
+  background: linear-gradient(#8a398c, #591763);
+  color: #fff;
+  text-shadow: none;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 -2px 5px #aaa;
+  transform: none;
+}
+
+.fei-classic-ui .fei-chevron {
+  flex: 0 0 auto;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+/* Dropdown proportions/texture follow the reference instead of the larger
+   modern card/menu treatment. */
+.fei-classic-ui .fei-dropdown {
+  position: absolute;
+  inset-inline-start: 8px;
+  inset-inline-end: auto;
+  top: 59px;
+  z-index: 30;
+  width: 218px;
+  border: 0;
+  border-top: 6px solid #702577;
+  border-radius: 4px 4px 0 0;
+  background: #eee;
+  box-shadow: 0 1px 0 #ddd;
+  overflow: hidden;
+  animation: fei-dropdown .12s ease-out;
+}
+
+.fei-classic-ui[dir="rtl"] .fei-dropdown {
+  inset-inline-start: auto;
+  inset-inline-end: 8px;
+}
+
+.fei-classic-ui .fei-dropdown button {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1px solid #d6d6d6;
+  border-radius: 0;
+  background: #eee;
+  color: #777;
+  text-align: start;
+  padding: 17px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.1;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.fei-classic-ui .fei-dropdown button:hover,
+.fei-classic-ui .fei-dropdown button.active {
+  background: #e2d8e4;
+  color: #6b176f;
+  transform: none;
+}
+
+/* Intermediate desktop/tablet: retain the same grammar while preventing long
+   Horse DB labels from colliding. */
+@media (max-width: 1279px) and (min-width: 768px) {
+  .fei-classic-ui .fei-nav-desktop {
+    left: 5%;
+    width: 90%;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop {
+    left: auto;
+    right: 5%;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li {
+    padding-inline: 3px;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li > button {
+    gap: 5px;
+    padding-inline: 3px;
+    font-size: 12.5px;
+  }
+  .fei-classic-ui .fei-dropdown {
+    inset-inline-start: 3px;
+    width: 200px;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-dropdown {
+    inset-inline-start: auto;
+    inset-inline-end: 3px;
+  }
+  .fei-classic-ui .fei-dropdown button {
+    padding: 14px 9px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile: preserve all current controls but collapse the double-height shell
+   into a compact utility strip + one integrated logo/menu row. */
+@media (max-width: 767px) {
+  .fei-classic-ui .fei-donor-header {
+    height: auto;
+    min-height: 0;
+    border-top: 4px solid #201052;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  }
+
+  .fei-classic-ui .fei-top-strip {
+    display: block;
+    position: relative;
+    top: auto;
+    z-index: 40;
+    height: 30px;
+    background: linear-gradient(to bottom,#fff 0,#fff 7px,#d7d7d7 29px);
+    box-shadow: none;
+  }
+
+  .fei-classic-ui .fei-top-inner {
+    height: 30px;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .fei-classic-ui .fei-db-home {
+    display: none;
+  }
+
+  .fei-classic-ui .fei-auth-control {
+    margin-inline-start: auto;
+    min-height: 30px;
+    height: 30px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .fei-classic-ui .fei-auth-control .fei-link,
+  .fei-classic-ui .fei-locale {
+    font-size: 11px;
+  }
+
+  .fei-classic-ui .fei-welcome {
+    display: none;
+  }
+
+  .fei-classic-ui .fei-logo-dome,
+  .fei-classic-ui .fei-nav-desktop {
+    display: none;
+  }
+
+  .fei-classic-ui .fei-mobile-bar {
+    display: flex;
+    min-height: 50px;
+    align-items: center;
+    justify-content: space-between;
+    border: 0;
+    border-bottom: 1px solid #d5d5d5;
+    background: linear-gradient(to bottom,#fff 0,#fff 60%,#ebebeb 100%);
+    padding: 6px 10px 7px;
+    box-shadow: none;
+  }
+
+  .fei-classic-ui .fei-mobile-logo {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .fei-classic-ui .fei-mobile-logo svg {
+    display: block;
+    width: auto;
+    max-width: 220px;
+    height: 34px;
+  }
+
+  .fei-classic-ui .fei-hamburger {
+    width: 38px;
+    height: 32px;
+    min-height: 32px;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    background: linear-gradient(#fff,#eee);
+    color: #6b176f;
+    box-shadow: 0 1px 1px rgba(0,0,0,.12);
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .fei-classic-ui .fei-mobile-drawer aside {
+    width: 310px;
+    max-width: 88vw;
+    border-top: 4px solid #201052;
+    background: #fff;
+    box-shadow: 0 0 18px rgba(0,0,0,.26);
+  }
+
+  .fei-classic-ui .fei-drawer-head {
+    min-height: 52px;
+    border-bottom: 1px solid #d5d5d5;
+    background: linear-gradient(#fff,#ececec);
+    padding: 7px 12px;
+  }
+
+  .fei-classic-ui .fei-drawer-head svg {
+    height: 34px;
+    width: auto;
+  }
+
+  .fei-classic-ui .fei-drawer-group > div:first-child {
+    border-bottom: 1px solid #d6d6d6;
+  }
+
+  .fei-classic-ui .fei-drawer-group > div:first-child > button:first-child {
+    padding: 12px 14px;
+    background: #fff;
+    color: #777;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .fei-classic-ui .fei-drawer-group > div:first-child > button:first-child.active {
+    color: #6b176f;
+    font-weight: 400;
+  }
+
+  .fei-classic-ui .fei-drawer-group:has(.fei-drawer-sub.open) > div:first-child > button:first-child {
+    background: linear-gradient(#8a398c,#591763);
+    color: #fff;
+  }
+
+  .fei-classic-ui .fei-drawer-toggle {
+    width: 42px;
+    border: 0;
+    border-inline-start: 1px solid #d6d6d6;
+    background: #fff;
+    color: #777;
+    box-shadow: none;
+    font-size: 15px;
+  }
+
+  .fei-classic-ui .fei-drawer-sub,
+  .fei-classic-ui .fei-drawer-sub.open {
+    background: #eee;
+  }
+
+  .fei-classic-ui .fei-drawer-sub.open {
+    border-top: 4px solid #702577;
+  }
+
+  .fei-classic-ui .fei-drawer-sub button {
+    border-bottom: 1px solid #d6d6d6;
+    background: #eee;
+    color: #777;
+    padding: 13px 16px 13px 28px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .fei-classic-ui[dir="rtl"] .fei-drawer-sub button {
+    padding: 13px 28px 13px 16px;
+  }
+
+  .fei-classic-ui .fei-drawer-sub button:hover,
+  .fei-classic-ui .fei-drawer-sub button.active {
+    background: #e2d8e4;
+    color: #6b176f;
+    font-weight: 400;
+  }
+
+  .fei-classic-ui .fei-drawer-foot {
+    border-top: 1px solid #d5d5d5;
+    background: #f4f4f4;
+    padding: 10px 12px;
+  }
+}
+
+/* R31 merge compatibility ---------------------------------------------------
+   R29.30's donor-lock stylesheet uses !important extensively. The R29.34
+   reference overlay is intentionally loaded after that file; these narrow
+   declarations ensure the later user-approved header geometry actually wins
+   without touching Header.tsx, routes, AI navigation, data, or page content. */
+@media (min-width:1000px){
+  .fei-classic-ui .fei-top-strip{position:relative!important;height:52px!important;background:transparent!important;box-shadow:none!important}
+  .fei-classic-ui .fei-top-inner{position:relative!important;inset:auto!important;height:52px!important;padding:6px 3.7% 0 6%!important;align-items:flex-start!important;justify-content:space-between!important}
+  .fei-classic-ui[dir="rtl"] .fei-top-inner{padding:6px 6% 0 3.7%!important}
+  .fei-classic-ui .fei-auth-control{position:relative!important;top:auto!important;right:auto!important;left:auto!important}
+
+  .fei-classic-ui .fei-logo-dome,.fei-classic-ui[dir="rtl"] .fei-logo-dome{left:50%!important;right:auto!important;top:0!important;width:336px!important;height:68px!important;transform:translateX(-50%)!important}
+  .fei-classic-ui .fei-dome-shape,.fei-classic-ui .fei-dome-logo{width:336px!important;height:68px!important;background:transparent!important;box-shadow:none!important}
+  .fei-classic-ui .fei-dome-logo{left:0!important;top:0!important;transform:none!important}
+  .fei-classic-ui .fei-dome-logo:hover{transform:none!important;opacity:.88!important}
+  .fei-classic-ui .fei-exact-donor-logo{display:block!important;width:336px!important;height:68px!important;object-fit:contain!important;filter:none!important}
+
+  .fei-classic-ui .fei-nav-desktop{top:52px!important;left:10.9%!important;right:auto!important;width:74.1%!important;height:76px!important;transform:none!important}
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop{left:auto!important;right:10.9%!important}
+  .fei-classic-ui .fei-nav-desktop>ul{height:76px!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li{width:20%!important;flex:0 0 20%!important;height:76px!important;padding:15px 8px 0!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{width:100%!important;height:45px!important;margin:0!important;padding:0 6px!important;gap:18px!important;font:400 15px/1 Arial,Helvetica,sans-serif!important;background:transparent!important;color:#777!important;text-shadow:0 1px #fff!important;border-radius:0!important;box-shadow:none!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li:hover>button,.fei-classic-ui .fei-nav-desktop>ul>li:focus-within>button,.fei-classic-ui .fei-nav-desktop>ul>li.open>button,.fei-classic-ui .fei-nav-desktop>ul>li>button.active{height:45px!important;margin:0!important;padding:0 6px!important;background:linear-gradient(#8a398c,#591763)!important;color:#fff!important;text-shadow:none!important;border-radius:4px 4px 0 0!important;box-shadow:0 -2px 5px #aaa!important}
+  .fei-classic-ui .fei-chevron{font-size:15px!important;font-weight:700!important;line-height:1!important}
+
+  .fei-classic-ui .fei-dropdown,.fei-classic-ui[dir="rtl"] .fei-dropdown{top:59px!important;left:auto!important;right:auto!important;inset-inline-start:8px!important;inset-inline-end:auto!important;width:218px!important;min-width:218px!important;transform:none!important;border:0!important;border-top:6px solid #702577!important;border-radius:4px 4px 0 0!important;background:#eee!important;box-shadow:0 1px 0 #ddd!important;overflow:hidden!important}
+  .fei-classic-ui[dir="rtl"] .fei-dropdown{inset-inline-start:auto!important;inset-inline-end:8px!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li:last-child .fei-dropdown,.fei-classic-ui[dir="rtl"] .fei-nav-desktop>ul>li:last-child .fei-dropdown{left:auto!important;right:auto!important;transform:none!important}
+  .fei-classic-ui .fei-dropdown button{padding:17px 10px!important;background:#eee!important;color:#777!important;font:400 14px/1.1 Arial,Helvetica,sans-serif!important}
+  .fei-classic-ui .fei-dropdown button:hover,.fei-classic-ui .fei-dropdown button.active{background:#e2d8e4!important;color:#6b176f!important}
+}
+
+@media (min-width:768px) and (max-width:999px){
+  .fei-classic-ui .fei-nav-desktop{left:5%!important;right:auto!important;width:90%!important}
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop{left:auto!important;right:5%!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li{padding-inline:3px!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{gap:5px!important;padding-inline:3px!important;font-size:12.5px!important}
+  .fei-classic-ui .fei-dropdown{inset-inline-start:3px!important;width:200px!important;min-width:200px!important}
+  .fei-classic-ui[dir="rtl"] .fei-dropdown{inset-inline-start:auto!important;inset-inline-end:3px!important}
+  .fei-classic-ui .fei-dropdown button{padding:14px 9px!important;font-size:13px!important}
+}
+
+@media (max-width:767px){
+  .fei-classic-ui .fei-donor-header{height:auto!important;min-height:0!important;border-top:4px solid #201052!important;background:#fff!important;box-shadow:0 1px 3px rgba(0,0,0,.12)!important}
+  .fei-classic-ui .fei-top-strip{position:relative!important;top:auto!important;height:30px!important;background:linear-gradient(to bottom,#fff 0,#fff 7px,#d7d7d7 29px)!important;box-shadow:none!important}
+  .fei-classic-ui .fei-top-inner{height:30px!important;padding:0 10px!important;align-items:center!important;justify-content:flex-end!important}
+  .fei-classic-ui .fei-db-home{display:none!important}
+  .fei-classic-ui .fei-auth-control{margin-inline-start:auto!important;min-height:30px!important;height:30px!important;gap:8px!important;font-size:11px!important}
+  .fei-classic-ui .fei-welcome{display:none!important}
+  .fei-classic-ui .fei-logo-dome,.fei-classic-ui .fei-nav-desktop{display:none!important}
+  .fei-classic-ui .fei-mobile-bar{position:relative!important;top:auto!important;min-height:50px!important;height:auto!important;border:0!important;border-bottom:1px solid #d5d5d5!important;background:linear-gradient(to bottom,#fff 0,#fff 60%,#ebebeb 100%)!important;padding:6px 10px 7px!important;box-shadow:none!important}
+  .fei-classic-ui .fei-mobile-logo img{display:block!important;width:auto!important;max-width:220px!important;height:34px!important;object-fit:contain!important}
+  .fei-classic-ui .fei-hamburger{width:38px!important;height:32px!important;min-height:32px!important;border:1px solid #bbb!important;border-radius:3px!important;background:linear-gradient(#fff,#eee)!important;color:#6b176f!important;box-shadow:0 1px 1px rgba(0,0,0,.12)!important}
+  .fei-classic-ui .fei-mobile-drawer aside{width:310px!important;max-width:88vw!important;border-top:4px solid #201052!important;background:#fff!important;box-shadow:0 0 18px rgba(0,0,0,.26)!important}
+  .fei-classic-ui .fei-drawer-head{min-height:52px!important;border-bottom:1px solid #d5d5d5!important;background:linear-gradient(#fff,#ececec)!important;padding:7px 12px!important}
+  .fei-classic-ui .fei-drawer-fei-logo{height:34px!important;width:auto!important;object-fit:contain!important}
+  .fei-classic-ui .fei-drawer-group>div:first-child>button:first-child{min-height:0!important;padding:12px 14px!important;background:#fff!important;color:#777!important;font:400 14px/1.2 Arial,Helvetica,sans-serif!important}
+  .fei-classic-ui .fei-drawer-group>div:first-child>button:first-child.active{color:#6b176f!important;font-weight:400!important}
+  .fei-classic-ui .fei-drawer-toggle{width:42px!important;min-height:0!important;border-inline-start:1px solid #d6d6d6!important;background:#fff!important;color:#777!important}
+  .fei-classic-ui .fei-drawer-sub,.fei-classic-ui .fei-drawer-sub.open{background:#eee!important}
+  .fei-classic-ui .fei-drawer-sub.open{border-top:4px solid #702577!important}
+  .fei-classic-ui .fei-drawer-sub button{min-height:0!important;border-bottom:1px solid #d6d6d6!important;background:#eee!important;color:#777!important;padding:13px 16px 13px 28px!important;font:400 13px/1.2 Arial,Helvetica,sans-serif!important}
+  .fei-classic-ui[dir="rtl"] .fei-drawer-sub button{padding:13px 28px 13px 16px!important}
+  .fei-classic-ui .fei-drawer-sub button:hover,.fei-classic-ui .fei-drawer-sub button.active{background:#e2d8e4!important;color:#6b176f!important;font-weight:400!important}
+  .fei-classic-ui .fei-drawer-foot{border-top:1px solid #d5d5d5!important;background:#f4f4f4!important;padding:10px 12px!important}
+}

@@ -1,0 +1,38 @@
+/* R111: measured layout corrections. Keep Heritage's material and colour tokens. */
+/* Header/navigation geometry is owned by heritage/Navigation.css. */
+/* R124: the studio header is a TWO-child row (title block + close). The old
+   R111 three-column grid (28px | 1fr | 44px) was written for a DOM that had a
+   swatch as the first child; on the current DOM it squeezed the whole title
+   into a 28px sliver and parked the X mid-panel. One authoritative rule. */
+html:root[data-frontend="heritage"] .theme-studio-header {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 44px !important;
+  grid-template-areas: "title close" !important;
+  align-items: start !important;
+  column-gap: 12px !important;
+  row-gap: 0 !important;
+  padding: 2px 2px 10px !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--h-glass-border-soft) 76%, transparent) !important;
+}
+html:root[data-frontend="heritage"] .theme-studio-title { grid-area: title !important; min-width: 0; }
+html:root[data-frontend="heritage"] .theme-studio-close {
+  grid-area: close !important;
+  place-self: start end !important;
+  display: grid; place-items: center; inline-size: 44px; min-inline-size: 44px;
+  block-size: 44px; min-block-size: 44px; padding: 0;
+  border: 1px solid var(--line); border-radius: 8px; color: var(--text);
+  background: var(--panel-solid); font: inherit; font-size: 22px; line-height: 1;
+}
+html:root[data-frontend="heritage"] .theme-studio-close:hover {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  color: var(--ink); background: color-mix(in srgb, var(--accent) 8%, var(--panel-solid));
+}
+html:root[data-frontend="heritage"] :is(.theme-studio-header,.theme-studio-panel) { min-width:0; }
+html:root[data-frontend="heritage"] .theme-studio-header h2 { overflow-wrap:anywhere; }
+html:root[data-frontend="heritage"] .h102-content :is(input,select,textarea) { min-width:0;max-width:100%; }
+html:root[data-frontend="heritage"] .h102-content :is(.table-wrap,.table-scroll) { max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain; }
+html:root[data-frontend="heritage"] .h102-content :is(.hero-summary,.hero-copy>p,.search-hint,.login-card>p) { font-size:max(14px,1em);line-height:1.6; }
+@media(max-width:520px) {
+  html:root[data-frontend="heritage"] .theme-studio-header { gap:8px!important; }
+  html:root[data-frontend="heritage"] .frontend-switcher-panel { width:min(360px,calc(100vw - 24px));max-height:calc(100dvh - 120px);overflow:auto; }
+}

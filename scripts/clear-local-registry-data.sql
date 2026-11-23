@@ -1,0 +1,17 @@
+PRAGMA foreign_keys=OFF;
+DELETE FROM horse_search_reindex_queue;
+DELETE FROM horse_search_trigram;
+DELETE FROM horse_search_fts;
+DELETE FROM horse_search_source;
+DELETE FROM analytics_snapshots;
+DELETE FROM change_request_items;
+DELETE FROM change_requests;
+DELETE FROM horse_claims;
+DELETE FROM horse_aliases;
+DELETE FROM data_quality_issues;
+DELETE FROM horse_people;
+DELETE FROM people;
+UPDATE horses SET father_id=NULL,mother_id=NULL;
+DELETE FROM horses;
+DELETE FROM source_imports;
+PRAGMA foreign_keys=ON;

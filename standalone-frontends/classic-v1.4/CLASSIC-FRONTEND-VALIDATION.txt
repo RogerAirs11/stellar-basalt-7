@@ -1,0 +1,14 @@
+Classic Registry Frontend 1.4 validation — 2026-09-15
+
+PASS  JavaScript syntax: all 14 production public/ui JS modules pass Node --check.
+PASS  Typed manifest: current platform.ts + frontend.ts + manifest compile in TypeScript strict mode.
+PASS  Platform contract: minimum 2.13.0 / major 2; all 23 currently live capabilities are explicitly surfaced and 8 reserved capabilities remain explicitly dormant.
+PASS  Horse data parity: all 59 current HorseRecord contract field names are represented by the production frontend surfaces.
+PASS  Registry browse parity: all current RegistryBrowseParams semantics are represented, including exact IDs, role filters, import origin, parent-presence, lifecycle, flags, sorting and paging.
+PASS  Content input parity: all 18 ContentPostInput fields are represented/preserved; generated AI provenance is no longer lost when a generated draft is saved.
+PASS  Staff curation safety: all 12 HorseCurationInput-editable fields are editable; staff-only identifiers/metadata are displayed read-only; the prior non-contract main_strain_desc edit submission was removed.
+PASS  Platform provenance: contract, application, statistics, limits, source SHA/provenance and runtime health/database state are surfaced.
+PASS  Search metadata: syntax version, max query length, aliases, registry-field version/combinator/query-param/type map are surfaced.
+PASS  CSS structural check: delimiter balance is clean after the V1.4 additions.
+
+No dependency install, production bundle build or live-browser/backend mutation was performed for this pure frontend package.

@@ -1,0 +1,94 @@
+/* Core/Heritage AI integration. Structural chat rules remain centralized in frontend-kit;
+   this file only maps the shared assistant onto Heritage's existing surface contract. */
+/* The full-page AI route intentionally starts at the chat workspace. The former
+   marketing/title hero is omitted to maximize conversation space. */
+:root[data-frontend="heritage"] .heritage-ai-page--chat-only{padding-top:12px}
+
+/* Reuse the exact Welcome workspace shell: same radius, margins, transparency and live glass. */
+:root[data-frontend="heritage"] .heritage-ai-workspace{margin-top:0!important;padding:0!important;min-height:0;overflow:hidden!important}
+:root[data-frontend="heritage"] .heritage-ai-workspace>.hdb-ai-full{height:min(860px,calc(100dvh - 122px));min-height:520px;max-width:none;margin:0}
+
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage{
+  --ai-font:var(--h-font-ui,var(--font-ui,inherit));
+  --ai-title-font:var(--font-display,var(--h-font-display,serif));
+  --ai-bg:var(--h-frost-2-bg,var(--panel-solid));
+  --ai-thread-bg:transparent;
+  --ai-panel-bg:var(--h-frost-1-bg,var(--panel-strong));
+  --ai-control-bg:var(--h-frost-1-bg,var(--bg-elev));
+  --ai-code-bg:#15191d;
+  --ai-text:var(--ink);--ai-muted:var(--muted);--ai-accent:var(--accent);
+  --ai-accent-soft:color-mix(in srgb,var(--accent) 9%,transparent);
+  --ai-border:color-mix(in srgb,var(--line) 90%,transparent);
+  /* R32: the AI chat now consumes the canonical Heritage type scale, so the
+     launcher popover, the full-page workspace and every modal surface render
+     with exactly the same typography voice as the rest of the core frontend. */
+  --ai-font-size:var(--h-font-body,13px);
+  --ai-font-micro:var(--h-font-micro,11.5px);
+  --ai-font-caption:var(--h-font-caption,12.5px);
+  --ai-font-control:var(--h-font-caption,12.5px);
+  --ai-font-code:11.5px;
+  /* Legacy bubble fills remain only as fallbacks for frontends without the
+     Heritage material registry. Inside Heritage, bubbles are true Material 03
+     (card) surfaces and the composer is Material 04 (control) — painted by
+     heritage.material.css through heritageSurfaceRegistry.ts. */
+  --ai-bubble-bg:var(--h-frost-2-bg,var(--panel-strong));
+  --ai-bubble-blur:var(--h-frost-2-blur,14px);
+  --ai-bubble-saturation:var(--h-frost-2-saturation,1.04);
+  --ai-user-bg:color-mix(in srgb,var(--accent) 10%,var(--ai-bubble-bg));
+  --ai-assistant-bg:var(--ai-bubble-bg);
+  --ai-radius:var(--h-ds-radius-workspace,18px);--ai-control-radius:10px;--ai-message-radius:12px;
+  --ai-shadow:0 12px 34px rgba(0,0,0,.08),inset 0 1px 0 color-mix(in srgb,#fff 20%,transparent)
+}
+:root[data-frontend="heritage"] .heritage-ai-workspace .hdb-ai-theme-heritage.hdb-ai-full{border:0;border-radius:inherit;background:transparent!important;box-shadow:none;backdrop-filter:none}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-sessionbar,
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-compose{background:var(--h-frost-1-bg,var(--ai-panel-bg));backdrop-filter:blur(var(--h-frost-1-blur,8px)) saturate(var(--h-frost-1-saturation,1.04));-webkit-backdrop-filter:blur(var(--h-frost-1-blur,8px)) saturate(var(--h-frost-1-saturation,1.04))}
+:root[data-frontend="heritage"] .heritage-ai-workspace .hdb-ai-theme-heritage .hdb-ai-sessionbar{background:color-mix(in srgb,var(--h-frost-1-bg,var(--panel-strong)) 58%,transparent)}
+:root[data-frontend="heritage"] .heritage-ai-workspace .hdb-ai-theme-heritage .hdb-ai-compose{background:color-mix(in srgb,var(--h-frost-1-bg,var(--panel-strong)) 66%,transparent)}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-sessionbar :is(select,.hdb-ai-icon-button),
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-controlstrip :is(select,.hdb-ai-icon-button),
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-composer-box{background:var(--h-frost-1-bg,var(--ai-control-bg));backdrop-filter:blur(var(--h-frost-1-blur,8px)) saturate(var(--h-frost-1-saturation,1.04));-webkit-backdrop-filter:blur(var(--h-frost-1-blur,8px)) saturate(var(--h-frost-1-saturation,1.04))}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-send{border-radius:6px;background:color-mix(in srgb,var(--accent) 15%,var(--h-frost-1-bg,var(--ai-control-bg)));border-color:color-mix(in srgb,var(--accent) 48%,var(--h-glass-border-soft,var(--ai-border)));color:var(--accent);box-shadow:inset 0 1px rgba(255,255,255,.09)}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-send:hover:not(:disabled){background:color-mix(in srgb,var(--accent) 24%,var(--h-frost-1-bg,var(--ai-control-bg)));border-color:color-mix(in srgb,var(--accent) 68%,var(--h-glass-border-soft,var(--ai-border)))}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-welcome{border-radius:9px;background:color-mix(in srgb,var(--h-frost-1-bg,var(--panel-strong)) 72%,transparent);backdrop-filter:blur(var(--h-frost-1-blur,8px)) saturate(var(--h-frost-1-saturation,1.04))}
+
+/* R40: bubbles are Material 03 (card) surfaces and the composer is Material 04
+   (control) — registered in heritageSurfaceRegistry.ts and painted by the v2
+   material engine, so they respond to the Appearance Studio depth sliders like
+   every other surface and stand clearly apart from the 01/02 chrome behind
+   them. The user bubble composes the semantic accent tint on top of the card
+   material (same composable-tint contract as sire/dam pedigree cards). */
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-message.user{
+  --h-material-tone:var(--accent)!important;
+  --h-material-tone-strength:calc(var(--h-user-semantic-strong-alpha,26%) * .72)!important;
+}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-message{
+  border-color:var(--h-glass-border)!important;
+}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-message.user{
+  border-color:color-mix(in srgb,var(--accent) 30%,var(--h-glass-border))!important;
+}
+:root[data-frontend="heritage"] .hdb-ai-theme-heritage .hdb-ai-composer-box:focus-within{
+  border-color:color-mix(in srgb,var(--accent) 55%,var(--h-glass-border))!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 14%,transparent),0 10px 28px rgba(0,0,0,.12)!important;
+}
+
+/* The support-style launcher uses the same Core tokens, not a separate visual
+   language. R54: the shared FAB is accent-driven (see frontend-kit assistant.css)
+   and re-anchors the --ai-* tokens through the --ai-fab-* hooks below. */
+:root[data-frontend="heritage"] .hdb-ai-launcher-heritage{
+  --ai-fab-accent:var(--accent);
+  --ai-fab-surface:var(--panel-solid);
+  --ai-fab-font-size:var(--h-font-caption,12.5px);
+  --ai-fab-font:var(--h-font-ui,var(--font-ui,inherit));
+}
+:root[data-frontend="heritage"] .hdb-ai-launcher-heritage .hdb-ai-popover>.hdb-ai-theme-heritage{border-radius:10px;background:var(--h-frost-2-bg,var(--panel-solid));backdrop-filter:blur(var(--h-frost-2-blur,16px)) saturate(var(--h-frost-2-saturation,1.08));-webkit-backdrop-filter:blur(var(--h-frost-2-blur,16px)) saturate(var(--h-frost-2-saturation,1.08));overflow:hidden}
+/* R60: the launcher speaks the heritage frost language — a compact glass disc
+   with the same frosted-surface treatment as the app's panels, not a saturated
+   floating pill. */
+:root[data-frontend="heritage"] .hdb-ai-launcher-heritage .hdb-ai-fab{border-color:color-mix(in srgb,var(--accent) 42%,transparent);background:color-mix(in srgb,var(--h-frost-2-bg,var(--panel-solid)) 78%,transparent);box-shadow:0 4px 14px rgb(0 0 0 / .16),inset 0 1px 0 rgb(255 255 255 / .2)}
+:root[data-frontend="heritage"] .hdb-ai-launcher-heritage .hdb-ai-fab:hover{border-color:color-mix(in srgb,var(--accent) 66%,transparent);box-shadow:0 6px 18px rgb(0 0 0 / .2),inset 0 1px 0 rgb(255 255 255 / .24)}
+
+@media(max-width:760px){
+ :root[data-frontend="heritage"] .heritage-ai-page--chat-only{padding-top:8px;padding-bottom:calc(var(--h-mobile-dock-stack-height,72px) + 12px)}
+ :root[data-frontend="heritage"] .heritage-ai-workspace>.hdb-ai-full{height:max(360px,calc(100dvh - var(--h-mobile-dock-stack-height,72px) - 56px));min-height:0;max-height:none}
+}

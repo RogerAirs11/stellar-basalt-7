@@ -1,0 +1,42 @@
+[
+  {
+    "label": "modern-fa-320",
+    "ok": true
+  },
+  {
+    "label": "core-fa-320",
+    "ok": true
+  },
+  {
+    "label": "modern-en-390",
+    "ok": true
+  },
+  {
+    "label": "core-en-390",
+    "ok": true
+  },
+  {
+    "label": "modern-fa-812",
+    "ok": true
+  },
+  {
+    "label": "core-fa-812",
+    "ok": true
+  },
+  {
+    "label": "modern-en-768",
+    "ok": true
+  },
+  {
+    "label": "core-en-768",
+    "ok": true
+  },
+  {
+    "label": "modern-en-1440",
+    "ok": true
+  },
+  {
+    "label": "core-en-1440",
+    "ok": true
+  }
+]

@@ -1,0 +1,91 @@
+/* Primitive values feed semantic tokens. Components consume semantic tokens only. */
+.retro-astra-transplant {
+  --oat-50: #f7f0dd;
+  --oat-100: #eee5ce;
+  --oat-200: #e0d5b9;
+  --oat-300: #cabc99;
+  --oat-400: #b4a47d;
+  --pine-500: #567863;
+  --pine-600: #3d634e;
+  --pine-700: #2d513e;
+  --pine-800: #213e30;
+  --slate-600: #3f637a;
+  --clay-600: #995841;
+  --brass-600: #876624;
+
+  --canvas: var(--oat-200);
+  --surface: var(--oat-100);
+  --surface-raised: var(--oat-50);
+  --surface-inset: #dcd1b7;
+  --surface-header: #e2d8bd;
+  --ink: #393d2e;
+  --ink-strong: #243c2e;
+  --ink-muted: #6c6c56;
+  --ink-faint: #857f67;
+  --line: var(--oat-400);
+  --line-soft: #d2c6a9;
+  --accent: var(--pine-700);
+  --accent-hover: var(--pine-800);
+  --accent-soft: #dce3cd;
+  --sire: var(--slate-600);
+  --sire-soft: #dce6e5;
+  --sire-border: #9db3b7;
+  --dam: var(--clay-600);
+  --dam-soft: #eddbc9;
+  --dam-border: #c19b82;
+  --gold: var(--brass-600);
+  --gold-soft: #e9d9ab;
+  --danger: #9a4e3d;
+  --focus: #7d935b;
+
+  --font-ui: 'DM Sans', Arial, sans-serif;
+  --font-display: 'Lora', Georgia, serif;
+  --font-mono: 'Courier New', monospace;
+  --text-xs: 0.6875rem;
+  --text-sm: 0.75rem;
+  --text-base: 0.8125rem;
+  --text-md: 0.875rem;
+  --text-lg: 1rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 7px;
+  --shadow-raised: inset 1px 1px 0 #fff9e6, inset -1px -1px 0 #c9b996, 0 2px 0 #b4a382, 0 4px 7px #584d2420;
+  --shadow-inset: inset 1px 2px 3px #45381d28, inset -1px -1px 0 #fff9e1, 0 1px 0 #faf0d4;
+  --shadow-button: inset 1px 1px 0 #fffbe9, inset -1px -1px 0 #b8a67d, 0 2px 0 #9e8c68, 0 3px 3px #44341626;
+  --shadow-green: inset 1px 1px 0 #c9d8a65c, inset -1px -1px 0 #173c29, 0 2px 0 #153020, 0 3px 4px #243b3338;
+  --transition-fast: 140ms ease;
+  --sidebar-width: 214px;
+  --content-gap: 16px;
+
+  /* Second-edition material recipes. Texture belongs to surfaces, never to text. */
+  --paper: #f1e8d1;
+  --paper-light: #f8f1df;
+  --paper-edge: #b5a683;
+  --leather: #365343;
+  --leather-light: #52705b;
+  --leather-dark: #253f32;
+  --leather-ink: #f0e9d1;
+  --leather-muted: #c1c6a9;
+  --brass-light: #ead29a;
+  --brass-mid: #bca06a;
+  --brass-dark: #80643b;
+  --walnut: #927352;
+  --material-brass: linear-gradient(180deg, #f2e1b4 0%, #d8bd82 46%, #c5a86e 48%, #dcc492 100%);
+  --material-enamel: linear-gradient(180deg, #64866d 0%, #446c53 48%, #345a43 49%, #45694d 100%);
+  --material-ivory: linear-gradient(180deg, #faf3dc 0%, #e8ddbc 48%, #dacbac 49%, #e7d9b7 100%);
+  --material-paper: url('../../assets/donor/paper-grain.svg');
+  --material-linen: repeating-linear-gradient(0deg, #fff8de10 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, #60533808 0 1px, transparent 1px 3px);
+  --material-leather: url('../../assets/donor/leather-grain.svg');
+  --material-wood: url('../../assets/donor/walnut-grain.webp');
+  --shadow-paper: 0 1px 0 #f8f0d9, 0 2px 0 #b6a989, 0 4px 0 -1px #e6dbc2, 0 5px 0 -1px #b4a785, 0 8px 10px -3px #58432026;
+  --shadow-metal: inset 1px 1px 0 #fff2c1, inset -1px -1px 0 #9f824b, 0 2px 3px #241e1b45;
+  --font-note: 'Caveat', 'Lora', Georgia, serif;
+}

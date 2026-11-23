@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="classic" data-density="compact" data-palette="registry" data-appearance="light" data-appearance-preference="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#16385f">
+  <meta name="description" content="Equine Registry — compact bilingual registry, pedigree and breeding tools.">
+  <title>Equine Registry</title>
+  <script src="/ui/boot-theme.js"></script>
+  <!-- R148: use the host local/system font fallback stylesheet. -->
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/ui/classic.css">
+  <link rel="stylesheet" href="/ui/density-tokens.css">
+  <link rel="stylesheet" href="/ui/compact-r88.css">
+  <link rel="stylesheet" href="/ui/hierarchical-navigation.css">
+  <link rel="stylesheet" href="/ui/media.css">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script type="module" src="/ui/app.js"></script>
+  <link rel="stylesheet" href="/ui/request-forms.css">
+  <link rel="stylesheet" href="/ui/services.css">
+</head>
+<body data-classic-registry>
+  <a class="skip-link" href="#workspace">Skip to content</a>
+  <div id="app" class="app-shell" aria-busy="true">
+    <header class="site-header" id="site-header"></header>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary"></nav>
+    <main class="workspace" id="workspace" tabindex="-1" aria-label="Classic registry content"></main>
+    <footer class="site-footer" id="site-footer"></footer>
+  </div>
+  <div class="toast-stack" id="toast-stack" role="status" aria-live="polite"></div>
+  <dialog class="modal" id="modal"><div id="modal-body"></div></dialog>
+  <dialog class="preference-drawer" id="preferences-drawer" aria-labelledby="preferences-title"></dialog>
+</body>
+</html>

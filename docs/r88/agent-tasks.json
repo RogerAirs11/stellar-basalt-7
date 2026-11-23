@@ -1,0 +1,1425 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-03",
+  "base_application_version": "0.45.0",
+  "base_contract_version": "2.16.0",
+  "note": "All tickets are future work. See audit for implemented R88 changes. Estimates are planning assumptions, not quotations.",
+  "tasks": [
+    {
+      "id": "P00",
+      "title": "Restore the complete repository and establish a reproducible baseline",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [],
+      "paths": [
+        "PACKAGE-INFO.txt",
+        "package.json",
+        "package-lock.json (restore from original repository)",
+        "public/ (restore licensed original assets)",
+        "docs/ (restore original operational documents)"
+      ],
+      "effort_person_days": [
+        1,
+        3
+      ],
+      "steps": [
+        "Work on a branch. Preserve the supplied R87 baseline and this R88 patch. Do not replace the new public directory wholesale when restoring assets; merge it and preserve demo-workbench and business-model.",
+        "Restore the original exact lockfile from upstream commit 2bcade2 or the actual matching release. Do not generate a new lockfile and describe it as the original. Obtain the original media/seed files through authorized channels; never copy production secrets into the source ZIP.",
+        "Run npm ci in an unrestricted isolated CI runner. Record Node, npm, OS, dependency resolution and vulnerability review. Run the original npm run check without disabling failing gates. Separate pre-existing failures, omitted files and R88 regressions.",
+        "Restore the three omitted AI architecture/operations/real-data documents referenced by validate-ai-assistant. If unavailable, explicitly revise the documentation contract in its own reviewed change; never create empty pass-through stubs."
+      ],
+      "acceptance_tests": [
+        "Clean checkout installs identically twice with the same lockfile checksum.",
+        "Full build, full TypeScript and full Vitest have logs; no gate is marked green solely because its script was skipped.",
+        "All original licensed asset URLs resolve; no uploaded secret or font binary is added to public distribution without a separately authorized asset delivery process."
+      ],
+      "rollback": "Revert environment/lockfile changes as a unit; retain audit logs and R88 source. Do not change application semantics while restoring the baseline.",
+      "release_gate": "all",
+      "status_note": "Full-repo baseline restored and evidenced in docs/r88/P00-BASELINE-EVIDENCE.md: lockfile install stable (sha256 fd86b561... twice identical), npm run check FULL pass, tsc clean, vitest 434/0 at merge, python 59, 142 DOM assertions, production build green, 3 R31 AI docs present. Merge fixes: route inventory 107, lockfile 0.45.0 sync, one tsc spread-cast fix. Dev-tooling audit advisories recorded, prod deps 0 vulnerabilities."
+    },
+    {
+      "id": "P01",
+      "title": "Choose one production topology and prove database adapter behavior",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P00"
+      ],
+      "paths": [
+        "src/db/types.ts",
+        "src/db/provider.ts",
+        "src/db/localSqlite.ts",
+        "src/db/tursoCompat.ts",
+        "src/db/supabaseCompat.ts",
+        "src/db/sqliteSqlToPostgres.ts",
+        "scripts/pg-parity-gate.mjs",
+        "tests/integration/db-parity.test.ts (new)"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Write an architecture decision with the actual launch runtime, database, object store, region, secrets manager and backup target. A Liara price quotation is not proof that the Worker application runs unmodified there.",
+        "Define a portable command boundary that returns affected-row count and transaction result. Execute fixtures against the real chosen backend and SQLite reference; exercise Postgres/Turso only if those adapters remain supported for launch.",
+        "Pin uniqueness error classification, timestamp normalization, transaction rollback and affected-row metadata. Do not infer database conflicts by matching every error containing the word unique.",
+        "Fail startup on unsupported provider/capability combinations. Document deliberately unsupported adapters instead of silently falling back to mock or a different source of truth."
+      ],
+      "acceptance_tests": [
+        "The same seed and command sequence produce equivalent rows and errors on every supported provider.",
+        "Injected failure between record and audit writes leaves neither committed.",
+        "Two concurrent clients cannot both claim an exclusive record or execute the same command twice."
+      ],
+      "rollback": "Keep the previously selected provider active; schema changes remain additive. Do not dual-write production data until replay/reconciliation has been demonstrated.",
+      "release_gate": "production",
+      "status_note": "Topology ADR recorded (docs/r88/P01-TOPOLOGY-ADR.md; Workers + Supabase canonical via Hyperdrive, D1 failover, live since R59). R91: execution-level adapter parity DELIVERED and PROVEN against the real Supabase pooler — scripts/pg-execution-parity.mjs runs the SAME seed + 12-step command sequence (built from the production SQL templates by tests/python/p01_parity_lib.py) on real SQLite AND on a real PostgreSQL in an isolated disposable schema through the PRODUCTION runtime translator; transcripts compared (changes, rows, error classes, concurrent winners): 0 differences. True two-connection concurrent same-key receipt claim: exactly one winner + one unique_violation on both engines. Evidence: audit/2026-10-03/parity/pg-execution-parity-supabase.json. CI parity-postgres job now runs it on every non-main push (npm run db:pg-execution-parity). Fail-closed startup checks pinned over HTTP (tests/integration/provider-fail-closed.test.ts, 7 fixtures): invalid mode = 500, unconfigured supabase/turso bindings = 503, dual-provider failover modes read-only for canonical writes, supabase read/d1 write split honest. No adapter ever silently falls back to a mock."
+    },
+    {
+      "id": "P02",
+      "title": "Make grant and organization membership revocation atomic and auditable",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P01"
+      ],
+      "paths": [
+        "src/access/horseAccess.ts",
+        "src/audit/mutationJournal.ts",
+        "migrations/ (new additive migration)",
+        "tests/integration/grant-commands.test.ts (new)"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Trace revokeHorseGrant and revokeOrganizationMembership: conditional UPDATE followed by unconditional audit INSERT must be replaced. Assign an immutable operation_id to the command.",
+        "Execute authorized state change and matching audit event in one transaction. If the adapter only offers atomic batch, use a proven operation-nonce design where audit INSERT SELECT is conditional on the exact successful operation marker; do not rely on connection-local changes() across pooled adapters.",
+        "Repeated revocation returns a documented no-op or conflict, never a second successful-revocation event. Include actor, target, prior/new state and timestamp without leaking private notes.",
+        "Normalize myGrants to the same direct-user and organization-membership start/end/revocation policy as actual authorization. Ignore deleted horses and disabled organizations."
+      ],
+      "acceptance_tests": [
+        "Revoking a non-existent, already-revoked or unauthorized grant creates zero success audit rows.",
+        "A second writer revoking the same grant yields one successful mutation and one audit event.",
+        "Future-start, malformed-date, exact-expiry and revoked-membership cases match direct authorization and myGrants."
+      ],
+      "rollback": "Disable grant mutations using a server feature flag if transactional safety fails; preserve existing read authorization. Never roll back by deleting the audit trail.",
+      "release_gate": "production",
+      "status_note": "Migration 0037 (last_operation_id markers) + marker-conditioned audit INSERT..SELECT in src/access/horseAccess.ts: repeat revoke, racing writer and nonexistent target can never mint a successful-revocation audit row; myGrants normalized to the authorization policy (datetime-normalized validity, deleted horses hidden). Evidence: vitest fixtures + 11 python real-SQL replays on all 37 migrations (success=exactly one audit row; repeat=no-op+no row; race marker cannot mint; nonexistent=zero rows; membership same; myGrants future/malformed/exact-expiry/revoked/deleted-horse parity). 0037 applied+verified on Supabase BEFORE push. Check FULL pass, vitest 435+9 P04, python 66+5."
+    },
+    {
+      "id": "P03",
+      "title": "Close permission-to-write races and add versioned marketplace commands",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P02"
+      ],
+      "paths": [
+        "src/api/modules/marketplace.ts",
+        "src/marketplace/policy.ts",
+        "src/contracts/platform.ts",
+        "src/frontend-kit/platformClient.ts",
+        "migrations/ (row_version and command receipts)"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Add integer row_version >= 1 to listings and inquiries, incremented on every mutable command. Read responses expose it. Require expectedVersion on edits; return 409 with the current version on a stale write.",
+        "Use a unique idempotency key scoped to actor + command + target. Persist a request digest and stable result; replaying the same key with a different payload returns conflict.",
+        "Evaluate horse existence, seller authority, relevant active organization grant and listing state in the same transactional command as the write. Preserve administrator authorization as an explicit separate branch.",
+        "Apply the same model to listing expiry/renewal and inquiry status. Sold listing is not ownership transfer. Inquiry contact fields remain private after grant revocation.",
+        "Add new contract fields compatibly, bump contract version and update all client adapters. Disable mutation controls until a fresh version is loaded after conflict."
+      ],
+      "acceptance_tests": [
+        "Revoke grant concurrently with edit/inquiry update; no edit may commit after the transaction observes the revoked authority.",
+        "Two edits with one version produce exactly one success.",
+        "Network retry creates one inquiry and one audit/notification event.",
+        "Expired, hidden, deleted-horse, self-inquiry and invalid transition scenarios fail without side effects."
+      ],
+      "rollback": "Feature-flag new writes off; retain new version columns and receipts. Do not downgrade to a weaker write endpoint as a fallback.",
+      "release_gate": "production",
+      "status_note": "Delivered (R90): migration 0038 (row_version + last_operation_id on sales_listings/sales_inquiries + command_receipts table) applied to Supabase canonical AND remote D1 before push. src/marketplace/commands.ts: every mutable marketplace command is ONE guarded transactional statement carrying row_version=?, seller identity and the live active-grant predicate (org-membership path included; staff/editorial an explicit bound branch); Idempotency-Key receipts scoped to (actor, command, target) with sha256 canonical-JSON digest, receipt INSERT gated on the P02 operation marker in the same D1 batch. New POST /api/market/listings/:id/renew closes the expired->active dead end (bounded 7-365 days; sibling-active reactivation maps to the clean 409 listing_exists via the per-horse partial unique index). Contract 2.17.0 / app 0.46.0: row_version on all listing/inquiry reads, expected_version REQUIRED on edits (409 *_version_conflict with details.current_version), renew + idempotencyKey on the client, all adapters + mock updated; the three inquiry UIs (Heritage/EquiData/FEI) send idempotency keys and disable mutation controls on conflict until a fresh version loads. Evidence: vitest tests/unit/marketplaceCommands.test.ts 36 fixtures (version conflicts, replay/conflict/concurrent-claim, authority races, source locks) and python tests/python/test_p03_marketplace_commands.py 21 real-SQL replays executing the regex-extracted production statements on all 38 migrations (marker gate, racing writer cannot mint receipts, revoke/deleted-horse zero-row no-ops, org-grant path + membership revocation, sold != ownership transfer via full horses/horse_people/horse_access_grants snapshot compare). The replay caught two pre-deploy bugs: SQLite requires AS for UPDATE aliases, and a template conversion had dropped the create staff branch (23 vs 24 binds)."
+    },
+    {
+      "id": "P04",
+      "title": "Enforce one public/private projection policy across every output",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P00"
+      ],
+      "paths": [
+        "src/privacy/policy.ts",
+        "src/privacy/projections.ts",
+        "src/db/publicProjection.ts",
+        "src/api/modules/marketplace.ts",
+        "src/api/modules/genetics.ts",
+        "src/api/modules/media.ts",
+        "src/ai/tools/registry.ts",
+        "tests/integration/privacy-matrix.test.ts (new)"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Inventory horse detail, marketplace detail, search snippets, offspring, comparisons, exports, documents, assistant tool results and cached responses. Classify each field by visibility and consent.",
+        "Use centralized projection functions rather than deleting a few fields locally. Add explicit projection types so a public response cannot contain the full private database object.",
+        "Create one fixture with distinctive sentinel strings in unpublished genotype, accession, contact, notes, exact location and private document fields. Scan every anonymous output and AI tool response for those sentinels.",
+        "Vary cache keys by allowed public dataset/version, never cache private variants publicly. Redact structured logs; mask contact from analytics events."
+      ],
+      "acceptance_tests": [
+        "Anonymous, unrelated user, owner, organization member, revoked member, reviewer and administrator each match the expected field matrix.",
+        "Changing visibility removes the field from subsequent public responses and invalidates public caches.",
+        "No private sentinel appears in HTML, JSON, exports, search, AI output or public logs."
+      ],
+      "rollback": "Temporarily disable affected public endpoints/exports rather than reverting to unfiltered serialization.",
+      "release_gate": "production",
+      "status_note": "Runtime sentinel matrix (R89, 9 fixtures) + R91 extension (11 more): extracts (source allowlist lock + whitelist-builder runtime test + NEW defense-in-depth: buildExtractSnapshot now projects attestations through an explicit field list so a widened SELECT can never leak private evidence into shared documents), AI tool responses (source locks: horse search selects through PUBLIC_HORSE_COLUMNS_H; public runtime refuses mutation tools), inquiry contact fields (runtime: create/status command responses never echo the buyer contact; source lock: buyer_contact appears only in input schema, create binds and the authority-gated seller inbox), cache variants (json() defaults no-store; the ONLY public cache policy is the precomputed aggregate snapshot family; media = private, no-store; media proxy = public images only). HTTP role matrix through the real Worker (tests/integration/marketplace-role-matrix.test.ts, 6 fixtures): org member with live grant executes the versioned command with in-write authority binds; revoked grant = 403 horse_access_required with zero writes; unrelated user refused before grant evaluation; stale version = 409 with current_version; staff = explicit bounded branch; CSRF refused before the command layer. SQL semantics proven separately by real-SQL replay on both engines (P03 python suite + P01 parity)."
+    },
+    {
+      "id": "P05",
+      "title": "Run actual HTTP security and abuse tests",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P00",
+        "P04"
+      ],
+      "paths": [
+        "src/worker.ts",
+        "src/security/framePolicy.ts",
+        "src/security/origin.ts",
+        "src/auth/",
+        "src/api/routes.ts",
+        "tests/integration/http-security.test.ts (new)"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Run the Worker in the selected runtime over HTTP. Verify SAMEORIGIN + frame-ancestors self only for /classic-registry and descendants; all other application pages remain unframeable.",
+        "Test CSRF on authenticated mutations and Origin/Fetch-Metadata on anonymous inquiries. Origin-less scripted requests need rate limits and validation; an Origin check alone is not bot prevention.",
+        "Add configurable request/body limits and per-account plus privacy-preserving IP rate limits for signup, OTP, login, search, inquiry and upload. Return Retry-After for throttles.",
+        "Test session rotation, logout/revocation, password recovery, brute force controls, safe redirects, HSTS at actual HTTPS ingress and CSP without broad unsafe allowances."
+      ],
+      "acceptance_tests": [
+        "Same-origin Classic works; unrelated embedding fails; path-prefix lookalikes receive no exception.",
+        "Cross-origin form/fetch mutations fail; permitted same-origin calls succeed.",
+        "Repeated inquiry/login/OTP requests are bounded without account enumeration."
+      ],
+      "rollback": "Roll back only the offending configuration; preserve stricter protections. Provide a documented operator recovery path before enabling throttles.",
+      "release_gate": "production",
+      "status_note": "DELIVERED: tests/integration/http-security.test.ts — 33 fixtures driving the REAL Worker entrypoint over HTTP. Frame policy: SAMEORIGIN/frame-ancestors 'self' ONLY for /classic-registry and descendants; every other page and 9 path-prefix lookalikes (case, encoding, suffix, sibling paths) are DENY. CSP: production has no unsafe-eval, script-src 'self' only, object-src none, base-uri/form-action self; dev-only style relaxation stays out of production. HSTS only at production HTTPS ingress. CSRF/Origin: cross-origin authenticated mutations 403 origin_failed; anonymous inquiries reject cross-origin Origin and sec-fetch-site cross-site; same-origin passes; Origin-less scripted requests stay bounded by the write limiter. Abuse: per-IP auth/write/expensive/public buckets pinned with exact keys; login protected by BOTH the IP limiter and the per-account limiter keyed by SHA-256 (login-account:/otp-account: — raw identity never in bucket keys); 429s carry Retry-After: 60 with a generic envelope; repeated inquiries bounded; production without limiter bindings FAILS CLOSED (503) while explicit dev environments pass through. Sessions: fresh token+csrf minted per login, logout revokes + clears cookie, expired sessions rejected. No account enumeration: byte-identical 401 for wrong-password vs nonexistent-account; recovery envelope identical whether or not the account exists (no demo token in production). Egress: media proxy rejects off-allowlist hosts and non-https; no API path ever 3xx-redirects. Body limits: oversized login/inquiry bodies 413 even without Content-Length. All 33 passed against the existing code without modification — the security posture accumulated through R59-R90 was already correct; P05's deliverable was exactly this evidence. R91b LIVE FINDING + FIX: production live verification exposed that the Cloudflare rate-limiting BINDING, while correctly configured and deployed (settings API shows all 5 bindings with correct limits; limiter code present in the deployed bundle), admits EVERY request on this account — 46 login attempts (auth 10/min/IP + 5/min/account) and 16 expensive requests (12/min) all passed with zero 429s; a minimal probe worker (limit 3/60s) returned success 7/7, far beyond documented eventual consistency. FIX: D1 fixed-window enforcement layer (migration 0040 rate_limit_counters; one atomic INSERT..ON CONFLICT..RETURNING upsert per request, race-safe, counters reused in place) for auth/write/expensive/account classes; public reads stay binding-only; limits mirror the bindings; fail-closed 503 on counter failure in production (F18). LIVE VERIFIED after deploy: 6th paced login per account = 429 + Retry-After: 60. Evidence: 6 new HTTP fixtures + tests/python/test_p05_rate_limit_counters.py (6 real-SQL replays). This is exactly the class of gap the P05 ticket existed to catch — the config looked correct and the unit tests passed, but only live HTTP verification could expose the platform no-op."
+    },
+    {
+      "id": "P06",
+      "title": "Version and review the genetics catalog and historic interpretations",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P00",
+        "P04"
+      ],
+      "paths": [
+        "src/genetics/assayCatalog.ts",
+        "src/privacy/projections.ts",
+        "src/api/modules/genetics.ts",
+        "src/web/heritage/HorseModulesPanels.tsx",
+        "migrations/ (catalog interpretation provenance)",
+        "tools/audit-legacy-genetics.mjs (new)"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Have a qualified equine genetics reviewer sign a dated assay table: gene, variant, aliases, inheritance, accepted notation, species/breed scope, source and interpretation version. R88 corrects PSSM1/MH but is not clinical validation.",
+        "Add append-only interpretation_version, interpreted_at and raw_lab_result preservation. Never overwrite a laboratory report to match a new catalog. Distinguish report authenticity review from scientific interpretation and from clinical diagnosis.",
+        "Build a read-only report of legacy ASLIP, TMEM38 and cream_SLC36A1 rows. Quarantine ambiguous cream/champagne records pending original-report review; do not globally rename SLC36A1 because valid champagne records use it.",
+        "Preserve one-copy/two-copy differences and conflicting retests. An unresolved conflict disables downstream recommendation for that assay, not the entire horse profile.",
+        "Do not add commercial PSSM2 predictions or treat not-tested as clear. Keep medical advice and breeding fitness decisions outside automated verdicts."
+      ],
+      "acceptance_tests": [
+        "PSSM1/MH/HYPP single-copy variants are never described as unaffected recessive carriers.",
+        "All valid genotype notations and unknown/uninterpretable inputs have reviewed fixtures.",
+        "Legacy ambiguous rows are counted and left unchanged by dry-run.",
+        "Public projections cannot leak report accession/private attachment/notes."
+      ],
+      "rollback": "Disable interpretation display for unreviewed assays; retain raw results privately with provenance. Never delete scientific history to hide a mistake.",
+      "release_gate": "production",
+      "status_note": "Engineering half delivered (R91); the dated qualified-reviewer sign-off of the assay table remains owner-gated. Catalog (R88, UC Davis sources): PSSM1/MH/HYPP dominant — single-copy is AFFECTED, never an unaffected carrier (now pinned by fixtures); exact-token interpretation only; recorded_uninterpreted keeps lab text authoritative; not-tested/empty/pending never clear; NO PSSM2 or commercial predictions (source-pinned). P06 provenance: migration 0039 adds append-only interpretation_version/interpreted_at/catalog_reviewed_by (additive, nullable, no data mutation; applied to Supabase + remote D1 BEFORE push) + new POST /api/admin/genetic-tests/:id/interpretation (horse.edit + CSRF): provenance-only UPDATE + genetic.interpretation.recorded audit row in ONE batch; laboratory report columns NEVER rewritten (SQL-shape pinned); re-review keeps prior provenance in before_json; response carries raw_result_unchanged + clinical_diagnosis:false + scope recorded_genotype_only. Legacy report: tools/audit-legacy-genetics.mjs (read-only by construction, no apply mode) — run against canonical Supabase: 332 AGOUTI_ASLIP rows quarantined unchanged, 0 DUN_TMEM38, 0 CREAM_SLC36A1 (0 ambiguous cream/champagne rows), 0 uncatalogued disease rows; no global SLC36A1 rename (champagne_SLC36A1 would be valid). Conflicting retests disable only that assay (fixture: other assays still counted). Privileged projection exposes reviewed provenance; public projection unchanged (accession/notes/interpretation already sentinel-tested in the P04 matrix). 18 catalog fixtures + 6 endpoint fixtures; contract 2.18.0 / app 0.47.0; 109 routes; check FULL pass; vitest 550; python 105; parity re-proven on real Supabase with all 39 migrations."
+    },
+    {
+      "id": "P07",
+      "title": "Validate pedigree quality, coefficients and breeding evidence limits",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P06"
+      ],
+      "paths": [
+        "src/pedigree/engine.ts",
+        "src/pedigree/coefficients.ts",
+        "src/pedigree/breeding.ts",
+        "src/pedigree/integrity.ts",
+        "src/pedigree/interpretation.ts",
+        "tools/verify-pedigree-coefficients.mjs"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Keep the existing coefficient engine. Extend independently reviewed reference pedigrees for founder, half/full siblings, parent-offspring, repeated ancestors, inbred common ancestor, missing parents, cycles and depth truncation.",
+        "Display algorithm version, graph depth, source version, completeness and assumptions next to every number. Label zero with incomplete ancestry as no inbreeding detected within available pedigree, not unrelated or safe.",
+        "Reject self-parent/cycle edits before commit and recheck affected descendants. Parentage proof, registry parentage assertion and DNA-confirmed parentage must remain different evidence types.",
+        "Cache by graph/source revision + algorithm version + depth. Invalidate affected descendant/pair results after a parent correction. Bound depth, nodes, runtime and output size.",
+        "Publish explanations and common ancestors before any ranking. Do not optimize a breeding recommendation solely for low COI, color or winning ancestors."
+      ],
+      "acceptance_tests": [
+        "Independent fixtures match expected coefficients and definitions.",
+        "A missing ancestor cannot increase displayed certainty.",
+        "Pedigree correction invalidates dependent cached calculations.",
+        "Pathological/cyclic/wide graphs return bounded error or partial-evidence state rather than hanging."
+      ],
+      "rollback": "Disable numerical/recommendation panels independently of registry browsing if scientific checks fail; preserve raw family edges.",
+      "release_gate": "production",
+      "status_note": "DELIVERED across R82-R91 (engine depth/completeness/integrity/provenance were already strong; R91 completed the reference + labeling gaps). Extended independently-reviewed reference fixtures (tools/verify-pedigree-coefficients.mjs, runs in npm run check): parent-offspring (A=0.5, kinship=A/2=0.25), full/half siblings (A=0.5/0.25), repeated-grandsire (F=0.125), INBRED common ancestor (F=0.15625 — the (1+FA) factor verified), missing parents under the documented founder assumption (F=0 with completeness 33.33% + 2 assumed founders — a missing ancestor can never increase displayed certainty), boundary parent references (4 dangling refs), cyclic graph (status=cycle_detected, coefficient=null, bounded — no hang), depth-1 truncation (F=0 with depth stated + parents honestly reported as assumed founders) and node-cap truncation (status=truncated, null). P07 labeling rule implemented: zeroWithinIncompleteAncestry flag on coefficient + relationship metrics (contract 2.18.0 additive) + EN/FA i18n + Heritage coefficient panel renders 'no inbreeding detected within the available pedigree — not evidence of being unrelated or safe' for zero-with-incomplete-ancestry, never 'unrelated'/'safe'; fully-known zeros are NOT hedged. Every number carries method/algorithmVersion/founderAssumption/interpretation + depth + completeness + integrity (cycle/truncated). Cycle edits rejected before commit with descendant rechecks (R82 cycle guard in the canonical mutation builder; T12 parent-correction workflow re-validates the current graph). Caching: coefficients/relationships/optimizer compute LIVE per request under hard bounds (matrix 1024 nodes, 512/horse graphs, depth caps) so parent corrections are reflected immediately by construction; precomputed analytics are revision-gated (analytics_source_revision). Ranking: the optimizer is multi-objective (low-COI weight 0.45 + ancestor diversity + concentration + diversity preservation) with eligibility warnings, exclusions, verdicts, commonAncestors and an explicit not-genetic-merit caveat — never solely low COI/color/winning ancestors."
+    },
+    {
+      "id": "P08",
+      "title": "Repair reproduction/calendar semantics without corrupting historical rows",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P06"
+      ],
+      "paths": [
+        "src/genetics/breedingDates.ts",
+        "src/registry/dates.ts",
+        "src/api/modules/genetics.ts",
+        "tools/audit-breeding-dates.mjs (new)",
+        "tests/unit/registryDates.test.ts"
+      ],
+      "effort_person_days": [
+        2,
+        3
+      ],
+      "steps": [
+        "Document canonical event date storage: ISO Gregorian date + precision, and a separately defined Solar Hijri breeding season. Never interpret an English UI locale as a different stored calendar.",
+        "Generate a read-only anomaly report for Gregorian-looking season values, invalid days, event before birth, date/season mismatch, implausible order and missing precision. Require human review for corrections.",
+        "Use a reviewed leap-year/boundary fixture set around Nowruz, year-only and month-only dates. Preserve uncertain dates as intervals, not invented January 1 values.",
+        "Add type/schema validation to imports, API commands and all five frontend forms. Record raw imported value and transformation rule."
+      ],
+      "acceptance_tests": [
+        "2019 and 1405 partial dates produce interval-aware displays in both languages.",
+        "Invalid leap/day/month values fail consistently.",
+        "Dry-run cannot write; reviewed correction has audit and old value."
+      ],
+      "rollback": "Disable only suspect reproductive imports/edits; do not mass-convert stored seasons.",
+      "release_gate": "production",
+      "evidence": "canonical storage rules documented (docs/r88/P08-BREEDING-DATE-SEMANTICS.md); tools/audit-breeding-dates.mjs READ-ONLY anomaly report (8 classes, SELECT-only, no apply mode); POST /api/admin/breeding/:id/correct reviewed correction (reason required, revalidated, audit_events before_json carries old values, one batch); src/genetics/seasonDisplay.ts pure interval helpers — formatBreedingSeason bilingual interval display (Season 1405 SH (21 Mar 2026 – 20 Mar 2027) / فصل ۱۴۰۵ (۱ فروردین – ۲۹ اسفند ۱۴۰۵)), seasonRangeForPartialDate honest season ranges (no invented day, no Esfand 31 spill); heritage breeding panel renders seasons interval-aware; tests/unit/breedingDateSemantics.test.ts 20 fixtures (Nowruz boundaries, leap 1399/1403/1408, validation failures, correction audit, tool read-only lock); inventory 110 routes drift-free"
+    },
+    {
+      "id": "P09",
+      "title": "Implement secure evidence upload and private document delivery",
+      "status": "done",
+      "priority": "P0",
+      "depends_on": [
+        "P01",
+        "P04"
+      ],
+      "paths": [
+        "src/api/modules/media.ts",
+        "src/api/modules/mediaPolicy.ts",
+        "src/api/mediaProxy.ts",
+        "src/contracts/media.ts",
+        "src/storage/ (new adapters as needed)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Create upload intent with actor/resource grant, maximum size, content-type allowlist and random object key. Never accept user-supplied storage paths or trust browser MIME alone.",
+        "Quarantine uploads; inspect magic bytes, scan supported files for malware, strip image EXIF/location, generate safe thumbnails and reject active HTML/SVG unless safely transformed.",
+        "Serve private documents through short-lived authorization-checked access. Do not put public permanent document URLs in public horse responses. Record expiry, evidence class, consent and issuer separately.",
+        "Delete abandoned uploads on retention schedule; account for storage/egress. Provide an operator quarantine queue and failure reason without rendering malicious payload."
+      ],
+      "acceptance_tests": [
+        "Oversized, mismatched MIME, traversal, HTML/SVG script and unauthorized upload/read tests fail.",
+        "Revoked access prevents obtaining new URLs; existing URL lifetime is bounded and documented.",
+        "Private metadata does not survive thumbnail/public projection."
+      ],
+      "rollback": "Disable new uploads while retaining existing verified evidence. Revoke signed URLs/rotate signing keys if access policy fails; do not purge evidence without retention review.",
+      "release_gate": "production",
+      "evidence": "migration 0041 (consent_state/quarantine columns + media_access_grants; applied to Supabase canonical BEFORE push, translation check OK, scratch chain clean); upload boundary hardened: active content rejected 415 media_active_content (PDF /JavaScript//OpenAction//Launch//EmbeddedFile//SubmitForm, image polyglots via end-marker check; SVG/HTML impossible via allowlist) and location metadata stripped BEFORE storage (JPEG APP1 Exif+XMP+comments, PNG eXIf/tEXt/iTXt/zTXt) so no projection can leak it; publication is explicit consent (consent_state, honest backfill = exactly the legacy public set, fail-closed canReadMedia); POST /api/media/:id/access mints HMAC-SHA256 tokens bound to (media,user,expiry) 15-min TTL with revocable media_access_grants rows; serve re-checks grant+consent so revoked access kills tokens immediately and lost access cannot mint new URLs; unset MEDIA_ACCESS_TOKEN_SECRET = fail-closed 503; GET /api/admin/media/quarantine operator queue (pending age/abandoned flag + rejected with staff reasons, metadata only, nothing auto-purged); tests/unit/mediaEvidence.test.ts 21 fixtures; gates: check FULL, vitest 598/10 pre-skips/0 fail, tsc clean, build green, inventory 112 routes/61 structures/41 migrations drift-free"
+    },
+    {
+      "id": "P10",
+      "title": "Create licensed ingestion, staging and duplicate adjudication",
+      "status": "done",
+      "priority": "P1",
+      "depends_on": [
+        "P02",
+        "P07",
+        "P08",
+        "P09"
+      ],
+      "paths": [
+        "tools/import_xlsx.py",
+        "src/registry/identifiers.ts",
+        "src/registry/impact.ts",
+        "migrations/ (source and staging additions)",
+        "src/api/modules/imports.ts (new)"
+      ],
+      "effort_person_days": [
+        5,
+        9
+      ],
+      "steps": [
+        "Create source agreement registry with issuer, scope, retention, redistribution permission, update cadence and responsible operator. Publicly visible data is not automatically reusable.",
+        "Stage raw rows with source_id, external_id, retrieved_at, checksum and mapping version. Dry-run must report proposed creates/updates/conflicts with no canonical writes.",
+        "Normalize Persian/Arabic letter variants and digits while preserving originals. Treat registry+issuer and microchip as typed identifiers; do not globally deduplicate by horse name.",
+        "Provide reviewer merge and unmerge workflow with redirect aliases, provenance and downstream pedigree recalculation. Never silently collapse two horses sharing a name.",
+        "Batch imports resumably with row-level outcomes, transaction boundaries and retry receipts. Expose outstanding conflicts and operator minutes per accepted record."
+      ],
+      "acceptance_tests": [
+        "Reimporting identical file creates no duplicate horses or evidence.",
+        "Conflicting parentage and identifier collisions enter review instead of overwriting trusted fields.",
+        "Merge/unmerge preserves source assertions, listings, offspring links and audit history.",
+        "Synthetic namespace cannot be selected as a production canonical source."
+      ],
+      "rollback": "Stop import worker, retain staged files and roll back by import operation identifiers using a reviewed compensating process; never delete unrelated later edits.",
+      "release_gate": "production",
+      "evidence": "migration 0042 (5 tables, applied to Supabase canonical BEFORE push; translation + 42-migration scratch chain clean); import_sources = source AGREEMENT registry (scope/redistribution/retention/cadence/operator; is_synthetic namespaces refused by the stage command — pinned fixture); staging = DRY RUN: raw rows preserved verbatim next to normalized copies (Persian/Arabic digit + Yeh/Kaf/Tatweel normalization, src/registry/importStaging.ts), typed-identifier matching only (register-in-source-namespace + microchip; NEVER name), classification create/update/conflict/skip incl. parentage_conflict + identifier_collision review routing + skip-on-identical-content; ZERO canonical writes during staging (pinned); (source_id,file_sha256) UNIQUE = reimporting an identical file replays the same batch (pinned); duplicate external_id payload refusal; apply = resumable bounded writer (<=50 rows/call): ONE atomic D1 batch per create (horse INSERT with import:batch:row marker + identifier claims resolving the fresh id via last_mutation_id + staging outcome + audit — a lost identifier race rolls back the whole row to conflict, no orphan horse), updates fill-once NULL facts only; batch finalizes completed/partial; merge/unmerge = reviewer commands with replayable moved-reference manifest across 14 FK surfaces (children parents, breeding sire/dam/foal, people, genetics, competitions, media, listings, grants, ownership periods, lifecycle, attestations), identifiers archived never deleted, soft-delete + horse_redirect_aliases + search-reindex fan-out + audit; unmerge replays the manifest backwards exactly (pinned: FK restores to ORIGINAL id, identifier un-archive scoped to original horse, alias cleared); double merge/unmerge 409; never silently collapses name-sharers; 7 routes (119 total): POST/GET /api/admin/imports/sources, POST /api/admin/imports/stage, POST /api/admin/imports/batches/:id/apply, GET /api/admin/imports/batches/:id, POST /api/admin/horses/:id/merge, POST /api/admin/horse-merges/:id/unmerge; tests/unit/importLicensing.test.ts 19 fixtures; gates: check FULL, vitest 617/10 pre-skips/0 fail, tsc clean, build green, inventory 119 routes/66 structures/42 migrations drift-free"
+    },
+    {
+      "id": "P11",
+      "title": "Model people, organizations and professional credentials separately",
+      "status": "done",
+      "priority": "P1",
+      "depends_on": [
+        "P02",
+        "P04"
+      ],
+      "paths": [
+        "src/contracts/platform.ts",
+        "src/api/modules/directory.ts (new)",
+        "src/directory/ (new domain)",
+        "migrations/ (directory schema)",
+        "src/frontend-kit/platformClient.ts"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Create public directory persons and organizations separately from login users. One person may hold multiple roles or work for multiple organizations; an organization has authorized managers.",
+        "Add professional profiles, service categories, coarse service areas, contact preference, publication consent, languages and availability text. Use the 22 demo categories as a reviewed starting vocabulary, not evidence that all credentials exist.",
+        "Credentials store issuer, role, identifier, issue/expiry date, evidence reference and verification state. DC, judge, steward and ringmaster are distinct; translate labels with an equestrian domain reviewer.",
+        "Implement claim/represent profile request with evidence, moderation and an appeal path. User self-declaration must never become federation verification. Expose only consented public fields.",
+        "Create cursor-paginated directory search by category/province/city/name; exact stable city/province codes must come from an approved dataset, not user-entered variants."
+      ],
+      "acceptance_tests": [
+        "One person with rider and trainer roles is not duplicated.",
+        "Expired credential loses active badge while history remains.",
+        "Unrelated account cannot claim or change an organization.",
+        "Public contact visibility follows consent and revocation."
+      ],
+      "rollback": "Feature-flag directory writes/publication; retain private claims for review, do not publish raw migrated contacts.",
+      "release_gate": "production",
+      "evidence": "migration 0043 (4 tables, applied to Supabase canonical BEFORE push; translation + 43-migration scratch chain clean); src/directory/vocabulary.ts: 22 reviewed starting service categories (dc/judge/steward/ringmaster DISTINCT; EN+FA labels, domain-review of final FA officiating terms honestly noted as open), 31 ISO 3166-2:IR approved province codes (user-entered variants never pass); directory_profiles = ONE profile per person (rider+trainer = two categories on one row — pinned), contact_value PRIVATE (never in any public DTO — pinned), publication requires explicit consent and withdrawal unpublishes instantly (published_at cleared — pinned); person_credentials: role/issuer/identifier/dates/evidence + verification_state ladder; self-declaration lands 'unverified' (pinned) with platform_reviewed/issuer_attested only via staff review route; expired credentials lose is_active at read time but stay in history (pinned); directory_claims: person/organization claims with evidence + moderation + appeal (appeals must reference own rejected claim — pinned); approving a person claim VERIFIES user_person_link, an organization claim grants MANAGER organization_membership (pinned); double review 409; unrelated accounts: 403 directory_claim_required with zero profile/credential writes (pinned); 9 routes (128 total): GET /api/directory/persons (cursor-paginated, category/province/city/name filters), GET /api/directory/persons/:id, GET /api/directory/organizations, POST /api/directory/claims, GET /api/directory/claims/mine, PUT /api/directory/persons/:id/profile, POST /api/directory/persons/:id/credentials, POST /api/admin/directory/claims/:id/review, POST /api/admin/directory/credentials/:id/review; tests/unit/directoryCredentials.test.ts 16 fixtures; gates: check FULL, vitest 633/10 pre-skips/0 fail, tsc clean, build green, inventory 128 routes/70 structures/43 migrations drift-free"
+    },
+    {
+      "id": "P12",
+      "title": "Build a consented service request inbox before booking or commissions",
+      "status": "done",
+      "priority": "P1",
+      "depends_on": [
+        "P03",
+        "P11"
+      ],
+      "paths": [
+        "src/api/modules/serviceRequests.ts (new)",
+        "src/directory/requestPolicy.ts (new)",
+        "src/contracts/platform.ts",
+        "migrations/ (service requests and transitions)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Implement request create/read/list/status using provider ID, category, coarse location, optional horse ID and a minimized note. Do not solicit medical details in a public lead form.",
+        "Use states new, acknowledged, discussing, closed, withdrawn, spam with an explicit role transition table. A service request is not a confirmed appointment and never displays paid or booked.",
+        "Contact sharing requires explicit user consent. Only requester and current authorized provider manager can see it. Allow blocking, reporting and withdrawal; rate-limit repeated targeting.",
+        "Add row versions, idempotency, timestamps and audit. Reuse command semantics, not marketplace-specific fields that conflate a horse seller with a veterinarian.",
+        "Implement provider response-time statistics only from real eligible requests, with sample size and exclusions. Do not create synthetic ratings or invented response badges."
+      ],
+      "acceptance_tests": [
+        "Revoked provider manager loses contact access immediately.",
+        "Retry creates one request; terminal transitions reject stale edits.",
+        "User can withdraw and block without exposing the note publicly.",
+        "Demo requests never reach production APIs."
+      ],
+      "rollback": "Disable request creation and show read-only directory; preserve pending real requests and notify operators of interruption.",
+      "release_gate": "production",
+      "evidence": "migration 0044 (4 tables, applied to Supabase canonical BEFORE push; translation + 44-migration scratch chain clean); service_requests = LEADS only: explicit role transition table (new->acknowledged->discussing; closed/withdrawn/spam terminal), NO paid/booked/confirmed states exist anywhere (pinned); minimized lead form (provider/category/coarse location/optional horse/short note — no medical details solicited); idempotent create in the P03 receipt discipline: Idempotency-Key required, receipt + request + audit in ONE D1 batch, retry replays the stored response, same key + different payload = 409 (pinned); <=3 open requests per requester-provider pair (429); blocked providers cannot be re-targeted; contact visibility = explicit consent AND live re-authorization at EVERY read: only requester + CURRENT provider manager (verified person link or active org manager membership) see the contact route; revoked manager loses access on the next request (pinned); note stays between requester and provider, never public; transitions: row_version CAS (stale = 409 pinned), terminal stale edits 409 (pinned), requester-only withdraw, provider/staff-only spam; first_response_at captured at first acknowledgement for EXACT stats; response stats (GET /api/directory/persons/:id/response-stats): only real acknowledged requests, sample size + median/average hours + explicit exclusion counts (withdrawn-before-ack/spam/never-acknowledged) + method note + not-a-quality-guarantee disclaimer; zero acknowledged = null stats (no fake zero); no synthetic ratings; demo requests never reach production APIs: providers must be real registry persons with PUBLISHED directory profiles — demo/synthetic persons can never be targeted (pinned); 8 routes (136 total): POST /api/service-requests, GET mine, GET inbox, GET /:id, POST /:id/status, POST /:id/block, POST /:id/report, GET response-stats; tests/unit/serviceRequests.test.ts 12 fixtures; gates: check FULL, vitest 645/10 pre-skips/0 fail, tsc clean, build green, inventory 136 routes/74 structures/44 migrations drift-free"
+    },
+    {
+      "id": "P13",
+      "title": "Introduce transactional notifications and accurate delivery language",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P03",
+        "P12"
+      ],
+      "paths": [
+        "src/notifications/email.ts",
+        "src/notifications/sms.ts",
+        "src/notifications/outbox.ts (new)",
+        "src/api/modules/authExt.ts",
+        "migrations/ (outbox)"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Replace ambiguous delivered=true on HTTP acceptance with explicit queued, provider_accepted, delivered, failed states. A 2xx provider reply alone is not recipient delivery.",
+        "Write outbox event in the same transaction as the request/state mutation. Use unique logical event key; retry with bounded exponential backoff and dead-letter queue.",
+        "Use provider-specific adapters with tested request and response schema, verified callback signatures where supported, and allowlisted purpose templates. Keep OTP separate from marketing consent.",
+        "Add unsubscribe/quiet-hour handling for non-essential notifications and per-tenant spending limits. Do not log tokens, full phone numbers or message bodies unnecessarily.",
+        "UI distinguishes request recorded from provider notified. Support receives actionable undelivered queue; no real emergency-dispatch promise."
+      ],
+      "acceptance_tests": [
+        "Simulated provider acceptance does not set delivered.",
+        "Repeated callback/retry cannot duplicate delivery records or billing counts.",
+        "A database rollback emits no message.",
+        "Missing provider configuration is visible and never shown as success."
+      ],
+      "rollback": "Pause outbox consumers, preserve queue and use operator follow-up; never reset delivery state to resend every event.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P14",
+      "title": "Add farm workspace collections and delegated daily work",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P02",
+        "P04",
+        "P10"
+      ],
+      "paths": [
+        "src/api/modules/workspaces.ts (new)",
+        "src/workspaces/ (new domain)",
+        "src/contracts/platform.ts",
+        "migrations/ (workspace collections and tasks)"
+      ],
+      "effort_person_days": [
+        5,
+        8
+      ],
+      "steps": [
+        "Use existing organizations/grants where appropriate; a private herd collection is not proof of ownership. Add stable workspace, collection membership and staff assignment relations.",
+        "Create recurring reminders and tasks for user-entered events such as document renewal, farrier visit or planned veterinary appointment; medical schedules must be configured by a qualified person, not generated as instructions.",
+        "Show private herd dashboard with due/overdue, recently changed evidence, assigned staff and incomplete records. Make staff permissions action-specific and test revocation.",
+        "Add bulk safe operations, CSV export with formula-injection protection, and import onboarding using P10. Instrument time to first useful herd view.",
+        "Build one complete paid workflow before adding broad accounting, feed inventory or an ERP. Avoid paid ownership of the canonical record."
+      ],
+      "acceptance_tests": [
+        "A horse in two private collections does not change its ownership assertion.",
+        "Staff sees only granted horse/task data; revoked access disappears.",
+        "Recurring task creation is idempotent across scheduler retries.",
+        "Export obeys privacy and cannot execute spreadsheet formulas from user text."
+      ],
+      "rollback": "Disable workspace mutations and keep read/export available according to grants. Do not remove canonical horses when deleting a collection.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P15",
+      "title": "Assemble shareable sale dossiers with expiry and evidence limits",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P04",
+        "P07",
+        "P09",
+        "P14"
+      ],
+      "paths": [
+        "src/api/modules/dossiers.ts (new)",
+        "src/marketplace/",
+        "src/contracts/platform.ts",
+        "migrations/ (share links and snapshots)"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Create a versioned snapshot of permitted identity, pedigree, results and explicitly selected documents. List source, review state and generated_at for every evidence section.",
+        "Generate a revocable, high-entropy share token with expiry and optional authenticated recipient restriction. Store token hash rather than token in logs/database.",
+        "Display snapshot age, revoked/expired state and a clear warning that the dossier is neither title transfer nor a veterinary purchase examination.",
+        "Allow sellers to redact private contact/genetics while keeping the absence visible as not shared rather than clear. Paid formatting does not buy a verification badge."
+      ],
+      "acceptance_tests": [
+        "Revoked/expired link cannot reveal old cached private data.",
+        "Snapshot does not silently change when the canonical record changes.",
+        "Source correction marks affected dossier stale; public link exposes only approved fields."
+      ],
+      "rollback": "Revoke dossier links and disable creation; retain immutable snapshots under retention policy for audit.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P16",
+      "title": "Add moderation, reporting and marketplace trust operations",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P03",
+        "P09",
+        "P12"
+      ],
+      "paths": [
+        "src/api/modules/marketplace.ts",
+        "src/api/modules/moderation.ts (new)",
+        "src/moderation/ (new)",
+        "migrations/ (reports and cases)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Implement report reasons, case ownership, evidence, decision, appeal and transparent listing suspension status. Separate content moderation from registry factual correction.",
+        "Require current seller mandate and a meaningful expiry/renewal policy; expose last confirmed availability. Remove unsupported delivery, escrow and guaranteed-vetting language.",
+        "Protect contact from bulk harvesting; document allowable lead volume. Allow user blocking and spam action without deleting investigation records.",
+        "Use a triaged queue with severity, age and assigned operator. Establish response hours and escalation contacts; do not advertise 24/7 support without staffing.",
+        "Keep sale price asking/private/negotiable distinct from completed transaction value. Do not report marketplace GMV from listing prices."
+      ],
+      "acceptance_tests": [
+        "Reported item can be hidden without deleting the horse profile.",
+        "Appeal and reversal retain previous decision trail.",
+        "Expired seller authority prevents renewal and access to new inquiries.",
+        "No synthetic rating or sold amount enters production metrics."
+      ],
+      "rollback": "Pause new listings/requests while keeping published moderation outcomes and support intake available.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P17",
+      "title": "Implement billing catalog, orders and unambiguous money units",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P01",
+        "P14"
+      ],
+      "paths": [
+        "src/commerce/ (extend beyond economics.ts)",
+        "src/api/modules/billing.ts (new)",
+        "src/contracts/platform.ts",
+        "migrations/ (billing tables)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Keep economics.ts a planning module, not a ledger. Add immutable price versions, order line items, discounts, tax handling policy, period and payer organization.",
+        "Store all amounts as safe integer minor units with an explicit currency. For Iran choose one documented internal unit, preferably IRR, and convert toman exactly at display/provider boundaries. Never infer unit from a numeric size.",
+        "Orders use pending, awaiting_payment, paid, cancelled, refunded/partially_refunded with tested transitions. Persist a price snapshot so future repricing cannot change an existing payable order.",
+        "Add payment_attempt with provider, unique authority/reference, trusted amount, currency, state and verification timestamps. Do not store card credentials.",
+        "Require accountant/legal review of invoice, tax, merchant and cancellation requirements for the actual company; do not encode unverifiable legal assumptions as constants."
+      ],
+      "acceptance_tests": [
+        "A 1,900,000-toman plan cannot be charged as 1,900,000 rial.",
+        "Changing catalog price does not mutate an existing order.",
+        "Duplicate order submission with same key creates one order.",
+        "Client-supplied total is ignored and recalculated from server catalog."
+      ],
+      "rollback": "Disable checkout, preserve read-only invoices/orders; never delete financial records as rollback.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P18",
+      "title": "Integrate verified payments, entitlements and reconciliation",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P13",
+        "P17"
+      ],
+      "paths": [
+        "src/commerce/payments/ (new provider adapter)",
+        "src/commerce/entitlements.ts (new)",
+        "src/api/modules/billing.ts (new)",
+        "migrations/ (ledger and reconciliation)"
+      ],
+      "effort_person_days": [
+        5,
+        8
+      ],
+      "steps": [
+        "Implement provider request/verify using current official merchant documentation and sandbox credentials. Verify the stored amount and authority server-side; never trust redirect query status.",
+        "Within a transaction write verified payment and exactly one entitlement event keyed by payment/order. Already-verified provider responses must be checked against stored identity and cannot grant a second period.",
+        "Model entitlement activation, expiry, cancellation and refund separately from order status. No automatic recurring debit unless merchant/product explicitly supports it; use renewal invoices initially.",
+        "Add daily reconciliation of provider settlements against attempts and ledger, alert unresolved mismatches, record fees separately and support accountant export.",
+        "Test charge/refund/timeout/manual-review failures; use least-privilege secrets and audit admin adjustments. Do not enable commissions or escrow in this phase."
+      ],
+      "acceptance_tests": [
+        "Forged callback, wrong amount, wrong authority and replay produce no entitlement.",
+        "Concurrent callbacks create one payment/entitlement event.",
+        "Provider timeout remains pending verification rather than paid/failed by guess.",
+        "Refund/reconciliation exceptions enter operator queue with a traceable resolution."
+      ],
+      "rollback": "Disable new payment requests; continue safe verification/reconciliation of existing attempts. Never roll back paid entitlements without a recorded compensating event.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P19",
+      "title": "Design the first paid offers and feature entitlements without harming public trust",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P14",
+        "P15",
+        "P18"
+      ],
+      "paths": [
+        "src/commerce/catalog.ts (new)",
+        "src/frontend-kit/capabilities.ts",
+        "src/contracts/platform.ts",
+        "public/business-model/",
+        "docs/r88/03-BUSINESS-MODEL-IRAN.md"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Pilot three offers only: farm workspace, professional response tools and explicitly sponsored visibility. Treat R88 prices as hypotheses; persist actual offers/renewal terms in the billing catalog.",
+        "Keep basic horse identity, correction submission and safety/provenance information free where licensed for publication. Never sell official approval, biological truth or suppression of adverse evidence.",
+        "Gate features on server entitlements and resource authorization; a paid plan does not confer access to someone else's horse or organization.",
+        "Label ads and featured placement clearly. Exclude sponsored boost from scientific breeding rankings and credential authenticity.",
+        "Meter actual support/data cost by offer and cap unlimited promises. Provide export and straightforward cancellation."
+      ],
+      "acceptance_tests": [
+        "Expired plan removes paid conveniences without deleting customer records or public truth.",
+        "Paid unrelated account still gets 403 on private resources.",
+        "Sponsored results are visibly labeled in both languages and all frontends."
+      ],
+      "rollback": "Pause new sales while honoring existing contracted access or issuing reviewed refunds; retain free core browsing.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P20",
+      "title": "Create canonical frontend domain loaders and command hooks",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P03",
+        "P11",
+        "P12",
+        "P14"
+      ],
+      "paths": [
+        "src/contracts/platform.ts",
+        "src/frontend-kit/platformClient.ts",
+        "src/frontend-kit/mockPlatformClient.ts",
+        "src/frontend-kit/recordModules.ts",
+        "src/frontend-kit/domain/ (new headless modules)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Extract shared semantics only: data loading, normalized errors, abort/race handling, pagination, capability checks and command status. Keep presentation components in each frontend.",
+        "Expose explicit loading, empty, forbidden, unavailable, error and stale states. Mock provider should return 501 for unimplemented real capability, not a fabricated successful transaction.",
+        "Add typed directory, serviceRequest, workspace and billing modules. Put shared field labels/date semantics in locale resources but permit each skin its own page composition.",
+        "Implement one module end-to-end with contract tests before moving another. No global fetch hook that hides cache/privacy policy or an all-purpose themed component with dozens of booleans."
+      ],
+      "acceptance_tests": [
+        "Same command/error semantics pass against real and explicit demo adapters.",
+        "Navigating rapidly cannot show the prior horse's private data.",
+        "Cancelled requests do not update unmounted state.",
+        "Five frontend entrypoints and style roots remain independent."
+      ],
+      "rollback": "Revert one extracted module at a time; keep contracts backward compatible until all consumers migrate.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P21",
+      "title": "Refine Heritage/Core without imposing another frontend design",
+      "status": "todo",
+      "priority": "P2",
+      "depends_on": [
+        "P20"
+      ],
+      "paths": [
+        "src/web/main.tsx",
+        "src/web/heritage/",
+        "src/web/frontendRegistry.ts"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Capture approved baseline at 360/390/768/1280/1440 in FA and EN. Preserve the existing visual identity and information hierarchy.",
+        "Extract large record-panel state into Heritage-local components plus P20 headless loaders. Keep visual components out of the shared domain kit.",
+        "Add production directory/workspace/service inbox navigation only when corresponding APIs exist. Distinguish unavailable versus empty records.",
+        "Use compact metadata rows and collapsible secondary evidence instead of shrinking all fonts. Preserve table navigation and pedigree pan/zoom."
+      ],
+      "acceptance_tests": [
+        "Profile, search, pedigree, listing and service request complete with keyboard in FA and EN.",
+        "No unintended viewport overflow at 360px/200% zoom; intentional table/graph scrollers are labeled.",
+        "No visual import from another skin."
+      ],
+      "rollback": "Revert Heritage-only component changes; shared API behavior remains available.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P22",
+      "title": "Consolidate Equidata density tokens and remove temporary overrides",
+      "status": "todo",
+      "priority": "P2",
+      "depends_on": [
+        "P20"
+      ],
+      "paths": [
+        "src/web/frontends/equidata-elite/density.tokens.json",
+        "src/web/frontends/equidata-elite/density-tokens.css",
+        "src/web/frontends/equidata-elite/compact-r88.css",
+        "src/web/frontends/equidata-elite/entry.tsx",
+        "src/web/frontends/equidata-elite/recordModules.tsx"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Measure computed spacing before editing. Assign Equidata-owned tokens to page gutter, section gap, panel padding, row height, type scale, border and focus treatment.",
+        "Move approved compact-r88 overrides into their owning selectors, then delete the temporary overrides. Do not add another compact-r89.css layer.",
+        "Use a dense desktop table/list with explicit columns, a readable mobile card/list adaptation, sticky local tabs and a compact filter drawer. Preserve 44px project touch targets.",
+        "Replace repeated inline presentation values only inside Equidata. Check its dark/light contrast separately from other skins."
+      ],
+      "acceptance_tests": [
+        "Generated token file matches JSON; no divergent duplicate source.",
+        "Before/after visual diff reviewed at all target widths and both directions.",
+        "Long Persian owner names, unknown dates, 20 result rows and no-photo states remain readable."
+      ],
+      "rollback": "Revert Equidata stylesheet/component changes only; do not alter other frontend tokens.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P23",
+      "title": "Consolidate FEI Classic spacing and readable data composition",
+      "status": "todo",
+      "priority": "P2",
+      "depends_on": [
+        "P20"
+      ],
+      "paths": [
+        "src/web/frontends/fei-classic/entry.tsx",
+        "src/web/frontends/fei-classic/recordModules.tsx",
+        "src/web/frontends/fei-classic/density.tokens.json",
+        "src/web/frontends/fei-classic/compact-r88.css"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Keep FEI Classic branding independent. Replace oversized hero/panel whitespace with compact page headers, aligned metadata and progressive disclosure.",
+        "Merge temporary density overrides into FEI-owned rules after screenshot approval. Avoid global element selectors that leak into host or sibling frontends.",
+        "Use logical padding/margin and bidi-safe identifiers. Tables should preserve headers and horizontal scrolling without clipping action controls.",
+        "Add clear source/review labels and unknown/partial evidence states rather than badge-only meaning."
+      ],
+      "acceptance_tests": [
+        "Keyboard focus order follows reading order; focused controls are not hidden under sticky elements.",
+        "FA/EN long text fits 360px without global overflow.",
+        "Color is not the only indicator of verification, risk or listing status."
+      ],
+      "rollback": "Revert FEI-only styles and local layouts; preserve domain contracts.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P24",
+      "title": "Refactor Retro Astra locally and normalize density safely",
+      "status": "todo",
+      "priority": "P2",
+      "depends_on": [
+        "P20"
+      ],
+      "paths": [
+        "src/web/frontends/retro-astra/entry.tsx",
+        "src/web/frontends/retro-astra/transplant/components/Shell.tsx",
+        "src/web/frontends/retro-astra/transplant/density.tokens.json",
+        "src/web/frontends/retro-astra/transplant/compact-r88.css"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Preserve the transplanted frontend boundary. Identify repeated shell/sidebar/card recipes within Retro Astra and extract local components, not cross-skin JSX.",
+        "Consolidate approved density into owning styles; remove dead competing spacing rules one group at a time with screenshot checks.",
+        "Make navigation usable with touch and keyboard, visible current section and return-to-results state. Mobile drawer must trap focus and return it to trigger.",
+        "Keep decorative effects from reducing contrast or readability; respect reduced-motion preference."
+      ],
+      "acceptance_tests": [
+        "Mobile nav opens/closes/Escape/focus-return correctly in FA and EN.",
+        "Search state survives profile/back navigation.",
+        "No cross-frontend CSS selector or component dependency added."
+      ],
+      "rollback": "Revert the Retro Astra extraction commit independently; keep original rendering fallback during migration.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P25",
+      "title": "Harden standalone Classic embedding and native integration",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P05",
+        "P20"
+      ],
+      "paths": [
+        "standalone-frontends/classic-v1.4/public/",
+        "src/web/frontends/classic-registry/entry.tsx",
+        "src/web/frontends/classic-registry/classic-registry.css",
+        "tools/build-classic-embedded.mjs"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Run native Classic as its own runtime. Keep host wrapper, iframe and generated public/classic-registry output separate from the React skins.",
+        "Validate any postMessage bridge with exact origin, expected source window and schema. Do not accept arbitrary height/navigation/auth commands.",
+        "Use responsive min-height:0/flex sizing and a measured height strategy; avoid restoring hard-coded 680px minima. Preserve intentional internal scrolling with a descriptive iframe title.",
+        "Consolidate native density tokens and update its independent DOM templates to use production directory/inbox contracts where supported. Never directly reuse React components.",
+        "Pin build inputs/output hashes so stale embedded JS cannot be delivered after a source edit."
+      ],
+      "acceptance_tests": [
+        "Hosted same-origin embed renders without framing violation; attacker origin messages ignored.",
+        "Small viewport and long profile do not create trapped nested scrolling.",
+        "Native version/contract matches host; build freshness check catches stale output."
+      ],
+      "rollback": "Disable Classic host route with an honest unavailable screen if bridge/framing security fails; retain native source for repair.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P26",
+      "title": "Add cross-frontend accessibility and responsive journey tests",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P21",
+        "P22",
+        "P23",
+        "P24",
+        "P25"
+      ],
+      "paths": [
+        "tests/e2e/frontend-journeys.spec.ts (new)",
+        "tests/e2e/accessibility.spec.ts (new)",
+        "tools/test-r88-browser.py",
+        "src/web/frontends/"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Use a real hosted build in an unrestricted runner, not the offline DOM harness. Matrix: five frontends x EN/FA x phone/tablet/desktop for critical paths; prioritize pairwise visual coverage if full screenshot count becomes excessive.",
+        "Test registry search/filter/profile/pedigree, login/error, listing inquiry, provider request, workspace and paywall/cancellation. Use deterministic authorized fixtures and no external paid side effects.",
+        "Run automated accessibility checks plus manual keyboard and screen-reader review. Test headings, labels, error associations, dialog focus, skip link, 200% zoom and reduced motion.",
+        "Project targets: touch controls at least 44px where practical; AA contrast and keyboard access; no page overflow at 360px except explicitly bounded graph/table regions. These are targets, not a current certification.",
+        "Attach screenshots, failure recordings and measured performance to release evidence. Do not describe source-pattern validators as accessibility testing."
+      ],
+      "acceptance_tests": [
+        "All critical journeys pass in each frontend in both languages.",
+        "No critical/serious automated accessibility issue remains without documented justified review.",
+        "Manual focus/reader checks have named reviewer and reproducible notes."
+      ],
+      "rollback": "Block release of the affected frontend without disabling the entire backend; preserve last approved skin build.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P27",
+      "title": "Improve search, disambiguation and linkable navigation",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P10",
+        "P11",
+        "P20"
+      ],
+      "paths": [
+        "src/search/normalize.ts",
+        "src/registry/identifiers.ts",
+        "src/frontend-kit/registrySearch.ts",
+        "src/frontend-kit/registryUrlState.ts",
+        "src/api/modules/directory.ts (new)"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Keep typed horse, person, organization, event and service results separate even when using a universal search box. Include entity icon/label, stable ID, source and disambiguating fields.",
+        "Normalize Persian/Arabic letter and digit variants, whitespace and aliases; preserve exact identifier search. Do not fuzzy-match a microchip into a different horse.",
+        "Persist filter/sort/page state in URLs, validate query params and support keyboard clear/apply. Add father/mother, age interval, location and evidence filters only where backed by indexed data.",
+        "Use cursor pagination and bounded query plans; measure real dataset search before adopting a separate search engine. Unknown age or location must not be treated as zero/default city.",
+        "Add accessible result counts and no-results suggestions without fabricated matches."
+      ],
+      "acceptance_tests": [
+        "Equivalent Persian/Arabic spellings and digit sets return the same canonical record.",
+        "Two horses with one name remain distinct.",
+        "Back/forward restores search state.",
+        "Query budget and privacy hold for large result sets."
+      ],
+      "rollback": "Keep exact identifier/name search available while disabling expensive optional filters.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P28",
+      "title": "Build source-attributed event/results intake and correction",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P10",
+        "P11"
+      ],
+      "paths": [
+        "src/api/modules/competitions.ts",
+        "src/contracts/platform.ts",
+        "src/api/modules/imports.ts (new)",
+        "migrations/ (event source/revision fields)"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Model event, edition, discipline/class and result separately. Store rider, horse, organizer, source/external ID, published_at and revision with appropriate public attribution.",
+        "Import only agreed organizer/feed data into staging; support manual entry for smaller events. Do not imply a live federation connection until a contract and working integration exist.",
+        "Distinguish placing, points, time, elimination, withdrawal and unknown result. Never coerce all disciplines into one numeric rank.",
+        "Provide correction and duplicate-result review. Recompute summaries when source revisions arrive, with visible update date."
+      ],
+      "acceptance_tests": [
+        "Reimport of same event revision is idempotent.",
+        "Rider with identical name does not auto-merge without identifiers.",
+        "Disqualified/withdrawn results are not shown as winners or zero-time records."
+      ],
+      "rollback": "Pause imports and display last known source/revision; do not silently remove historical results.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P29",
+      "title": "Create an operator console for data quality and customer operations",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P10",
+        "P12",
+        "P16",
+        "P18"
+      ],
+      "paths": [
+        "src/api/modules/operations.ts (new)",
+        "src/web/heritage/ (admin area)",
+        "src/auth/capabilities.ts",
+        "src/audit/mutationJournal.ts"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Unify queues for identity claims, conflicting parentage, duplicate records, document review, reported listings, undelivered requests and payment reconciliation without merging their permission models.",
+        "Each queue item needs owner, priority, age, evidence, next action and append-only decision. Bulk actions require preview and a reason; destructive actions need scoped confirmation.",
+        "Add data freshness metrics, review throughput, correction turnaround and data cost per accepted record. Distinguish demo counters from actual analytics.",
+        "Use least-privilege support roles; log privileged private-record access and redact exports."
+      ],
+      "acceptance_tests": [
+        "Support agent cannot access raw genetics or payment secrets merely by having moderation rights.",
+        "Queue decisions update the domain through the same tested commands, not direct SQL in UI.",
+        "Overdue/conflicting records are visible and assigned."
+      ],
+      "rollback": "Disable affected bulk actions; continue individual reviewed domain commands and audit retention.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P30",
+      "title": "Add backups, restore drills, incident response and production observability",
+      "status": "todo",
+      "priority": "P0",
+      "depends_on": [
+        "P01",
+        "P09"
+      ],
+      "paths": [
+        "scripts/ (deployment/backup tooling)",
+        "src/worker.ts",
+        "src/db/provider.ts",
+        "docs/operations/ (new runbooks)"
+      ],
+      "effort_person_days": [
+        4,
+        7
+      ],
+      "steps": [
+        "Inventory canonical database, object evidence, configuration and secrets. Encrypt backups, isolate credentials and set retention/deletion rules consistent with the selected deployment.",
+        "Choose measurable RPO/RTO targets with the operator; proposed initial targets are 24h/4h until stronger commitments are funded. Restore into an isolated environment and verify row counts, referential links, evidence hashes and app queries.",
+        "Add structured request IDs, latency/error rates, permission-denied anomalies, queue depth, payment mismatch and backup-age alerts. Do not log private content.",
+        "Document incident owner, secret rotation, rollback, customer notification decision process and vendor outage behavior. Test degraded read-only operation without silently switching to demo data.",
+        "Rehearse one database loss and one expired provider credential before launch."
+      ],
+      "acceptance_tests": [
+        "A documented restore produces a usable application within the agreed target.",
+        "Backup failure alerts an actual operator.",
+        "No production page changes source to synthetic data during outage."
+      ],
+      "rollback": "Use the tested deployment rollback and read-only mode; restore data only through a reviewed recovery procedure, never blind overwrite.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P31",
+      "title": "Implement operational privacy, retention and consent controls",
+      "status": "todo",
+      "priority": "P0",
+      "depends_on": [
+        "P04",
+        "P09",
+        "P11"
+      ],
+      "paths": [
+        "src/privacy/",
+        "src/api/modules/privacyRequests.ts (new)",
+        "migrations/ (consent and retention events)",
+        "docs/operations/privacy.md (new)"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Map data classes and purposes: historical registry assertions, account contact, private farm notes, lab reports, inquiries, payments and demo data. Set a reviewed retention/deletion policy for each.",
+        "Provide contact-publication opt-in, consent revocation, data correction/export and account closure workflows. Closure must not automatically erase legally/contractually retained records or falsify pedigree history.",
+        "Record consent text version, scope, time and actor; minimize precise location and personal contact exposure. Separate public ownership assertion from self-service contact profile.",
+        "Have local counsel assess actual company obligations and data agreements. Do not make unsupported claims that a checkbox makes all processing lawful."
+      ],
+      "acceptance_tests": [
+        "Revocation updates public projection and caches.",
+        "Account export omits other users' private data.",
+        "Deletion job respects holds and emits an auditable outcome.",
+        "Synthetic fixtures cannot be mistaken for consented real profiles."
+      ],
+      "rollback": "Pause affected processing/publication; retain minimal audit evidence and involve the designated data operator.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P32",
+      "title": "Put AI assistance behind evidence, privacy and cost boundaries",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P04",
+        "P06",
+        "P07",
+        "P30"
+      ],
+      "paths": [
+        "src/ai/application/assistantService.ts",
+        "src/ai/tools/registry.ts",
+        "src/ai/evidence/builder.ts",
+        "src/ai/runtime/costGovernor.ts",
+        "src/ai/runtime/quotaGovernor.ts"
+      ],
+      "effort_person_days": [
+        3,
+        5
+      ],
+      "steps": [
+        "Allow assistant answers only from authorized tools and explicitly identified evidence. Treat imported descriptions/documents as untrusted content, not instructions.",
+        "No AI-created ownership, credential, parentage, medical diagnosis or payment claim may enter canonical records without the relevant reviewed command.",
+        "Surface uncertainty, source age and unavailable fields. Refuse to infer clear genetics from missing tests and do not fabricate breeder/rider contact details.",
+        "Bound token/query cost per account and per request, redact logs, provide deterministic search fallback when provider is unavailable and keep AI optional for core tasks.",
+        "Re-run existing AI suites after restoring original docs/assets. Evaluate Persian responses with domain reviewers, not only English protocol tests."
+      ],
+      "acceptance_tests": [
+        "Prompt injection in horse description cannot reveal private fields or run unauthorized commands.",
+        "Unavailable provider leaves registry/service workflows usable.",
+        "Cost limit is enforced server-side and reported honestly."
+      ],
+      "rollback": "Disable external AI providers and keep deterministic registry search; do not remove core browsing.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P33",
+      "title": "Keep demo data isolated and make the walkthrough reproducible",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P00"
+      ],
+      "paths": [
+        "src/demo/seed-r88.mjs",
+        "tools/generate-r88-demo.mjs",
+        "public/demo-workbench/",
+        "public/business-model/",
+        "docs/r88/04-DEMO-DATA-POLICY.md"
+      ],
+      "effort_person_days": [
+        1,
+        3
+      ],
+      "steps": [
+        "Keep synthetic IDs, is_demo flags and local-only requests. Preserve the R88 deterministic integrity/freshness checks; extend them for new entities, chronologies and source mappings.",
+        "Run actual hosted browser tests in an unrestricted environment for both pages; inspect CSP, noindex, history routing, reload persistence, storage-denied and keyboard dialog behavior.",
+        "Add demo reset and export-of-demo-state only if needed for presentations. Never copy simulated inbox messages into production request tables.",
+        "Preserve visible provenance on every entity screen, not just homepage. Replace artwork with licensed assets only after consent/license record; no scraped horse photographs or fake endorsements.",
+        "Record a short operator script: search horse 17, open family, compare full siblings 9/10, request a synthetic service, show local inbox, then show a loss-making business scenario."
+      ],
+      "acceptance_tests": [
+        "Generator is deterministic and all generated artifacts match source.",
+        "No request leaves the demo namespace or reaches live SMS/payment.",
+        "Every entity detail clearly identifies synthetic data.",
+        "Actual hosted tests pass separately from offline harness."
+      ],
+      "rollback": "Disable public demo routes without touching canonical APIs; clear only namespaced demo storage.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P34",
+      "title": "Run paid discovery and measure retention before expanding the product",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P11",
+        "P12",
+        "P14"
+      ],
+      "paths": [
+        "docs/business/pilot-protocol.md (new)",
+        "docs/r88/03-BUSINESS-MODEL-IRAN.md",
+        "src/analytics/ (new privacy-safe events)"
+      ],
+      "effort_person_days": [
+        3,
+        6
+      ],
+      "steps": [
+        "Recruit 20 consenting interviews across farms, breeders, clubs, professionals and buyers in one or two reachable regions. Record current task, frequency, cost, existing tools and purchase authority; do not count praise as demand.",
+        "Offer a small paid pilot to five farms and ten professionals with clearly written scope and renewal terms. Human onboarding is permitted; record operator minutes and costs.",
+        "Measure activation (real herd imported or valid provider request), weekly meaningful use, qualified requests, response rate, retained monthly contribution and second payment. Never use synthetic activity as pilot evidence.",
+        "Proposed continue gate: at least three of five farms renew after two paid months, and direct support/data cost remains compatible with contribution. These thresholds are a decision proposal, not an industry benchmark.",
+        "If adoption fails, narrow workflow/offer and interview reasons before adding native apps, social feed, AI rankings or commission checkout."
+      ],
+      "acceptance_tests": [
+        "A pilot report includes signed/paid evidence, anonymized cohort counts, dates and cost basis.",
+        "All rejected offers and churn reasons are recorded, not just successes.",
+        "Revenue projections are labeled assumptions until actual cohorts replace them."
+      ],
+      "rollback": "Stop acquisition spend and new feature scope if the gate fails; support/export existing customer data and honor refunds/terms.",
+      "release_gate": "commercial"
+    },
+    {
+      "id": "P35",
+      "title": "Add attribution-safe product analytics and subscription economics",
+      "status": "todo",
+      "priority": "P1",
+      "depends_on": [
+        "P18",
+        "P19",
+        "P34"
+      ],
+      "paths": [
+        "src/analytics/ (new)",
+        "src/commerce/economics.ts",
+        "src/api/modules/operations.ts (new)",
+        "public/business-model/"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Define events and metric formulas: registry activation, workspace weekly activity, qualified inquiry, provider acknowledgement, paid conversion, renewal, churn, support minutes and contribution.",
+        "Exclude demo namespace, staff QA, bots and refunded orders. Avoid collecting private notes or full contact fields in analytics.",
+        "Distinguish revenue, cash received, MRR, one-off promotions, gateway fees, support costs and net operating result. Do not annualize a one-month spike as proven ARR.",
+        "Replace calculator assumptions with actual observed cohorts only with date/sample-size labels; keep public scenario calculator free of private company/customer accounts.",
+        "Calculate acquisition payback from realized contribution; do not present LTV = margin/churn as reliable with a tiny or immature cohort."
+      ],
+      "acceptance_tests": [
+        "Refunded/duplicated payments do not inflate revenue.",
+        "Promotion transactions are excluded from MRR.",
+        "Synthetic visits and local requests cannot affect production dashboards."
+      ],
+      "rollback": "Disable analytics collection while retaining billing ledger; reconstruct metrics from documented events after repair.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P36",
+      "title": "Add licensed SEO and distribution without leaking private or synthetic data",
+      "status": "todo",
+      "priority": "P2",
+      "depends_on": [
+        "P10",
+        "P11",
+        "P16",
+        "P31"
+      ],
+      "paths": [
+        "src/worker.ts",
+        "src/web/",
+        "public/robots.txt (review/create)",
+        "src/seo/ (new)"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Create canonical stable public horse/provider URLs and licensed public sitemap with language alternates. Noindex private areas, search combinations that create traps, demos and business planning page.",
+        "Use honest structured data for the actual entity and offer; do not fabricate aggregate ratings, sold prices, credentials or product availability.",
+        "Publish permissioned educational/discovery content with date/source and human domain review. Offer embeddable profile/result links to partner clubs rather than copying their entire databases.",
+        "Create consented referral and attribution codes with disclosure. Validate distribution through actual partner usage, not purchased fake followers."
+      ],
+      "acceptance_tests": [
+        "Sitemap excludes synthetic, unpublished, deleted and private entities.",
+        "Public metadata contains no hidden private fields.",
+        "FA/EN canonical/alternate links do not form loops."
+      ],
+      "rollback": "Remove affected sitemap/metadata and request reindexing; do not change canonical horse IDs to repair SEO.",
+      "release_gate": "production"
+    },
+    {
+      "id": "P37",
+      "title": "Evaluate later booking, merchant and organizer modules behind demand gates",
+      "status": "todo",
+      "priority": "P3",
+      "depends_on": [
+        "P16",
+        "P18",
+        "P34",
+        "P35"
+      ],
+      "paths": [
+        "docs/business/expansion-gates.md (new)",
+        "src/contracts/platform.ts",
+        "src/commerce/"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Write separate discovery briefs for equipment merchant campaigns, event-organizer result tools, laboratory intake and appointment scheduling. Validate each with a paying/design partner before implementation.",
+        "Booking requires provider availability, timezones, cancellations, no-show rules and capacity conflicts. A contact request is not an appointment; do not relabel it to imply completed functionality.",
+        "Equipment commerce requires SKU/stock, seller terms, shipping/refund support and payment reconciliation. Begin with clearly sponsored leads/catalogs if those workflows are not funded.",
+        "Do not launch horse escrow, financial products, emergency dispatch or success-fee collection merely by adding a button. They require independent operational/legal/vendor readiness.",
+        "Defer native apps until responsive usage shows an unmet need such as offline yard work or reliable push, and fund ongoing two-platform maintenance."
+      ],
+      "acceptance_tests": [
+        "Each expansion has a named buyer, tested workflow, measurable economics and go/no-go gate.",
+        "No production capability flag enables a module whose fulfillment/support does not exist."
+      ],
+      "rollback": "Keep feature flags off and retain research only.",
+      "release_gate": "expansion"
+    },
+    {
+      "id": "P38",
+      "title": "Add advanced breeding only after scientific and commercial review",
+      "status": "todo",
+      "priority": "P3",
+      "depends_on": [
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P34"
+      ],
+      "paths": [
+        "src/genetics/",
+        "src/pedigree/",
+        "src/api/modules/genetics.ts",
+        "docs/science/ (new validation protocol)"
+      ],
+      "effort_person_days": [
+        10,
+        20
+      ],
+      "steps": [
+        "Separate reproductive event tracking, pedigree-based calculations, laboratory interpretations and recommendation research into independent capabilities.",
+        "For new assays, obtain lab-defined marker/build/notation and consent; distinguish DNA parentage exclusion/confirmation from phenotype tests. Genomic inbreeding is not the same metric as pedigree COI.",
+        "Implement transparent filtering/explanations before weighted rankings. Record objective, constraints, evidence completeness and reasons a pair cannot be evaluated.",
+        "Have equine genetics/veterinary experts review fixtures and UI language. Test out-of-distribution breeds and missing data; never advertise guaranteed healthy offspring or ideal mating.",
+        "Price a specialist pilot only after identifying repeat professional use and liability/support cost. No paid scientific ranking based on sponsorship."
+      ],
+      "acceptance_tests": [
+        "Independent validation protocol and reviewer sign-off exist.",
+        "Unknown/conflicting tests never become clear or safe.",
+        "Recommendation output exposes assumptions and evidence, with no diagnosis or guaranteed outcome."
+      ],
+      "rollback": "Disable advanced scoring while retaining reviewed pedigree reports and raw lab evidence.",
+      "release_gate": "expansion"
+    },
+    {
+      "id": "P39",
+      "title": "Execute release, rollback and first-customer acceptance gates",
+      "status": "todo",
+      "priority": "P0",
+      "depends_on": [
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P26",
+        "P29",
+        "P30",
+        "P31",
+        "P33"
+      ],
+      "paths": [
+        "docs/operations/release-checklist.md (new)",
+        "audit/ (new dated release evidence)",
+        "package.json"
+      ],
+      "effort_person_days": [
+        2,
+        4
+      ],
+      "steps": [
+        "Freeze release scope and the five supported skins. Every claimed capability must map to an endpoint, permission rule, persistence model, owner and passing scenario.",
+        "Run restored full checks, migration rehearsal, hosted E2E/accessibility, selected-provider parity, security tests, data import dry-run and backup restore. Record blocked gates explicitly.",
+        "Use a staging demonstration with synthetic data and a separate production smoke test with authorized minimal records. Never migrate the demo seed into production to make screens look full.",
+        "Validate operational ownership: support inbox, data reviewer, payment reconciliation, security incident contact and scientific reviewer. Verify required merchant/data agreements before enabling those features.",
+        "Roll out to a small invited cohort, observe real logs/errors and keep kill switches for mutations/payments/AI. Commercial launch additionally requires P18/P19/P34/P35; registry-only launch must not claim those features."
+      ],
+      "acceptance_tests": [
+        "No open P0 gate for enabled capabilities.",
+        "A rollback rehearsal preserves customer data, audits and financial events.",
+        "Client acceptance script passes in the chosen frontend(s), with limitations documented."
+      ],
+      "rollback": "Use the rehearsed prior build/read-only mode; pause affected writes and notify the responsible operator, not a silent fallback to synthetic state.",
+      "release_gate": "all"
+    }
+  ]
+}

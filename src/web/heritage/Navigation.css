@@ -1,0 +1,563 @@
+/* Core navigation owns its geometry here. Colour/material tokens remain in the
+   Heritage design system; all skins keep independent visual shells. */
+html:root[data-frontend="heritage"] .app-shell {
+  --h-nav-surface: var(--panel-solid, Canvas);
+  --h-nav-ink: var(--ink, CanvasText);
+  --h-nav-muted: var(--muted, GrayText);
+  --h-nav-line: var(--line, GrayText);
+  --h-nav-accent: var(--accent, LinkText);
+  --h-nav-radius: var(--h-ds-radius-panel, 12px);
+  --h-nav-rail: 15.5rem;
+  --h-nav-panel-max: 58rem;
+  --h-nav-gap: .75rem;
+  --h-nav-gap-small: .375rem;
+  --h-nav-inset: .75rem;
+  --h-nav-page-gutter: clamp(.5rem, 1.5vw, 1.375rem);
+  --h-nav-control: 2.75rem;
+  --h-nav-font-size: .8125rem;
+  --h-nav-active: color-mix(in srgb, var(--h-nav-accent) 12%, var(--h-nav-surface));
+  /* R115 section colour coding: one stable hue per canonical group, shared by
+     the sidebar rail, the More panel and the group markers. */
+  --h-group-registry: #3b82f6;
+  --h-group-research: #8b5cf6;
+  --h-group-business: #d97706;
+  --h-group-governance: #059669;
+  --h-group-showcase: #e11d48;
+}
+
+/* Legacy material layers style .topbar; this is its single geometry authority. */
+html:root[data-frontend="heritage"] .app-shell > .topbar.h112-header {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  grid-template-areas: "brand nav tools" !important;
+  align-items: center !important;
+  gap: var(--h-nav-gap) !important;
+  height: auto !important;
+  min-height: calc(var(--h-nav-control) + var(--h-nav-gap)) !important;
+  padding: var(--h-nav-gap-small) var(--h-nav-page-gutter) !important;
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  overflow: visible !important;
+}
+html:root[data-frontend="heritage"] .h112-header > .brand { grid-area: brand !important; min-inline-size: 0; }
+html:root[data-frontend="heritage"] .app-shell > .topbar.h112-header > .topbar-tools {
+  grid-area: tools !important;
+  display: flex !important;
+  justify-self: end !important;
+  flex-wrap: wrap;
+  align-items: center;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  gap: var(--h-nav-gap-small) !important;
+}
+html:root[data-frontend="heritage"] .h112-header :is(.theme-settings-trigger,.mode-toggle,.locale-toggle) {
+  inline-size: var(--h-nav-control) !important;
+  block-size: var(--h-nav-control) !important;
+  min-inline-size: var(--h-nav-control) !important;
+  min-block-size: var(--h-nav-control) !important;
+  max-block-size: var(--h-nav-control) !important;
+  height: var(--h-nav-control) !important;
+  padding: 0 !important;
+  display: inline-grid !important;
+  place-items: center;
+  flex: 0 0 var(--h-nav-control);
+  box-sizing: border-box;
+  border-radius: var(--h-nav-radius) !important;
+}
+/* R136 fix: this collapse must only apply to a TRUE sidebar-only layout.
+   With preference "both" the resolved layout is "sidebar" while the header
+   also renders the top tab row (data-nav-both="1") — collapsing the grid to
+   "brand tools" used to push the nav into a broken implicit second row and
+   blank the tabs. */
+html:root[data-frontend="heritage"] .app-shell[data-navigation-layout="sidebar"]:not([data-nav-both="1"]) > .h112-header {
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-areas: "brand tools" !important;
+}
+html:root[data-frontend="heritage"] .app-shell[data-navigation-layout="sidebar"] > .h112-header > .brand { display: flex !important; }
+.app-shell .h112-primary-navigation {
+  grid-area: nav;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--h-nav-gap-small);
+  min-inline-size: 0;
+  font-size: var(--h-nav-font-size);
+  position: relative;
+  /* R114-04 fix: the hidden measurement twin keeps its natural (wide) layout;
+     clip the inline axis so the twin can never expand the page's scrollable
+     width (document.scrollWidth grew to ~2.4x the viewport on every page).
+     clip + visible is allowed and creates no scroll container, so the More
+     dropdown still drops below the bar unclipped. */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+/* Hidden twin of the tab row used only for width measurement: it never affects
+   layout, yet every label keeps its intrinsic measurable width. */
+.app-shell .h112-primary-measure {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.app-shell .h112-primary-measure > span {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .375rem;
+  box-sizing: border-box;
+  padding: .5rem .875rem;
+  border: 1px solid transparent;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.app-shell .h112-primary-links { display: flex; min-inline-size: 0; gap: .25rem; overflow: hidden; }
+.app-shell .h112-primary-links a,
+.app-shell .h112-sections-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .375rem;
+  min-inline-size: 0;
+  min-block-size: var(--h-nav-control);
+  padding: .5rem .875rem;
+  border: 1px solid transparent;
+  border-radius: var(--h-nav-radius);
+  background: color-mix(in srgb, var(--h-group, var(--h-nav-accent)) 5%, var(--h-nav-surface));
+  border-color: color-mix(in srgb, var(--h-group, var(--h-nav-accent)) 20%, transparent);
+  color: var(--h-nav-ink);
+  box-sizing: border-box;
+  font: inherit;
+  font-weight: 650;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.app-shell .h112-primary-links a:hover,
+.app-shell .h112-sections-toggle:hover { color: var(--h-nav-ink); background: var(--h-nav-active); }
+.app-shell .h112-primary-links a[aria-current="page"] {
+  color: var(--h-nav-ink);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--h-group, var(--h-nav-accent)) 22%, var(--h-nav-surface)), color-mix(in srgb, var(--h-group, var(--h-nav-accent)) 10%, var(--h-nav-surface)));
+  border-color: color-mix(in srgb, var(--h-group, var(--h-nav-accent)) 60%, var(--h-nav-line));
+  box-shadow: inset 0 -.1875rem 0 -.0625rem var(--h-group, var(--h-nav-accent));
+  font-weight: 750;
+}
+.app-shell .h112-sections-toggle {
+  flex: 0 0 auto;
+  border-color: var(--h-nav-line);
+  color: var(--h-nav-ink);
+  border-radius: var(--h-nav-radius);
+}
+.app-shell .h112-sections-toggle:is([data-active="true"], [aria-expanded="true"]) {
+  color: var(--h-nav-ink);
+  background: var(--h-nav-active);
+  border-color: color-mix(in srgb, var(--h-nav-accent) 45%, transparent);
+}
+.app-shell .h112-sections-toggle > span:first-child { white-space: nowrap; }
+.app-shell .h112-more-count {
+  display: inline-grid;
+  place-items: center;
+  min-inline-size: 1.25rem;
+  padding-inline: .25rem;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--h-nav-accent) 22%, transparent);
+  color: var(--h-nav-ink);
+  font-size: .6875rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+}
+.app-shell .h112-more-caret { flex: none; font-size: .9em; }
+.app-shell .h112-mobile-layout { display: none; }
+.app-shell .h112-sections-panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--h-nav-gap-small));
+  inset-inline: var(--h-nav-page-gutter);
+  margin-inline: auto;
+  inline-size: auto;
+  max-inline-size: var(--h-nav-panel-max);
+  max-block-size: calc(var(--h-nav-menu-viewport, 100dvh) - var(--h-nav-menu-top, var(--h-chrome-topbar-height, 4rem)) - var(--h-mobile-dock-stack-height, 0px) - 2 * var(--h-nav-gap));
+  overflow: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+  padding: var(--h-nav-inset);
+  border: 1px solid var(--h-nav-line);
+  border-radius: var(--h-nav-radius);
+  background: var(--h-nav-surface);
+  color: var(--h-nav-ink);
+  box-shadow: var(--shadow, 0 .75rem 2rem rgb(0 0 0 / .18));
+}
+.app-shell .h112-sections-panel[hidden] { display: none; }
+.app-shell .h112-sections-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--h-nav-gap); margin-block-end: var(--h-nav-gap); }
+.app-shell .h112-sections-head > div { min-inline-size: 0; }
+.app-shell .h112-sections-head strong { font-size: 1rem; }
+.app-shell .h112-sections-head p { color: var(--h-nav-muted); margin: .25rem 0 0; overflow-wrap: anywhere; }
+.app-shell .h112-sections-close {
+  display: grid; place-items: center; flex: 0 0 var(--h-nav-control); min-block-size: var(--h-nav-control);
+  border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius); color: var(--h-nav-ink); background: transparent; font: inherit; font-size: 1.4rem; cursor: pointer;
+}
+.app-shell .h112-sections-panel .h102-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); align-items: start; gap: var(--h-nav-gap); }
+.app-shell .h112-sections-panel .h102-find { max-inline-size: 28rem; margin-block-end: var(--h-nav-gap); }
+
+/* R115 section colour coding: group identity carries through markers, rails and
+   active tints in BOTH the sidebar and the More panel. */
+.app-shell .h102-group { --h-group: var(--h-group-registry, #3b82f6); }
+.app-shell .h102-group[data-group="research"] { --h-group: var(--h-group-research, #8b5cf6); }
+.app-shell .h102-group[data-group="business"] { --h-group: var(--h-group-business, #d97706); }
+.app-shell .h102-group[data-group="governance"] { --h-group: var(--h-group-governance, #059669); }
+.app-shell .h102-group[data-group="showcase"] { --h-group: var(--h-group-showcase, #e11d48); }
+.app-shell .h102-group-heading { display: flex; align-items: center; gap: .45rem; }
+.app-shell .h102-group-marker {
+  flex: none;
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: 7px;
+  background: var(--h-group);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--h-group) 25%, transparent);
+}
+.app-shell .h102-group-count {
+  margin-inline-start: auto;
+  padding-inline: .35rem;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--h-group) 14%, transparent);
+  color: var(--h-nav-muted);
+  font-size: .6875rem;
+  font-weight: 700;
+  line-height: 1.1rem;
+}
+
+.app-shell .h102-layout { display: inline-flex; align-items: center; min-inline-size: 0; font-size: var(--h-nav-font-size); color: var(--h-nav-ink); }
+.app-shell .h102-layout > span { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+.app-shell .h102-layout select { min-block-size: var(--h-nav-control); min-inline-size: 0; max-inline-size: 8rem; border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius); padding: .25rem .5rem; color: var(--h-nav-ink); background: var(--h-nav-surface); font: inherit; }
+.app-shell .h102-workspace, .app-shell .h102-content { min-inline-size: 0; }
+.app-shell[data-navigation-layout="sidebar"] .h102-workspace { display: grid; grid-template-columns: var(--h-nav-rail) minmax(0, 1fr); gap: var(--h-nav-gap); align-items: start; padding-inline: var(--h-nav-page-gutter); }
+.app-shell[data-navigation-layout="sidebar"] .h102-content > .page { max-inline-size: 100%; }
+.app-shell .h102-sidebar {
+  position: sticky;
+  inset-block-start: calc(var(--h-chrome-topbar-height, 4rem) + var(--h-nav-gap));
+  min-inline-size: 0;
+  max-block-size: calc(100dvh - var(--h-chrome-topbar-height, 4rem) - 2 * var(--h-nav-gap));
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--h-nav-line);
+  border-radius: var(--h-nav-radius);
+  background: var(--h-nav-surface);
+  color: var(--h-nav-ink);
+  font-size: var(--h-nav-font-size);
+  margin-block: var(--h-nav-gap);
+}
+.app-shell .h102-sidebar-body { padding: var(--h-nav-inset); }
+.app-shell .h102-find { display: grid; gap: var(--h-nav-gap-small); color: var(--h-nav-muted); margin-block-end: var(--h-nav-gap); }
+.app-shell .h102-find input { inline-size: 100%; min-inline-size: 0; box-sizing: border-box; min-block-size: var(--h-nav-control); border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius); background: var(--h-nav-surface); color: var(--h-nav-ink); padding: .4rem .5rem; font: inherit; }
+.app-shell .h102-group { margin: 0; padding: 0; min-inline-size: 0; border-block-start: 1px solid var(--h-nav-line); }
+.app-shell .h102-group-heading { margin: 0; padding-block: .5rem; color: var(--h-nav-muted); font: inherit; font-weight: 650; letter-spacing: .02em; text-transform: uppercase; font-size: .6875rem; }
+.app-shell .h102-sidebar .h102-group-heading { padding: 0; }
+.app-shell .h102-group-title { display: flex; justify-content: space-between; gap: var(--h-nav-gap-small); align-items: center; inline-size: 100%; min-block-size: var(--h-nav-control); padding: .35rem .3rem; color: var(--h-nav-muted); font: inherit; font-weight: 650; text-align: start; background: transparent; border: 0; cursor: pointer; }
+.app-shell .h102-group ul { list-style: none; padding: 0; margin: 0 0 var(--h-nav-gap-small); }
+.app-shell .h102-group ul[hidden] { display: none; }
+.app-shell .h102-group a {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--h-nav-gap-small);
+  min-block-size: var(--h-nav-control);
+  padding: .4rem .5rem .4rem .95rem;
+  box-sizing: border-box;
+  border-inline-start: 3px solid color-mix(in srgb, var(--h-group) 32%, transparent);
+  border-radius: .375rem;
+  color: var(--h-nav-ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.app-shell .h102-group a[aria-current="page"] {
+  color: var(--h-nav-ink);
+  background: color-mix(in srgb, var(--h-group) 14%, var(--h-nav-surface));
+  border-inline-start-color: var(--h-group);
+  font-weight: 700;
+}
+.app-shell .h102-group a:hover { background: color-mix(in srgb, var(--h-group) 9%, var(--h-nav-surface)); }
+.app-shell :is(.h102-sidebar,.h112-primary-navigation) :is(a,button,input):focus-visible,
+.app-shell .h102-layout select:focus-visible { outline: 2px solid var(--h-nav-accent); outline-offset: 2px; }
+.app-shell .h102-search-controls { display: flex; align-items: stretch; gap: var(--h-nav-gap-small); min-inline-size: 0; }
+.app-shell .h102-search-controls input { flex: 1 1 0; inline-size: 0; }
+.app-shell .h102-search-controls button { flex: 0 0 var(--h-nav-control); min-block-size: var(--h-nav-control); box-sizing: border-box; padding: .25rem; border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius); background: var(--h-nav-surface); color: var(--h-nav-ink); font: inherit; font-size: 1.1rem; cursor: pointer; }
+.app-shell .h102-search-controls button:disabled { opacity: .45; cursor: default; }
+.app-shell .h102-search-controls button:not(:disabled):hover { border-color: var(--h-nav-accent); }
+.app-shell .h102-context:empty { display: none; }
+.app-shell .h102-context { border-block-end: 1px solid var(--h-nav-line); margin-block-end: var(--h-nav-gap); }
+.app-shell .h112-context-home, .app-shell .h112-context-home > div { display: contents; }
+html:root[data-frontend="heritage"] .h102-context nav {
+  display: flex !important; flex-direction: column !important; flex-wrap: nowrap !important;
+  position: static !important; inset: auto !important; transform: none !important;
+  gap: var(--h-nav-gap-small) !important; overflow: visible !important; margin: .4rem 0 !important; padding: .2rem !important;
+  width: auto !important; height: auto !important; min-height: 0 !important; max-height: none !important; border-radius: var(--h-nav-radius) !important;
+}
+html:root[data-frontend="heritage"] .h102-context nav button {
+  width: 100% !important; min-width: 0 !important; min-height: var(--h-nav-control) !important; height: auto !important;
+  text-align: start !important; justify-content: flex-start !important; flex: none !important; padding: .5rem !important; white-space: normal !important;
+  opacity: 1 !important; color: var(--h-nav-muted) !important; font-size: var(--h-nav-font-size) !important;
+  background: transparent !important; border: 1px solid transparent !important; box-shadow: none !important;
+}
+html:root[data-frontend="heritage"] .h102-context nav button.active { color: var(--h-nav-ink) !important; background: var(--h-nav-active) !important; border-color: var(--h-nav-line) !important; }
+.app-shell .h102-context .tab-rail-label { display: block; padding: .3rem; }
+.app-shell .h102-context .tab-rail-label small { display: none; }
+.app-shell .h102-context .profile-subnav { margin-inline-start: .7rem; border-inline-start: 2px solid var(--h-nav-line); }
+.app-shell .h102-mobile-toggle { display: none; }
+.app-shell .h102-skip { position: fixed; inset-block-start: .25rem; inset-inline-start: .5rem; transform: translateY(-200%); z-index: 2147483647; padding: .5rem; background: Canvas; color: CanvasText; }
+.app-shell .h102-skip:focus { transform: none; }
+
+@media (max-width: 1100px) {
+  html:root[data-frontend="heritage"] .h112-header .brand-copy,
+  html:root[data-frontend="heritage"] .h112-header .registry-status { display: none !important; }
+  .app-shell .h112-primary-links a { padding-inline: .625rem; }
+}
+@media (max-width: 860px) {
+  /* R130 full-bleed phone: the sidebar-layout workspace gutter collapses so
+     pages run edge-to-edge (the .page tokens already carry 0 gutters <=720px). */
+  .app-shell { --h-nav-page-gutter: 0px; }
+  html:root[data-frontend="heritage"] .app-shell > .topbar.h112-header {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: "brand tools" "nav nav" !important;
+    row-gap: var(--h-nav-gap-small) !important;
+  }
+  html:root[data-frontend="heritage"] .app-shell > .h112-header > .brand { display: flex !important; }
+  html:root[data-frontend="heritage"] .app-shell[data-navigation-layout="sidebar"]:not([data-nav-both="1"]) > .topbar.h112-header { grid-template-areas: "brand tools" !important; }
+  html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] .app-shell[data-navigation-layout="tabs"] > .topbar.h112-header { grid-template-areas: "nav tools" !important; }
+  html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] .app-shell[data-navigation-layout="tabs"] > .h112-header > .brand,
+  html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] .app-shell[data-navigation-layout="tabs"] .h112-primary-links { display: none !important; }
+  html:root[data-frontend="heritage"] .h112-header .topbar-tools .locale-toggle { min-height: var(--h-nav-control) !important; height: auto !important; min-width: var(--h-nav-control); padding-inline: .375rem !important; }
+  html:root[data-frontend="heritage"] .h112-header .topbar-tools .theme-controls { display: flex !important; }
+  .app-shell .h112-desktop-layout { display: none; }
+  .app-shell .h112-mobile-layout { display: flex; justify-content: space-between; align-items: center; gap: var(--h-nav-gap); margin-block-end: var(--h-nav-gap); }
+  .app-shell .h112-primary-navigation { justify-content: flex-start; }
+  .app-shell .h112-primary-links { flex: 1; }
+  .app-shell .h112-primary-links a { flex: 1; padding-inline: .375rem; white-space: normal; }
+  .app-shell .h102-layout select { max-inline-size: 6.25rem; padding-inline: .375rem; }
+  .app-shell[data-navigation-layout="sidebar"] .h102-workspace { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .app-shell .h102-sidebar { position: static; max-block-size: none; margin-block: var(--h-nav-gap-small); }
+  .app-shell .h102-mobile-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--h-nav-gap); inline-size: 100%; min-block-size: var(--h-nav-control); border: 0; padding: .55rem var(--h-nav-inset); background: var(--h-nav-surface); color: var(--h-nav-ink); font: inherit; font-weight: 600; text-align: start; }
+  .app-shell .h102-mobile-toggle small { display: block; font-size: .75rem; font-weight: 400; color: var(--h-nav-muted); margin-block-start: .15rem; }
+  .app-shell .h102-sidebar[data-open="false"] .h102-sidebar-body { display: none; }
+  .app-shell .h102-sidebar-body { max-block-size: min(60dvh, 32rem); overflow: auto; overscroll-behavior: contain; }
+  /* The dock is disabled in sidebar mode, so page controls must stay visible. */
+  html:root[data-frontend="heritage"] .app-shell[data-navigation-layout="sidebar"] .h112-context-home nav {
+    display: flex !important; flex-wrap: wrap !important; width: auto !important; min-width: 0 !important; height: auto !important; min-height: 0 !important; max-height: none !important;
+    position: static !important; inset: auto !important; transform: none !important;
+    overflow: visible !important; gap: var(--h-nav-gap-small) !important; padding: .375rem !important;
+  }
+  html:root[data-frontend="heritage"] .app-shell[data-navigation-layout="sidebar"] .h112-context-home nav button {
+    flex: 1 1 calc(50% - var(--h-nav-gap-small)) !important; width: auto !important; min-width: 0 !important; height: auto !important; min-height: var(--h-nav-control) !important;
+    white-space: normal !important; padding: .5rem !important;
+    opacity: 1 !important; font-size: var(--h-nav-font-size) !important;
+  }
+  .app-shell[data-navigation-layout="sidebar"] .h112-context-home .tab-rail-label { flex: 1 0 100%; }
+  html:root[data-frontend="heritage"] .h102-content .pedigree-controls { display: flex !important; flex-wrap: wrap !important; min-width: 0 !important; max-width: 100% !important; gap: var(--h-nav-gap-small) !important; }
+  html:root[data-frontend="heritage"] .h102-content .pedigree-controls > * { min-width: 0 !important; max-width: 100% !important; }
+  html:root[data-frontend="heritage"] .h102-content .pedigree-controls > .segmented { flex: 1 1 100%; }
+  html:root[data-frontend="heritage"] .h102-content .pedigree-controls > label { flex: 1 1 100%; justify-content: space-between; }
+}
+@media (max-width: 420px) {
+  .app-shell { --h-nav-font-size: .75rem; --h-nav-gap: .5rem; --h-nav-gap-small: .25rem; }
+  .app-shell .h102-layout select { max-inline-size: 5.5rem; }
+  .app-shell .h112-sections-toggle { padding-inline: .5rem; }
+}
+@media (max-height: 480px) and (min-width: 861px) {
+  .app-shell .h102-sidebar { position: static; max-block-size: none; }
+}
+@media print {
+  .app-shell :is(.h102-sidebar,.h102-layout,.h112-primary-navigation) { display: none; }
+  .app-shell[data-navigation-layout="sidebar"] .h102-workspace { display: block; padding: 0; }
+}
+
+/* R122: route group hue is decorative identity, never a health/risk score. */
+.h112-primary-navigation [data-group] { --h-group: var(--h-group-registry); }
+.h112-primary-navigation [data-group="research"] { --h-group: var(--h-group-research); }
+.h112-primary-navigation [data-group="business"] { --h-group: var(--h-group-business); }
+.h112-primary-navigation [data-group="governance"] { --h-group: var(--h-group-governance); }
+.h112-primary-navigation [data-group="showcase"] { --h-group: var(--h-group-showcase); }
+.h112-primary-links > a::before, .h112-primary-measure > span::before {
+  content: ""; inline-size: .375rem; block-size: .375rem; border-radius: 50%;
+  flex: 0 0 .375rem; background: var(--h-group);
+}
+.h112-primary-links > a:hover { border-color: var(--h-group, var(--h-nav-accent)); }
+.h122-toolbar-placeholder { display: block; block-size: var(--h-nav-control); inline-size: calc(2 * var(--h-nav-control) + var(--h-nav-gap-small)); flex: none; }
+.h122-language-selector {
+  position: relative; display: inline-grid; place-items: center; flex: 0 0 5.35rem;
+  inline-size: 5.35rem; block-size: var(--h-nav-control); box-sizing: border-box;
+  color: var(--h-nav-ink); background: var(--h-nav-surface);
+  border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius);
+}
+.h122-language-selector:focus-within { outline: 2px solid var(--h-nav-accent); outline-offset: 2px; }
+.h122-language-selector select {
+  position: absolute; inset: 0; inline-size: 100%; block-size: 100%; opacity: 0;
+  margin: 0; padding: 0; cursor: pointer; font: inherit;
+}
+.h122-language-display { display: flex; gap: .3rem; align-items: center; font-size: .75rem; direction: ltr; pointer-events: none; }
+.h122-language-display > span:first-child { font-size: 1.1rem; }
+.h122-language-caret { font-size: 1rem; }
+.h122-language-selector option { color: CanvasText; background: Canvas; }
+.h112-navigation-settings {
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+  inline-size: 100%; min-block-size: var(--h-nav-control); margin-block-end: .75rem;
+  padding: .5rem .75rem; border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius);
+  color: var(--h-nav-ink); background: var(--h-nav-active); font: inherit; text-align: start;
+}
+html:root[data-frontend="heritage"] .theme-settings-popover .h102-layout { display: grid; gap: .375rem; min-inline-size: 0; }
+html:root[data-frontend="heritage"] .theme-settings-popover .h102-layout > span { display: none; }
+html:root[data-frontend="heritage"] .theme-settings-popover .h102-layout select {
+  min-block-size: 2.75rem; max-inline-size: 100%; inline-size: 100%;
+  color: var(--ink, var(--text)); background: var(--panel-solid); border: 1px solid var(--line);
+  border-radius: .65rem; padding: .5rem .75rem; font: inherit;
+}
+.h122-locale-preview {
+  max-inline-size: 78rem; margin: .6rem auto; padding: .55rem .85rem;
+  border-inline-start: 3px solid var(--accent, #64748b);
+  border-radius: .5rem; font-size: .78rem; line-height: 1.5;
+  color: var(--ink, CanvasText); background: color-mix(in srgb, var(--panel-solid, Canvas) 94%, var(--accent, #64748b));
+}
+
+/* Same analytics controls: a wrapping tab rail inline, a real nested branch
+   under Registry analytics in the sidebar. DOM/state/focus are preserved. */
+html:root[data-frontend="heritage"] .h122-analysis-nav {
+  display: flex; flex-wrap: wrap; align-items: stretch; gap: .375rem;
+  padding: .55rem; margin-block: .6rem; min-inline-size: 0;
+  border: 1px solid var(--line); border-radius: var(--h-nav-radius, .75rem);
+  background: color-mix(in srgb, var(--h-group-research, #8b5cf6) 6%, var(--panel-solid));
+}
+.h122-analysis-group { display: contents; }
+html:root[data-frontend="heritage"] .h122-analysis-nav button {
+  display: flex; align-items: center; justify-content: center; gap: .5rem; order: 0;
+  min-block-size: 2.75rem; min-inline-size: 0; max-inline-size: 100%;
+  padding: .5rem .75rem; border: 1px solid transparent; border-radius: .65rem;
+  color: var(--ink, var(--text)); background: transparent; font: inherit; font-size: .8125rem;
+  line-height: 1.4; white-space: normal; text-align: start;
+}
+html:root[data-frontend="heritage"] .h122-analysis-nav button[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--h-group-research, #8b5cf6) 18%, var(--panel-solid));
+  border-color: color-mix(in srgb, var(--h-group-research, #8b5cf6) 50%, var(--line)); font-weight: 750;
+}
+.h122-analysis-caret { font-size: .85rem; opacity: .7; }
+.h122-analysis-views {
+  display: flex; flex-wrap: wrap; gap: .375rem; flex: 1 0 100%; order: 1;
+  padding-block-start: .5rem; border-block-start: 1px solid var(--line);
+}
+.h122-analysis-views button { flex: 0 1 auto; }
+.h122-analysis-nav button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#h102-analytics-context .h122-analysis-nav {
+  display: block; border: 0; padding: .25rem 0 .25rem .25rem; background: transparent;
+}
+#h102-analytics-context .h122-analysis-group { display: block; margin-block: .15rem; }
+#h102-analytics-context .h122-analysis-nav button { justify-content: space-between; inline-size: 100%; }
+#h102-analytics-context .h122-analysis-views {
+  display: grid; gap: .125rem; border-block-start: 0;
+  border-inline-start: 2px solid color-mix(in srgb, var(--h-group-research) 35%, var(--line));
+  margin-inline-start: .65rem; padding: .25rem 0 .25rem .5rem;
+}
+html[dir="rtl"] #h102-analytics-context .h122-analysis-nav { padding-inline: .25rem 0; }
+html[dir="rtl"] #h102-analytics-context .h122-analysis-views { padding-inline: .5rem 0; }
+@media (max-width: 1100px) {
+  .app-shell .h112-primary-measure > span { padding-inline: .625rem; }
+}
+@media (max-width: 860px) {
+  .app-shell .h112-primary-measure > span { padding-inline: .375rem; }
+  html:root[data-frontend="heritage"] .h122-analysis-section { flex: 1 1 calc(50% - .375rem); }
+  html:root[data-frontend="heritage"] .h122-analysis-views button { flex: 1 1 calc(50% - .375rem); }
+  .h122-locale-preview { margin-inline: .5rem; }
+}
+@media (forced-colors: active) {
+  .h112-primary-links a[aria-current="page"], .h122-analysis-nav button[aria-pressed="true"] {
+    outline: 2px solid Highlight; outline-offset: -3px;
+  }
+}
+
+/* R117 narrow-row safety after width-budgeted active-tab selection. */
+.h112-primary-links { min-inline-size:0; flex-shrink:1; overflow:hidden; }
+.h112-primary-links>a { min-inline-size:0; flex-shrink:1; }
+.h112-primary-links>a>span:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.h112-sections-toggle { flex-shrink:0; }
+.h112-primary-measure>span { display:inline-flex; gap:.35rem; }
+
+/* A leaf may also own a tertiary tool rail; keep the two-level phone layout. */
+.h122-analysis-leaf { display: contents; }
+#h102-analytics-context .h122-analysis-leaf { display: block; min-inline-size: 0; }
+.h122-analysis-tertiary-slot { flex: 1 0 100%; min-inline-size: 0; }
+
+/* ── R124: the visible navigation-layout control + "both" chrome ─────────
+   The owner could not find the layout switch buried in the Appearance
+   Studio, and asked for (a) a manual switch in plain sight, and (b) a mode
+   that renders the sidebar rail AND the top tab row at the same time, with
+   the sidebar still automatic by viewport. The button sits in the header
+   tool cluster; the popover lists all four modes with their live hints. */
+.app-shell .h122-layout-switcher { position: relative; display: flex; min-inline-size: 0; }
+.app-shell .h122-layout-toggle {
+  inline-size: var(--h-nav-control); block-size: var(--h-nav-control);
+  min-inline-size: var(--h-nav-control); min-block-size: var(--h-nav-control);
+  display: inline-grid; place-items: center; flex: 0 0 var(--h-nav-control);
+  padding: 0; box-sizing: border-box;
+  border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius);
+  color: var(--h-nav-muted); background: var(--h-nav-surface); cursor: pointer;
+}
+.app-shell .h122-layout-toggle:hover,
+.app-shell .h122-layout-switcher.open .h122-layout-toggle {
+  color: var(--h-nav-ink); border-color: var(--h-nav-accent);
+  background: var(--h-nav-active);
+}
+.app-shell .h122-layout-toggle svg { inline-size: 17px; block-size: 17px; }
+.app-shell .h122-layout-toggle:focus-visible { outline: 2px solid var(--h-nav-accent); outline-offset: 2px; }
+.h112-header .h122-layout-popover {
+  position: absolute; inset-block-start: calc(100% + 6px);
+  inset-inline-end: var(--h-nav-page-gutter);
+  inline-size: min(300px, calc(100vw - 16px)); z-index: 4600;
+  display: grid; gap: 4px; padding: 6px;
+  border: 1px solid var(--h-nav-line); border-radius: var(--h-nav-radius);
+  background: var(--h-nav-surface); color: var(--h-nav-ink);
+  box-shadow: 0 18px 48px rgba(0,0,0,.22);
+}
+.h112-header .h122-layout-popover button {
+  display: grid; gap: 3px; padding: 8px 10px; text-align: start;
+  border: 1px solid transparent; border-radius: calc(var(--h-nav-radius) - 4px);
+  color: var(--h-nav-ink); background: transparent; cursor: pointer; font: inherit;
+}
+.h112-header .h122-layout-popover button strong { font-size: .8125rem; font-weight: 700; }
+.h112-header .h122-layout-popover button small { font-size: .6875rem; line-height: 1.45; color: var(--h-nav-muted); }
+.h112-header .h122-layout-popover button:hover { background: var(--h-nav-active); border-color: var(--h-nav-line); }
+.h112-header .h122-layout-popover button.active {
+  background: var(--h-nav-active); border-color: color-mix(in srgb, var(--h-nav-accent) 42%, var(--h-nav-line));
+}
+.h112-header .h122-layout-popover button.active strong::after { content: " ✓"; color: var(--h-nav-accent); }
+/* "both": the sidebar rail and the top tab row render together. The
+   sidebar-mode header rule drops the nav area; both-mode restores the full
+   three-column header so the tab row has its place back. */
+.app-shell[data-nav-both] > .topbar.h112-header {
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  grid-template-areas: "brand nav tools" !important;
+}
+@media (max-width: 860px) {
+  .app-shell[data-nav-both] > .topbar.h112-header {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: "brand tools" "nav nav" !important;
+  }
+  .h112-header .h122-layout-popover { inset-inline: var(--h-nav-page-gutter); }
+}
+
+/* ============================================================================
+   R135 — the More panel on phones: compact, no keyboard hijack, no waste
+   ---------------------------------------------------------------------------- */
+@media(max-width:720px){
+  .app-shell .h112-sections-panel{padding:9px 10px;inset-inline:6px;max-block-size:calc(var(--h-nav-menu-viewport,100dvh) - var(--h-nav-menu-top,3rem) - var(--h-mobile-dock-stack-height,0px) - 8px)}
+  .app-shell .h112-sections-head{margin-block-end:6px}
+  .app-shell .h112-sections-head strong{font-size:.9rem}
+  .app-shell .h112-sections-head p{display:none}
+  .app-shell .h112-sections-panel .h102-find{margin-block-end:7px}
+  .app-shell .h112-sections-panel .h102-find label{font-size:.66rem}
+  .app-shell .h102-search-controls input{min-height:34px;font-size:.8rem}
+  .app-shell .h112-sections-panel .h102-groups{gap:7px;grid-template-columns:minmax(0,1fr)}
+  .app-shell .h102-group-heading{font-size:.7rem;margin-block-end:3px}
+  .app-shell .h112-sections-panel .h102-groups a{min-height:36px;display:flex;align-items:center}
+  .h112-navigation-settings{min-height:34px;font-size:.72rem}
+  .h112-frontend-entry{margin-block-start:2px}
+}

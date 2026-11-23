@@ -1,0 +1,16 @@
+.modal[open] { display:flex; flex-direction:column; overflow:hidden; }
+.modal #modal-body { display:flex; flex-direction:column; max-block-size:inherit; min-block-size:0; inline-size:100%; }
+.modal .modal-head,.modal .modal-foot { flex-shrink:0; gap:.65rem; flex-wrap:wrap; }
+.modal .modal-head strong { min-inline-size:0; overflow-wrap:anywhere; }
+.modal .modal-body { min-block-size:0; overflow:auto; overscroll-behavior:contain; }
+.modal :is(form,.field,.notice,.form-grid) { min-inline-size:0; max-inline-size:100%; }
+.modal :is(input,select,textarea) { max-inline-size:100%; min-inline-size:0; }
+.modal :is(p,label,li,button) { overflow-wrap:anywhere; }
+.classic-horse-request { font-size:var(--fs-12); line-height:1.65; }
+.classic-horse-request textarea { min-block-size:7rem; }
+.classic-horse-request .notice .cluster { margin-block-start:.7rem; }
+.classic-request-history { margin-block-start:.7rem; border-block-start:1px solid var(--ui-line,var(--line)); padding-block-start:.7rem; }
+.classic-request-history ul { padding-inline-start:1.2rem; }
+.classic-request-history li { margin-block:.6rem; }
+.classic-request-history p { white-space:pre-wrap; }
+@media(max-width:480px) { .modal .modal-foot .btn { flex:1 1 7rem; white-space:normal; } }

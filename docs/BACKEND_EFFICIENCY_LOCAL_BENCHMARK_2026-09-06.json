@@ -1,0 +1,194 @@
+{
+  "dataset": {
+    "horses": 78089,
+    "base_size_bytes": 241315840
+  },
+  "index_storage": {
+    "before_logical_bytes": 241315840,
+    "after_logical_bytes": 245682176,
+    "delta_bytes": 4366336
+  },
+  "runtime_summary": {
+    "build_ms": 2094.47,
+    "payload_bytes": 6783
+  },
+  "count_old_with_parent_joins": {
+    "median_ms": 143.8349,
+    "min_ms": 139.0532,
+    "max_ms": 205.7277,
+    "rows": 1,
+    "sample": [
+      [
+        78089
+      ]
+    ],
+    "plan": [
+      "SCAN h",
+      "SEARCH f USING INTEGER PRIMARY KEY (rowid=?) LEFT-JOIN",
+      "SEARCH m USING INTEGER PRIMARY KEY (rowid=?) LEFT-JOIN"
+    ]
+  },
+  "count_new_without_unused_parent_joins": {
+    "median_ms": 4.9104,
+    "min_ms": 4.8436,
+    "max_ms": 5.3232,
+    "rows": 1,
+    "sample": [
+      [
+        78089
+      ]
+    ],
+    "plan": [
+      "SCAN h USING INDEX idx_horses_active_place_sort"
+    ]
+  },
+  "runtime_snapshot_lookup": {
+    "median_ms": 0.8013,
+    "min_ms": 0.7097,
+    "max_ms": 0.9878,
+    "rows": 1,
+    "sample": [
+      [
+        0,
+        "sha256:a5406054702e6188e9a4dac44004b64e3c0af6ae358d02c12abd9117744000cf",
+        "sha256:a5406054702e6188e9a4dac44004b64e3c0af6ae358d02c12abd9117744000cf",
+        "{\"schemaVersion\":\"2.1.0\",\"algorithmVersion\":\"2.1.0\",\"generatedAt\":\"benchmark\",\"sourceRevision\":\"sha256:a5406054702e6188e9a4dac44004b64e3c0af6ae358d02c12abd9117744000cf\",\"runtimeSummary\":{\"stats\":{\"horses\":78089,\"people\":26646,\"ownerLinks\":54477,\"breederLinks\":50779,\"importerLinks\":1409,\"passportReceiverLinks\":3804,\"horsesWithBothParents\":49014,\"horsesWithDnaData\":35594,\"openQualityIssues\":4677,\"searchRows\":78089},\"source\":{\"filename\":\"horse-allll.xlsx\",\"sheet\":\"horse-ALL\",\"rowCount\":78089,\"sha256\":\"fd712214329e537b7e0d5c5a52ba1e812badc4d437c4c153050e935fcd2d7a99\",\"completedAt\":\"2026-08-24T18:45:43Z\",\"status\":\"complete\"},\"facets\":{\"breeds\":[{\"value\":\"Arabian\",\"count\":30499},{\"value\":\"Part Bred\",\"count\":11758},{\"value\":\"Thoroughbred\",\"count\":7482},{\"value\":\"Turkoman\",\"count\":7446},{\"value\":\"Sport Horses\",\"count\":6960},{\"value\":\"Kurdish\",\"count\":5877},{\"value\":\"Persian Plateau\",\"count\":3428},{\"value\":\"Darehshouri\",\"count\":2277},{\"value\":\"legally Imported\",\"count\":1468},{\"value\":\"Caspian\",\"count\":514},{\"value\":\"Friesian\",\"count\":308},{\"value\":\"convert Fanava\",\"count\":69},{\"value\":\"Pony\",\"count\":3}],\"sexes\":[{\"value\":\"Filly\",\"count\":46154},{\"value\":\"Colt\",\"count\":30622},{\"value\":\"Geld.\",\"count\":1183},{\"value\":\"Stallion\",\"count\":2}],\"places\":[{\"value\":\"Gonbad Kavus, GK\",\"count\":5310},{\"value\":\"Yazd, YA\",\"count\":3637},{\"value\":\"Tehran, TE\",\"count\":3469},{\"value\":\"Esfahan, ES\",\"count\":2680},{\"value\":\"Kermanshah, KS\",\"count\":2134},{\"value\":\"Ahwaz, KZ\",\"count\":2003},{\"value\":\"Alborz, AL\",\"count\":1705},{\"value\":\"Shiraz, FA\",\"count\":1687},{\"value\":\"Kordan, AL\",\"count\":1362},{\"value\":\"Tabriz, AE\",\"count\":1261},{\"value\":\"Bojnourd, KN\",\"count\":1250},{\"value\":\"Susa, KZ\",\"count\":1212},{\"value\":\"Shahre Kord, CM\",\"count\":1130},{\"value\":\"Shushtar, KZ\",\"count\":1078},{\"value\":\"Dezful, KZ\",\"count\":1070},{\"value\":\"Bandar Torkaman, GO\",\"count\":1053},{\"value\":\"Mashhad, KR\",\"count\":1032},{\"value\":\"Hamedan, HD\",\"count\":955},{\"value\":\"Aq Ghala, GO\",\"count\":873},{\"value\":\"Kerman, KE\",\"count\":749},{\"value\":\"Rafsanjan, KE\",\"count\":671},{\"value\":\"Jargalan, KS\",\"count\":662},{\"value\":\"Meybod, YA\",\"count\":618},{\"value\":\"Sirjan, KE\",\"count\":576},{\"value\":\"Shahriar, TE\",\"count\":523},{\"value\":\"Khoram Abad, LO\",\"count\":496},{\"value\":\"Urmia, AW\",\"count\":483},{\"value\":\"Ardabil, AR\",\"count\":477},{\"value\":\"Khusistan, KZ\",\"count\":459},{\"value\":\"Arak, MZ\",\"count\":443},{\"value\":\"Sanandaj, KD\",\"count\":441},{\"value\":\"Kalaleh, GO\",\"count\":432},{\"value\":\"Ashkezar, YA\",\"count\":419},{\"value\":\"Qazvin, QZ\",\"count\":410},{\"value\":\"Varamin, TE\",\"count\":356},{\"value\":\"Zanjan, ZA\",\"count\":348},{\"value\":\"Ardakan, YA\",\"count\":338},{\"value\":\"Damavand, TE\",\"count\":266},{\"value\":\"Khorasan Shomali, KS\",\"count\":250},{\"value\":\"Shadegan, KZ\",\"count\":249}],\"colors\":[{\"value\":\"Bay\",\"count\":28967},{\"value\":\"Grey\",\"count\":18586},{\"value\":\"Chestnut\",\"count\":16347},{\"value\":\"dk/ Bay\",\"count\":4920},{\"value\":\"Black\",\"count\":1769},{\"value\":\"Dun\",\"count\":993},{\"value\":\"dk/Ch\",\"count\":478},{\"value\":\"Brown\",\"count\":329},{\"value\":\"Skewbald\",\"count\":99},{\"value\":\"Cremello\",\"count\":32},{\"value\":\"Roan\",\"count\":11},{\"value\":\"b/gr\",\"count\":4}],\"mainStrains\":[{\"value\":\"KHERSANI MIR\",\"count\":1092},{\"value\":\"KHERSAN MIR\",\"count\":870},{\"value\":\"HAMDANIEH\",\"count\":821},{\"value\":\"WADNE KHERSANI\",\"count\":720},{\"value\":\"OBAYE SHARAK\",\"count\":634},{\"value\":\"KHERSANI HAJI SHAHAB\",\"count\":631},{\"value\":\"KOHEILE\",\"count\":630},{\"value\":\"NESMANI\",\"count\":614},{\"value\":\"HAMDANI\",\"count\":577},{\"value\":\"KHERSAN HAJI SHAHAB\",\"count\":567},{\"value\":\"WADNAN KHERSAN\",\"count\":533},{\"value\":\"Not recorded   (Milordka, 1816)\",\"count\":479},{\"value\":\"OBAYAN SHARAK\",\"count\":472},{\"value\":\"KOHEILAN\",\"count\":460},{\"value\":\"HAMDANIEH SEMRI\",\"count\":455},{\"value\":\"NESMAN\",\"count\":443},{\"value\":\"HAMDANI SEMRI\",\"count\":373},{\"value\":\"JELFE JARJARI\",\"count\":342},{\"value\":\"KOHEILE MORADI   (Sahara, ca. 1840)\",\"count\":326},{\"value\":\"SAGLAWIEH JADRANI\",\"count\":326},{\"value\":\"KOHEILE AJUZ   (Gazella, ca. 1840)\",\"count\":289},{\"value\":\"KOHEILE RODANIEH   (Rodania, 1869)\",\"count\":268},{\"value\":\"MELEIHIEH\",\"count\":263},{\"value\":\"OBAYE\",\"count\":254},{\"value\":\"SAGLAWI JADRAN\",\"count\":250},{\"value\":\"JELFE\",\"count\":242},{\"value\":\"WADNE HEZAREH\",\"count\":224},{\"value\":\"HETLIEH\",\"count\":222},{\"value\":\"JELFAN JARJARI\",\"count\":216},{\"value\":\"KOHEILAN MORADI   (Sahara, ca. 1840)\",\"count\":216},{\"value\":\"SAGLAWIEH\",\"count\":211},{\"value\":\"WADNE\",\"count\":189},{\"value\":\"KOHEILAN RODAN   (Rodania, 1869)\",\"count\":184},{\"value\":\"MELEIHE\",\"count\":181},{\"value\":\"SAGLAWIEH JADRANI   OF IBN SUDAN\",\"count\":175},{\"value\":\"HETLI\",\"count\":173},{\"value\":\"KHERSANI MOSTOFFI\",\"count\":173},{\"value\":\"Not recorded   (Szweykowska, ca. 1803)\",\"count\":169},{\"value\":\"KOHEILAN AJUZ   (Gazella, ca. 1840)\",\"count\":161},{\"value\":\"KHERSAN MOSTOFFI\",\"count\":148}],\"importedFrom\":[{\"value\":\"GERMANY\",\"count\":292},{\"value\":\"POLAND\",\"count\":203},{\"value\":\"BELGIUM\",\"count\":147},{\"value\":\"ITALY\",\"count\":141},{\"value\":\"USA\",\"count\":99},{\"value\":\"IRELAND\",\"count\":97},{\"value\":\"FRANCE\",\"count\":92},{\"value\":\"THE NETHERLANDS\",\"count\":70},{\"value\":\"TURKEY\",\"count\":68},{\"value\":\"UNITED ARAB EMIRATES\",\"count\":64},{\"value\":\"AUSTRALIA\",\"count\":59},{\"value\":\"RUSSIA\",\"count\":54},{\"value\":\"GREAT BRITAIN\",\"count\":48},{\"value\":\"DENMARK\",\"count\":33},{\"value\":\"AUSTRIA\",\"count\":31},{\"value\":\"SPAIN\",\"count\":24},{\"value\":\"UNITED KINGDOM\",\"count\":24},{\"value\":\"STATE of QATAR\",\"count\":15},{\"value\":\"CANADA\",\"count\":10},{\"value\":\"SLOVENIA\",\"count\":9},{\"value\":\"SULTANATE OF OMAN\",\"count\":7},{\"value\":\"SWEDEN\",\"count\":7},{\"value\":\"ARGENTINA\",\"count\":6},{\"value\":\"NEW ZEALAND\",\"count\":5},{\"value\":\"HOLLAND\",\"count\":3},{\"value\":\"NORWAY\",\"count\":1},{\"value\":\"OMAN\",\"count\":1},{\"value\":\"SAUDI ARABIA\",\"count\":1},{\"value\":\"SWITZERLAND\",\"count\":1}],\"decades\":[{\"value\":2020,\"count\":8557},{\"value\":2010,\"count\":30928},{\"value\":2000,\"count\":16201},{\"value\":1990,\"count\":8336},{\"value\":1980,\"count\":3201},{\"value\":1970,\"count\":2065},{\"value\":1960,\"count\":1433},{\"value\":1950,\"count\":767},{\"value\":1940,\"count\":355},{\"value\":1930,\"count\":193},{\"value\":1920,\"count\":94},{\"value\":1910,\"count\":38},{\"value\":1900,\"count\":5889},{\"value\":1890,\"count\":7},{\"value\":1880,\"count\":5},{\"value\":1870,\"count\":1},{\"value\":1800,\"count\":1},{\"value\":1500,\"count\":1}],\"lifecycle\":[{\"value\":\"active\",\"count\":73089},{\"value\":\"inactive\",\"count\":4103},{\"value\":\"deceased\",\"count\":897}],\"flags\":[{\"value\":\"imported\",\"count\":8738},{\"value\":\"sport\",\"count\":290},{\"value\":\"stallion\",\"count\":3315},{\"value\":\"sport_card\",\"count\":526}]},\"quality\":{\"openIssues\":4677,\"severities\":[{\"value\":\"warning\",\"count\":4646},{\"value\":\"error\",\"count\":31}],\"topIssueCodes\":[{\"value\":\"PARENT_YEAR_CONFLICT\",\"count\":4628},{\"value\":\"PEDIGREE_CYCLE\",\"count\":27},{\"value\":\"BIRTH_YEAR_OUTLIER\",\"count\":18},{\"value\":\"SELF_PARENT\",\"count\":4}]}}}"
+      ]
+    ],
+    "plan": [
+      "SEARCH s USING INTEGER PRIMARY KEY (rowid=?)",
+      "SEARCH a USING INDEX sqlite_autoindex_analytics_snapshots_1 (key=?) LEFT-JOIN"
+    ]
+  },
+  "sorts": {
+    "breed": {
+      "baseline": {
+        "median_ms": 48.4444,
+        "min_ms": 45.7359,
+        "max_ms": 62.2631,
+        "rows": 50,
+        "sample": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "candidate": {
+        "median_ms": 0.7773,
+        "min_ms": 0.7265,
+        "max_ms": 0.9464,
+        "rows": 50,
+        "sample": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      "baseline_plan": [
+        "SCAN h",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "candidate_plan": [
+        "SCAN h USING INDEX idx_horses_active_breed_sort"
+      ]
+    },
+    "sex": {
+      "baseline": {
+        "median_ms": 45.484,
+        "min_ms": 44.2379,
+        "max_ms": 46.5965,
+        "rows": 50,
+        "sample": [
+          [
+            405668
+          ],
+          [
+            10007998
+          ],
+          [
+            10007999
+          ]
+        ]
+      },
+      "candidate": {
+        "median_ms": 0.7546,
+        "min_ms": 0.7233,
+        "max_ms": 0.9204,
+        "rows": 50,
+        "sample": [
+          [
+            405668
+          ],
+          [
+            10007998
+          ],
+          [
+            10007999
+          ]
+        ]
+      },
+      "baseline_plan": [
+        "SCAN h",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "candidate_plan": [
+        "SCAN h USING INDEX idx_horses_active_sex_sort"
+      ]
+    },
+    "place": {
+      "baseline": {
+        "median_ms": 45.2906,
+        "min_ms": 44.4767,
+        "max_ms": 47.4224,
+        "rows": 50,
+        "sample": [
+          [
+            1715
+          ],
+          [
+            2799
+          ],
+          [
+            2800
+          ]
+        ]
+      },
+      "candidate": {
+        "median_ms": 0.7698,
+        "min_ms": 0.7219,
+        "max_ms": 0.8599,
+        "rows": 50,
+        "sample": [
+          [
+            1715
+          ],
+          [
+            2799
+          ],
+          [
+            2800
+          ]
+        ]
+      },
+      "baseline_plan": [
+        "SCAN h",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "candidate_plan": [
+        "SCAN h USING INDEX idx_horses_active_place_sort"
+      ]
+    }
+  }
+}

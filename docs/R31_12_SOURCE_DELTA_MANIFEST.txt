@@ -1,0 +1,21 @@
+Horse-DB-3 R31.12 source delta
+Base: R31.11 EN/FA localization + AI chat UX full source
+
+added=3
+changed=7
+removed=0
+
+[ADDED]
+R31_12_SOURCE_SHA256_MANIFEST.txt
+docs/R31_12_CORE_AI_BANNER_ENV_READINESS_2026-09-16.md
+docs/R31_12_SOURCE_DELTA_MANIFEST.txt
+
+[CHANGED]
+.env.example
+CHANGELOG.md
+PROJECT_STATE.md
+src/web/main.tsx
+src/web/styles/heritage.ai.css
+tools/local-sqlite-vite.ts
+tools/validate-mobile-ux-system.mjs
+

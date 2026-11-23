@@ -1,0 +1,139 @@
+/* R112 semantic surfaces and reflow; no global overflow mask. */
+.equidata-elite-ui { --edx-form-gap:.875rem; --edx-form-radius:.45rem; /* R130 modern sharp */ --edx-form-control:2.75rem; }
+.equidata-elite-ui .edx112-header-actions .edx112-saved { color:var(--edx-gold); }
+.equidata-elite-ui[data-navigation-layout="sidebar"] .edx-content { inline-size:100%; max-inline-size:100%; }
+.equidata-elite-ui :is(.edx102-content,.edx-filterbar,.edx-panel,.edx-request-row,.edx-composer,.edx-data-grid,.edx-section-head) { min-inline-size:0; }
+.equidata-elite-ui :is(.edx-directory-card,.edx-request-row) { overflow-wrap:anywhere; }
+.equidata-elite-ui :is(.edx-filterbar,.edx-composer-fields) :is(input,select,textarea) { min-inline-size:0; max-inline-size:100%; box-sizing:border-box; }
+.equidata-elite-ui .edx-filterbar { align-items:end; }
+.equidata-elite-ui .edx-filterbar label { min-inline-size:0; }
+.equidata-elite-ui .edx-filterbar select { min-block-size:var(--edx-form-control); font-size:.875rem; }
+.equidata-elite-ui .edx-directory-list { list-style:none; padding:0; }
+.equidata-elite-ui .edx-directory-list > li { min-inline-size:0; }
+.equidata-elite-ui .edx-directory-card { inline-size:100%; block-size:100%; }
+.equidata-elite-ui .edx-directory-card strong { font-size:1rem; }
+.equidata-elite-ui .edx-directory-card :is(span,small),.equidata-elite-ui .edx-request-row small { font-size:.8125rem; line-height:1.6; }
+.equidata-elite-ui .edx-request-row p { font-size:.9375rem; line-height:1.7; }
+.equidata-elite-ui .edx-request-row summary { font-size:.875rem; min-block-size:2.75rem; padding-block:.6rem; line-height:1.5; }
+.equidata-elite-ui .edx-composer-fields { min-inline-size:0; margin:0 0 .75rem; padding:0; border:0; }
+.equidata-elite-ui .edx-composer-fields label { font-size:.875rem; line-height:1.6; min-inline-size:0; }
+.equidata-elite-ui .edx-composer-fields :is(select,textarea) { inline-size:100%; min-block-size:var(--edx-form-control); font-size:1rem; }
+.equidata-elite-ui .edx-composer-fields textarea { resize:vertical; }
+.equidata-elite-ui :is(.edx-tabs,.edx-observatory-tabs) { flex-wrap:wrap; overflow:visible; height:auto; gap:.375rem; }
+.equidata-elite-ui :is(.edx-tabs,.edx-observatory-tabs) button { min-block-size:2.75rem; height:auto; white-space:normal; line-height:1.5; overflow-wrap:anywhere; }
+.equidata-elite-ui .edx-module-tabs { margin:0 0 1rem; justify-content:flex-start; }
+.equidata-elite-ui .edx-module-tabs button { min-block-size:2.75rem; }
+@media(max-width:520px) { .equidata-elite-ui .edx112-header-actions > .edx112-saved { display:none; } .equidata-elite-ui .edx-filterbar { align-items:stretch; } .equidata-elite-ui :is(.edx-tabs,.edx-observatory-tabs) button { flex:1 1 8rem; } }
+
+/* Shared editor primitives within this skin; profile and organization use the same system. */
+.equidata-elite-ui .edx112-editor { min-inline-size:0; margin-block:1rem 2rem; padding:clamp(.875rem,2.5vw,1.5rem); border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); color:var(--edx-nav-ink); font:inherit; font-size:.9375rem; line-height:1.65; overflow-wrap:anywhere; }
+.equidata-elite-ui .edx112-editor :is(h2,h3,h4,p,dl,ul) { color:inherit; max-inline-size:100%; }
+.equidata-elite-ui .edx112-editor h2 { margin:0 0 .5rem; font-size:1.5rem; line-height:1.4; }
+.equidata-elite-ui .edx112-editor h3 { margin:.5rem 0; font-size:1.125rem; line-height:1.5; }
+.equidata-elite-ui .edx112-editor h4 { margin:.5rem 0; font-size:1rem; line-height:1.5; }
+.equidata-elite-ui .edx112-editor :is(button,a) { touch-action:manipulation; }
+.equidata-elite-ui .edx112-editor button { min-inline-size:0; min-block-size:var(--edx-form-control); border:1px solid var(--edx-nav-accent); border-radius:var(--edx-form-radius); padding:.5rem .875rem; background:var(--edx-nav-selected); color:var(--edx-nav-accent); box-shadow:none; font:inherit; font-size:.875rem; line-height:1.5; font-weight:650; white-space:normal; overflow-wrap:anywhere; cursor:pointer; }
+.equidata-elite-ui .edx112-editor button.secondary { background:transparent; border-color:var(--edx-nav-line); color:var(--edx-nav-ink); }
+.equidata-elite-ui .edx112-editor button:disabled { opacity:.5; cursor:default; }
+.equidata-elite-ui .edx112-editor :is(button,a,input,select,textarea,summary):focus-visible { outline:3px solid var(--edx-nav-accent); outline-offset:2px; }
+.equidata-elite-ui .edx112-editor :is(input:not([type="checkbox"]),select,textarea) { display:block; inline-size:100%; min-inline-size:0; max-inline-size:100%; min-block-size:var(--edx-form-control); box-sizing:border-box; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); color:var(--edx-nav-ink); padding:.625rem .75rem; font:inherit; font-size:1rem; line-height:1.5; }
+.equidata-elite-ui .edx112-editor input[type="checkbox"] { flex:0 0 auto; inline-size:1.125rem; block-size:1.125rem; margin:.2rem 0 0; accent-color:var(--edx-nav-accent); }
+.equidata-elite-ui .edx112-editor textarea { resize:vertical; }
+.equidata-elite-ui .edx112-editor-field { display:grid; gap:.375rem; min-inline-size:0; margin:0; color:var(--edx-nav-ink); font-weight:600; }
+.equidata-elite-ui .edx112-editor :is(small,.edx112-editor-note) { color:var(--edx-nav-muted); font-size:.8125rem; font-weight:400; line-height:1.65; }
+.equidata-elite-ui .edx112-editor-form, .equidata-elite-ui .edx112-editor-fields { display:grid; gap:var(--edx-form-gap); min-inline-size:0; }
+.equidata-elite-ui .edx112-editor-form { margin-block:1rem; }
+.equidata-elite-ui .edx112-editor-fields { padding:0; margin:0; border:0; }
+.equidata-elite-ui .edx112-editor-legend { font-weight:700; padding:0; margin-block-end:.75rem; }
+.equidata-elite-ui .edx112-editor-choice-group { min-inline-size:0; padding:.75rem; margin:0; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); }
+.equidata-elite-ui .edx112-editor-choice-group legend { padding-inline:.375rem; font-size:.875rem; font-weight:600; }
+.equidata-elite-ui .edx112-editor-checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.25rem .75rem; }
+.equidata-elite-ui .edx112-editor-checks label,.equidata-elite-ui .edx112-editor-check { display:flex; align-items:flex-start; gap:.625rem; min-inline-size:0; min-block-size:2.75rem; padding-block:.5rem; font-size:.875rem; line-height:1.65; }
+.equidata-elite-ui .edx112-editor-check { display:flex; gap:.625rem; align-items:flex-start; }
+.equidata-elite-ui .edx112-editor-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--edx-form-gap); }
+.equidata-elite-ui .edx112-editor-hours { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr)); gap:var(--edx-form-gap); }
+.equidata-elite-ui .edx112-editor :is(.edx112-editor-target,.edx112-editor-notice,.edx112-editor-conflict) { display:grid; gap:.625rem; min-inline-size:0; padding:1rem; margin-block:1rem; background:var(--edx-nav-selected); border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); }
+.equidata-elite-ui .edx112-editor-target > div { display:flex; align-items:stretch; gap:.5rem; min-inline-size:0; }
+.equidata-elite-ui .edx112-editor-target input { flex:1 1 0; inline-size:0; }
+.equidata-elite-ui .edx112-editor-target button { flex:0 0 auto; }
+.equidata-elite-ui .edx112-editor-meta { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.375rem 1rem; color:var(--edx-nav-muted); font-size:.8125rem; }
+.equidata-elite-ui .edx112-editor-notice p,.equidata-elite-ui .edx112-editor-conflict p { margin:0; }
+.equidata-elite-ui .edx112-editor-notice.is-alert,.equidata-elite-ui .edx112-editor-conflict { border-inline-start:3px solid var(--edx-nav-accent); }
+.equidata-elite-ui .edx112-editor-conflict dl { display:grid; gap:.5rem; margin:0; }
+.equidata-elite-ui .edx112-editor-conflict dl > div { padding:.75rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); }
+.equidata-elite-ui .edx112-editor-conflict dt { font-weight:700; }
+.equidata-elite-ui .edx112-editor-conflict dd { margin:0; }
+.equidata-elite-ui .edx112-editor-conflict dd > span { display:block; color:var(--edx-nav-muted); font-size:.75rem; margin-block-start:.5rem; }
+.equidata-elite-ui .edx112-editor-actions { display:flex; flex-wrap:wrap; gap:.5rem; margin-block-start:.5rem; }
+.equidata-elite-ui .edx112-editor-claims { margin-block-start:1.5rem; padding-block-start:1.25rem; border-block-start:1px solid var(--edx-nav-line); }
+.equidata-elite-ui .edx112-editor-claims form { display:grid; gap:.75rem; margin-block:1rem; }
+.equidata-elite-ui .edx112-editor summary { min-block-size:2.75rem; padding-block:.625rem; font-weight:650; font-size:.875rem; line-height:1.5; cursor:pointer; }
+.equidata-elite-ui .edx112-editor-section-head { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-block-start:1rem; }
+.equidata-elite-ui .edx112-editor-claim-list { display:grid; gap:.75rem; list-style:none; padding:0; }
+.equidata-elite-ui .edx112-editor-claim-list > li { padding:.875rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); }
+.equidata-elite-ui .edx112-editor-claim-list p { margin:.35rem 0; }
+@media(max-width:600px) { .equidata-elite-ui .edx112-editor-grid { grid-template-columns:minmax(0,1fr); } .equidata-elite-ui .edx112-editor-actions > button { flex:1 1 10rem; } }
+
+/* Native R113 ownership/correction workbench. Long evidence reflows in each card. */
+.equidata-elite-ui .edx113-workflows { scroll-margin-block-start:7rem; }
+.equidata-elite-ui .edx113-workflow-columns { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:clamp(1rem,3vw,2rem); align-items:start; }
+.equidata-elite-ui .edx113-workflow-columns > div { min-inline-size:0; }
+.equidata-elite-ui .edx113-workflow-columns > div + div { border-inline-start:1px solid var(--edx-nav-line); padding-inline-start:clamp(1rem,3vw,2rem); }
+.equidata-elite-ui .edx113-workflow-notice { display:grid; gap:.5rem; padding:.875rem; margin-block:.75rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-selected); }
+.equidata-elite-ui .edx113-workflow-notice.is-warning { border-inline-start:3px solid var(--edx-nav-accent); }
+.equidata-elite-ui .edx113-workflow-notice p { margin:0; }
+.equidata-elite-ui .edx113-request-history { display:grid; gap:.75rem; padding:0; list-style:none; }
+.equidata-elite-ui .edx113-request-history > li { min-inline-size:0; display:grid; gap:.5rem; padding:.875rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); }
+.equidata-elite-ui .edx113-request-history > li > div:first-child { display:flex; justify-content:space-between; flex-wrap:wrap; align-items:start; gap:.5rem; }
+.equidata-elite-ui .edx113-request-history :is(p,small,strong,time,bdi) { min-inline-size:0; overflow-wrap:anywhere; white-space:normal; }
+.equidata-elite-ui .edx113-request-history p { margin:0; white-space:pre-wrap; }
+.equidata-elite-ui .edx113-request-history button.edx113-record-link { text-align:start; padding:.25rem 0; border:0; border-radius:0; min-block-size:2.75rem; background:transparent; }
+.equidata-elite-ui .edx113-workflow-hints { margin:.25rem 0; padding-inline-start:1.25rem; color:var(--edx-nav-muted); font-size:.8125rem; }
+.equidata-elite-ui .edx113-field-proposals { margin:0; display:grid; gap:.75rem; }
+.equidata-elite-ui .edx113-field-proposals dd { margin:0; padding-block:.25rem; }
+@media(max-width:900px) { .equidata-elite-ui .edx113-workflow-columns { grid-template-columns:minmax(0,1fr); } .equidata-elite-ui .edx113-workflow-columns > div + div { border-inline-start:0; border-block-start:1px solid var(--edx-nav-line); padding-inline-start:0; padding-block-start:1rem; } }
+
+.equidata-elite-ui .edx113-service-views { margin-block:0 1.25rem; }
+.equidata-elite-ui .edx113-service-views button[aria-pressed="true"] { border-color:var(--edx-nav-accent); color:var(--edx-nav-accent); background:var(--edx-nav-selected); }
+.equidata-elite-ui .edx113-service-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr)); gap:.75rem; list-style:none; padding:0; margin-block:1rem; }
+.equidata-elite-ui .edx113-service-list li { min-inline-size:0; }
+.equidata-elite-ui .edx113-service-list a { display:grid; gap:.5rem; min-inline-size:0; block-size:100%; padding:1rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); color:var(--edx-nav-ink); text-decoration:none; }
+.equidata-elite-ui .edx113-service-list a:hover { border-color:var(--edx-nav-accent); background:var(--edx-nav-selected); }
+.equidata-elite-ui .edx113-service-list a strong { color:var(--edx-nav-accent); }
+.equidata-elite-ui .edx113-service-detail { min-inline-size:0; margin-block-start:1rem; }
+.equidata-elite-ui .edx113-service-detail > header { display:flex; flex-wrap:wrap; gap:.5rem; align-items:start; justify-content:space-between; }
+.equidata-elite-ui .edx113-service-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:1rem; padding-block:1rem; border-block:1px solid var(--edx-nav-line); }
+.equidata-elite-ui .edx113-service-facts > div { min-inline-size:0; }
+.equidata-elite-ui .edx113-service-facts dt { color:var(--edx-nav-muted); font-size:.8125rem; }
+.equidata-elite-ui .edx113-service-facts dd { margin:0; }
+.equidata-elite-ui :is(.edx113-service-note,.edx113-service-contact) { padding:1rem; margin-block:1rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); }
+.equidata-elite-ui .edx113-service-note p { white-space:pre-wrap; }
+.equidata-elite-ui .edx113-service-privacy { padding-block:.75rem; margin-block-start:1rem; border-block-start:1px solid var(--edx-nav-line); }
+.equidata-elite-ui .edx113-services :is(p,time,bdi,dd,small,strong) { overflow-wrap:anywhere; min-inline-size:0; }
+
+/* Protected review cards share Elite's control tokens and wrap evidence locally. */
+.equidata-elite-ui .edx-home-main { min-inline-size:0; }
+.equidata-elite-ui .hdb-gov [tabindex="0"]:focus-visible { outline:3px solid var(--edx-nav-accent); outline-offset:2px; }
+.equidata-elite-ui :is(.edx-horse-card,.edx-registry-list-row) { position:relative; }
+.equidata-elite-ui .edx-card-record-link { color:inherit; text-decoration:none; }
+.equidata-elite-ui .edx-card-record-link::after { content:""; position:absolute; inset:0; }
+.equidata-elite-ui :is(.edx-horse-card,.edx-registry-list-row) button { position:relative; z-index:1; }
+.equidata-elite-ui :is(.edx-horse-card,.edx-registry-list-row):has(.edx-card-record-link:focus-visible) { outline:3px solid var(--edx-nav-accent); outline-offset:3px; }
+.equidata-elite-ui .edx113-review-queue { color:var(--edx-nav-ink); line-height:1.6; overflow:visible; clip-path:none; }
+.equidata-elite-ui .edx113-review-queue > header { flex-wrap:wrap; }
+.equidata-elite-ui .edx113-review-body { padding:1rem; min-inline-size:0; }
+.equidata-elite-ui .edx113-review-cards { display:grid; gap:1rem; }
+.equidata-elite-ui .edx113-review-card { min-inline-size:0; padding:1rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); }
+.equidata-elite-ui .edx113-review-card > header { display:flex; flex-wrap:wrap; align-items:start; justify-content:space-between; gap:.5rem; }
+.equidata-elite-ui .edx113-review-card h3 { min-inline-size:0; margin:0; font-size:1rem; color:var(--edx-nav-ink); }
+.equidata-elite-ui .edx113-review-queue :is(p,dd,dt,h3,small,time,bdi,summary) { overflow-wrap:anywhere; }
+.equidata-elite-ui .edx113-review-meta { color:var(--edx-nav-muted); font-size:.8125rem; }
+.equidata-elite-ui .edx113-review-queue button { min-block-size:var(--edx-form-control); min-inline-size:0; max-inline-size:100%; line-height:1.5; white-space:normal; overflow-wrap:anywhere; }
+.equidata-elite-ui .edx113-review-queue textarea { min-block-size:7rem; inline-size:100%; min-inline-size:0; max-inline-size:100%; padding:.625rem .75rem; border:1px solid var(--edx-nav-line); border-radius:var(--edx-form-radius); background:var(--edx-nav-surface); color:var(--edx-nav-ink); font:inherit; font-size:1rem; line-height:1.6; resize:vertical; box-sizing:border-box; }
+.equidata-elite-ui .edx113-review-queue :is(button,textarea,summary):focus-visible { outline:3px solid var(--edx-nav-accent); outline-offset:2px; }
+.equidata-elite-ui .edx113-review-evidence { border-block:1px solid var(--edx-nav-line); margin-block:.75rem; }
+.equidata-elite-ui .edx113-review-evidence summary { min-block-size:var(--edx-form-control); padding-block:.625rem; cursor:pointer; font-weight:650; }
+.equidata-elite-ui .edx113-review-evidence dl { display:grid; gap:.75rem; margin-block:.5rem 1rem; }
+.equidata-elite-ui .edx113-review-evidence dt { color:var(--edx-nav-muted); font-size:.8125rem; }
+.equidata-elite-ui .edx113-review-evidence dd { margin:0; white-space:pre-wrap; }
+@media(max-width:480px) { .equidata-elite-ui .edx113-review-body,.equidata-elite-ui .edx113-review-card { padding:.75rem; } }

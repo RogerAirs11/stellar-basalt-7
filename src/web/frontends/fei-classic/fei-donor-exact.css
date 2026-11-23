@@ -1,0 +1,465 @@
+/* R29.28 — exact supplied FEI HTML/screenshot donor lock.
+   Desktop values below are intentionally copied from the user's donor geometry.
+   Mobile remains the existing Horse DB responsive implementation. */
+@media (min-width:1000px){
+  .fei-classic-ui{
+    --fei-donor-purple:#6b176f;
+    --fei-donor-table:#a347a9;
+    --fei-donor-row:#e7ddea;
+    --fei-donor-row-hover:#ddd1e2;
+    background:#fff!important;
+    color:#080808!important;
+    font:12px Arial,Helvetica,sans-serif!important;
+    line-height:1.333!important;
+    min-width:1000px;
+  }
+  .fei-classic-ui,.fei-classic-ui *{box-sizing:border-box}
+  .fei-classic-ui a,.fei-classic-ui .fei-link,.fei-classic-ui .fei-inline-classic-link{color:#6b176f;text-decoration:none}
+  .fei-classic-ui a:hover,.fei-classic-ui .fei-link:hover,.fei-classic-ui .fei-inline-classic-link:hover{text-decoration:underline}
+  .fei-classic-ui button,.fei-classic-ui input,.fei-classic-ui select,.fei-classic-ui textarea{font:12px Arial,Helvetica,sans-serif}
+
+  /* Exact donor header: 132px, 4px purple hairline, centered 336x68 logo. */
+  .fei-classic-ui .fei-donor-header{
+    
+    
+    
+    position:relative!important;z-index:30!important;
+  }
+  .fei-classic-ui .fei-top-strip{position:static!important;box-shadow:none!important}
+  .fei-classic-ui .fei-top-inner{
+    position:absolute!important;inset:0 0 auto 0!important;
+    max-width:none!important;margin:0!important;
+    display:flex!important;align-items:flex-start!important;justify-content:space-between!important;pointer-events:none;
+  }
+  .fei-classic-ui .fei-db-home,.fei-classic-ui .fei-auth-control{pointer-events:auto}
+  .fei-classic-ui .fei-db-home{
+    display:flex!important;align-items:center!important;gap:3px!important;margin:0!important;padding:0!important;
+    border:0!important;background:transparent!important;color:#6b176f!important;box-shadow:none!important;
+    font:17px/14px Arial,Helvetica,sans-serif!important;font-weight:400!important;text-align:left!important;
+  }
+  .fei-classic-ui .fei-db-home:hover{transform:none!important;text-decoration:none!important}
+  .fei-classic-ui .fei-db-home small{font:9px/14px Arial,Helvetica,sans-serif!important;color:#333!important;margin:0!important;align-self:flex-end!important}
+  .fei-classic-ui .fei-home-pill{
+    width:43px!important;height:14px!important;min-width:43px!important;border:0!important;border-radius:8px!important;
+    background:linear-gradient(#91488f,#51095c)!important;color:#fff!important;display:grid!important;place-items:center!important;
+    font:700 12px/14px Arial,Helvetica,sans-serif!important;box-shadow:none!important;margin-right:3px!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-home-pill{margin-right:0!important;margin-left:3px!important}
+  .fei-classic-ui .fei-auth-control{position:absolute!important;right:3.7%!important;top:6px!important;display:flex!important;align-items:center!important;gap:8px!important;font-size:13px!important;color:#6b176f!important}
+  .fei-classic-ui[dir="rtl"] .fei-auth-control{right:auto!important;left:3.7%!important}
+  .fei-classic-ui .fei-auth-control .fei-link{border:0!important;background:transparent!important;color:#6b176f!important;padding:0!important;box-shadow:none!important;font-size:13px!important;min-height:0!important}
+  .fei-classic-ui .fei-auth-control .fei-locale{height:18px!important;min-height:18px!important;border:0!important;background:transparent!important;color:#6b176f!important;padding:0 2px!important;box-shadow:none!important;font-size:10px!important}
+  .fei-classic-ui .fei-welcome{font-size:10px!important;color:#666!important}
+
+  .fei-classic-ui .fei-logo-dome{
+    position:absolute!important;
+    z-index:34!important;pointer-events:auto!important;
+  }
+  .fei-classic-ui .fei-dome-shape,.fei-classic-ui .fei-dome-logo{
+    margin:0!important;padding:0!important;border:0!important;
+    display:block!important;
+  }
+  .fei-classic-ui .fei-dome-logo{position:relative!important;}
+  .fei-classic-ui .fei-exact-donor-logo{display:block!important;object-fit:contain!important;margin:0!important;padding:0!important;}
+  .fei-classic-ui .fei-logo-reflection,.fei-classic-ui .fei-dome-logo-svg{display:none!important}
+
+  .fei-classic-ui .fei-nav-desktop{
+    display:block!important;top:48px!important;
+    height:80px!important;z-index:33!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul{display:flex!important;width:100%!important;height:80px!important;margin:0!important;padding:0!important;list-style:none!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li{position:relative!important;height:80px!important;border-right:1px solid #d5d5d5!important;border-left:0!important;padding:0!important}
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop>ul>li{border-right:0!important;border-left:1px solid #d5d5d5!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li:last-child{border-right:0!important}
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop>ul>li:last-child{border-left:0!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{
+    height:76px!important;padding:15px 8px 0!important;border:0!important;
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    font-weight:400!important;white-space:nowrap!important;overflow:visible!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li>button:hover,
+  .fei-classic-ui .fei-nav-desktop>ul>li.open>button,
+  .fei-classic-ui .fei-nav-desktop>ul>li>button.active{
+    height:59px!important;margin-top:11px!important;padding-top:0!important;background:linear-gradient(#8a398c,#591763)!important;color:#fff!important;
+    text-shadow:none!important;border-radius:4px 4px 0 0!important;box-shadow:0 -2px 5px #aaa!important;transform:none!important;
+  }
+  .fei-classic-ui .fei-chevron{line-height:1!important;margin:0!important}
+  .fei-classic-ui .fei-dropdown{
+    display:block!important;position:absolute!important;top:70px!important;left:0!important;
+    z-index:60!important;animation:none!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-dropdown{left:auto!important;right:0!important}
+  .fei-classic-ui .fei-dropdown button{
+    display:block!important;width:100%!important;border:0!important;border-bottom:1px solid #d6d6d6!important;
+    text-align:left!important;box-shadow:none!important;border-radius:0!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-dropdown button{text-align:right!important}
+  .fei-classic-ui .fei-dropdown button:hover,.fei-classic-ui .fei-dropdown button.active{text-decoration:none!important;transform:none!important}
+
+  /* Donor content geometry. */
+  .fei-classic-ui .fei-content-shell{min-height:0!important}
+  .fei-classic-ui .fc-main{
+    padding:0 0 48px!important;min-height:1175px!important;
+  }
+  .fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{
+    display:flex!important;align-items:flex-end!important;justify-content:space-between!important;gap:16px!important;
+    margin:0 0 14px!important;padding:0 10px 2px!important;border:0!important;border-bottom:1px solid #444!important;background:transparent!important;box-shadow:none!important;
+  }
+  .fei-classic-ui .fc-page-title h1,.fei-classic-ui .fei-page-title h1{
+    margin:0!important;color:#080808!important;font:700 19px/21px Arial,Helvetica,sans-serif!important;letter-spacing:2px!important;text-transform:none!important;
+  }
+  .fei-classic-ui .fc-page-title p,.fei-classic-ui .fei-page-title p{margin:0 0 2px!important;color:#777!important;font:12px/16px Arial,Helvetica,sans-serif!important;letter-spacing:0!important}
+  .fei-classic-ui .fei-page-title-right,.fei-classic-ui .fc-title-action,.fei-classic-ui .fc-title-buttons{display:flex!important;gap:36px!important;align-items:center!important}
+  .fei-classic-ui .fei-page-title-right button,.fei-classic-ui .fc-title-buttons button{color:#6b176f!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;min-height:0!important;font-size:12px!important}
+  .fei-classic-ui .fei-section-heading{font:700 17px/21px Arial,Helvetica,sans-serif!important;color:#080808!important;margin:0 0 13px!important;border-bottom:1px solid #444!important;padding:0 0 2px!important;text-transform:none!important}
+
+  /* Home page is intentionally donor-faithful, including the supplied visual rail. */
+  .fei-classic-ui .fei-home-page{padding-top:0!important}
+  .fei-classic-ui .fei-home-grid-classic{display:grid!important;grid-template-columns:minmax(0,1fr) 306px!important;gap:33px!important}
+  .fei-classic-ui .fei-home-copy{font:13px/16px Arial,Helvetica,sans-serif!important;min-width:0!important}
+  .fei-classic-ui .fei-home-copy p{margin:0 0 27px!important}
+  .fei-classic-ui .fei-home-copy .fei-home-intro{margin-bottom:21px!important}
+  .fei-classic-ui .fei-home-feature-list p{margin:0 0 27px!important}
+  .fei-classic-ui .fei-inline-classic-link{display:inline!important;border:0!important;background:transparent!important;color:#6b176f!important;padding:0!important;box-shadow:none!important;font-weight:400!important;font-size:13px!important}
+  .fei-classic-ui .fei-home-classic-list{list-style:none!important;padding-left:4px!important;margin:16px 0 23px!important}
+  .fei-classic-ui[dir="rtl"] .fei-home-classic-list{padding-left:0!important;padding-right:4px!important}
+  .fei-classic-ui .fei-home-classic-list li{margin:0!important;padding:0!important}
+  .fei-classic-ui .fei-home-classic-list li::before{content:'▪';color:#999;margin-right:6px}
+  .fei-classic-ui[dir="rtl"] .fei-home-classic-list li::before{margin-right:0;margin-left:6px}
+  .fei-classic-ui .fei-home-standings{width:306px!important;min-width:306px!important}
+  .fei-classic-ui .fei-donor-ranking-visual{position:relative!important;width:306px!important;height:1001px!important;overflow:hidden!important;background:#fff!important}
+  .fei-classic-ui .fei-donor-ranking-visual>img{display:block!important;width:306px!important;height:1001px!important;object-fit:contain!important}
+  .fei-classic-ui .fei-donor-ranking-hotspots{position:absolute!important;inset:0!important;display:grid!important;grid-template-rows:repeat(8,1fr)!important;pointer-events:none!important}
+  .fei-classic-ui .fei-donor-ranking-hotspots button{pointer-events:auto!important;border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;margin:0!important;border-radius:0!important;min-height:0!important}
+  .fei-classic-ui .fei-donor-ranking-hotspots button:hover{background:rgba(107,23,111,.035)!important;transform:none!important}
+  .fei-classic-ui .fei-home-inline-footer{margin-top:382px!important;font:13px/16px Arial,Helvetica,sans-serif!important;color:#080808!important}
+
+  /* Forms: exact donor fieldset / compact control language. */
+  .fei-classic-ui fieldset,.fei-classic-ui .fei-fieldset,.fei-classic-ui .fei-panel,.fei-classic-ui .fc-section{
+    border:1px solid #ccc!important;background:#fff!important;box-shadow:none!important;border-radius:0!important;color:#080808!important;
+  }
+  .fei-classic-ui fieldset,.fei-classic-ui .fei-fieldset{margin:0 0 10px!important;padding:14px 10px 18px!important;min-width:0!important}
+  .fei-classic-ui legend,.fei-classic-ui .fei-fieldset legend{padding:0 2px!important;color:#080808!important;font-weight:400!important}
+  .fei-classic-ui .fei-panel{padding:13px 12px!important;margin-bottom:10px!important}
+  .fei-classic-ui .fc-section>header{min-height:26px!important;padding:4px 10px!important;background:#fff!important;border-bottom:1px solid #ccc!important}
+  .fei-classic-ui .fc-section>header h2{font:700 12px/16px Arial,Helvetica,sans-serif!important;color:#555!important}
+  .fei-classic-ui .fc-section-body{padding:14px 10px 18px!important}
+  .fei-classic-ui label,.fei-classic-ui .fc-stack-label,.fei-classic-ui .fei-field>label{color:#777!important;font-weight:700!important}
+  .fei-classic-ui input,.fei-classic-ui .fei-input{
+    height:20px!important;min-height:20px!important;border:1px solid #aaa!important;border-radius:0!important;padding:1px 3px!important;background:#fff!important;color:#080808!important;box-shadow:none!important;
+  }
+  .fei-classic-ui select,.fei-classic-ui .fei-select{
+    height:23px!important;min-height:23px!important;border:1px solid #a6a6a6!important;border-radius:4px!important;background:linear-gradient(#e7e2e9,#efedf0)!important;padding:1px 5px!important;color:#333!important;box-shadow:none!important;
+  }
+  .fei-classic-ui textarea{border:1px solid #aaa!important;border-radius:0!important;background:#fff!important;color:#080808!important;box-shadow:none!important}
+  .fei-classic-ui input:focus,.fei-classic-ui select:focus,.fei-classic-ui textarea:focus{outline:1px solid #6b176f!important;outline-offset:0!important;box-shadow:none!important}
+  .fei-classic-ui .btn-search,.fei-classic-ui .fc-btn-orange{
+    height:28px!important;min-height:28px!important;border:0!important;border-radius:0!important;background:linear-gradient(#ffbe20,#ff7410)!important;color:#fff!important;font:700 13px Arial,Helvetica,sans-serif!important;padding:6px 9px!important;box-shadow:none!important;text-shadow:none!important;
+  }
+  .fei-classic-ui .btn-reset,.fei-classic-ui .fc-btn-gray{
+    height:28px!important;min-height:28px!important;border:0!important;border-radius:0!important;background:linear-gradient(#ddd,#999)!important;color:#fff!important;font:700 13px Arial,Helvetica,sans-serif!important;padding:6px 9px!important;box-shadow:none!important;text-shadow:none!important;
+  }
+  .fei-classic-ui .fc-btn-purple{
+    height:28px!important;min-height:28px!important;border:0!important;border-radius:0!important;background:#6b176f!important;color:#fff!important;font:700 12px Arial,Helvetica,sans-serif!important;padding:6px 9px!important;box-shadow:none!important;
+  }
+  .fei-classic-ui .fei-search-form-stack{gap:0!important}
+  .fei-classic-ui .fei-search-actions,.fei-classic-ui .fei-search-buttons,.fei-classic-ui .fc-form-actions{display:flex!important;justify-content:flex-end!important;gap:14px!important;margin:10px 3px 20px!important;padding:0!important;border:0!important}
+  .fei-classic-ui .fei-donor-grid.two{grid-template-columns:120px 1fr 120px 1fr!important;gap:3px 16px!important;align-items:center!important}
+  .fei-classic-ui .fei-donor-grid.three{grid-template-columns:120px 1fr 95px .8fr 158px 1.04fr!important;gap:3px 16px!important;align-items:center!important}
+  .fei-classic-ui .fei-field{display:contents!important}
+  .fei-classic-ui .fei-field>label{text-align:right!important}
+  .fei-classic-ui[dir="rtl"] .fei-field>label{text-align:left!important}
+  .fei-classic-ui .fei-field>div{min-width:0!important}
+  .fei-classic-ui .fei-field input,.fei-classic-ui .fei-field select{width:100%!important}
+
+  /* Tabs / details from the donor performance pages. */
+  .fei-classic-ui .fei-tabs{display:flex!important;height:25px!important;margin-top:2px!important;position:relative!important;top:1px!important;overflow:visible!important}
+  .fei-classic-ui .fei-tabs button{width:237px!important;min-height:25px!important;height:25px!important;text-align:left!important;border:1px solid #ccc!important;background:#e6dce9!important;color:#666!important;padding:3px!important;border-radius:0!important;box-shadow:none!important;font-size:12px!important}
+  .fei-classic-ui[dir="rtl"] .fei-tabs button{text-align:right!important}
+  .fei-classic-ui .fei-tabs button.active{background:#fff!important;border-bottom-color:#fff!important;color:#666!important}
+  .fei-classic-ui .fei-profile-tab-panel{border:1px solid #ccc!important;padding:22px 11px 17px!important;background:#fff!important}
+  .fei-classic-ui .fc-details{border:1px solid #ccc!important;border-radius:0!important;background:#fff!important;box-shadow:none!important}
+
+  /* Dense donor tables. */
+  .fei-classic-ui .fc-table-wrap,.fei-classic-ui .fei-table-scroll,.fei-classic-ui .fei-table-block{border:1px solid #e4e4e4!important;background:#fff!important;box-shadow:none!important;border-radius:0!important}
+  .fei-classic-ui .fc-table,.fei-classic-ui .fei-data-table,.fei-classic-ui .fei-simple-table{width:100%!important;border-collapse:collapse!important;font:12px/15px Arial,Helvetica,sans-serif!important;color:#333!important}
+  .fei-classic-ui .fc-table th,.fei-classic-ui .fei-data-table th,.fei-classic-ui .fei-simple-table th{
+    background:#a347a9!important;color:#fff!important;text-align:left!important;font-weight:700!important;height:22px!important;padding:3px 12px!important;border:0!important;font-size:12px!important;white-space:nowrap!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fc-table th,.fei-classic-ui[dir="rtl"] .fei-data-table th,.fei-classic-ui[dir="rtl"] .fei-simple-table th{text-align:right!important}
+  .fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td,.fei-classic-ui .fei-simple-table td{padding:4px 12px!important;height:23px!important;border:0!important;white-space:nowrap!important;font-size:12px!important}
+  .fei-classic-ui .fc-table tbody tr:nth-child(even),.fei-classic-ui .fei-data-table tbody tr:nth-child(even),.fei-classic-ui .fei-simple-table tbody tr:nth-child(even){background:#e7ddea!important}
+  .fei-classic-ui .fc-table tbody tr:nth-child(odd),.fei-classic-ui .fei-data-table tbody tr:nth-child(odd),.fei-classic-ui .fei-simple-table tbody tr:nth-child(odd){background:#fff!important}
+  .fei-classic-ui .fc-table tbody tr:hover,.fei-classic-ui .fei-data-table tbody tr:hover,.fei-classic-ui .fei-simple-table tbody tr:hover{background:#ddd1e2!important}
+  .fei-classic-ui .fei-sort-button{border:0!important;background:transparent!important;color:#fff!important;padding:0!important;min-height:0!important;box-shadow:none!important;font-weight:700!important}
+  .fei-classic-ui .fc-pagination,.fei-classic-ui .fei-pagination{display:flex!important;align-items:center!important;gap:16px!important;min-height:37px!important;padding:6px 13px!important;color:#666!important;font-size:12px!important;background:#fff!important;border:0!important;box-shadow:none!important}
+  .fei-classic-ui .fei-pagination button{min-height:0!important;border:0!important;background:transparent!important;color:#6b176f!important;box-shadow:none!important;padding:0 4px!important}
+  .fei-classic-ui .fei-pagination button.active{font-weight:700!important;color:#111!important}
+  .fei-classic-ui .fei-scroll-hint{display:none!important}
+
+  /* Profile / analytics cards must read as old FEI fieldsets, never modern cards. */
+  .fei-classic-ui .fc-profile-head,.fei-classic-ui .fc-parent-card,.fei-classic-ui .fc-analysis-card,.fei-classic-ui .fc-review-record,
+  .fei-classic-ui .fc-platform-meta-card,.fei-classic-ui .fei-ranking-tile,.fei-classic-ui .fei-place-card,
+  .fei-classic-ui .fc-metric-grid>*,.fei-classic-ui .fc-reference-grid>*{
+    border:1px solid #ccc!important;border-radius:0!important;background:#fff!important;box-shadow:none!important;
+  }
+  .fei-classic-ui .fc-profile-symbol{border-radius:0!important;background:#eee!important;color:#6b176f!important}
+  .fei-classic-ui .fc-parent-card.sire{border-top:3px solid #6b176f!important}.fei-classic-ui .fc-parent-card.dam{border-top:3px solid #a347a9!important}
+  .fei-classic-ui .fc-badges .fc-badge,.fei-classic-ui .fc-badge{border-radius:0!important;box-shadow:none!important}
+
+  /* The original desktop reference does not have a site-wide footer bar. */
+  .fei-classic-ui .fei-donor-footer{display:none!important}
+  .fei-classic-ui .fei-scroll-top{display:none!important}
+}
+
+/* R29.29 — FEI shell refinement.
+   Keep the donor's FEI visual language, but restore the cleaner pre-transplant
+   header proportions, true-center the FEI dome, and make menus/mobile behavior
+   more deliberate and compact. */
+@media (min-width:1000px){
+  .fei-classic-ui .fei-donor-header{
+    height:128px!important;min-height:128px!important;
+    background:linear-gradient(to bottom,#fff 0,#fff 10px,#e3e3e3 46px,#fff 47px,#fff 94px,#ededed 127px)!important;
+    border-top:4px solid #2b075e!important;
+  }
+  .fei-classic-ui .fei-top-strip{height:48px!important}
+  .fei-classic-ui .fei-top-inner{height:46px!important;padding-top:7px!important}
+
+  /* The donor bitmap already contains the FEI arc. True centering removes the
+     visible seam/disjoint that the old calc(50% - 201px) placement introduced. */
+  .fei-classic-ui .fei-logo-dome,
+  .fei-classic-ui[dir="rtl"] .fei-logo-dome{
+    left:50%!important;
+    
+    transform:translateX(-50%)!important;
+    filter:drop-shadow(0 1px 0 rgba(255,255,255,.9));
+  }
+  .fei-classic-ui .fei-logo-dome::after{
+    content:"";position:absolute;left:24px;right:24px;bottom:1px;height:1px;
+    background:linear-gradient(90deg,transparent,#d4d4d4 18%,#d4d4d4 82%,transparent);
+    pointer-events:none;
+  }
+
+  .fei-classic-ui .fei-nav-desktop,
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop{
+    left:50%!important;top:48px!important;
+    width:min(76%,960px)!important;
+    transform:translateX(-50%)!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{
+    height:76px!important;padding:13px 10px 0!important;gap:10px!important;
+    font-size:14px!important;line-height:42px!important;letter-spacing:.01em!important;
+    transition:color .12s ease,background .12s ease,box-shadow .12s ease!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li>button:hover:not(.active){color:#5f0f60!important;background:rgba(107,23,111,.035)!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li.open>button,
+  .fei-classic-ui .fei-nav-desktop>ul>li>button.active{
+    height:58px!important;margin-top:11px!important;padding-top:0!important;
+    background:linear-gradient(#944296,#6d176f 58%,#57105d)!important;
+    box-shadow:inset 0 1px rgba(255,255,255,.2),0 -1px 5px rgba(0,0,0,.16)!important;
+  }
+  .fei-classic-ui .fei-chevron{font-size:13px!important;opacity:.78!important;transform:translateY(-1px)}
+  .fei-classic-ui .fei-nav-desktop>ul>li.open .fei-chevron{transform:translateY(0) rotate(180deg)}
+
+  .fei-classic-ui .fei-dropdown{
+    top:69px!important;width:max(100%,220px)!important;min-width:220px!important;
+    border:1px solid #c9c1c9!important;border-top:5px solid #702577!important;
+    border-radius:4px!important;background:#f1f1f1!important;
+    box-shadow:0 9px 22px rgba(48,27,50,.18),0 2px 4px rgba(0,0,0,.1)!important;
+    
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li:last-child .fei-dropdown{left:auto!important;right:0!important}
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop>ul>li:last-child .fei-dropdown{left:0!important}
+  .fei-classic-ui .fei-dropdown button{
+    padding:12px 12px!important;min-height:39px!important;font-size:13px!important;line-height:1.15!important;
+    background:linear-gradient(#f6f6f6,#ececec)!important;color:#676067!important;
+  }
+  .fei-classic-ui .fei-dropdown button:hover,
+  .fei-classic-ui .fei-dropdown button.active{
+    background:linear-gradient(#eee3ef,#e4d7e6)!important;color:#5f0f60!important;
+  }
+
+  /* A Classic-like content rhythm without turning FEI into a card UI. */
+  .fei-classic-ui .fc-main,
+  .fei-classic-ui[dir="rtl"] .fc-main{
+    width:min(89.5%,1140px)!important;max-width:1140px!important;
+    margin:34px auto 0!important;
+  }
+  .fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{margin-bottom:12px!important}
+  .fei-classic-ui .fei-panel,.fei-classic-ui .fc-section{margin-bottom:12px!important}
+  .fei-classic-ui .fc-section-body{padding:12px 11px 15px!important}
+  .fei-classic-ui .fei-search-actions,.fei-classic-ui .fei-search-buttons,.fei-classic-ui .fc-form-actions{margin:9px 2px 14px!important}
+}
+
+/* Tablet: use the FEI top identity, but keep navigation compact enough to avoid
+   the oversized pre-R29 desktop menu proportions. */
+@media (min-width:768px) and (max-width:999px){
+  .fei-classic-ui .fei-donor-header{border-top:4px solid #2b075e;background:#fff}
+  .fei-classic-ui .fei-top-strip{height:58px;background:linear-gradient(#f9f9f9,#dedede 72%,#f7f7f7)}
+  .fei-classic-ui .fei-logo-dome{left:50%;top:0;transform:translateX(-50%);pointer-events:auto}
+  .fei-classic-ui .fei-dome-shape,.fei-classic-ui .fei-dome-logo{width:280px;height:57px}
+  .fei-classic-ui .fei-exact-donor-logo{width:280px;height:57px;object-fit:contain}
+  .fei-classic-ui .fei-nav-desktop>ul{height:70px}
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{margin:10px 3px 0;width:calc(100% - 6px);height:50px;font-size:12px;gap:4px;padding:0 4px}
+  .fei-classic-ui .fei-dropdown{top:58px;min-width:190px;box-shadow:0 8px 18px rgba(48,27,50,.18)}
+  .fei-classic-ui .fei-dropdown button{font-size:12px;padding:11px 10px}
+  .fei-classic-ui .fc-main{padding:22px 18px 46px}
+}
+
+/* Phone FEI shell: a two-row institutional header, centered FEI mark, compact
+   drawer, and no geometry that can push content wider than the viewport. */
+@media (max-width:767px){
+  .fei-classic-ui .fei-donor-header{border-top:3px solid #2b075e!important;background:#fff!important;box-shadow:0 1px 0 #ddd!important}
+  .fei-classic-ui .fei-top-strip{height:42px!important;position:sticky!important;top:0!important;background:linear-gradient(#fbfbfb,#e7e7e7)!important}
+  .fei-classic-ui .fei-top-inner{height:42px!important;padding:0 10px!important;align-items:center!important}
+  .fei-classic-ui .fei-db-home{gap:4px!important;font-size:14px!important;color:#6b176f!important}
+  .fei-classic-ui .fei-home-pill{width:34px!important;min-width:34px!important;height:15px!important;font-size:10px!important}
+  .fei-classic-ui .fei-auth-control{font-size:12px!important;gap:7px!important;color:#6b176f!important}
+  .fei-classic-ui .fei-auth-control .fei-link{font-size:12px!important}
+  .fei-classic-ui .fei-auth-control .fei-locale{height:28px!important;min-width:34px!important;border:1px solid #c9b9ca!important;border-radius:3px!important;background:#fff!important;padding:0 7px!important;color:#6b176f!important;font-weight:700!important}
+
+  .fei-classic-ui .fei-mobile-bar{
+    top:42px!important;min-height:54px!important;height:54px!important;padding:6px 10px!important;
+    position:sticky!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;
+    background:linear-gradient(#fff 0,#fff 60%,#eeeeee 100%)!important;border-bottom:1px solid #d5d5d5!important;
+  }
+  .fei-classic-ui .fei-mobile-logo{
+    position:absolute!important;left:50%!important;top:0!important;transform:translateX(-50%)!important;
+    width:190px!important;height:54px!important;display:grid!important;place-items:center!important;
+    border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;
+  }
+  .fei-classic-ui .fei-mobile-logo img{display:block!important;width:190px!important;height:39px!important;object-fit:contain!important;object-position:center top!important}
+  .fei-classic-ui .fei-hamburger{
+    position:relative!important;width:38px!important;height:36px!important;min-height:36px!important;border:1px solid #bdb5bd!important;
+    border-radius:3px!important;background:linear-gradient(#fff,#ededed)!important;box-shadow:0 1px 2px rgba(0,0,0,.08)!important;
+    color:#6b176f!important;padding:0!important;
+  }
+  .fei-classic-ui .fei-hamburger span,.fei-classic-ui .fei-hamburger span::before,.fei-classic-ui .fei-hamburger span::after{
+    content:"";position:absolute;left:9px;right:9px;height:2px;background:#6b176f;border-radius:2px;
+  }
+  .fei-classic-ui .fei-hamburger span{top:16px}.fei-classic-ui .fei-hamburger span::before{left:0;right:0;top:-6px}.fei-classic-ui .fei-hamburger span::after{left:0;right:0;top:6px}
+
+  .fei-classic-ui .fc-main{padding:14px 9px 28px!important}
+  .fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{padding:0 2px 6px!important;margin-bottom:10px!important;border-bottom:1px solid #777!important}
+  .fei-classic-ui .fc-page-title h1,.fei-classic-ui .fei-page-title h1{font-size:19px!important;line-height:1.15!important;letter-spacing:.7px!important}
+  .fei-classic-ui .fc-section,.fei-classic-ui .fei-panel,.fei-classic-ui .fei-fieldset{border-color:#d1ccd1!important;box-shadow:none!important}
+  .fei-classic-ui .fc-section>header{min-height:38px!important;padding:7px 9px!important;background:var(--fc-nav-surface)!important;color:var(--fc-nav-ink)!important}
+  .fei-classic-ui .fc-section>header h2{font-size:14px!important;color:inherit!important}
+  .fei-classic-ui .fc-section-body{padding:9px!important}
+  .fei-classic-ui .fc-filter-grid{grid-template-columns:1fr!important;gap:8px!important}
+  .fei-classic-ui .fc-filter-grid>label,.fei-classic-ui .fc-stack-label{grid-template-columns:112px minmax(0,1fr)!important;gap:7px!important;align-items:center!important}
+  .fei-classic-ui .fc-form-actions,.fei-classic-ui .fei-search-buttons,.fei-classic-ui .fei-search-actions{margin:8px 0 6px!important;padding-top:7px!important;gap:8px!important}
+  .fei-classic-ui .fc-btn,.fei-classic-ui .btn-search,.fei-classic-ui .btn-reset{min-height:38px!important;height:38px!important;padding-inline:13px!important}
+
+  .fei-classic-ui .fei-mobile-drawer aside{width:min(318px,90vw)!important;border-top:3px solid #6b176f!important;background:#fafafa!important}
+  .fei-classic-ui .fei-drawer-head{min-height:62px!important;padding:6px 10px!important;background:linear-gradient(#fff,#eee)!important}
+  .fei-classic-ui .fei-drawer-fei-logo{display:block;width:185px;height:42px;object-fit:contain;object-position:left top}
+  .fei-classic-ui[dir="rtl"] .fei-drawer-fei-logo{object-position:right top}
+  .fei-classic-ui .fei-drawer-head button{width:34px!important;height:34px!important;font-size:23px!important;color:#6b176f!important}
+  .fei-classic-ui .fei-drawer-group>div:first-child>button:first-child{font-size:14px!important;min-height:44px!important;padding:10px 14px!important}
+  .fei-classic-ui .fei-drawer-toggle{width:42px!important;min-height:44px!important;color:#6b176f!important}
+  .fei-classic-ui .fei-drawer-sub button{font-size:13px!important;min-height:40px!important;padding:9px 24px!important}
+  .fei-classic-ui .fei-mobile-bottom-nav{height:calc(58px + env(safe-area-inset-bottom))!important;background:rgba(255,255,255,.985)!important;box-shadow:0 -3px 12px rgba(62,28,65,.11)!important}
+  .fei-classic-ui .fei-mobile-bottom-nav button{min-height:50px!important;border-radius:4px!important}
+}
+
+/* R29.30 — desktop FEI header geometry correction.
+   The user's first reference screenshot is the authority here. R29.29's
+   well-intended shell refinement changed the header gradient and true-centred
+   the baked donor bitmap; that made the bitmap edges visible and the top feel
+   detached. Restore the donor's own geometry/background and only improve menu
+   centring/containment. */
+@media (min-width:1000px){
+  .fei-classic-ui .fei-donor-header{
+    height:132px!important;min-height:132px!important;
+    border-top:4px solid #201052!important;border-bottom:0!important;
+    background:linear-gradient(to bottom,#fff 0,#fff 12px,#d7d7d7 51px,#fff 52px,#fff 97px,#ebebeb 128px)!important;
+    box-shadow:none!important;
+  }
+  .fei-classic-ui .fei-top-strip{height:52px!important;background:transparent!important}
+  .fei-classic-ui .fei-top-inner{height:48px!important;padding:6px 3.7% 0 6%!important}
+  .fei-classic-ui[dir="rtl"] .fei-top-inner{padding:6px 6% 0 3.7%!important}
+
+  /* donor-logo.webp contains the original FEI dome/background pixels. Its
+     historical 33px optical offset is intentional and is what the reference
+     screenshot uses. Matching the header gradient makes its edges disappear. */
+  .fei-classic-ui .fei-logo-dome,
+  .fei-classic-ui[dir="rtl"] .fei-logo-dome{
+    left:calc(50% - 201px)!important;right:auto!important;top:-4px!important;
+    width:336px!important;height:68px!important;
+    transform:none!important;filter:none!important;
+  }
+  .fei-classic-ui .fei-logo-dome::after{content:none!important;display:none!important}
+  .fei-classic-ui .fei-dome-shape,.fei-classic-ui .fei-dome-logo{
+    width:336px!important;height:68px!important;background:transparent!important;
+    border-radius:0!important;box-shadow:none!important;overflow:visible!important;
+  }
+  .fei-classic-ui .fei-dome-logo{left:0!important;top:0!important;transform:none!important}
+  .fei-classic-ui .fei-dome-logo:hover{transform:none!important;opacity:1!important}
+  .fei-classic-ui .fei-exact-donor-logo{width:336px!important;height:68px!important;filter:none!important}
+
+  /* Restore the supplied FEI navigation grid rather than the R29.29 max-width
+     reinterpretation. This keeps the centre item aligned with the donor dome. */
+  .fei-classic-ui .fei-nav-desktop,
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop{
+    position:absolute!important;top:52px!important;left:10.9%!important;right:auto!important;
+    width:74.1%!important;height:76px!important;transform:none!important;
+    background:transparent!important;box-shadow:none!important;overflow:visible!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop{left:auto!important;right:10.9%!important}
+  .fei-classic-ui .fei-nav-desktop>ul{height:76px!important;overflow:visible!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li{
+    width:20%!important;flex:1 1 20%!important;height:76px!important;
+    padding:15px 8px 0!important;overflow:visible!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li>button{
+    width:100%!important;height:45px!important;margin:0!important;padding:0!important;
+    gap:18px!important;font:15px/45px Arial,Helvetica,sans-serif!important;
+    background:none!important;color:#777!important;text-shadow:0 1px #fff!important;
+    border-radius:0!important;box-shadow:none!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li>button:hover:not(.active){
+    color:#777!important;background:none!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li.open>button,
+  .fei-classic-ui .fei-nav-desktop>ul>li>button.active{
+    width:100%!important;height:45px!important;margin:0!important;padding:0!important;
+    background:linear-gradient(#8a398c,#591763)!important;color:#fff!important;
+    text-shadow:none!important;border-radius:4px 4px 0 0!important;
+    box-shadow:0 -2px 5px #aaa!important;
+  }
+  .fei-classic-ui .fei-chevron{font-size:15px!important;font-weight:700!important;transform:none!important}
+  .fei-classic-ui .fei-nav-desktop>ul>li.open .fei-chevron{transform:rotate(180deg)!important}
+
+  /* Centre each 218px donor menu under its parent instead of pinning one edge.
+     This is especially noticeable under Persons at wide desktop widths. */
+  .fei-classic-ui .fei-dropdown,
+  .fei-classic-ui[dir="rtl"] .fei-dropdown{
+    top:59px!important;left:50%!important;right:auto!important;width:218px!important;min-width:218px!important;
+    transform:translateX(-50%)!important;
+    border:0!important;border-top:6px solid #702577!important;border-radius:4px 4px 0 0!important;
+    background:#eee!important;box-shadow:0 1px 0 #ddd!important;overflow:hidden!important;
+  }
+  .fei-classic-ui .fei-nav-desktop>ul>li:last-child .fei-dropdown,
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop>ul>li:last-child .fei-dropdown{
+    left:50%!important;right:auto!important;transform:translateX(-50%)!important;
+  }
+  .fei-classic-ui .fei-dropdown button{
+    min-height:0!important;padding:17px 10px!important;
+    background:#eee!important;color:#777!important;
+    font:14px/1 Arial,Helvetica,sans-serif!important;
+  }
+  .fei-classic-ui .fei-dropdown button:hover,
+  .fei-classic-ui .fei-dropdown button.active{
+    background:#e2d8e4!important;color:#777!important;
+  }
+
+  /* Keep R29.29's slightly tidier content rhythm, but start below the restored
+     132px donor shell exactly like the reference. */
+  .fei-classic-ui .fc-main,
+  .fei-classic-ui[dir="rtl"] .fc-main{
+    width:auto!important;max-width:none!important;
+    margin:43px 4.15% 0 6.4%!important;padding-bottom:54px!important;
+  }
+  .fei-classic-ui[dir="rtl"] .fc-main{margin:43px 6.4% 0 4.15%!important}
+}

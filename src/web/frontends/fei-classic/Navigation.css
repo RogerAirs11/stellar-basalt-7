@@ -1,0 +1,123 @@
+/* R112: one local navigation system; route data is supplied by frontend-kit. */
+.fei-classic-ui {
+  --fc-nav-surface: var(--fc-bg, #fff);
+  --fc-nav-ink: var(--fc-ink, #342737);
+  --fc-nav-muted: var(--fc-muted, #6b6070);
+  --fc-nav-line: var(--fc-line, #d7cdda);
+  --fc-nav-accent: var(--fc-purple-800, #61156b);
+  --fc-nav-selected: color-mix(in srgb, var(--fc-nav-accent) 11%, var(--fc-nav-surface));
+  --fc-nav-radius: .35rem;
+  --fc-nav-gap: .75rem;
+  --fc-nav-control: 2.75rem;
+  --fc-nav-rail: 15rem;
+  --fc-nav-header: 7.5rem;
+  --fc-nav-layer: 70;
+  --fc-nav-shadow: 0 16px 40px #35203e24;
+}
+.fei-classic-ui[data-navigation-layout="sidebar"] { --fc-nav-header: 4.5rem; }
+.fei-classic-ui .fc112-header { position:sticky; inset-block-start:0; z-index:var(--fc-nav-layer); background:var(--fc-nav-surface); color:var(--fc-nav-ink); border-block-end:1px solid var(--fc-nav-line); box-shadow:0 3px 16px #0000000a; padding-inline:clamp(.75rem,2vw,2rem); }
+.fei-classic-ui .fc112-identity-row { display:flex; align-items:center; justify-content:space-between; gap:.75rem; min-inline-size:0; max-inline-size:90rem; margin-inline:auto; padding-block:.5rem; }
+.fei-classic-ui .fc112-brand { display:flex; align-items:center; gap:.625rem; min-inline-size:0; color:var(--fc-nav-ink); text-decoration:none; font-size:.875rem; line-height:1.3; }
+.fei-classic-ui .fc112-brand > span:first-child { display:grid; place-items:center; flex:0 0 2.25rem; min-block-size:2.25rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-selected); color:var(--fc-nav-accent); font-size:1.2rem; font-weight:800; }
+.fei-classic-ui .fc112-brand :is(b,strong) { font-weight:750; }
+.fei-classic-ui .fc112-brand :is(i,small) { color:var(--fc-nav-muted); font-size:.68rem; font-style:normal; display:block; }
+.fei-classic-ui .fc112-header-actions { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:.375rem; min-inline-size:0; }
+.fei-classic-ui .fc112-header-actions > :is(button,a), .fei-classic-ui .fc102-layout select { display:inline-flex; align-items:center; justify-content:center; min-block-size:var(--fc-nav-control); border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); padding:.4rem .625rem; font:inherit; font-size:.8125rem; line-height:1.4; text-decoration:none; cursor:pointer; box-sizing:border-box; }
+.fei-classic-ui .fc112-header-actions > button { gap:.35rem; }
+.fei-classic-ui .fc112-header-actions > button svg { inline-size:1rem; block-size:1rem; }
+.fei-classic-ui .fc102-layout { display:inline-flex; align-items:center; min-inline-size:0; color:var(--fc-nav-ink); }
+.fei-classic-ui .fc102-layout > span { position:absolute; inline-size:1px; block-size:1px; overflow:hidden; clip-path:inset(50%); }
+.fei-classic-ui .fc102-layout select { max-inline-size:8rem; inline-size:auto; }
+.fei-classic-ui .fc112-primary { position:relative; max-inline-size:90rem; margin-inline:auto; min-inline-size:0; }
+.fei-classic-ui .fc112-shortcuts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1fr); gap:.25rem; align-items:stretch; padding-block:.125rem .5rem; margin:0; min-inline-size:0; max-inline-size:40rem; }
+.fei-classic-ui .fc112-shortcuts > :is(a,button) { display:flex; align-items:center; justify-content:center; gap:.45rem; min-inline-size:0; min-block-size:var(--fc-nav-control); padding:.55rem .65rem; border:1px solid transparent; border-radius:var(--fc-nav-radius); background:transparent; color:var(--fc-nav-muted); font:inherit; font-size:.875rem; font-weight:600; line-height:1.4; text-align:center; text-decoration:none; overflow-wrap:anywhere; cursor:pointer; }
+.fei-classic-ui .fc112-shortcuts > :is(a[aria-current="page"],button[data-active="true"],button[aria-expanded="true"]) { color:var(--fc-nav-accent); background:var(--fc-nav-selected); border-color:color-mix(in srgb,var(--fc-nav-accent) 30%,var(--fc-nav-line)); }
+.fei-classic-ui .fc112-shortcuts > :is(a,button):hover { background:var(--fc-nav-selected); color:var(--fc-nav-ink); }
+.fei-classic-ui .fc112-shortcuts > button { border-color:var(--fc-nav-line); color:var(--fc-nav-ink); }
+.fei-classic-ui .fc112-sections-panel { position:absolute; inset-block-start:100%; inset-inline-start:0; inline-size:min(48rem,100%); max-block-size:min(70dvh,calc(100dvh - 9rem)); overflow:auto; overscroll-behavior:contain; box-sizing:border-box; padding:1rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); box-shadow:var(--fc-nav-shadow); }
+.fei-classic-ui .fc112-sections-head { display:flex; align-items:center; justify-content:space-between; gap:.75rem; min-inline-size:0; margin-block-end:.5rem; }
+.fei-classic-ui .fc112-sections-head strong { font-size:1rem; line-height:1.5; }
+.fei-classic-ui .fc112-sections-head button { display:grid; place-items:center; flex:0 0 var(--fc-nav-control); min-block-size:var(--fc-nav-control); border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:transparent; color:var(--fc-nav-ink); font:inherit; font-size:1.5rem; cursor:pointer; }
+.fei-classic-ui .fc112-section-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; gap:.5rem 1rem; min-inline-size:0; }
+.fei-classic-ui .fc112-nav-empty { color:var(--fc-nav-muted); font-size:.875rem; }
+.fei-classic-ui .fc102-workspace { min-inline-size:0; }
+.fei-classic-ui[data-navigation-layout="sidebar"] .fc102-workspace { display:grid; grid-template-columns:var(--fc-nav-rail) minmax(0,1fr); gap:var(--fc-nav-gap); align-items:start; padding-inline:var(--fc-nav-gap); }
+.fei-classic-ui .fc102-sidebar { position:sticky; inset-block-start:var(--fc-nav-header); min-inline-size:0; max-block-size:calc(100dvh - var(--fc-nav-header) - .75rem); overflow:auto; overscroll-behavior:contain; border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); font-size:.875rem; margin-block:.75rem; }
+.fei-classic-ui .fc102-sidebar-body { padding:.75rem; }
+.fei-classic-ui .fc102-find { display:grid; gap:.35rem; font-size:.8125rem; color:var(--fc-nav-muted); margin-block-end:.75rem; }
+.fei-classic-ui .fc102-search-controls { display:flex; align-items:stretch; gap:.375rem; min-inline-size:0; }
+.fei-classic-ui .fc102-search-controls input { flex:1 1 0; inline-size:0; min-inline-size:0; min-block-size:var(--fc-nav-control); box-sizing:border-box; border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); padding:.5rem .625rem; font:inherit; font-size:1rem; }
+.fei-classic-ui .fc102-search-controls button { flex:0 0 var(--fc-nav-control); min-block-size:var(--fc-nav-control); box-sizing:border-box; padding:.25rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-nav-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); font:inherit; font-size:1.25rem; cursor:pointer; }
+.fei-classic-ui .fc102-search-controls button:disabled { opacity:.45; cursor:default; }
+.fei-classic-ui .fc102-group { min-inline-size:0; margin:0; padding:0; border-block-start:1px solid var(--fc-nav-line); }
+.fei-classic-ui .fc102-group-title { display:flex; justify-content:space-between; gap:.5rem; align-items:center; inline-size:100%; min-block-size:var(--fc-nav-control); box-sizing:border-box; margin:0; padding:.45rem .35rem; color:var(--fc-nav-muted); font:inherit; font-size:.8125rem; font-weight:700; text-align:start; background:transparent; border:0; overflow-wrap:anywhere; }
+.fei-classic-ui button.fc102-group-title { cursor:pointer; }
+.fei-classic-ui .fc102-group ul { list-style:none; padding:0; margin:0 0 .5rem; }
+.fei-classic-ui .fc102-group ul[hidden] { display:none; }
+.fei-classic-ui .fc102-group a { display:flex; justify-content:space-between; align-items:center; gap:.35rem; min-inline-size:0; min-block-size:var(--fc-nav-control); padding:.5rem .625rem; box-sizing:border-box; border-inline-start:3px solid transparent; border-radius:.25rem; color:var(--fc-nav-ink); font-size:.875rem; line-height:1.5; text-align:start; text-decoration:none; overflow-wrap:anywhere; }
+.fei-classic-ui .fc102-group a[aria-current="page"] { color:var(--fc-nav-accent); background:var(--fc-nav-selected); border-inline-start-color:var(--fc-nav-accent); font-weight:700; }
+.fei-classic-ui .fc102-group a:hover { background:var(--fc-nav-selected); }
+.fei-classic-ui :is(.fc112-header,.fc102-sidebar) :is(a,button,input,select):focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:-3px; }
+.fei-classic-ui .fc102-context:empty { display:none; }
+.fei-classic-ui .fc102-context { border-block-end:1px solid var(--fc-nav-line); margin-block-end:.75rem; padding-block-end:.5rem; }
+.fei-classic-ui .fc102-context nav { display:flex!important; flex-direction:column!important; flex-wrap:nowrap!important; gap:.25rem!important; overflow:visible!important; margin:.25rem 0!important; padding:0!important; inline-size:100%!important; block-size:auto!important; min-block-size:0!important; position:static!important; }
+.fei-classic-ui .fc102-context nav button { inline-size:100%!important; min-inline-size:0!important; max-inline-size:100%!important; min-block-size:var(--fc-nav-control)!important; height:auto!important; text-align:start!important; white-space:normal!important; justify-content:flex-start!important; flex:none!important; padding:.5rem .625rem!important; line-height:1.5!important; overflow-wrap:anywhere; }
+.fei-classic-ui .fc112-context-home { display:contents; }
+.fei-classic-ui .fc102-mobile-toggle { display:none; }
+@media (max-width:860px) {
+  .fei-classic-ui[data-navigation-layout="sidebar"] .fc102-workspace { grid-template-columns:minmax(0,1fr); gap:0; padding-inline:.75rem; }
+  .fei-classic-ui .fc102-sidebar { position:static; max-block-size:none; margin-block:.75rem 0; }
+  .fei-classic-ui .fc102-mobile-toggle { display:flex; align-items:center; justify-content:space-between; inline-size:100%; min-block-size:var(--fc-nav-control); gap:.5rem; border:0; padding:.6rem .75rem; background:var(--fc-nav-surface); color:var(--fc-nav-ink); font:inherit; font-weight:600; text-align:start; cursor:pointer; }
+  .fei-classic-ui .fc102-sidebar[data-open="false"] .fc102-sidebar-body { display:none; }
+  .fei-classic-ui .fc102-sidebar-body { max-block-size:min(60dvh,30rem); overflow:auto; overscroll-behavior:contain; }
+  .fei-classic-ui .fc112-sections-panel { inline-size:100%; }
+}
+@media (max-width:520px) {
+  .fei-classic-ui .fc112-identity-row { gap:.375rem; }
+  .fei-classic-ui .fc112-brand { gap:.375rem; font-size:.75rem; }
+  .fei-classic-ui .fc112-brand > span:first-child { flex-basis:1.875rem; min-block-size:1.875rem; font-size:.875rem; }
+  .fei-classic-ui .fc112-brand :is(i,small) { font-size:.6rem; }
+  .fei-classic-ui .fc112-header-actions { gap:.25rem; }
+  .fei-classic-ui .fc112-header-actions > :is(button,a), .fei-classic-ui .fc102-layout select { font-size:.75rem; padding-inline:.4rem; }
+  .fei-classic-ui .fc102-layout select { max-inline-size:6.25rem; }
+  .fei-classic-ui .fc112-shortcuts > :is(a,button) { padding-inline:.35rem; font-size:.8125rem; }
+  .fei-classic-ui .fc112-sections-toggle > span[aria-hidden] { display:none; }
+  .fei-classic-ui .fc112-section-grid { grid-template-columns:minmax(0,1fr); }
+  .fei-classic-ui .fc112-sections-panel { padding:.75rem; }
+}
+@media (max-height:520px) {
+  .fei-classic-ui .fc112-header { position:relative; }
+  .fei-classic-ui .fc102-sidebar { position:static; }
+}
+@media print {
+  .fei-classic-ui :is(.fc112-header,.fc102-sidebar,.fc102-layout) { display:none!important; }
+  .fei-classic-ui[data-navigation-layout="sidebar"] .fc102-workspace { display:block; padding:0; }
+}
+
+/* R115 donor-header restore: the layout switcher lives inside the donor top
+   bar's loginstatus row; in sidebar mode a slim note explains where sections
+   went (the shared HierarchicalNavigation rail carries them). */
+.fei-classic-ui .fei-topbar-layout { display:inline-flex; align-items:center; margin-inline-start:.6rem; }
+.fei-classic-ui .fei-topbar-layout .fc102-layout select {
+  min-block-size:1.9rem; font-size:.78rem; padding-inline:.4rem;
+  border:1px solid #c9b8cc; border-radius:4px; background:#fff; color:#3d0f42;
+}
+.fei-classic-ui .fc112-donor-layout-note {
+  clear:both; padding:.3rem .8rem; font-size:.78rem; color:#5c4560;
+  background:#f6f1f7; border-block:1px solid #e6dce8;
+}
+@media print { .fei-classic-ui :is(.fei-topbar-layout,.fc112-donor-layout-note) { display:none!important; } }
+
+/* R117: canonical adaptive row; no fixed number of top-level tabs. */
+.fei-classic-ui .fc112-shortcuts { display:flex; gap:4px; max-inline-size:none; padding-block:2px 4px; }
+.fei-classic-ui .fc112-shortcuts>a { flex:0 1 auto; white-space:nowrap; overflow:hidden; }
+.fei-classic-ui .fc112-shortcuts>a>span { overflow:hidden; text-overflow:ellipsis; }
+.fei-classic-ui .fc112-shortcuts>button { flex:0 0 auto; white-space:nowrap; }
+.fei-classic-ui .fc117-nav-measure { position:absolute; inset-block-start:0; inset-inline-start:0; inline-size:0; block-size:0; overflow:hidden; display:flex; visibility:hidden; pointer-events:none; }
+.fei-classic-ui .fc117-nav-measure>span { display:inline-flex; flex:0 0 auto; box-sizing:border-box; align-items:center; gap:.45rem; white-space:nowrap; padding:.55rem .65rem; border:1px solid transparent; font:inherit; font-size:.875rem; font-weight:600; line-height:1.4; }
+.fei-classic-ui .fc117-brand { display:flex; align-items:center; gap:.625rem; color:var(--fc-nav-accent); text-decoration:none; min-inline-size:0; }
+.fei-classic-ui .fc117-brand svg { inline-size:5rem; block-size:1.5rem; flex-shrink:0; }
+.fei-classic-ui .fc117-brand strong { font-size:.95rem; line-height:1.35; }
+.fei-classic-ui .fc117-brand small { display:block; font-size:.7rem; line-height:1.4; color:var(--fc-nav-muted); }
+.fei-classic-ui .fc117-user { max-inline-size:12rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:.8rem; }
+@media(max-width:540px){.fei-classic-ui .fc112-identity-row { flex-wrap:wrap; gap:.25rem; } .fei-classic-ui .fc112-header-actions { flex:1 1 100%; justify-content:flex-start; } .fei-classic-ui .fc117-user { max-inline-size:8rem; }}

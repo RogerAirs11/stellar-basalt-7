@@ -1,0 +1,181 @@
+/* Heritage persistent application chrome stacking authority.
+ *
+ * H42's ambient/frost recovery deliberately assigns every direct .app-shell
+ * child z-index:1 so the moving atmosphere can sit beneath UI flex items.
+ * That broad rule also flattened the sticky header to the same stacking level
+ * as page content. In addition, the body-level Dock portal used a historical
+ * z-index far below later viewport portals.
+ *
+ * This file loads last and owns only persistent navigation chrome. Material
+ * depth remains Major > Panel > Card > Control and is never expressed here.
+ */
+html:root[data-frontend="heritage"]{
+  --h-chrome-topbar-height:64px;
+  --h-z-chrome-topbar:2147483600;
+  --h-z-chrome-floater:2147483590;
+  --h-z-chrome-dock:2147483640;
+}
+
+/* Header is always above every in-shell page, sticky rail, pedigree fullscreen,
+ * lighting layer, card and control. The app-shell stays isolated so the H42
+ * ambient/frost sampling model is unchanged. */
+html:root[data-frontend="heritage"] .app-shell>.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:var(--h-z-chrome-topbar)!important;
+  isolation:isolate!important;
+}
+
+/* The frontend launcher is also persistent shell furniture rather than page
+ * content, so it must not be flattened by .app-shell>* { z-index:1 }. */
+html:root[data-frontend="heritage"] .app-shell>.frontend-switcher{
+  z-index:var(--h-z-chrome-floater)!important;
+}
+
+/* Docked navigation is a body portal specifically so transformed/backdrop
+ * ancestors cannot capture fixed positioning. Keep that portal above every
+ * viewport/page overlay; only transient help/toast UI may exceed it. */
+html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-app-dock{
+  z-index:var(--h-z-chrome-dock)!important;
+  isolation:isolate!important;
+}
+html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-app-dock>*{
+  position:relative;
+  z-index:1;
+}
+
+/* Appearance Studio is a body portal and therefore lives outside the isolated
+ * app-shell. Reserve the persistent header band instead of covering it. */
+html[data-frontend="heritage"] body>.theme-settings-portal-layer{
+  top:var(--h-chrome-topbar-height)!important;
+  bottom:0!important;
+  left:0!important;
+  right:0!important;
+  width:100vw!important;
+  height:calc(100dvh - var(--h-chrome-topbar-height))!important;
+  min-height:0!important;
+}
+
+@media(max-width:820px){
+  html:root[data-frontend="heritage"]{--h-chrome-topbar-height:60px}
+  /* In Docked phone mode the settings viewport yields the bottom chrome band,
+   * keeping both app-dock rows and the optional Statistics tertiary rail clear. */
+  html:root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.theme-settings-portal-layer{
+    bottom:calc(166px + env(safe-area-inset-bottom))!important;
+    height:auto!important;
+  }
+}
+@media(max-width:720px){
+  html:root[data-frontend="heritage"]{--h-chrome-topbar-height:56px}
+}
+@media(max-width:640px){
+  html:root[data-frontend="heritage"]{--h-chrome-topbar-height:54px}
+}
+
+/* R24 Wallpaper presentation mode -------------------------------------------
+   Desktop-only top-level view for inspecting the selected wallpaper. Keep only
+   primary tabs plus the Appearance Studio entry/sidebar; ordinary app chrome,
+   status, locale/mode buttons, content, footer and frontend switcher disappear. */
+@media(min-width:821px){
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .app-shell>.topbar{
+    height:64px!important;
+    min-height:64px!important;
+    grid-template-columns:1fr auto 1fr!important;
+    grid-template-areas:"blank nav appearance"!important;
+    align-items:center!important;
+    padding:8px 18px!important;
+    background:transparent!important;
+    background-image:none!important;
+    border:0!important;
+    box-shadow:none!important;
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar>.brand{display:none!important}
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar>.main-nav{
+    grid-area:nav!important;
+    position:static!important;
+    inset:auto!important;
+    transform:none!important;
+    justify-self:center!important;
+    align-self:center!important;
+    width:auto!important;
+    max-width:min(760px,78vw)!important;
+    height:42px!important;
+    margin:0!important;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar>.topbar-tools{
+    grid-area:appearance!important;
+    justify-self:end!important;
+    display:flex!important;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar .registry-status,
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar .locale-toggle,
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar .mode-toggle{
+    display:none!important;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .topbar .theme-controls{
+    display:flex!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .wallpaper-view{
+    min-height:calc(100dvh - 64px)!important;
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    pointer-events:none;
+  }
+  html:root[data-frontend="heritage"][data-page="wallpaper"] .wallpaper-view-a11y{
+    position:absolute!important;
+    width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+    overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+  }
+}
+@media(max-width:820px){
+  html:root[data-frontend="heritage"] .wallpaper-nav-tab{display:none!important}
+}
+
+/* ── Smart topbar disclosure (R54) ─────────────────────────────────────────
+ * As the viewport narrows, lower-priority chrome retires FIRST so the primary
+ * navigation tabs always keep their breathing room:
+ *   ≤1320px  the records counter chip steps aside (it also lives in the footer)
+ *   ≤1060px  the brand wordmark retires; the emblem stays as the anchor
+ *   ≤900px   the brand retires entirely and the tabs lead the bar
+ * The mobile dock (≤820px) then takes over navigation, as before. Every step
+ * is token-driven and reverts automatically as the viewport grows again. */
+/* R56 (owner decision): the top-bar logo renders as the PURE artwork — no
+   frame, plate, ring, or circular crop. Any background/border/box-shadow on
+   .brand-emblem is retired at every breakpoint; the image letterboxes itself
+   with object-fit:contain instead of being cropped by the old circle. */
+html:root[data-frontend="heritage"] .brand-emblem,
+html:root[data-frontend="heritage"] .topbar .brand-emblem{
+  border:0!important;background:none!important;box-shadow:none!important;overflow:visible!important;
+}
+html:root[data-frontend="heritage"] .brand-emblem img,
+html:root[data-frontend="heritage"] .topbar .brand-emblem img{
+  width:100%!important;height:100%!important;object-fit:contain!important;transform:none!important;
+}
+
+@media(max-width:1320px){
+  :root[data-frontend="heritage"] .topbar .registry-status{display:none!important}
+}
+@media(max-width:1060px){
+  :root[data-frontend="heritage"] .topbar .brand-copy{display:none!important}
+  :root[data-frontend="heritage"] .topbar .brand-emblem{width:34px;height:34px}
+}
+@media(max-width:900px){
+  :root[data-frontend="heritage"] .app-shell>.topbar>.brand{display:none!important}
+  :root[data-frontend="heritage"] .app-shell>.topbar{
+    grid-template-columns:auto minmax(0,1fr)!important;
+    grid-template-areas:"nav tools"!important;
+    gap:12px!important;
+  }
+  :root[data-frontend="heritage"] .app-shell>.topbar>.main-nav{grid-area:nav!important;min-width:0}
+  :root[data-frontend="heritage"] .app-shell>.topbar>.topbar-tools{grid-area:tools!important;justify-self:end!important;min-width:0}
+}

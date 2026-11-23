@@ -1,0 +1,305 @@
+/*
+ * Heritage People Registry + shared data-table surfaces (R32).
+ * ------------------------------------------------------------
+ * Tokenized people directory styles: the Desk people panel, the People
+ * page variant and the person profile micro-typography repairs. Every size
+ * here flows from the Heritage type-scale tokens so the surface can never
+ * regress to the legacy 6–8px micro text.
+ */
+
+:root[data-frontend="heritage"]{
+  /* People registry grid tracks (desktop table). */
+  --people-col-name:minmax(180px,1.6fr);
+  --people-col-id:64px;
+  --people-col-count:62px;
+  --people-row-height:46px;
+  --people-row-gap:1px;
+}
+
+/* ── Panel shell ─────────────────────────────────────────────────────── */
+:root[data-frontend="heritage"] .people-registry{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:0;
+  font-family:var(--h-font-ui);
+}
+:root[data-frontend="heritage"] .people-registry.is-busy{opacity:.72;transition:opacity .18s var(--h-ds-ease-standard)}
+
+/* Toolbar: search + sort chips. */
+:root[data-frontend="heritage"] .people-registry-toolbar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+:root[data-frontend="heritage"] .people-registry-search{
+  flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:var(--h-radius-control);
+  border:1px solid var(--h-glass-border-soft);
+  background:var(--h-glass-control);
+}
+:root[data-frontend="heritage"] .people-registry-search>span{color:var(--ink-2);font-size:var(--h-font-body);line-height:1}
+:root[data-frontend="heritage"] .people-registry-search input{
+  flex:1;min-width:0;background:none;border:0;outline:none;color:var(--ink);
+  font:500 var(--h-font-body)/var(--h-line-compact) var(--h-font-ui);
+}
+:root[data-frontend="heritage"] .people-registry-search input::placeholder{color:var(--ink-3)}
+:root[data-frontend="heritage"] .people-registry-clear{
+  width:20px;height:20px;display:grid;place-items:center;border:0;border-radius:50%;
+  background:color-mix(in srgb,var(--ink-3) 22%,transparent);color:var(--ink-2);
+  font-size:var(--h-font-caption);cursor:pointer;
+}
+:root[data-frontend="heritage"] .people-registry-sort{display:flex;flex-wrap:wrap;gap:4px}
+:root[data-frontend="heritage"] .people-registry-sort>button{
+  border:1px solid var(--h-glass-border-soft);border-radius:var(--h-ds-radius-pill);
+  background:transparent;color:var(--ink-2);cursor:pointer;
+  font:600 var(--h-font-micro)/1 var(--h-font-ui);letter-spacing:.02em;
+  padding:7px 12px;transition:color .18s var(--h-ds-ease-standard),background .18s var(--h-ds-ease-standard);
+}
+:root[data-frontend="heritage"] .people-registry-sort>button:hover{color:var(--ink);background:color-mix(in srgb,var(--accent-soft) 14%,transparent)}
+:root[data-frontend="heritage"] .people-registry-sort>button.active{
+  color:var(--h-ds-on-accent,var(--ink));
+  background:color-mix(in srgb,var(--accent) 30%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--line));
+}
+
+/* ── Table body ─────────────────────────────────────────────────────── */
+:root[data-frontend="heritage"] .people-registry-body{
+  border:1px solid var(--h-glass-border-soft);
+  border-radius:var(--h-radius-card);
+  background:color-mix(in srgb,var(--panel-solid) 14%,transparent);
+  overflow:hidden;min-width:0;
+}
+:root[data-frontend="heritage"] .people-registry-header,
+:root[data-frontend="heritage"] .people-registry-row{
+  display:grid;
+  grid-template-columns:var(--people-col-name) var(--people-col-id) var(--people-col-count) var(--people-col-count) var(--people-col-count) var(--people-col-count) var(--people-col-count);
+  align-items:center;gap:10px;padding:0 14px;
+}
+:root[data-frontend="heritage"] .people-registry-header{
+  height:34px;
+  border-bottom:1px solid var(--h-glass-border-soft);
+  color:var(--ink-3);
+  font:700 var(--h-font-micro)/1 var(--h-font-data);
+  letter-spacing:.09em;text-transform:uppercase;
+  background:color-mix(in srgb,var(--panel-solid) 26%,transparent);
+}
+:root[data-frontend="heritage"] .people-registry-header .col-count,
+:root[data-frontend="heritage"] .people-registry-row .col-count{text-align:center}
+:root[data-frontend="heritage"] .people-registry-rows{
+  max-height:min(420px,52vh);
+  overflow-y:auto;overscroll-behavior:contain;
+  display:grid;gap:var(--people-row-gap);
+  scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;
+}
+:root[data-frontend="heritage"] .people-registry-row{
+  width:100%;height:var(--people-row-height);
+  border:0;background:transparent;color:inherit;cursor:pointer;text-align:start;
+  font-family:var(--h-font-ui);
+  transition:background .16s var(--h-ds-ease-standard);
+}
+:root[data-frontend="heritage"] .people-registry-row:nth-child(odd){background:color-mix(in srgb,var(--panel-solid) 10%,transparent)}
+:root[data-frontend="heritage"] .people-registry-row:hover{background:color-mix(in srgb,var(--accent-soft) 16%,transparent)}
+:root[data-frontend="heritage"] .people-registry-row .col-name{display:grid;gap:1px;min-width:0}
+:root[data-frontend="heritage"] .people-registry-row .col-name strong{
+  font:700 var(--h-font-body)/1.22 var(--h-font-ui);color:var(--ink);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+:root[data-frontend="heritage"] .people-registry-row .col-name small{
+  font:500 var(--h-font-micro)/1.2 var(--h-font-data);color:var(--ink-3);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+:root[data-frontend="heritage"] .people-registry-row .col-id{
+  font:700 var(--h-font-micro)/1 var(--h-font-data);color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+:root[data-frontend="heritage"] .people-registry-row .col-count{
+  font:600 var(--h-font-caption)/1 var(--h-font-data);color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+:root[data-frontend="heritage"] .people-registry-row .col-count[data-zero]{color:color-mix(in srgb,var(--ink-3) 55%,transparent)}
+:root[data-frontend="heritage"] .people-registry-row .col-count.col-horses{color:var(--ink);font-weight:800}
+:root[data-frontend="heritage"] .people-registry-row .col-importer{display:none}
+
+/* Empty / error / loading states. */
+:root[data-frontend="heritage"] .people-registry-state{
+  padding:26px 16px;text-align:center;color:var(--ink-2);
+  font:500 var(--h-font-body)/var(--h-line-body) var(--h-font-ui);
+  border:1px dashed var(--h-glass-border-soft);border-radius:var(--h-radius-card);
+}
+:root[data-frontend="heritage"] .people-registry-state--error{color:var(--h-danger)}
+
+/* Footer: range + pager. */
+:root[data-frontend="heritage"] .people-registry-footer{
+  display:flex;align-items:center;gap:10px;min-height:30px;
+}
+:root[data-frontend="heritage"] .people-registry-count{
+  font:600 var(--h-font-micro)/1 var(--h-font-data);color:var(--ink-3);
+  font-variant-numeric:tabular-nums;margin-inline-end:auto;
+}
+:root[data-frontend="heritage"] .people-registry-pager{display:flex;gap:6px}
+:root[data-frontend="heritage"] .people-registry-pager>button{
+  width:30px;height:30px;display:grid;place-items:center;
+  border:1px solid var(--h-glass-border-soft);border-radius:var(--h-radius-control);
+  background:var(--h-glass-control);color:var(--ink-2);cursor:pointer;
+  font-size:var(--h-font-card);line-height:1;
+  transition:color .16s var(--h-ds-ease-standard),opacity .16s var(--h-ds-ease-standard);
+}
+:root[data-frontend="heritage"] .people-registry-pager>button:hover:not(:disabled){color:var(--ink);border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+:root[data-frontend="heritage"] .people-registry-pager>button:disabled{opacity:.38;cursor:default}
+:root[data-frontend="heritage"] .people-registry-hint{color:var(--ink-3);font-size:var(--h-font-micro)}
+
+/* Full-page variant (People page). */
+:root[data-frontend="heritage"] .people-registry--page .people-registry-rows{max-height:none}
+:root[data-frontend="heritage"] .people-registry--page .people-registry-row .col-importer{display:block}
+
+/* ── Responsive: tablet ──────────────────────────────────────────────── */
+@media (max-width:1180px){
+  :root[data-frontend="heritage"] .people-registry-row .col-importer{display:none}
+}
+
+/* ── Responsive: phone — registry cards ───────────────────────────────── */
+@media (max-width:820px){
+  :root[data-frontend="heritage"]{
+    --people-col-name:minmax(0,1fr);
+    --people-col-id:0px;
+    --people-col-count:54px;
+    --people-row-height:auto;
+  }
+  :root[data-frontend="heritage"] .people-registry-header{display:none}
+  :root[data-frontend="heritage"] .people-registry-row{
+    grid-template-columns:var(--people-col-name) var(--people-col-count) var(--people-col-count);
+    padding:10px 12px;row-gap:8px;border-radius:var(--h-radius-control);
+  }
+  :root[data-frontend="heritage"] .people-registry-row:nth-child(odd){background:color-mix(in srgb,var(--panel-solid) 12%,transparent)}
+  :root[data-frontend="heritage"] .people-registry-row .col-id{display:none}
+  :root[data-frontend="heritage"] .people-registry-row .col-importer{display:none}
+  :root[data-frontend="heritage"] .people-registry-row .col-name{grid-column:1/-1}
+  :root[data-frontend="heritage"] .people-registry-row .col-count{
+    display:grid;justify-items:center;gap:3px;
+    padding:6px 4px;border-radius:5px;
+    background:color-mix(in srgb,var(--panel-solid) 16%,transparent);
+    font-size:var(--h-font-caption);
+  }
+  :root[data-frontend="heritage"] .people-registry-row .col-count::after{
+    content:attr(data-title);
+    font:600 var(--h-font-micro)/1 var(--h-font-data);color:var(--ink-3);letter-spacing:.04em;
+  }
+  :root[data-frontend="heritage"] .people-registry-row .col-count.col-horses::after{content:attr(data-title)}
+  :root[data-frontend="heritage"] .people-registry-sort{width:100%}
+  :root[data-frontend="heritage"] .people-registry-sort>button{flex:1;padding:8px 6px;text-align:center}
+  :root[data-frontend="heritage"] .people-registry-search{flex-basis:100%}
+  :root[data-frontend="heritage"] .people-registry-hint{display:none}
+}
+
+/* ── Person profile micro-typography repairs (R32) ────────────────────── */
+/* The legacy person surfaces used 6–8px text; they now consume the bounded
+   Heritage type scale so they stay readable on every device. */
+:root[data-frontend="heritage"] .role-pill{
+  font-size:var(--h-font-micro);
+  letter-spacing:.08em;
+  padding:5px 10px;
+  border-radius:var(--h-ds-radius-pill);
+  background:color-mix(in srgb,var(--metal) 10%,transparent);
+}
+:root[data-frontend="heritage"] .identity-card>small{font-size:var(--h-font-caption);letter-spacing:.12em}
+:root[data-frontend="heritage"] .identity-card dt{font-size:var(--h-font-caption)}
+:root[data-frontend="heritage"] .identity-card dd{font-size:var(--h-font-caption)}
+:root[data-frontend="heritage"] .person-hero h1{font-size:clamp(26px,4vw,var(--h-font-card-strong) * 2.2)}
+
+/* Phone: person registry cards stack their role chips above the record. */
+@media (max-width:820px){
+  :root[data-frontend="heritage"] .person-horse-row .role-pill{position:static;display:inline-block;transform:none;margin:0 0 6px}
+  :root[data-frontend="heritage"] .person-horse-row .result-card{padding-left:12px}
+}
+
+/* ── Admin AI Settings (R32 / task 2b) ────────────────────────────────── */
+:root[data-frontend="heritage"] .admin-ai-settings{display:grid;gap:16px;grid-column:1/-1}
+:root[data-frontend="heritage"] .admin-ai-settings h2{margin:4px 0 6px;font-size:22px}
+:root[data-frontend="heritage"] .admin-ai-settings h3{margin:0 0 8px;font-size:16px}
+:root[data-frontend="heritage"] .admin-ai-settings p{margin:0;color:var(--muted);font-size:var(--h-font-caption);line-height:1.55}
+:root[data-frontend="heritage"] .admin-ai-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+:root[data-frontend="heritage"] .admin-ai-head p{max-width:640px}
+:root[data-frontend="heritage"] .admin-ai-state{display:grid;justify-items:center;gap:3px;padding:10px 16px;border:1px solid var(--line);border-radius:var(--h-radius-control);min-width:130px}
+:root[data-frontend="heritage"] .admin-ai-state b{font-size:var(--h-font-body);font-weight:800}
+:root[data-frontend="heritage"] .admin-ai-state small{color:var(--muted);font-family:var(--h-font-data);font-size:var(--h-font-micro)}
+:root[data-frontend="heritage"] .admin-ai-state.ok b{color:var(--h-success)}
+:root[data-frontend="heritage"] .admin-ai-state.warn b{color:var(--h-warning)}
+:root[data-frontend="heritage"] .admin-ai-error{padding:9px 12px;border:1px solid color-mix(in srgb,var(--h-danger) 40%,var(--line));border-radius:var(--h-radius-control);background:color-mix(in srgb,var(--h-danger) 7%,transparent);color:var(--h-danger);font-size:var(--h-font-caption)}
+:root[data-frontend="heritage"] .admin-ai-ring{display:grid;gap:10px;padding:13px;border:1px dashed var(--h-glass-border-soft);border-radius:var(--h-radius-card)}
+:root[data-frontend="heritage"] .admin-ai-ring-summary{display:flex;flex-wrap:wrap;gap:8px 22px}
+:root[data-frontend="heritage"] .admin-ai-ring-summary>span{display:grid;gap:1px}
+:root[data-frontend="heritage"] .admin-ai-ring-summary b{font:800 var(--h-font-card-strong)/1.1 var(--h-font-data);font-variant-numeric:tabular-nums}
+:root[data-frontend="heritage"] .admin-ai-ring-summary small{color:var(--muted);font-size:var(--h-font-micro)}
+:root[data-frontend="heritage"] .admin-ai-ring-list{display:flex;flex-wrap:wrap;gap:6px}
+:root[data-frontend="heritage"] .admin-ai-ring-key{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:var(--h-ds-radius-pill);padding:5px 11px;background:var(--bg-elev)}
+:root[data-frontend="heritage"] .admin-ai-ring-key b{font:700 var(--h-font-micro)/1 var(--h-font-data);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+:root[data-frontend="heritage"] .admin-ai-ring-key code{font:600 var(--h-font-caption)/1 var(--h-font-data);color:var(--ink-2)}
+:root[data-frontend="heritage"] .admin-ai-ring-key small{font:700 var(--h-font-micro)/1 var(--h-font-data);color:var(--h-success)}
+:root[data-frontend="heritage"] .admin-ai-ring-key.cooling small{color:var(--h-warning)}
+:root[data-frontend="heritage"] .admin-ai-empty,.admin-ai-hint{margin:0;color:var(--muted);font-size:var(--h-font-caption);line-height:1.5}
+:root[data-frontend="heritage"] .admin-ai-keys{display:grid;gap:10px}
+:root[data-frontend="heritage"] .admin-ai-encryption{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;border:1px solid var(--line);border-radius:var(--h-radius-control);padding:10px 12px;background:var(--bg-elev)}
+:root[data-frontend="heritage"] .admin-ai-encryption[data-state="ok"]{border-color:color-mix(in srgb,var(--h-success) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-encryption[data-state="warn"]{border-color:color-mix(in srgb,var(--h-warning) 45%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-encryption b{font:800 var(--h-font-micro)/1 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-encryption[data-state="ok"] b{color:var(--h-success)}
+:root[data-frontend="heritage"] .admin-ai-encryption[data-state="warn"] b{color:var(--h-warning)}
+:root[data-frontend="heritage"] .admin-ai-encryption span{flex-basis:100%;color:var(--muted);font-size:var(--h-font-micro);line-height:1.5}
+:root[data-frontend="heritage"] .admin-ai-encryption small{color:var(--h-warning);font-size:var(--h-font-micro)}
+:root[data-frontend="heritage"] .admin-ai-encryption small[role="status"]{color:var(--h-success)}
+:root[data-frontend="heritage"] .admin-ai-encryption button{border:1px solid color-mix(in srgb,var(--h-warning) 40%,var(--line));background:var(--panel-solid);color:var(--ink);border-radius:5px;padding:7px 11px;font:700 var(--h-font-micro)/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .admin-ai-encryption button:hover:not(:disabled){border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-encryption button:disabled{opacity:.5;cursor:wait}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-enc{font:800 var(--h-font-micro)/1 var(--h-font-data);border-radius:var(--h-ds-radius-pill);padding:3px 8px;border:1px solid var(--line);justify-self:start}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-enc.ok{color:var(--h-success);border-color:color-mix(in srgb,var(--h-success) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-enc.warn{color:var(--h-warning);border-color:color-mix(in srgb,var(--h-warning) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-enc.fail{color:var(--h-danger);border-color:color-mix(in srgb,var(--h-danger) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-key-rows{display:grid;gap:7px}
+:root[data-frontend="heritage"] .admin-ai-key-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:var(--h-radius-control);padding:10px 12px;background:var(--bg-elev)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-label{display:grid;gap:2px;min-width:0}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-label strong{font:700 var(--h-font-body)/1.2 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-label code{font:600 var(--h-font-micro)/1 var(--h-font-data);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-meta{display:grid;gap:3px;justify-items:end}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-meta em{font:800 var(--h-font-micro)/1 var(--h-font-data);border-radius:var(--h-ds-radius-pill);padding:4px 9px;border:1px solid var(--line)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-meta em.on{color:var(--h-success);border-color:color-mix(in srgb,var(--h-success) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-meta em.off{color:var(--muted)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-meta small{color:var(--faint);font-size:var(--h-font-micro)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-actions{display:flex;gap:6px}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-actions button{border:1px solid var(--line);background:var(--panel-solid);color:var(--ink);border-radius:5px;padding:7px 11px;font:700 var(--h-font-micro)/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-actions button:hover:not(:disabled){border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-actions button.danger{color:var(--h-danger)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-actions button:disabled{opacity:.5;cursor:wait}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-test{grid-column:1/-1;font:600 var(--h-font-micro)/1.4 var(--h-font-data)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-test.ok{color:var(--h-success)}
+:root[data-frontend="heritage"] .admin-ai-key-row .key-test.fail{color:var(--h-danger)}
+:root[data-frontend="heritage"] .admin-ai-add{display:grid;grid-template-columns:minmax(140px,.6fr) minmax(220px,1.4fr) auto;gap:8px;align-items:end;padding-top:10px;border-top:1px dashed var(--line)}
+:root[data-frontend="heritage"] .admin-ai-add label{display:grid;gap:5px;font-size:var(--h-font-micro);font-weight:700;color:var(--muted)}
+:root[data-frontend="heritage"] .admin-ai-add input{min-height:36px;border:1px solid var(--line);background:var(--bg-elev);color:var(--ink);border-radius:5px;padding:8px 10px;font:500 var(--h-font-caption)/1.3 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-add .primary{border:1px solid color-mix(in srgb,var(--accent) 55%,var(--line));background:color-mix(in srgb,var(--accent) 22%,var(--panel-strong));color:var(--ink);border-radius:5px;padding:9px 15px;font:800 var(--h-font-caption)/1.1 var(--h-font-ui);cursor:pointer}
+:root[data-frontend="heritage"] .admin-ai-add .primary:disabled{opacity:.5;cursor:wait}
+:root[data-frontend="heritage"] .admin-ai-models>div{display:flex;flex-wrap:wrap;gap:6px}
+:root[data-frontend="heritage"] .admin-ai-models span{display:grid;gap:2px;border:1px solid var(--line);border-radius:var(--h-radius-control);padding:8px 12px;background:var(--bg-elev);min-width:150px}
+:root[data-frontend="heritage"] .admin-ai-models span.ok{border-color:color-mix(in srgb,var(--h-success) 34%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-models b{font:700 var(--h-font-caption)/1.2 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-models small{color:var(--muted);font:600 var(--h-font-micro)/1.1 var(--h-font-data)}
+/* R33: admin-owned default chat model + behavior selectors (moved out of the user chat). */
+:root[data-frontend="heritage"] .admin-ai-model-defaults{display:grid;gap:10px;padding:16px;border:1px solid var(--line);border-radius:var(--h-radius-control);background:var(--bg-elev)}
+:root[data-frontend="heritage"] .admin-ai-model-defaults h3{margin:0;font-size:16px}
+:root[data-frontend="heritage"] .admin-ai-section-note{margin:0;color:var(--muted);font:500 var(--h-font-caption)/1.55 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-model-options{display:flex;flex-wrap:wrap;gap:8px}
+:root[data-frontend="heritage"] .admin-ai-model-option{display:grid;gap:3px;text-align:start;border:1px solid var(--line);border-radius:7px;background:var(--panel-solid);color:var(--ink);padding:10px 14px;min-width:170px;cursor:pointer;transition:border-color .15s var(--h-ds-ease-standard),background .15s var(--h-ds-ease-standard)}
+:root[data-frontend="heritage"] .admin-ai-model-option:hover:not(:disabled){border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-model-option.selected{border-color:color-mix(in srgb,var(--accent) 62%,var(--line));background:color-mix(in srgb,var(--accent) 10%,var(--panel-strong));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 40%,transparent)}
+:root[data-frontend="heritage"] .admin-ai-model-option:disabled{opacity:.45;cursor:not-allowed}
+:root[data-frontend="heritage"] .admin-ai-model-option b{font:800 var(--h-font-caption)/1.2 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-model-option small{font:600 var(--h-font-micro)/1.2 var(--h-font-data);color:var(--muted)}
+:root[data-frontend="heritage"] .admin-ai-mode-options{display:flex;flex-wrap:wrap;gap:7px;padding-top:2px;border-top:1px dashed var(--line)}
+:root[data-frontend="heritage"] .admin-ai-mode-option{border:1px solid var(--line);border-radius:7px;background:var(--panel-solid);color:var(--ink);padding:7px 14px;font:800 var(--h-font-micro)/1.1 var(--h-font-ui);cursor:pointer;transition:border-color .15s var(--h-ds-ease-standard),background .15s var(--h-ds-ease-standard)}
+:root[data-frontend="heritage"] .admin-ai-mode-option:hover:not(:disabled){border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+:root[data-frontend="heritage"] .admin-ai-mode-option.selected{border-color:color-mix(in srgb,var(--accent) 62%,var(--line));background:color-mix(in srgb,var(--accent) 14%,var(--panel-strong))}
+:root[data-frontend="heritage"] .admin-ai-saved{margin:0;color:var(--h-success);font:700 var(--h-font-caption)/1.3 var(--h-font-ui)}
+:root[data-frontend="heritage"] .admin-ai-saving{margin:0;color:var(--muted);font:600 var(--h-font-caption)/1.3 var(--h-font-ui)}
+@media(max-width:820px){
+  :root[data-frontend="heritage"] .admin-ai-key-row{grid-template-columns:1fr;justify-items:start}
+  :root[data-frontend="heritage"] .admin-ai-key-row .key-meta{justify-items:start}
+  :root[data-frontend="heritage"] .admin-ai-add{grid-template-columns:1fr}
+}

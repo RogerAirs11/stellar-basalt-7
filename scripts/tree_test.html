@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classic Registry tree geometry test (R69)</title>
+<link rel="stylesheet" href="/public/classic-registry/ui/classic.css">
+<style>body{margin:0}</style>
+</head>
+<body data-classic-registry>
+<main class="workspace" id="workspace" data-route="horse">
+  <section class="panel" style="margin:10px">
+    <div class="family-tree-scroll" id="scrollbox">
+      <div class="family-tree" data-family-kind="ancestors" id="tree"></div>
+    </div>
+  </section>
+</main>
+<script>
+const NAMES = ["MARWAN AL SHAQAB","KW Heirloom","Imperial Baardji","Laheeb Al Nasser","Psity of Angels LA","Rohara Moon Storm","SF Veraz","Amurath Bandwidth","Exodus","Star of the Hills","Bellagio RCA","WF Bey Afire","Laheeb","Magidaa","Kajora","Simeon Shata"];
+/* mirrors R69 familyTree(): ancestors => children block FIRST, node card BELOW; card = role + name only */
+function node(level, relation, idx){
+  const name = NAMES[idx % NAMES.length];
+  const kids = level < 3 ? `<div class="family-children" style="--child-count:2">${node(level+1,"father",idx*2+1)}${node(level+1,"mother",idx*2+2)}</div>` : "";
+  const card = `<article class="family-node family-${relation}"><div class="family-node-top"><span class="family-role">${relation==="father"?"SIRE":relation==="mother"?"DAM":"SUBJECT"}</span></div><div class="family-name"><a href="#/horse/x">${name}</a></div></article>`;
+  const inner = `${kids}${card}`;
+  return `<div class="family-branch family-level-${level} family-branch-${relation}" data-relation="${relation}">${inner}</div>`;
+}
+document.getElementById("tree").innerHTML = node(0, "subject", 0);
+</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+{
+  "province_code_scheme": "iso3166-2-ir:2020-11-24",
+  "sources": {
+    "provinces": "https://raw.githubusercontent.com/flyingcircusio/pycountry/main/src/pycountry/databases/iso3166-2.json",
+    "dc": "https://www.ecaho.org/about-ecaho/commissions-groups"
+  },
+  "checked_at": "2026-10-05",
+  "service_categories": [
+    {
+      "id": "veterinarian",
+      "en": "Veterinarian",
+      "fa": "دامپزشک",
+      "ar": "طبيب بيطري"
+    },
+    {
+      "id": "trainer",
+      "en": "Riding trainer",
+      "fa": "مربی سوارکاری",
+      "ar": "مدرب ركوب"
+    },
+    {
+      "id": "club",
+      "en": "Riding club",
+      "fa": "باشگاه سوارکاری",
+      "ar": "نادي ركوب الخيل"
+    },
+    {
+      "id": "breeder",
+      "en": "Breeder",
+      "fa": "پرورش‌دهنده",
+      "ar": "مربٍّ"
+    },
+    {
+      "id": "stud",
+      "en": "Stud service",
+      "fa": "خدمات نریان",
+      "ar": "خدمات الفحول"
+    },
+    {
+      "id": "rider",
+      "en": "Rider",
+      "fa": "سوارکار",
+      "ar": "فارس"
+    },
+    {
+      "id": "judge",
+      "en": "Judge",
+      "fa": "داور",
+      "ar": "حَكَم"
+    },
+    {
+      "id": "steward",
+      "en": "Steward",
+      "fa": "کلانتر",
+      "ar": "المشرف الميداني"
+    },
+    {
+      "id": "dc",
+      "en": "Disciplinary Committee (DC)",
+      "fa": "عضو کمیته انضباطی (DC)",
+      "ar": "عضو اللجنة التأديبية (DC)"
+    },
+    {
+      "id": "ringmaster",
+      "en": "Ringmaster",
+      "fa": "رینگ‌مستر",
+      "ar": "مدير الحلبة"
+    },
+    {
+      "id": "course_designer",
+      "en": "Course designer",
+      "fa": "طراح مسیر",
+      "ar": "مصمم المسار"
+    },
+    {
+      "id": "transport",
+      "en": "Horse transport",
+      "fa": "اسب‌کش",
+      "ar": "نقل الخيول"
+    },
+    {
+      "id": "farrier",
+      "en": "Farrier",
+      "fa": "نعل‌بند",
+      "ar": "حدّاد حوافر"
+    },
+    {
+      "id": "equipment",
+      "en": "Equipment shop",
+      "fa": "لوازم و تجهیزات",
+      "ar": "متجر العتاد"
+    },
+    {
+      "id": "feed",
+      "en": "Feed supplier",
+      "fa": "خوراک و مکمل",
+      "ar": "مورّد الأعلاف"
+    },
+    {
+      "id": "photographer",
+      "en": "Equine photographer",
+      "fa": "عکاس اسب",
+      "ar": "مصوّر الخيول"
+    },
+    {
+      "id": "lab",
+      "en": "Genetics laboratory",
+      "fa": "آزمایشگاه ژنتیک",
+      "ar": "مختبر الوراثة"
+    },
+    {
+      "id": "rehabilitation",
+      "en": "Rehabilitation service",
+      "fa": "توانبخشی",
+      "ar": "خدمة التأهيل"
+    },
+    {
+      "id": "groom",
+      "en": "Groom",
+      "fa": "مهتر",
+      "ar": "سائس"
+    },
+    {
+      "id": "boarding",
+      "en": "Boarding stable",
+      "fa": "پانسیون اسب",
+      "ar": "إسطبل الإيواء"
+    },
+    {
+      "id": "saddle_fitter",
+      "en": "Saddle fitter",
+      "fa": "متخصص تناسب زین",
+      "ar": "أخصائي ملاءمة السرج"
+    },
+    {
+      "id": "event_organizer",
+      "en": "Event organizer",
+      "fa": "برگزارکننده رویداد",
+      "ar": "منظّم الفعاليات"
+    }
+  ],
+  "provinces": [
+    {
+      "code": "IR-00",
+      "en": "Markazi",
+      "fa": "مرکزی",
+      "ar": "مركزي"
+    },
+    {
+      "code": "IR-01",
+      "en": "Gilan",
+      "fa": "گیلان",
+      "ar": "غيلان"
+    },
+    {
+      "code": "IR-02",
+      "en": "Mazandaran",
+      "fa": "مازندران",
+      "ar": "مازندران"
+    },
+    {
+      "code": "IR-03",
+      "en": "East Azerbaijan",
+      "fa": "آذربایجان شرقی",
+      "ar": "أذربيجان الشرقية"
+    },
+    {
+      "code": "IR-04",
+      "en": "West Azerbaijan",
+      "fa": "آذربایجان غربی",
+      "ar": "أذربيجان الغربية"
+    },
+    {
+      "code": "IR-05",
+      "en": "Kermanshah",
+      "fa": "کرمانشاه",
+      "ar": "كرمانشاه"
+    },
+    {
+      "code": "IR-06",
+      "en": "Khuzestan",
+      "fa": "خوزستان",
+      "ar": "خوزستان"
+    },
+    {
+      "code": "IR-07",
+      "en": "Fars",
+      "fa": "فارس",
+      "ar": "فارس"
+    },
+    {
+      "code": "IR-08",
+      "en": "Kerman",
+      "fa": "کرمان",
+      "ar": "كرمان"
+    },
+    {
+      "code": "IR-09",
+      "en": "Razavi Khorasan",
+      "fa": "خراسان رضوی",
+      "ar": "خراسان رضوي"
+    },
+    {
+      "code": "IR-10",
+      "en": "Isfahan",
+      "fa": "اصفهان",
+      "ar": "أصفهان"
+    },
+    {
+      "code": "IR-11",
+      "en": "Sistan and Baluchestan",
+      "fa": "سیستان و بلوچستان",
+      "ar": "سيستان وبلوشستان"
+    },
+    {
+      "code": "IR-12",
+      "en": "Kurdistan",
+      "fa": "کردستان",
+      "ar": "كردستان"
+    },
+    {
+      "code": "IR-13",
+      "en": "Hamadan",
+      "fa": "همدان",
+      "ar": "همدان"
+    },
+    {
+      "code": "IR-14",
+      "en": "Chaharmahal and Bakhtiari",
+      "fa": "چهارمحال و بختیاری",
+      "ar": "چهارمحال وبختياري"
+    },
+    {
+      "code": "IR-15",
+      "en": "Lorestan",
+      "fa": "لرستان",
+      "ar": "لرستان"
+    },
+    {
+      "code": "IR-16",
+      "en": "Ilam",
+      "fa": "ایلام",
+      "ar": "إيلام"
+    },
+    {
+      "code": "IR-17",
+      "en": "Kohgiluyeh and Boyer-Ahmad",
+      "fa": "کهگیلویه و بویراحمد",
+      "ar": "كهكيلويه وبويرأحمد"
+    },
+    {
+      "code": "IR-18",
+      "en": "Bushehr",
+      "fa": "بوشهر",
+      "ar": "بوشهر"
+    },
+    {
+      "code": "IR-19",
+      "en": "Zanjan",
+      "fa": "زنجان",
+      "ar": "زنجان"
+    },
+    {
+      "code": "IR-20",
+      "en": "Semnan",
+      "fa": "سمنان",
+      "ar": "سمنان"
+    },
+    {
+      "code": "IR-21",
+      "en": "Yazd",
+      "fa": "یزد",
+      "ar": "يزد"
+    },
+    {
+      "code": "IR-22",
+      "en": "Hormozgan",
+      "fa": "هرمزگان",
+      "ar": "هرمزغان"
+    },
+    {
+      "code": "IR-23",
+      "en": "Tehran",
+      "fa": "تهران",
+      "ar": "طهران"
+    },
+    {
+      "code": "IR-24",
+      "en": "Ardabil",
+      "fa": "اردبیل",
+      "ar": "أردبيل"
+    },
+    {
+      "code": "IR-25",
+      "en": "Qom",
+      "fa": "قم",
+      "ar": "قم"
+    },
+    {
+      "code": "IR-26",
+      "en": "Qazvin",
+      "fa": "قزوین",
+      "ar": "قزوين"
+    },
+    {
+      "code": "IR-27",
+      "en": "Golestan",
+      "fa": "گلستان",
+      "ar": "كلستان"
+    },
+    {
+      "code": "IR-28",
+      "en": "North Khorasan",
+      "fa": "خراسان شمالی",
+      "ar": "خراسان الشمالية"
+    },
+    {
+      "code": "IR-29",
+      "en": "South Khorasan",
+      "fa": "خراسان جنوبی",
+      "ar": "خراسان الجنوبية"
+    },
+    {
+      "code": "IR-30",
+      "en": "Alborz",
+      "fa": "البرز",
+      "ar": "البرز"
+    }
+  ]
+}

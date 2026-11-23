@@ -1,0 +1,16 @@
+{
+  "base": "Horse-Registry-v1.1.8-Showcase-Release-v5-Source-With-Docs-2026-09-08.zip",
+  "added": [
+    "docs/V5_D1_SERVING_FINAL_REPLAY_VALIDATION_2026-09-08.json",
+    "docs/V5_D1_SERVING_OPTIMIZATION_REPORT_2026-09-08.md",
+    "docs/V5_D1_SERVING_OPTIMIZATION_WORKLOG_2026-09-08.md",
+    "tests/python/test_d1_serving_db.py",
+    "tools/build_d1_serving_db.py"
+  ],
+  "changed": [
+    "src/search/refresh.ts",
+    "tools/export_sqlite_to_d1.py",
+    "tools/import_xlsx.py"
+  ],
+  "removed": []
+}

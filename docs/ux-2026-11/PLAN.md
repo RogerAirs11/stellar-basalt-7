@@ -1,0 +1,10 @@
+# Core + Modern: release plan and operator handoff
+
+Baseline: horse-registry/main `1fa9bd2bb23326b29a466773624d6fda1c2c22a0`; Core is Heritage at `/`, not the Classic frontend. Modern production is the independent donor document `/f/modern-horse/`; editing only the wrapper would miss most users. Preserve the other skins and both design systems.
+
+1. First checkpoint: restore reliable registry discovery on phones. Fix Core portalled column controls and record loading/retry; Modern drawer semantics and touch controls, stale search responses and silent demo fallback in the registry explorer. Exercise release bundles on narrow portrait, landscape and desktop in English and Persian. Separate browser fixtures from live backend tests.
+2. Compare journeys, not menu titles: registry browse/search/filter/sort, horse/parent/offspring, person, racing, sports, news, authenticated submissions, admin and care. Record native vs delegated vs missing; same ID, visibility, ordering, totals, paging, partial/empty/error handling; never expose private review tables merely to claim parity.
+3. Next: separate sample records and invented field defaults from every Modern surface; replace full eager browse prefetch with cursor/on-demand paging, progressively load charts/page bundles, align field-scoped search and public capability discovery with Core. Verify slow connections, missing fields, source conflicts and backend fallback explicitly.
+4. Release: commit tests and handoff at meaningful checkpoints. A GitHub push is not deployment. No Supabase write for client fixes. Cloudflare production uses manual approval of exact clean SHA plus release gates (including provider parity). Do not advance that approval variable, silently run migrations or deploy an untested build. Record deployed version + public smoke, or explicitly mark not deployed.
+
+Implementation discovery: `.github/workflows/deploy.yml` also attempts automatic deployment on main; `deploy-production.yml` is not the only path. Until these agree and Actions billing is restored, publish candidates as review branches and confirm the actual Cloudflare version. See REPORT.md.

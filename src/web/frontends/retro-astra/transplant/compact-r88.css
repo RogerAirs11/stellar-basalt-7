@@ -1,0 +1,16 @@
+/* Only Retro Astra scope; donor visuals and preference controls stay independent. */
+.retro-astra-transplant { font-size:var(--ra-compact-body-size); }
+.retro-astra-transplant .desk-surround { padding:var(--ra-compact-gutter); }
+.retro-astra-transplant .app-shell { max-inline-size:var(--ra-compact-content-max); margin-inline:auto; }
+.retro-astra-transplant .workspace-main { min-inline-size:0; padding:12px var(--ra-compact-gutter) 24px; }
+.retro-astra-transplant .page-heading { padding-block-end:14px; margin-block-end:14px; }
+.retro-astra-transplant .panel-heading { padding:10px 12px; }
+.retro-astra-transplant :is(.horse-table td,.profile-story p,.panel-body p) { font-size:14px; line-height:1.55; }
+.retro-astra-transplant :is(button,input,select) { min-block-size:var(--ra-compact-control-height); }
+.retro-astra-transplant :is(button,a,input,select,textarea):focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+.retro-astra-transplant .status-bar { gap:10px; flex-wrap:wrap; padding:8px 12px; }
+.retro-astra-transplant .status-bar a { color:inherit; min-height:36px; display:inline-flex; align-items:center; font-size:13px; text-decoration:underline; text-underline-offset:3px; }
+.retro-astra-transplant [data-density="comfortable"] .workspace-main { padding:20px; }
+@media(max-width:760px) { .retro-astra-transplant .desk-surround { padding:0; } .retro-astra-transplant :is(input,select,textarea) { font-size:16px; } }
+@media(pointer:coarse) { .retro-astra-transplant :is(button,input,select,.status-bar a) { min-block-size:var(--ra-compact-touch-height); } }
+@media(prefers-reduced-motion:reduce) { .retro-astra-transplant *, .retro-astra-transplant *::before, .retro-astra-transplant *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

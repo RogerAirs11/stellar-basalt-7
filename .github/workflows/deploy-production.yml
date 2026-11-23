@@ -1,0 +1,208 @@
+# R95: manual release only; exact-revision owner approval required.
+#
+# Pipeline (mirrors scripts/deploy-cloudflare.ps1, the proven manual path):
+#   npm ci -> config guards -> typecheck -> tests -> build (anti-theft bundle)
+#   -> D1 migrations (idempotent, tracked) -> wrangler deploy
+#
+# Failure before deployment stops the new Worker, but schema changes may already
+# have applied. Follow the migration recovery runbook; rollback is not automatic.
+#
+# Required repo secrets (one-time setup, see docs/CI-CD-SETUP.md):
+#   CLOUDFLARE_API_TOKEN   — token with Workers Scripts:Edit + D1:Edit + Hyperdrive:Read
+#   CLOUDFLARE_ACCOUNT_ID  — the account that owns the worker
+#
+# Manual deploys of any branch: Actions tab -> "Deploy Production" -> Run workflow.
+#
+# NOTE: deploy/migration steps use `npx wrangler` (the version pinned by this
+# repo's package-lock.json) instead of the wrangler-action's own wrangler —
+# guarantees the exact same wrangler as the local manual deploy path.
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "Deploy note (optional, recorded in the run summary)"
+        required: false
+        default: ""
+
+# Never run two production deploys at once — queue instead of cancel,
+# so a fast-forward push train always lands in order.
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build + Deploy to Cloudflare
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    # 'production' environment: optionally add required reviewers later in
+    # repo Settings -> Environments for a manual approval gate before go-live.
+    environment: production
+    # R95-N04: the deploy itself re-proves real-PostgreSQL parity for the
+    # EXACT SHA being released — a previously approved variable cannot bypass
+    # a parity failure on the new revision.
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require exact-revision release approval
+        env:
+          R95_PRODUCTION_RELEASE_APPROVED_SHA: ${{ vars.R95_PRODUCTION_RELEASE_APPROVED_SHA }}
+        run: node tools/require-r95-release-approval.mjs
+
+      # Fail fast (seconds, not minutes) with a CLEAR message when the
+      # one-time secret setup from docs/CI-CD-SETUP.md has not been done yet.
+      - name: Check deploy secrets
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+            echo "::error::Cloudflare secrets are not configured yet — deploy skipped on purpose."
+            echo "::error::This is EXPECTED until the one-time setup in docs/CI-CD-SETUP.md is done:"
+            echo "::error::  1. Create a Cloudflare API token: dash.cloudflare.com -> My Profile -> API Tokens -> Create Token"
+            echo "::error::  2. Add repo secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID: GitHub repo -> Settings -> Secrets and variables -> Actions"
+            echo "::error::Then re-run this workflow (Actions -> Deploy Production -> Run workflow) and it will deploy."
+            exit 1
+          fi
+          echo "Cloudflare secrets present."
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Same guards as Assert-ProductionConfiguration in deploy-cloudflare.ps1:
+      # refuse to deploy if wrangler.jsonc still points at dev/placeholder config.
+      - name: Assert production configuration
+        run: |
+          node -e '
+          const fs = require("fs");
+          const t = fs.readFileSync("wrangler.jsonc", "utf8");
+          if (/"APP_ENV"\s*:\s*"development"/.test(t)) {
+            console.error("Production deployment refused: APP_ENV is development.");
+            process.exit(1);
+          }
+          if (t.includes("00000000-0000-0000-0000-000000000000")) {
+            console.error("Production deployment refused: D1 database_id is still the placeholder.");
+            process.exit(1);
+          }
+          // R59 security guards: one-click demo admin and OTP leaks are forbidden in production.
+          if (/"ENABLE_DEMO_ADMIN_LOGIN"\s*:\s*"1"/.test(t)) {
+            console.error("Production deployment refused: ENABLE_DEMO_ADMIN_LOGIN=1 opens a zero-credential admin login.");
+            process.exit(1);
+          }
+          // R59 database posture: the production provider mode must be an explicitly validated one.
+          const modeMatch = t.match(/"DB_PROVIDER_MODE"\s*:\s*"([^"]+)"/);
+          const mode = modeMatch ? modeMatch[1] : "supabase_full";
+          const validated = new Set(["d1_only", "supabase_full"]);
+          if (!validated.has(mode)) {
+            console.error(`Production deployment refused: DB_PROVIDER_MODE "${mode}" is not in the validated set (${[...validated].join(", ")}).`);
+            process.exit(1);
+          }
+          console.log("Production config OK.");
+          '
+          # Export the provider mode for read-only canonical schema verification.
+          # D1 migration failures block release in every provider mode.
+          DB_MODE=$(node -e 'const fs=require("fs");const t=fs.readFileSync("wrangler.jsonc","utf8");const m=t.match(/"DB_PROVIDER_MODE"\s*:\s*"([^"]+)"/);console.log(m?m[1]:"supabase_full")')
+          echo "DB_MODE=$DB_MODE" >> "$GITHUB_ENV"
+          echo "Production provider mode: $DB_MODE"
+
+      # Read-only configuration attestation; token needs Hyperdrive Read.
+      # Live session/permission revocation tests are still a release checklist gate.
+      - name: Verify authoritative Hyperdrive has query caching disabled
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npm run verify:hyperdrive:freshness
+
+      - name: Typecheck (tsc --noEmit)
+        run: npm run typecheck
+
+      - name: Tests (vitest)
+        run: npm test
+
+      - name: Production commands on real SQLite and Python regressions
+        run: |
+          python -m pip install --quiet openpyxl
+          npm run test:review-native && npm run test:python
+
+      # R95-N04: real-PostgreSQL parity for this exact revision. Failure here
+      # stops the release regardless of any earlier approved SHA variable.
+      - name: Run pg-parity-gate (migrations + integrity probes)
+        env:
+          PG_CONNECTION_STRING: postgres://postgres:postgres@localhost:5432/postgres
+          PG_PARITY_DISPOSABLE: "yes"
+        run: npm run db:pg-parity
+
+      - name: Run pg-execution-parity (production commands on PostgreSQL)
+        env:
+          PG_CONNECTION_STRING: postgres://postgres:postgres@localhost:5432/postgres
+          PG_PARITY_DISPOSABLE: "yes"
+        run: npm run db:pg-execution-parity
+
+      - name: Verify canonical PostgreSQL schema (read-only)
+        if: env.DB_MODE == 'supabase_full'
+        env:
+          SUPABASE_DATABASE_URL: ${{ secrets.SUPABASE_DATABASE_URL }}
+        run: node tools/verify-r95-primary-schema.mjs
+
+      # vite build --mode cloudflare + HTML minify + dist asset validation.
+      # Produces dist/horse_registry_nextgen/ (bundled worker + client assets)
+      # and the .wrangler/deploy/config.json redirect that `wrangler deploy`
+      # follows — verified identical to the manual deploy path (R48).
+      - name: Build (cloudflare bundle, anti-theft minified)
+        run: npm run build
+
+      - name: Recheck clean approved revision after build
+        env:
+          R95_PRODUCTION_RELEASE_APPROVED_SHA: ${{ vars.R95_PRODUCTION_RELEASE_APPROVED_SHA }}
+        run: node tools/require-r95-release-approval.mjs
+
+      # No count-only or quota-based bypass: a fallback database must be current.
+      - name: Apply D1 migrations (failure blocks release)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler d1 migrations apply horse-registry --remote --config wrangler.jsonc
+
+      - name: Deploy Worker + assets
+        env:
+          R95_PRODUCTION_RELEASE_APPROVED_SHA: ${{ vars.R95_PRODUCTION_RELEASE_APPROVED_SHA }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node tools/require-r95-release-approval.mjs
+          npx wrangler deploy
+
+      - name: Deployment summary
+        env:
+          DEPLOY_NOTE: ${{ inputs.note }}
+        run: |
+          echo "## 🚀 Production deployed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${GITHUB_SHA::7}\` — ${GITHUB_REF_NAME}" >> $GITHUB_STEP_SUMMARY
+          echo "**Note:** ${DEPLOY_NOTE:-push to main}" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://horse-registry-nextgen.rogerfires10.workers.dev" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Rollback if needed: Cloudflare dashboard → Workers → horse-registry-nextgen → Deployments → previous version → Rollback (or \`npx wrangler rollback\` locally)." >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,11 @@
+-- Migration 0091 (turn 12): per-row data lineage for admin visibility.
+--
+-- data_origin marks WHERE each row's data came from, e.g.:
+--   original_import:horse-allll.xlsx/2026-08-24   (the owner's original registry import)
+--   scrape:sheyhe.com/2026-10                     (sheyhe.com public pedigree scrape)
+--   scrape:asbdavani.app/2026-10                  (asbdavani.app racing scrape)
+--
+-- Staff-only concern (see DATA_VISIBILITY.md): surfaced in the admin horse
+-- ledger (fei-classic StaffLedger) via ADMIN_HORSE_DETAIL_FIELDS. Never
+-- exposed on public projections.
+ALTER TABLE horses ADD COLUMN data_origin TEXT;

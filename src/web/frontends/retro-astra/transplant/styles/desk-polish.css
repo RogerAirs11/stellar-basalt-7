@@ -1,0 +1,111 @@
+/* R111: legible desk controls, bounded tables and a direct mobile section picker. */
+/* Source-only previews have no original grain images. Preserve the material
+   colours and depth without applying the illustration placeholder to textures. */
+.retro-astra-transplant[data-source-preview="true"] .preferences-root {
+  --material-paper:none;
+  --material-leather:none;
+  --material-wood:linear-gradient(140deg,var(--surface-inset),var(--canvas));
+}
+.retro-astra-transplant .header-inner > *, .retro-astra-transplant .header-tools { min-inline-size:0; }
+.retro-astra-transplant .preferences-root [data-edition] :is(.desk-section-marker,.ledger-view-tabs > button > span) { color:var(--gold-ink); }
+.retro-astra-transplant .site-header .brand-name { white-space:nowrap; }
+.retro-astra-transplant .hero-description { font-size:13px;line-height:1.6; }
+.retro-astra-transplant .profile-registration, .retro-astra-transplant .profile-meta { overflow-wrap:anywhere; }
+.retro-astra-transplant .profile-page .profile-totals { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem; }
+.retro-astra-transplant .profile-page .profile-totals > div { min-inline-size:0;padding-inline:.5rem; }
+.retro-astra-transplant .profile-page .profile-totals span { font-size:12px;line-height:1.6;overflow-wrap:anywhere; }
+.retro-astra-transplant .profile-page :is(.profile-meta,.profile-registration,.profile-footnote) { font-size:12px;line-height:1.7; }
+.retro-astra-transplant .profile-page .record-tabs > button { min-block-size:44px;font-size:12px; }
+.retro-astra-transplant .desk-mobile-section { display:none; }
+.retro-astra-transplant .collections-page { min-inline-size:0; }
+.retro-astra-transplant .collection-workspace > *,
+.retro-astra-transplant .collection-sheet { min-inline-size:0; max-inline-size:100%; }
+.retro-astra-transplant .collection-sheet-heading { flex-wrap:wrap; gap:.75rem; }
+.retro-astra-transplant .collection-sheet-heading > div { min-inline-size:0; flex:1 1 12rem; }
+.retro-astra-transplant .collection-sheet-heading h2 { font-size:clamp(1.1rem,2.4vw,1.7rem); overflow-wrap:anywhere; line-height:1.4; }
+.retro-astra-transplant .collection-sheet-heading p,
+.retro-astra-transplant .collection-folder strong { font-size:.875rem; line-height:1.6; }
+.retro-astra-transplant .collection-folder small { font-size:.75rem; line-height:1.5; }
+.retro-astra-transplant .collection-folder { min-inline-size:0; }
+.retro-astra-transplant .collection-folder > span { min-inline-size:0; overflow-wrap:anywhere; }
+.retro-astra-transplant .collection-toolbar { display:flex; flex-wrap:wrap; align-items:flex-end; gap:.75rem; padding:1rem; }
+.retro-astra-transplant .collection-toolbar > .field { flex:1 1 10rem; min-inline-size:0; }
+.retro-astra-transplant .collection-toolbar > .button:last-child { margin-inline-start:0; margin-left:0; }
+.retro-astra-transplant .collections-page :is(input,select,textarea) { inline-size:100%; min-inline-size:0; max-inline-size:100%; box-sizing:border-box; }
+.retro-astra-transplant .collections-page :is(label,.field-label) { font-size:.875rem; line-height:1.6; }
+.retro-astra-transplant .collections-page .horse-table :is(th,td) { font-size:.875rem; line-height:1.6; padding:.7rem; }
+.retro-astra-transplant .collections-page .horse-table th { white-space:normal; }
+.retro-astra-transplant .collections-page .table-scroll { max-inline-size:100%; overflow:auto; overscroll-behavior-inline:contain; border-radius:.25rem; }
+.retro-astra-transplant .desk-admin { display:grid; gap:1rem; }
+.retro-astra-transplant .desk-admin > .collection-sheet { margin:0; }
+.retro-astra-transplant .desk-admin > .collection-sheet > .button { margin:0 1rem 1rem; }
+.retro-astra-transplant .desk-notice { margin:.75rem 1rem; padding:.8rem 1rem; color:var(--ink); background:var(--surface-raised); border:1px solid var(--line); border-inline-start:3px solid var(--accent); border-radius:.35rem; font-size:.875rem; line-height:1.65; overflow-wrap:anywhere; }
+.retro-astra-transplant .desk-notice > p { margin:0 0 .5rem; }
+.retro-astra-transplant .desk-notice--error { border-inline-start-color:var(--danger); }
+.retro-astra-transplant .desk-notice--success { border-inline-start-color:var(--accent); }
+.retro-astra-transplant .desk-notice details { margin-block:.5rem; }
+.retro-astra-transplant .desk-notice summary { cursor:pointer; font-size:.8rem; }
+.retro-astra-transplant .desk-actions { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+.retro-astra-transplant .desk-request-form { padding:1rem; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.8rem; }
+.retro-astra-transplant .desk-request-form > :nth-child(3) { grid-column:1/-1; }
+.retro-astra-transplant .desk-text-button { border:0; background:transparent; color:var(--accent); text-decoration:underline; text-underline-offset:.2em; font:inherit; text-align:start; cursor:pointer; padding:.2rem; }
+.retro-astra-transplant .collection-sheet .profile-totals { flex-wrap:wrap; }
+.retro-astra-transplant .collection-sheet .profile-totals > div { min-inline-size:8rem; flex:1 1 8rem; }
+.retro-astra-transplant .collection-sheet .profile-totals span { font-size:.8rem; line-height:1.5; }
+.retro-astra-transplant .collection-sheet .pagination { flex-wrap:wrap; gap:.5rem; padding:1rem; }
+.retro-astra-transplant .collection-sheet .performance-disclaimer { padding:1rem; font-size:.875rem; line-height:1.7; }
+@media (max-width:760px) {
+  .retro-astra-transplant .preferences-root [data-edition] .status-bar { flex-wrap:wrap; gap:.35rem .8rem; }
+  .retro-astra-transplant .preferences-root [data-edition] .status-bar > a { font-size:.7rem; white-space:normal; }
+  .retro-astra-transplant .preferences-root [data-edition] .status-bar > div { flex:1 1 100%; flex-wrap:wrap; }
+  .retro-astra-transplant .profile-page .profile-totals { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .retro-astra-transplant .site-header { height:auto; }
+  .retro-astra-transplant .site-header .header-inner { display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand tools" "search search";height:auto;min-height:0;padding:10px 12px;gap:10px; }
+  .retro-astra-transplant .site-header .brand { grid-area:brand;min-width:0;max-width:100%;margin:0;gap:7px; }
+  .retro-astra-transplant .site-header .brand>span:last-child { min-width:0;overflow:hidden; }
+  .retro-astra-transplant .site-header .brand-name { display:block;font-size:22px!important;line-height:1.3!important;letter-spacing:0!important;overflow:hidden;text-overflow:ellipsis; }
+  .retro-astra-transplant .site-header .brand-tagline { display:none; }
+  .retro-astra-transplant .site-header .brand-seal { width:34px;height:34px;flex:0 0 34px; }
+  .retro-astra-transplant .site-header .brand-seal>svg { width:25px;height:27px; }
+  .retro-astra-transplant .site-header .header-tools { grid-area:tools;display:flex;gap:5px; }
+  .retro-astra-transplant .site-header .header-tools :is(.icon-button,.language-switch) { width:36px;min-width:36px;height:40px; }
+  .retro-astra-transplant .site-header .global-search { grid-area:search;width:100%;min-width:0;height:44px;margin:0;font-size:13px; }
+  .retro-astra-transplant .site-header .global-search>span { min-width:0;overflow:hidden;text-overflow:ellipsis; }
+  .retro-astra-transplant .desk-menubar { min-height:32px;height:auto;gap:8px; }
+  .retro-astra-transplant .desk-menubar .desktop-app-label { display:none; }
+  .retro-astra-transplant .desk-menus { margin:0;flex:1;display:flex;justify-content:space-between; }
+  .retro-astra-transplant .desk-menus>.desk-menu-anchor>button { min-height:32px;font-size:12px;padding:5px 10px; }
+  .retro-astra-transplant .hero-actions { flex-wrap:wrap; }
+  .retro-astra-transplant .welcome-hero { height:auto;min-height:260px; }
+  .retro-astra-transplant .hero-copy { padding:22px 18px; }
+  .retro-astra-transplant .hero-copy h1 { font-size:clamp(28px,8vw,42px)!important;line-height:1.3!important; }
+  .retro-astra-transplant .hero-description { font-size:13px;max-width:100%; }
+  .retro-astra-transplant .hero-secondary { font-size:12px; }
+  .retro-astra-transplant .collection-workspace { display:block; }
+  .retro-astra-transplant .collection-folders { display:none; }
+  .retro-astra-transplant .desk-mobile-section { display:grid; gap:.4rem; margin-block-end:1rem; color:var(--ink); font-size:.875rem; }
+  .retro-astra-transplant .desk-mobile-section select { min-block-size:2.75rem; border:1px solid var(--line); background:var(--surface-raised); color:var(--ink); border-radius:.35rem; padding:.5rem; }
+  .retro-astra-transplant .desk-request-form { grid-template-columns:minmax(0,1fr); }
+  .retro-astra-transplant .collection-toolbar > .field { flex-basis:100%; }
+  .retro-astra-transplant .collection-toolbar > .button { flex:1 1 100%; min-block-size:2.75rem; }
+  .retro-astra-transplant .collection-sheet .horse-table { min-inline-size:30rem; }
+  .retro-astra-transplant .collection-sheet-heading { padding:1rem; }
+  .retro-astra-transplant .desk-notice { margin:.75rem; }
+}
+@media(max-width:370px) { .retro-astra-transplant .site-header .brand>span:last-child { display:none; } }
+
+/* R112: native review drafts and maintenance outcomes. */
+.retro-astra-transplant .profile-request-form { display:grid; gap:var(--space-4); padding:var(--space-4); border:1px solid var(--line); border-radius:var(--radius-md); background:var(--surface-raised); }
+.retro-astra-transplant .profile-request-form :is(input,select,textarea) { inline-size:100%; min-inline-size:0; box-sizing:border-box; max-inline-size:100%; font-size:.9rem; }
+.retro-astra-transplant .profile-request-form .field { margin:0; font-size:.85rem; }
+.retro-astra-transplant .profile-request-form .field :is(select,textarea) { min-block-size:2.75rem; line-height:1.6; }
+.retro-astra-transplant .profile-request-actions { margin-block:var(--space-4); }
+.retro-astra-transplant .profile-governance .saved-note-heading { flex-wrap:wrap; gap:.5rem; }
+.retro-astra-transplant .profile-governance :is(p,time) { overflow-wrap:anywhere; line-height:1.7; }
+.retro-astra-transplant .maintenance-counts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--space-3); margin:0; }
+.retro-astra-transplant .maintenance-counts dt { font-size:.8rem; }
+.retro-astra-transplant .maintenance-counts dd { margin:0; font-size:1.25rem; font-weight:700; }
+.retro-astra-transplant .profile-analysis-details { margin-block:var(--space-4); border:1px solid var(--line); border-radius:var(--radius-md); }
+.retro-astra-transplant .profile-analysis-details > summary { padding:var(--space-3); font-size:.875rem; line-height:1.6; cursor:pointer; }
+.retro-astra-transplant .profile-analysis-details td { overflow-wrap:anywhere; white-space:normal; }
+.retro-astra-transplant .performance-section .family-connections h3 { font-size:1rem; line-height:1.6; margin-block:var(--space-4) var(--space-2); }

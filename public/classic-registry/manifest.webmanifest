@@ -1,0 +1,11 @@
+{
+  "name": "Equine Registry",
+  "short_name": "Registry",
+  "start_url": "/classic-registry/#/home",
+  "display": "standalone",
+  "background_color": "#d1d1c8",
+  "theme_color": "#315f7d",
+  "lang": "en",
+  "dir": "auto",
+  "scope": "/classic-registry/"
+}

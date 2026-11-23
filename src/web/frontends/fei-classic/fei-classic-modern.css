@@ -1,0 +1,643 @@
+/* R148 source archive has no webfont files. Use installed fonts and
+   existing system fallbacks; restore licensed font assets before fidelity QA. */
+/* ============================================================================
+   Horse-DB-3 Federation Classic — R65 "modern polish" layer.
+
+   Owner directive (2026-09-26): heavy professional polish — a better Farsi
+   font, better layout, better spacing management, super responsive with
+   efficient space usage, super accessible / navigable / readable, more
+   modern and compact — "potentially even better than the original".
+
+   What this layer does (and nothing else):
+     1. Typography — full Vazirmatn family (400/500/600/700 + latin subset)
+        for Farsi across the WHOLE UI (not just the header), Source Sans 3
+        for English. Arabic-script rules: letter-spacing always 0, taller
+        line-heights, kerning/mark features on.
+     2. Responsive donor header — the donor bands are hard 1200/1064px and
+        overflow every viewport 768–1199px; they become fluid there (tabs
+        flex-share the row, dome logo stays centered, strip gains gutters)
+        while ≥1200px keeps the byte-exact donor geometry.
+     3. Content rhythm — centered symmetric fluid container replaces the
+        asymmetric donor offsets, one spacing scale, unified control sizes,
+        breathing room in tables and forms.
+     4. Accessibility — global focus-visible rings, skip-to-content link,
+        reduced-motion support, ≥4.5:1 text contrast, 44px mobile targets,
+        aria-current on the active tab.
+     5. Modern micro-detail — dropdown shadow/entrance, sticky table heads,
+        tabular numerals, consistent radii, safe-area insets.
+
+   Cascade contract: imported LAST in entry.tsx (after fei-donor-header-exact
+   and fei-visual-encoding). Everything scoped under .fei-classic-ui (R62
+   lesson). Donor geometry ≥1200px and the donor theme colors are preserved.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------ */
+/* 1. Webfonts — full Vazirmatn family, self-hosted (CSP font-src self) */
+/* ------------------------------------------------------------------ */
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn");font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1}
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn");font-weight:500;font-style:normal;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1}
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn");font-weight:600;font-style:normal;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1}
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn");font-weight:700;font-style:normal;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1}
+@font-face{font-family:"Vazirmatn";src:local("Vazirmatn");font-weight:400;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ------------------------------------------------------------------ */
+/* 2. Typography tokens — whole-UI font stacks + Arabic-script rules   */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui{
+  --fei-font-en:"Source Sans 3","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --fei-font-fa:"Vazirmatn","Source Sans 3","Segoe UI",Tahoma,Arial,sans-serif;
+  --fei-font-body:var(--fei-font-en);
+  --fei-gutter:clamp(16px,4vw,56px);
+  --fei-radius:4px;
+  --fei-control-h:32px;
+  --fei-focus:#8d3f90;
+  font-family:var(--fei-font-body)!important;
+  font-size:14.5px!important;
+  line-height:1.55!important;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+.fei-classic-ui[data-locale="fa"]{
+  --fei-font-body:var(--fei-font-fa);
+  font-family:var(--fei-font-body)!important;
+  line-height:1.8!important;
+  letter-spacing:0!important;
+  font-feature-settings:"kern" 1,"mark" 1,"mkmk" 1,"calt" 1;
+}
+.fei-classic-ui[data-locale="ar"]{
+  --fei-font-body:"IBM Plex Sans Arabic",var(--fei-font-fa);
+  font-family:var(--fei-font-body)!important;
+  line-height:1.8!important;
+  letter-spacing:0!important;
+  font-feature-settings:"kern" 1,"mark" 1,"mkmk" 1,"calt" 1;
+}
+.fei-classic-ui[data-locale="en"]{font-feature-settings:"kern" 1}
+/* Every control inherits the locale stack (donor-exact forces 12px Arial). */
+.fei-classic-ui button,.fei-classic-ui input,.fei-classic-ui select,.fei-classic-ui textarea{font-family:inherit!important}
+.fei-classic-ui[data-locale="fa"] button,.fei-classic-ui[data-locale="fa"] input,
+.fei-classic-ui[data-locale="fa"] select,.fei-classic-ui[data-locale="fa"] textarea{letter-spacing:0!important}
+.fei-classic-ui[data-locale="ar"] button,.fei-classic-ui[data-locale="ar"] input,
+.fei-classic-ui[data-locale="ar"] select,.fei-classic-ui[data-locale="ar"] textarea{letter-spacing:0!important}
+/* Persian headings slightly smaller than EN (Vazirmatn runs tall). */
+.fei-classic-ui[data-locale="fa"] h1,.fei-classic-ui[data-locale="fa"] h2,
+.fei-classic-ui[data-locale="fa"] h3{line-height:1.5}
+.fei-classic-ui[data-locale="ar"] h1,.fei-classic-ui[data-locale="ar"] h2,
+.fei-classic-ui[data-locale="ar"] h3{line-height:1.5}
+
+/* ------------------------------------------------------------------ */
+/* 3. Accessibility — skip link, global focus rings, reduced motion     */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-skip-link{
+  position:fixed;left:50%;top:0;transform:translate(-50%,-115%);align-self:flex-start;
+  z-index:13000;background:#4f0e58;color:#fff!important;padding:10px 18px;
+  border-radius:0 0 4px 4px;font-size:13px;font-weight:600;text-decoration:none;
+  transition:transform .12s ease;box-shadow:0 4px 14px rgba(40,10,44,.35);
+}
+.fei-classic-ui .fei-skip-link:focus-visible{transform:translate(-50%,0)}
+.fei-classic-ui a:focus-visible,.fei-classic-ui button:focus-visible,
+.fei-classic-ui input:focus-visible,.fei-classic-ui select:focus-visible,
+.fei-classic-ui textarea:focus-visible,.fei-classic-ui [tabindex]:focus-visible{
+  outline:2px solid var(--fei-focus)!important;outline-offset:2px!important;
+}
+.fei-classic-ui .fc-click-row:focus-visible{outline:2px solid var(--fei-focus)!important;outline-offset:-2px!important}
+.fei-classic-ui ::selection{background:#d9b8db;color:#3d0d40}
+@media (prefers-reduced-motion:reduce){
+  .fei-classic-ui *,.fei-classic-ui *::before,.fei-classic-ui *::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* 4. Donor header — fluid 768–1199px (donor geometry kept ≥1200px)     */
+/* ------------------------------------------------------------------ */
+@media (min-width:768px) and (max-width:1199px){
+  /* width:auto (not 100%): the bands are content-box — a 100% width plus
+     padding would push the box off-center. */
+  .fei-classic-ui .top-bar-body{width:auto!important;max-width:1200px;padding:0 14px}
+  .fei-classic-ui .top-nav-body{width:auto!important;max-width:1064px;padding:0 10px}
+  /* Dome stays optically centered at any band width (donor: 343px = centered in 1200). */
+  .fei-classic-ui .top-bar-body h1.top-bar-body-logo{transform:translateX(-50%)}
+  .fei-classic-ui .top-bar-body-logo img{width:clamp(250px,35.7vw,429px)!important;height:auto!important}
+  /* Tabs share the row instead of overflowing it. ID specificity required:
+     the donor's "#topMenu ul{width:auto}" (1,1,1) beats class-only rules. */
+  .fei-classic-ui #topMenu ul.level1{display:flex!important;float:none!important;width:100%!important}
+  .fei-classic-ui div.nav ul.level1 li.static{flex:1 1 0;min-width:0}
+  .fei-classic-ui #topMenu a.static{width:100%!important;background-size:100% 100%!important;font-size:13px}
+  .fei-classic-ui div.nav ul.level1 ul.level2{width:100%}
+  .fei-classic-ui #topMenu a.dynamic{width:100%!important}
+}
+@media (min-width:768px) and (max-width:859px){
+  /* Longest labels wrap to two tidy lines on narrow tablets. */
+  .fei-classic-ui #topMenu a.static{white-space:normal!important;line-height:1.15;padding-top:11px!important;height:auto!important;min-height:46px!important}
+}
+/* Dropdown modern detail (all widths ≥768): shadow, hairline, entrance. */
+@media (min-width:768px){
+  .fei-classic-ui div.nav ul.level1 ul.level2{
+    box-shadow:0 12px 28px rgba(40,12,44,.16),0 0 0 1px rgba(40,12,44,.06)!important;
+    border-radius:0 0 4px 4px!important;
+  }
+  .fei-classic-ui div.nav ul.level1 ul.level2 li{transition:background-color .12s ease}
+  .fei-classic-ui div.nav ul.level1 ul.level2 li:hover{background:linear-gradient(#f6f1f7,#eee6ef)!important}
+  .fei-classic-ui div.nav ul.level1 li.static a.level1:focus-visible{outline-offset:-3px!important}
+}
+/* Header strip / tab typography: the shared header font family. */
+.fei-classic-ui .top-bar,.fei-classic-ui .top-nav,.fei-classic-ui div.nav{font-family:var(--fei-font-body)}
+.fei-classic-ui .top-bar-body-logo img{image-rendering:auto}
+.fei-classic-ui .loginstatus{font-size:12.5px}
+.fei-classic-ui .loginstatus a,.fei-classic-ui .extlinks a{scroll-margin-top:80px}
+.fei-classic-ui .extlinks span{font-size:13px}
+@media (min-width:1000px){
+  .fei-classic-ui .loginstatus,.fei-classic-ui .extlinks{margin-top:14px}
+  .fei-classic-ui .top-nav a.level1{letter-spacing:0}
+  .fei-classic-ui[data-locale="en"] #topMenu a.level1{letter-spacing:.01em}
+}
+/* R67 LOGO CENTERING — one bulletproof rule for every width and direction.
+   The previous pass shipped two bugs that left the logo visibly off-centre:
+   (a) RTL used translateX(+50%) together with left:50% — the box ended up
+       a FULL half-width (≈215px) right of centre; and
+   (b) at ≥1200px both directions got transform:none while still anchored at
+       left:50% — again half-off. `left` and `transform` are PHYSICAL, not
+       logical properties, so the same left:50% + translateX(-50%) pair
+       centres the box identically in LTR and RTL. Nothing may ever override
+       the translate again. */
+.fei-classic-ui .top-bar-body h1.top-bar-body-logo,
+.fei-classic-ui[dir="rtl"] .top-bar-body h1.top-bar-body-logo{left:50%!important;right:auto!important;transform:translateX(-50%)!important}
+@media (min-width:768px) and (max-width:1199px){
+  .fei-classic-ui .top-bar-body h1.top-bar-body-logo,
+  .fei-classic-ui[dir="rtl"] .top-bar-body h1.top-bar-body-logo{left:50%!important;right:auto!important;transform:translateX(-50%)!important}
+}
+@media (min-width:1200px){
+  .fei-classic-ui .top-bar-body h1.top-bar-body-logo,
+  .fei-classic-ui[dir="rtl"] .top-bar-body h1.top-bar-body-logo{left:50%!important;right:auto!important;transform:translateX(-50%)!important}
+}
+/* Optical centre: pixel-measuring the donor artwork shows the dome spans
+   columns 59–363 (centre 211.0) and the FEI wordmark 165–252 (centre 208.5)
+   inside a 429px box (geometric centre 214.5). Centering the BOX therefore
+   leaves both ~3.5–6px left of the page centreline. Nudging the IMAGE +3.5px
+   puts the dome dead-centre and the wordmark within 2.5px — visually exact
+   at every width, in both directions (transform is not direction-aware). */
+.fei-classic-ui .top-bar-body-logo img{transform:translateX(3.5px)}
+.fei-classic-ui[dir="rtl"] .top-bar-body-logo img{transform:translateX(3.5px)}
+
+/* ------------------------------------------------------------------ */
+/* 5. Mobile bar / bottom nav / drawer — safe-area + touch targets      */
+/* ------------------------------------------------------------------ */
+@media (max-width:767px){
+  .fei-classic-ui .fei-mobile-bar{
+    position:sticky;top:0;z-index:60;
+    padding-top:max(7px,env(safe-area-inset-top))!important;
+  }
+  .fei-classic-ui .fei-mobile-bottom-nav{
+    padding-bottom:max(6px,env(safe-area-inset-bottom))!important;
+  }
+  .fei-classic-ui .fei-mobile-bottom-nav button{min-height:46px;min-width:44px}
+  .fei-classic-ui .fei-hamburger{width:40px;height:40px}
+  .fei-classic-ui .fei-mobile-drawer aside{width:min(340px,88vw)!important;
+    padding-bottom:max(14px,env(safe-area-inset-bottom))}
+  .fei-classic-ui .fei-drawer-group>div:first-child>button:first-child{min-height:46px}
+  .fei-classic-ui .fei-drawer-sub button{min-height:42px}
+  .fei-classic-ui .fei-drawer-toggle{width:44px;height:44px}
+  .fei-classic-ui .fei-mobile-drawer aside{box-shadow:0 0 60px rgba(30,8,34,.35)}
+  /* Content controls: comfortable mobile rhythm. */
+  .fei-classic-ui input:not([type=checkbox]):not([type=radio]),
+  .fei-classic-ui select{height:38px!important;min-height:38px!important;font-size:15px!important}
+  .fei-classic-ui .btn-search,.fei-classic-ui .btn-reset,.fei-classic-ui .fc-btn{min-height:40px!important}
+  .fei-classic-ui .fei-table-scroll{overflow-x:auto}
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. Content shell — centered symmetric fluid container                */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-content-shell{clear:both}
+.fei-classic-ui .fc-main,
+.fei-classic-ui[dir="rtl"] .fc-main{
+  width:min(1560px,calc(100% - 2*var(--fei-gutter)))!important;
+  
+  margin:30px auto 0!important;
+  padding:0 0 64px!important;
+  min-height:0!important;
+}
+@media (max-width:767px){
+  .fei-classic-ui .fc-main,.fei-classic-ui[dir="rtl"] .fc-main{margin-top:18px!important;padding-bottom:96px!important}
+}
+
+/* Page title + section headings — sharper hierarchy, same donor skeleton. */
+.fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{
+  margin:0 0 16px!important;padding:2px 10px 10px!important;gap:18px!important;
+}
+.fei-classic-ui .fc-page-title h1,.fei-classic-ui .fei-page-title h1{
+  font-family:var(--fei-font-body)!important;
+  font-size:22px!important;line-height:1.25!important;letter-spacing:.02em!important;
+}
+.fei-classic-ui[data-locale="fa"] .fc-page-title h1,.fei-classic-ui[data-locale="fa"] .fei-page-title h1{
+  font-size:20px!important;letter-spacing:0!important;line-height:1.5!important;
+}
+.fei-classic-ui[data-locale="ar"] .fc-page-title h1,.fei-classic-ui[data-locale="ar"] .fei-page-title h1{
+  font-size:20px!important;letter-spacing:0!important;line-height:1.5!important;
+}
+.fei-classic-ui .fc-page-title p,.fei-classic-ui .fei-page-title p{
+  font-size:12.5px!important;line-height:1.6!important;color:#6d6772!important;
+}
+.fei-classic-ui .fei-section-heading{
+  font-family:var(--fei-font-body)!important;
+  font-size:16.5px!important;line-height:1.35!important;
+  margin:0 0 14px!important;padding:0 0 7px!important;
+}
+.fei-classic-ui[data-locale="fa"] .fei-section-heading{font-size:16px!important}
+.fei-classic-ui[data-locale="ar"] .fei-section-heading{font-size:16px!important}
+
+/* Home page copy — readable measure and Persian line-height. */
+.fei-classic-ui .fei-home-copy{font-size:14.5px!important;line-height:1.7!important}
+.fei-classic-ui[data-locale="fa"] .fei-home-copy{line-height:1.95!important}
+.fei-classic-ui[data-locale="ar"] .fei-home-copy{line-height:1.95!important}
+.fei-classic-ui .fei-home-copy p{margin:0 0 22px!important}
+.fei-classic-ui .fei-home-feature-list p{margin:0 0 18px!important}
+.fei-classic-ui .fei-inline-classic-link{font-weight:600!important;font-size:inherit!important}
+.fei-classic-ui .fei-home-classic-list li{padding:2px 0!important}
+.fei-classic-ui .fei-home-inline-footer{color:#5d5763!important;line-height:1.7!important}
+@media (max-width:1180px) and (min-width:768px){
+  .fei-classic-ui .fei-home-grid-classic{grid-template-columns:minmax(0,1fr) 260px!important;gap:26px!important}
+  .fei-classic-ui .fei-home-standings{width:260px!important;min-width:260px!important}
+  .fei-classic-ui .fei-donor-ranking-visual{width:260px!important;height:849px!important}
+  .fei-classic-ui .fei-donor-ranking-visual>img{width:260px!important;height:849px!important}
+  .fei-classic-ui .fei-home-inline-footer{margin-top:120px!important}
+}
+
+/* ------------------------------------------------------------------ */
+/* 7. Panels, fieldsets, legends — quiet borders, consistent rhythm     */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-panel,.fei-classic-ui .fc-section{margin-bottom:16px!important}
+.fei-classic-ui .fei-panel{padding:16px 14px!important}
+.fei-classic-ui .fc-section-body{padding:16px 14px 18px!important}
+.fei-classic-ui fieldset,.fei-classic-ui .fei-fieldset{padding:16px 12px 18px!important;margin:0 0 14px!important}
+.fei-classic-ui legend,.fei-classic-ui .fei-fieldset legend{
+  font-weight:600!important;font-size:13px!important;color:#4f4956!important;padding:0 6px!important;
+}
+.fei-classic-ui .fc-details{border-radius:var(--fei-radius)!important}
+.fei-classic-ui .fc-details summary{cursor:pointer;min-height:34px;display:flex;align-items:center}
+.fei-classic-ui .fc-status-strip{font-size:12.5px!important;padding:9px 12px!important;line-height:1.6!important}
+.fei-classic-ui .fei-results-head{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:2px 2px 10px!important}
+.fei-classic-ui .fei-results-head span{font-family:var(--fei-font-body)!important;font-size:15px!important;font-weight:700!important;color:#3d0d40!important}
+.fei-classic-ui .fei-results-head strong{font-size:13px!important;font-weight:600!important;color:#5d5763!important;font-variant-numeric:tabular-nums}
+
+/* ------------------------------------------------------------------ */
+/* 8. Forms — unified control heights, focus rings, readable labels     */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui label,.fei-classic-ui .fc-stack-label,.fei-classic-ui .fei-field>label{
+  color:#665f6c!important;font-weight:600!important;font-size:12.5px!important;
+}
+.fei-classic-ui input:not([type=checkbox]):not([type=radio]),.fei-classic-ui .fei-input{
+  height:var(--fei-control-h)!important;min-height:var(--fei-control-h)!important;
+  padding:4px 10px!important;border:1px solid #b3abb5!important;border-radius:var(--fei-radius)!important;
+  font-size:13.5px!important;box-shadow:inset 0 1px 1px rgba(30,15,32,.04)!important;
+  transition:border-color .12s ease,box-shadow .12s ease!important;
+}
+.fei-classic-ui select,.fei-classic-ui .fei-select{
+  height:var(--fei-control-h)!important;min-height:var(--fei-control-h)!important;
+  padding:4px 8px!important;border:1px solid #b3abb5!important;border-radius:var(--fei-radius)!important;
+  background:linear-gradient(#fdfcfd,#f2edf3)!important;font-size:13.5px!important;
+  transition:border-color .12s ease,box-shadow .12s ease!important;
+}
+.fei-classic-ui textarea{border:1px solid #b3abb5!important;border-radius:var(--fei-radius)!important;
+  padding:8px 10px!important;font-size:13.5px!important;line-height:1.6!important}
+.fei-classic-ui input:not([type=checkbox]):not([type=radio]):focus,
+.fei-classic-ui select:focus,.fei-classic-ui textarea:focus{
+  border-color:#6b176f!important;outline:none!important;
+  box-shadow:0 0 0 3px rgba(107,23,111,.13)!important;
+}
+.fei-classic-ui input[type=checkbox],.fei-classic-ui input[type=radio]{
+  accent-color:#6b176f;width:15px;height:15px;min-height:0!important;
+}
+.fei-classic-ui .fei-choice{min-height:26px}
+.fei-classic-ui .fei-info{
+  width:15px!important;height:15px!important;background:#8d3f90!important;
+  font-size:10px!important;font-weight:700!important;flex:0 0 auto;
+}
+.fei-classic-ui .fei-permission-note,.fei-classic-ui .fc-permission-note{color:#7d4a81!important;font-size:12px!important;line-height:1.5!important}
+/* Donor fieldset grids gain breathing room (structure untouched). */
+.fei-classic-ui .fei-donor-grid.two{gap:10px 16px!important}
+.fei-classic-ui .fei-donor-grid.three{gap:10px 16px!important}
+/* Action rows. */
+.fei-classic-ui .btn-search,.fei-classic-ui .btn-reset,.fei-classic-ui .fc-btn{
+  height:34px!important;min-height:34px!important;border-radius:var(--fei-radius)!important;
+  font-size:13.5px!important;font-weight:700!important;
+  box-shadow:0 1px 2px rgba(25,8,28,.22)!important;
+}
+.fei-classic-ui .fc-btn{padding:7px 14px!important}
+.fei-classic-ui .btn-search:hover:not(:disabled),.fei-classic-ui .fc-btn-orange:hover:not(:disabled){filter:brightness(1.04)}
+.fei-classic-ui .btn-reset:hover:not(:disabled),.fei-classic-ui .fc-btn-gray:hover:not(:disabled){filter:brightness(1.06)}
+.fei-classic-ui .fei-search-actions,.fei-classic-ui .fei-search-buttons,.fei-classic-ui .fc-form-actions{
+  margin:14px 2px 18px!important;gap:10px!important;align-items:center!important;
+}
+
+/* ------------------------------------------------------------------ */
+/* 9. Tables — breathing rows, sticky heads, tabular numerals           */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fc-table,.fei-classic-ui .fei-data-table,.fei-classic-ui .fei-simple-table{
+  font-family:var(--fei-font-body)!important;
+  font-size:13px!important;line-height:1.5!important;
+  font-variant-numeric:tabular-nums;
+}
+.fei-classic-ui .fc-table th,.fei-classic-ui .fei-data-table th,.fei-classic-ui .fei-simple-table th{
+  font-size:12px!important;height:auto!important;padding:9px 12px!important;
+  position:sticky!important;top:0!important;z-index:2!important;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.28),0 1px 3px rgba(35,10,38,.18)!important;
+}
+.fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td,.fei-classic-ui .fei-simple-table td{
+  height:auto!important;padding:8px 12px!important;font-size:13px!important;
+}
+.fei-classic-ui .fei-sort-button{cursor:pointer}
+.fei-classic-ui .fei-sort-button:hover{text-decoration:underline!important;text-underline-offset:3px}
+.fei-classic-ui .fei-table-scroll{max-height:min(72vh,900px);overflow:auto;overscroll-behavior:contain}
+.fei-classic-ui .fc-table-wrap{overscroll-behavior:contain}
+.fei-classic-ui .fc-table-empty{padding:34px 12px!important;font-size:13px!important}
+/* Parentage labels inside registry tables keep their color coding. */
+.fei-classic-ui .fc-parent b{font-size:12px!important}
+.fei-classic-ui .fc-parent span{font-size:9.5px!important}
+
+/* Pager — real hit areas, tabular numerals. */
+.fei-classic-ui .fei-pagination{font-size:13px!important;font-variant-numeric:tabular-nums}
+.fei-classic-ui .fei-pagination button{
+  min-width:30px!important;min-height:30px!important;display:inline-flex!important;
+  align-items:center!important;justify-content:center!important;
+  border-radius:var(--fei-radius)!important;padding:0 6px!important;font-size:13px!important;
+  transition:background-color .12s ease!important;
+}
+.fei-classic-ui .fei-pagination button:hover:not(:disabled){background:#efe6f0!important}
+.fei-classic-ui .fei-pagination button.active{background:#e7ddea!important;color:#3d0d40!important}
+.fei-classic-ui .fei-pagination select{height:28px!important;min-height:28px!important;margin-inline-start:8px!important}
+.fei-classic-ui .fei-goto input{height:28px!important;min-height:28px!important;width:64px!important;border-radius:var(--fei-radius)!important}
+
+/* fei-tabs (profile sections) — taller targets, crisper states. */
+.fei-classic-ui .fei-tabs{height:32px!important}
+.fei-classic-ui .fei-tabs button{
+  min-width:186px!important;height:32px!important;min-height:32px!important;
+  padding:0 16px!important;font-size:13px!important;font-weight:600!important;
+  border-radius:var(--fei-radius) var(--fei-radius) 0 0!important;
+  transition:background-color .12s ease,color .12s ease!important;
+}
+.fei-classic-ui .fei-tabs button:hover:not(.active){background:#efe4f0!important;color:#4f4956!important}
+
+/* ------------------------------------------------------------------ */
+/* 10. Profile head, metrics, analysis cards                            */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fc-profile-head{padding:18px 16px!important;gap:20px!important}
+.fei-classic-ui .fc-profile-head dl div dt{font-size:12px!important}
+.fei-classic-ui .fc-profile-head dl div dd{font-size:13.5px!important}
+.fei-classic-ui .fc-metric{min-height:70px!important;padding:10px 14px!important}
+.fei-classic-ui .fc-metric strong{font-size:22px!important;font-variant-numeric:tabular-nums}
+.fei-classic-ui .fc-metric span{font-size:11px!important;letter-spacing:.03em}
+.fei-classic-ui[data-locale="fa"] .fc-metric span{letter-spacing:0!important}
+.fei-classic-ui .fc-analysis-card,.fei-classic-ui .fc-review-record{padding:12px 14px!important}
+.fei-classic-ui .fc-card-table button{padding:9px 10px!important;min-height:44px}
+.fei-classic-ui .fc-inline-horses button{min-height:40px}
+
+/* ------------------------------------------------------------------ */
+/* 11. Footer + scroll-top                                              */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-donor-footer{border-top:1px solid #e2dde3;background:#faf8fa}
+.fei-classic-ui .fei-donor-footer>div{padding:16px clamp(16px,4vw,56px)!important;font-size:12.5px!important}
+.fei-classic-ui .fei-donor-footer button{min-height:32px;padding:0 4px!important}
+.fei-classic-ui .fei-donor-footer button:hover{text-decoration:underline}
+.fei-classic-ui .fei-scroll-top{
+  width:42px!important;height:42px!important;border-radius:50% 50% 5px 5px!important;
+  box-shadow:0 4px 14px rgba(35,10,38,.3)!important;
+}
+.fei-classic-ui .fei-scroll-top:focus-visible{outline-offset:3px!important}
+@media (min-width:1000px){
+  .fei-classic-ui .fei-donor-footer{display:block!important}
+  .fei-classic-ui .fei-scroll-top{display:flex!important;align-items:center;justify-content:center}
+}
+@media print{
+  .fei-classic-ui .fei-skip-link,.fei-classic-ui .fei-scroll-top,.fei-classic-ui .fei-mobile-bottom-nav{display:none!important}
+}
+
+
+/* ------------------------------------------------------------------ */
+/* 10. R66 — advanced search drawer (collapsed by default)              */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui details.fei-advanced-search{
+  margin:0 0 16px!important;border:1px solid #cfc4d1!important;border-radius:var(--fei-radius)!important;
+  background:linear-gradient(#fbf8fc,#f4eef5)!important;box-shadow:0 1px 2px rgba(40,15,45,.05)!important;
+}
+.fei-classic-ui details.fei-advanced-search>summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px!important;
+  min-height:44px;padding:6px 14px!important;color:#3d0d40!important;
+  font-weight:600!important;font-size:13.5px!important;user-select:none;
+}
+.fei-classic-ui details.fei-advanced-search>summary::-webkit-details-marker{display:none}
+.fei-classic-ui details.fei-advanced-search>summary:hover{background:#efe5f0}
+.fei-classic-ui .fei-advanced-title{display:inline-flex;align-items:center;gap:8px}
+.fei-classic-ui .fei-advanced-title::before{
+  content:"";width:4px;height:16px;border-radius:2px;flex:0 0 auto;
+  background:linear-gradient(#9b3d9e,#5f065f);
+}
+.fei-classic-ui details.fei-advanced-search small{
+  color:#6d6772!important;font-weight:500!important;font-size:11.5px!important;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.fei-classic-ui .fei-advanced-caret{
+  margin-inline-start:auto;flex:0 0 auto;width:9px;height:9px;
+  border-right:2px solid #7a3d7e;border-bottom:2px solid #7a3d7e;
+  transform:rotate(45deg) translate(-1px,-1px);transition:transform .15s ease;
+}
+.fei-classic-ui details.fei-advanced-search[open] .fei-advanced-caret{transform:rotate(225deg) translate(-1px,-1px)}
+.fei-classic-ui details.fei-advanced-search[open]>summary{border-bottom:1px solid #ddd0df}
+.fei-classic-ui details.fei-advanced-search .fei-search-panel{
+  margin:10px 12px!important;border-color:#ddd0df!important;box-shadow:none!important;
+}
+/* only the first row of the basic identity panel stays full width */
+.fei-classic-ui .fei-search-actions{margin-top:-2px!important}
+
+/* ------------------------------------------------------------------ */
+/* 11. R66 — pedigree tree visual encoding                              */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-ped-wrap{display:flex;flex-direction:column;gap:10px}
+.fei-classic-ui .fei-ped-legend{
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px 16px;
+  padding:7px 12px;border:1px solid #ddd0df;border-radius:var(--fei-radius);
+  background:#faf6fb;font-size:11.5px;color:#5d5763;
+}
+.fei-classic-ui .fei-leg{display:inline-flex;align-items:center;gap:6px;line-height:1.4}
+.fei-classic-ui .fei-leg::before{content:"";width:11px;height:11px;border-radius:3px;flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.fei-classic-ui .fei-leg-subject::before{background:linear-gradient(#9b3d9e,#5f065f)}
+.fei-classic-ui .fei-leg-sire::before{background:linear-gradient(#5d8fd0,#2456b8)}
+.fei-classic-ui .fei-leg-dam::before{background:linear-gradient(#d08ab8,#a21caf)}
+.fei-classic-ui .fei-leg-repeat::before{background:repeating-linear-gradient(45deg,#e8d7a8 0 3px,#c9a94f 3px 6px)}
+.fei-classic-ui .fc-tree-scroll{border-radius:var(--fei-radius)}
+.fei-classic-ui .fei-ped-band.odd>rect{fill:rgba(122,16,130,.035)}
+.fei-classic-ui .fei-ped-band>rect{fill:transparent;stroke:#e4dae6;stroke-width:1;stroke-dasharray:2 4}
+.fei-classic-ui .fei-ped-band-label{font:600 11px var(--fei-font-body),sans-serif;fill:#8a7d8c}
+.fei-classic-ui .fc-tree-edges path{fill:none;stroke:#a99fa9;stroke-width:1.8;opacity:.85}
+.fei-classic-ui .fc-tree-edges path.sire{stroke:#2456b8;stroke-width:2.2}
+.fei-classic-ui .fc-tree-edges path.dam{stroke:#a21caf;stroke-width:2.2}
+.fei-classic-ui .fc-tree-edges path.is-repeated{stroke-dasharray:7 4}
+.fei-classic-ui .fc-tree-edges path.is-cycle{stroke-dasharray:2 4;opacity:.6}
+.fei-classic-ui .fc-tree-node rect{fill:#ffffff;stroke:#8d838e;stroke-width:1.2;filter:drop-shadow(0 1px 1px rgba(40,15,45,.14))}
+.fei-classic-ui .fc-tree-node.root>rect{fill:linear-gradient(#faf5fb,#f0e4f1);fill:#f6ecf7;stroke:#5f065f;stroke-width:2.2}
+.fei-classic-ui .fc-tree-node.father>rect{fill:#f1f6fc;stroke:#2456b8;stroke-width:2}
+.fei-classic-ui .fc-tree-node.mother>rect{fill:#fbf2f8;stroke:#a21caf;stroke-width:2}
+.fei-classic-ui .fc-tree-node text{font:11.5px var(--fei-font-body),sans-serif;fill:#5b555d}
+.fei-classic-ui .fc-tree-node text.name{font-weight:700;font-size:12.5px;fill:#3f103f}
+.fei-classic-ui .fc-tree-node.father text.rel{fill:#2456b8;font-weight:600}
+.fei-classic-ui .fc-tree-node.mother text.rel{fill:#a21caf;font-weight:600}
+.fei-classic-ui .fc-tree-node.root text.rel{fill:#5f065f;font-weight:700}
+.fei-classic-ui .fc-tree-node.repeated>rect{stroke-dasharray:6 3}
+.fei-classic-ui .fc-tree-node.repeated>rect+text.name::after{content:"↻"}
+.fei-classic-ui .fc-tree-node:hover>rect{stroke:var(--fc-orange,#c96f1f);stroke-width:2.4;filter:drop-shadow(0 2px 3px rgba(40,15,45,.22))}
+.fei-classic-ui .fc-tree-node{cursor:pointer;outline:none}
+.fei-classic-ui .fc-tree-node:focus-visible>rect{stroke:var(--fei-focus);stroke-width:2.6}
+/* RTL tree: mirrored bands keep the same encoded colors (layout already flips X) */
+.fei-classic-ui[dir="rtl"] .fc-tree text{direction:rtl;unicode-bidi:isolate}
+
+/* ------------------------------------------------------------------ */
+/* 12. R67 — COMPACT BY DEFAULT. The R66 pass only tightened ≥1280px     */
+/* and was far too gentle; the owner called it "not compact". This is a  */
+/* real density system, applied at EVERY desktop width (≥768px):         */
+/* page frame, titles, panels, tables, forms, hero, metrics, pagers.     */
+/* Mobile (<768px) keeps its comfortable touch spacing.                  */
+/* ------------------------------------------------------------------ */
+@media (min-width:768px){
+  /* Page frame: the base shipped 56px top / 64px bottom chrome — dead air. */
+  .fei-classic-ui .fc-main{padding:14px 16px 30px!important;margin-top:0!important}
+  /* Titles + section headings: tighter keel, smaller caps. */
+  .fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{margin:0 0 10px!important;padding:0 0 5px!important;gap:12px!important}
+  .fei-classic-ui .fc-page-title h1,.fei-classic-ui .fei-page-title h1{font-size:24px!important}
+  .fei-classic-ui .fei-section-heading{margin:0 0 8px!important;padding:0 0 4px!important;font-size:16px!important}
+  /* Panels & sections: 8px rhythm instead of 12–18px. */
+  .fei-classic-ui .fc-section{margin:0 0 8px!important}
+  .fei-classic-ui .fei-panel{margin-bottom:8px!important;padding:10px!important}
+  .fei-classic-ui .fc-section-body{padding:10px!important}
+  .fei-classic-ui .fei-search-panel{padding:8px 10px!important}
+  .fei-classic-ui details.fei-advanced-search .fei-search-panel{margin:6px 8px!important}
+  .fei-classic-ui .fei-results-head{padding:5px 9px!important}
+  .fei-classic-ui .fc-status-strip{margin:0 0 8px!important;padding:4px 8px!important}
+  /* Data tables: scannable density — 12px head / 13px body, 4px cells. */
+  .fei-classic-ui .fc-table th,.fei-classic-ui .fei-data-table th{padding:4px 7px!important;font-size:11.5px!important}
+  .fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td{padding:4px 7px!important;font-size:13px!important}
+  /* Hero band: kill the 158px min-height and 26/32px padding. */
+  .fei-classic-ui .fc-hero{min-height:0!important;padding:12px 16px!important;margin-bottom:10px!important}
+  .fei-classic-ui .fc-hero h1{font-size:25px!important}
+  .fei-classic-ui .fc-hero p{font-size:12.5px!important;margin-top:4px!important}
+  /* Buttons: 38px/16px donor chrome → 30px/11px control-room size. */
+  .fei-classic-ui .fc-btn{height:30px!important;min-height:30px!important;padding:0 11px!important;font-size:13px!important;gap:5px!important}
+  .fei-classic-ui .fc-btn.fc-btn-small,.fei-classic-ui .fc-btn.small{height:26px!important;min-height:26px!important;padding:0 9px!important;font-size:12px!important}
+  /* Forms: tighten the 26px column gap and 150px label keel. */
+  .fei-classic-ui .fc-filter-grid{gap:7px 12px!important}
+  .fei-classic-ui .fei-field{min-height:26px!important;gap:8px!important}
+  .fei-classic-ui .fei-label{flex:0 0 116px!important;font-size:12.5px!important}
+  .fei-classic-ui .fei-choice{font-size:12.5px!important}
+  .fei-classic-ui .fei-field input,.fei-classic-ui .fei-field select{height:28px!important;min-height:28px!important;padding:2px 7px!important}
+  /* Metrics, grids, cards: tighter gaps everywhere. */
+  .fei-classic-ui .fc-metric{min-height:46px!important;padding:6px 8px!important}
+  .fei-classic-ui .fc-metric strong{font-size:17px!important}
+  .fei-classic-ui .fc-metric span{font-size:10.5px!important}
+  .fei-classic-ui .fc-metric-grid{gap:6px!important;margin-bottom:8px!important}
+  .fei-classic-ui .fc-two-col{gap:10px!important}
+  .fei-classic-ui .fc-launch-grid{gap:8px!important;margin-top:0!important}
+  .fei-classic-ui .fei-donor-grid.two,.fei-classic-ui .fei-donor-grid.three{gap:6px 8px!important}
+  .fei-classic-ui .fei-home-snapshot{gap:8px!important}
+  .fei-classic-ui .fei-home-snapshot>.fei-panel{padding:9px!important}
+  .fei-classic-ui .fei-home-snapshot>.fei-panel>b{margin-bottom:5px!important}
+  /* Profile / lineage / parents / pager chrome. */
+  .fei-classic-ui .fc-profile-head{padding:10px 12px!important;gap:10px!important;margin-bottom:10px!important}
+  .fei-classic-ui .fc-parent-cards{gap:8px!important;margin-bottom:10px!important}
+  .fei-classic-ui .fc-pagination{gap:6px!important;padding:6px 0 0!important}
+  .fei-classic-ui .fc-footer{padding:10px 16px!important}
+  .fei-classic-ui .fc-lineage-chain button{padding:2px 6px!important;}
+}
+/* Extra-tight layer once there is room to use it (≥1280px). */
+@media (min-width:1280px){
+  .fei-classic-ui .fc-main{padding-bottom:34px!important}
+  .fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td{padding:4px 8px!important}
+  .fei-classic-ui .fei-panel{padding:10px 12px!important}
+  .fei-classic-ui .fc-section-body{padding:10px 12px!important}
+  .fei-classic-ui .fc-filter-grid{gap:6px 14px!important}
+}
+/* ≥1600px: use the room for WIDTH (fewer wraps), not for air. */
+@media (min-width:1600px){
+  .fei-classic-ui .fc-main{width:min(1720px,calc(100% - 2*var(--fei-gutter)))!important}
+}
+
+/* ------------------------------------------------------------------ */
+/* 13. R66 — extra visual / color coding                                */
+/* ------------------------------------------------------------------ */
+/* Results header strip gets the donor purple keel. */
+.fei-classic-ui .fei-results-head{
+  border-inline-start:4px solid #5f065f;border-radius:3px;
+  background:linear-gradient(#faf6fb,#f3ecf4);padding:8px 12px!important;
+}
+/* Year column: tabular numerals + subtle age tint. */
+.fei-classic-ui .fc-table td{font-variant-numeric:tabular-nums}
+/* Metric tiles: tone-coded keel bars for instant scanning. */
+.fei-classic-ui .fc-metric{border-inline-start:4px solid #b7a8ba;position:relative}
+.fei-classic-ui .fc-metric.tone-green{border-inline-start-color:#2f7d4f}
+.fei-classic-ui .fc-metric.tone-blue{border-inline-start-color:#2456b8}
+.fei-classic-ui .fc-metric.tone-orange{border-inline-start-color:#c96f1f}
+.fei-classic-ui .fc-metric.tone-purple{border-inline-start-color:#5f065f}
+.fei-classic-ui .fc-metric.tone-gray{border-inline-start-color:#8a838c}
+/* Breadcrumb-ish active tab underline already exists; give the results
+   pager a quiet encoded state. */
+.fei-classic-ui .fei-pagination .fei-pages button.active{background:#5f065f;color:#fff;border-color:#3d0d40}
+/* Descendant generation bars: encoded fill. */
+.fei-classic-ui .fc-descendant-bars>div{border-inline-start:4px solid #5f065f}
+/* Filter panels keep donor look but gain a soft group tint on hover-focus. */
+.fei-classic-ui .fei-field:focus-within>label{color:#5f065f!important}
+
+/* ------------------------------------------------------------------ */
+/* 14. R69 — ULTRA-DENSE. The owner, for the ninth time: "things are   */
+/* too spacious, way more compact and packed, close to each other,     */
+/* don't waste so much space". This layer lands AFTER every earlier    */
+/* density pass so it is the final word of the cascade. Every gap,     */
+/* keel, cell and control shrinks again; data values stay ≥12.5px so   */
+/* packing never costs readability.                                    */
+/* ------------------------------------------------------------------ */
+@media (min-width:768px){
+  .fei-classic-ui .fc-main{padding:8px 10px 16px!important}
+  .fei-classic-ui .fc-page-title,.fei-classic-ui .fei-page-title{margin:0 0 6px!important;padding:0 0 3px!important;gap:10px!important}
+  .fei-classic-ui .fc-page-title h1,.fei-classic-ui .fei-page-title h1{font-size:21px!important}
+  .fei-classic-ui .fei-section-heading{margin:0 0 6px!important;padding:0 0 3px!important;font-size:15px!important}
+  .fei-classic-ui .fc-section{margin:0 0 6px!important}
+  .fei-classic-ui .fei-panel{margin-bottom:6px!important;padding:7px 8px!important}
+  .fei-classic-ui .fei-panel>b{margin-bottom:4px!important}
+  .fei-classic-ui .fc-section-body{padding:7px 8px!important}
+  .fei-classic-ui .fei-search-panel{padding:6px 8px!important}
+  .fei-classic-ui details.fei-advanced-search .fei-search-panel{margin:4px 6px!important}
+  .fei-classic-ui .fei-results-head{padding:5px 8px!important}
+  .fei-classic-ui .fc-status-strip{margin:0 0 6px!important;padding:3px 7px!important}
+  .fei-classic-ui .fc-table th,.fei-classic-ui .fei-data-table th{padding:2px 5px!important;font-size:11px!important}
+  .fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td{padding:2.5px 6px!important;font-size:12.5px!important}
+  .fei-classic-ui .fc-hero{padding:8px 12px!important;margin-bottom:6px!important}
+  .fei-classic-ui .fc-hero h1{font-size:21px!important}
+  .fei-classic-ui .fc-hero p{font-size:12px!important;margin-top:2px!important}
+  .fei-classic-ui .fc-btn{height:28px!important;min-height:28px!important;padding:0 9px!important;font-size:12.5px!important;gap:4px!important}
+  .fei-classic-ui .fc-btn.fc-btn-small,.fei-classic-ui .fc-btn.small{height:24px!important;min-height:24px!important;padding:0 8px!important;font-size:11.5px!important}
+  .fei-classic-ui .fc-filter-grid{gap:5px 10px!important}
+  .fei-classic-ui .fei-field{min-height:24px!important;gap:6px!important}
+  .fei-classic-ui .fei-label{flex:0 0 100px!important;font-size:12px!important}
+  .fei-classic-ui .fei-choice{font-size:12px!important}
+  .fei-classic-ui .fei-field input,.fei-classic-ui .fei-field select{height:26px!important;min-height:26px!important;padding:1px 6px!important}
+  .fei-classic-ui .fc-metric{min-height:38px!important;padding:4px 7px!important}
+  .fei-classic-ui .fc-metric strong{font-size:15.5px!important}
+  .fei-classic-ui .fc-metric span{font-size:10px!important}
+  .fei-classic-ui .fc-metric-grid{gap:5px!important;margin-bottom:6px!important}
+  .fei-classic-ui .fc-two-col{gap:8px!important}
+  .fei-classic-ui .fc-launch-grid{gap:6px!important}
+  .fei-classic-ui .fei-donor-grid.two,.fei-classic-ui .fei-donor-grid.three{gap:5px 6px!important}
+  .fei-classic-ui .fei-home-snapshot{gap:6px!important}
+  .fei-classic-ui .fei-home-snapshot>.fei-panel{padding:7px!important}
+  .fei-classic-ui .fei-home-snapshot>.fei-panel>b{margin-bottom:3px!important}
+  .fei-classic-ui .fc-profile-head{padding:7px 9px!important;gap:7px!important;margin-bottom:6px!important}
+  .fei-classic-ui .fc-parent-cards{gap:6px!important;margin-bottom:6px!important}
+  .fei-classic-ui .fc-pagination{gap:4px!important;padding:4px 0 0!important}
+  .fei-classic-ui .fc-footer{padding:8px 12px!important}
+  .fei-classic-ui .fc-lineage-chain button{padding:1px 5px!important;font-size:10px!important}
+}
+@media (min-width:1280px){
+  .fei-classic-ui .fc-main{padding-bottom:18px!important}
+  .fei-classic-ui .fei-panel{padding:7px 9px!important}
+  .fei-classic-ui .fc-section-body{padding:7px 9px!important}
+  .fei-classic-ui .fc-table td,.fei-classic-ui .fei-data-table td{padding:2.5px 7px!important}
+  .fei-classic-ui .fc-filter-grid{gap:4px 12px!important}
+}

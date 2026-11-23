@@ -1,0 +1,13 @@
+import postgres from "postgres";
+const sql = postgres(`postgresql://postgres.gqzglbknkodyasqfrqfv:${process.env.SUPA_PW}@aws-1-eu-west-1.pooler.supabase.com:5432/postgres?sslmode=require`,{max:3});
+const p = await sql`select slug, ai_model, ai_grounding, ai_prompt, sources_json, tags_json, author_label, row_version from content_posts where slug like 'turn30-article-001%' or slug like 'turn31%' limit 2`;
+console.log(JSON.stringify(p, null, 1).slice(0, 1500));
+const b = await sql`select body_en from content_posts where cover_image_credit is not null and body_en like '%![%' order by published_at desc limit 1`;
+const body = b[0]?.body_en || '';
+const parts = body.split('\n\n');
+console.log('\ntotal blocks:', parts.length);
+const figIdx = parts.findIndex(x => x.startsWith('!['));
+console.log('figure block example:', parts[figIdx]);
+console.log('\ncontext before figure:', parts[figIdx-1]?.slice(0, 120));
+console.log('\nlast block:', parts[parts.length-1]?.slice(0, 100));
+await sql.end();

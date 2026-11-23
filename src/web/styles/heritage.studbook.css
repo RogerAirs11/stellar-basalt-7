@@ -1,0 +1,100 @@
+/* R31.12 — print-first Persian studbook preview. V8 visual authority. */
+:root[data-frontend="heritage"] .studbook-preview-shell{display:flex;flex:1 1 auto;min-height:0;min-width:0;overflow:hidden;flex-direction:column;gap:12px;padding:14px 0 2px}
+:root[data-frontend="heritage"] .studbook-preview-toolbar{display:flex;flex:0 0 auto;justify-content:space-between;align-items:center;gap:16px;padding:2px 4px 4px}
+:root[data-frontend="heritage"] .studbook-preview-toolbar>div{display:grid;gap:2px}
+:root[data-frontend="heritage"] .studbook-preview-toolbar strong{font-family:var(--h-font-display);font-size:17px;color:var(--ink)}
+:root[data-frontend="heritage"] .studbook-preview-toolbar span{font-size:11px;color:var(--muted)}
+:root[data-frontend="heritage"] .studbook-print-button{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+:root[data-frontend="heritage"] .registry-surface-toggle{display:inline-flex;align-items:center;gap:2px;padding:2px;border:1px solid var(--line);border-radius:6px;background:color-mix(in srgb,var(--card) 66%,transparent)}
+:root[data-frontend="heritage"] .registry-surface-toggle button{border:0;border-radius:5px;background:transparent;color:var(--muted);padding:6px 9px;font:inherit;font-size:10px;font-weight:720;cursor:pointer}
+:root[data-frontend="heritage"] .registry-surface-toggle button.active{background:var(--ink);color:var(--paper);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+:root[data-frontend="heritage"] .studbook-preview-stage{flex:1 1 auto;min-height:0;min-width:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;padding:12px;border-top:1px solid var(--line);background:#f4f2ee;scrollbar-gutter:stable both-edges}
+:root[data-frontend="heritage"] .studbook-print-sheet{position:relative;width:210mm;height:297mm;margin:0 auto;background:#fffdfb;color:#241f1b;box-shadow:none;padding:7.4mm 8.6mm 6.4mm;display:flex;flex-direction:column;overflow:hidden;font-family:var(--fa-sans,"Vazirmatn",Tahoma,sans-serif);font-feature-settings:"tnum" 1}
+:root[data-frontend="heritage"] .studbook-page-header{height:24.5mm;display:grid;grid-template-columns:27mm 1fr 25mm;align-items:end;border-bottom:1pt solid #65584d;padding-bottom:2.9mm;direction:ltr}
+:root[data-frontend="heritage"] .studbook-page-number{justify-self:start;border:.65pt solid #8b7b6c;border-radius:7px;padding:1.25mm 3mm .95mm;font-size:6.1pt;font-weight:750;color:#4a4139;min-width:19mm;text-align:center;line-height:1;direction:rtl}
+:root[data-frontend="heritage"] .studbook-title-block{text-align:right;direction:rtl;justify-self:end}
+:root[data-frontend="heritage"] .studbook-title-block>small{display:block;font-size:4.7pt;color:#7b7067;font-weight:650;margin-bottom:.4mm}
+:root[data-frontend="heritage"] .studbook-title-block h2{font-family:var(--fa-hero,"Noto Nastaliq Urdu","Noto Serif Arabic",serif)!important;font-size:20pt!important;line-height:1.28!important;font-weight:650!important;color:#241d18!important;margin:0!important;letter-spacing:0!important}
+:root[data-frontend="heritage"] .studbook-title-block p{font-family:"Noto Serif Arabic",var(--fa-sans),serif;margin:.6mm 0 0;font-size:5.8pt;line-height:1.35;color:#675d54}
+:root[data-frontend="heritage"] .studbook-edition{justify-self:end;text-align:left;direction:rtl;font-size:4.4pt;color:#8b8178;line-height:1.55}
+:root[data-frontend="heritage"] .studbook-edition b,:root[data-frontend="heritage"] .studbook-edition span{display:block}
+:root[data-frontend="heritage"] .studbook-page-meta{height:9.2mm;display:flex;align-items:center;justify-content:space-between;border-bottom:.42pt solid #d8d1ca;padding:.9mm .25mm .75mm;gap:4mm;font-size:4.15pt;color:#776d65}
+:root[data-frontend="heritage"] .studbook-page-meta strong{font-size:6.2pt;color:#413930}
+:root[data-frontend="heritage"] .studbook-page-meta span{display:flex;align-items:center;gap:1.1mm}
+:root[data-frontend="heritage"] .studbook-page-meta i{width:2.15mm;height:2.15mm;border-radius:50%;display:inline-block}.studbook-page-meta i.male{background:#58778a}.studbook-page-meta i.female{background:#8b6177}
+:root[data-frontend="heritage"] .studbook-columns{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;column-gap:7mm;direction:rtl;position:relative;padding-top:1.4mm}
+:root[data-frontend="heritage"] .studbook-columns::after{content:"";position:absolute;top:1.4mm;bottom:0;left:50%;border-left:.55pt solid #beb7b0}
+:root[data-frontend="heritage"] .studbook-column{min-width:0}.studbook-column.right{padding-left:3.5mm}.studbook-column.left{padding-right:3.5mm}
+:root[data-frontend="heritage"] .studbook-record{height:21.75mm;display:grid;grid-template-columns:1fr 17.2mm;column-gap:1.9mm;border-bottom:.52pt solid #c7c0b9;overflow:hidden;padding:.82mm 0 .8mm;cursor:pointer;outline:0}
+:root[data-frontend="heritage"] .studbook-record:first-child{border-top:.52pt solid #c7c0b9}
+:root[data-frontend="heritage"] .studbook-record:focus-visible{outline:1.2pt solid #8b7351;outline-offset:-1px}
+:root[data-frontend="heritage"] .studbook-record-main{min-width:0;display:grid;grid-template-rows:4.25mm 4.55mm 6.15mm 5.15mm}
+:root[data-frontend="heritage"] .studbook-identity{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:2.1mm;min-width:0;direction:rtl;padding:0 .5mm .32mm;border-bottom:.32pt solid #ddd8d3}
+:root[data-frontend="heritage"] .studbook-name-fa{font-family:"Noto Serif Arabic",var(--fa-sans),serif;font-size:11.9pt;line-height:1.08;font-weight:760;color:#221d19;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right;padding-bottom:.22mm}
+:root[data-frontend="heritage"] .studbook-name-en{font-family:"Cormorant Garamond",Georgia,serif;font-size:8.2pt;line-height:1;font-weight:750;color:#344f5e;direction:ltr;unicode-bidi:isolate;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;letter-spacing:.025em}
+:root[data-frontend="heritage"] .studbook-facts{display:grid;grid-template-columns:1.1fr .84fr .84fr .75fr;direction:rtl;border-bottom:.34pt solid #d8d2cc}
+:root[data-frontend="heritage"] .studbook-facts>div{min-width:0;display:grid;grid-template-rows:1.45mm 2.5mm;row-gap:.44mm;align-content:center;justify-items:center;border-left:.32pt solid #e0dbd5;padding:.28mm .5mm .52mm}
+:root[data-frontend="heritage"] .studbook-facts>div:last-child{border-left:0}
+:root[data-frontend="heritage"] .studbook-facts small{font-size:3.8pt;font-weight:650;color:#80766d;line-height:1;align-self:end}
+:root[data-frontend="heritage"] .studbook-facts b{font-family:"Noto Serif Arabic",var(--fa-sans),serif;font-size:6.8pt;font-weight:750;color:#39312b;line-height:1.06;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;align-self:start}
+:root[data-frontend="heritage"] .studbook-parents{display:grid;grid-template-columns:1fr 1fr;direction:rtl;border-bottom:.32pt solid #d7d1cb;overflow:hidden}
+:root[data-frontend="heritage"] .studbook-parent{position:relative;min-width:0;display:grid;grid-template-columns:1fr 11mm;grid-template-rows:1.55mm 2.55mm 1.3mm;column-gap:.8mm;align-content:start;padding:.45mm .8mm 1.05mm}
+:root[data-frontend="heritage"] .studbook-parent.sire{border-left:.32pt solid #d9d3cd;background:#f4f8fa;border-right:1.05pt solid #547184}
+:root[data-frontend="heritage"] .studbook-parent.dam{background:#fbf6f9;border-right:1.05pt solid #8b6278}
+:root[data-frontend="heritage"] .studbook-parent small{grid-column:1/3;font-size:3.75pt;font-weight:750;line-height:1;color:#786f68;text-align:right}.studbook-parent.sire small{color:#3f6073}.studbook-parent.dam small{color:#765167}
+:root[data-frontend="heritage"] .studbook-parent b{grid-column:1;font-family:"Noto Serif Arabic",var(--fa-sans),serif;font-size:8.15pt;font-weight:760;color:#2d2824;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.08;align-self:start;padding-top:.22mm;padding-bottom:.46mm}
+:root[data-frontend="heritage"] .studbook-parent em{grid-column:2;grid-row:2/4;font-style:normal;font-size:3.45pt;color:#92877f;direction:rtl;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;align-self:center;line-height:1.1}
+:root[data-frontend="heritage"] .studbook-refs{display:grid;grid-template-columns:1.17fr 1fr .96fr;direction:rtl;align-items:stretch;padding-top:.12mm}
+:root[data-frontend="heritage"] .studbook-refs>div{min-width:0;display:grid;grid-template-rows:1.55mm 2.45mm;row-gap:.48mm;align-content:center;padding:.46mm .72mm .7mm;border-left:.3pt solid #ddd7d1;white-space:nowrap;overflow:hidden}
+:root[data-frontend="heritage"] .studbook-refs>div:last-child{border-left:0}
+:root[data-frontend="heritage"] .studbook-refs small{font-size:3.35pt;font-weight:650;color:#8a8179;line-height:1;align-self:end}
+:root[data-frontend="heritage"] .studbook-refs span{font-family:"Noto Serif Arabic",var(--fa-sans),serif;font-size:4.9pt;color:#514942;overflow:hidden;text-overflow:ellipsis;line-height:1.08;align-self:start;padding-top:.08mm}
+:root[data-frontend="heritage"] .studbook-index{border-right:.75pt solid #9d8e80;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-width:0;padding-top:.85mm;gap:.38mm}
+:root[data-frontend="heritage"] .studbook-record.sex-male .studbook-index{border-right-color:#506f80}.studbook-record.sex-female .studbook-index{border-right-color:#8a6076}
+:root[data-frontend="heritage"] .studbook-sex-mark{width:7.5mm;height:7.5mm;border:.85pt solid #6c5d50;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Noto Serif Arabic",var(--fa-sans),serif;font-size:7.8pt;font-weight:760;line-height:1;background:#fff}
+:root[data-frontend="heritage"] .studbook-sex-mark i{font-style:normal;display:block;line-height:1;transform:translateY(-.25mm)}
+:root[data-frontend="heritage"] .sex-male .studbook-sex-mark{border-color:#536f80;color:#35566a;background:#f5f9fb}.sex-female .studbook-sex-mark{border-color:#8a6177;color:#70465c;background:#fcf7fa}
+:root[data-frontend="heritage"] .studbook-sex-word{font-size:3.18pt;color:#80766e;line-height:1;font-weight:650}
+:root[data-frontend="heritage"] .studbook-horse-label{font-size:3.2pt;color:#8d837a;line-height:1;margin-top:.28mm}
+:root[data-frontend="heritage"] .studbook-horse-no{font-size:4.85pt;font-weight:760;color:#413831;line-height:1;border:.65pt solid #8a7868;border-radius:7px;padding:.78mm 1.2mm .6mm;min-width:14.8mm;text-align:center;background:#fdfbf8}
+:root[data-frontend="heritage"] .studbook-page-footer{height:6.1mm;border-top:.48pt solid #bdb6af;margin-top:1mm;padding-top:.9mm;display:flex;justify-content:space-between;align-items:flex-start;font-size:4.05pt;color:#80776f}
+:root[data-frontend="heritage"] .studbook-loading{position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,253,251,.78);backdrop-filter:blur(1px);font-size:11px;font-weight:750;color:#5c5148}
+
+/* Registry studbook is a flat print workspace, not a glass/motion surface.
+   The Registry shell itself is viewport-locked, so this surface must own scrolling. */
+:root[data-frontend="heritage"] .table-panel.studbook-mode{
+  min-height:0!important;overflow:hidden!important;box-shadow:none!important;filter:none!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;background-image:none!important;
+}
+:root[data-frontend="heritage"] .table-panel.studbook-mode::before,
+:root[data-frontend="heritage"] .table-panel.studbook-mode::after,
+:root[data-frontend="heritage"] .studbook-preview-shell::before,
+:root[data-frontend="heritage"] .studbook-preview-shell::after,
+:root[data-frontend="heritage"] .studbook-preview-stage::before,
+:root[data-frontend="heritage"] .studbook-preview-stage::after,
+:root[data-frontend="heritage"] .studbook-print-sheet::before,
+:root[data-frontend="heritage"] .studbook-print-sheet::after{display:none!important;content:none!important}
+:root[data-frontend="heritage"] .table-panel.studbook-mode .studbook-preview-shell,
+:root[data-frontend="heritage"] .table-panel.studbook-mode .studbook-preview-shell *{
+  box-shadow:none!important;text-shadow:none!important;filter:none!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;animation:none!important;
+}
+:root[data-frontend="heritage"] .table-panel.studbook-mode .studbook-print-sheet{
+  background:#fffdfb!important;isolation:isolate;
+}
+
+@media (max-width:900px){
+  :root[data-frontend="heritage"] .studbook-preview-toolbar{align-items:flex-start;flex-direction:column}
+  :root[data-frontend="heritage"] .studbook-preview-stage{padding:8px}
+  :root[data-frontend="heritage"] .studbook-print-sheet{margin-inline:0}
+}
+
+@media print{
+  @page{size:A4 portrait;margin:0}
+  body.studbook-print-active *{visibility:hidden!important}
+  body.studbook-print-active .studbook-print-sheet,body.studbook-print-active .studbook-print-sheet *{visibility:visible!important}
+  body.studbook-print-active .studbook-print-sheet{position:fixed!important;inset:0!important;width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;text-shadow:none!important;filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:#fff!important}
+  body.studbook-print-active .studbook-print-sheet,body.studbook-print-active .studbook-print-sheet *{box-shadow:none!important;text-shadow:none!important;filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;animation:none!important;transition:none!important}
+  body.studbook-print-active .studbook-print-sheet::before,body.studbook-print-active .studbook-print-sheet::after,body.studbook-print-active .studbook-print-sheet *::before,body.studbook-print-active .studbook-print-sheet *::after{box-shadow:none!important;text-shadow:none!important;filter:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;animation:none!important}
+  body.studbook-print-active .studbook-record{cursor:default!important}
+}

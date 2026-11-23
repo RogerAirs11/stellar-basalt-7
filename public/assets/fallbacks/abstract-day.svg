@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <title>Neutral abstract light background</title>
+  <defs><linearGradient id="paper" x2="1" y2="1"><stop stop-color="#f8f5ec"/><stop offset="1" stop-color="#d8dfd3"/></linearGradient><radialGradient id="glow"><stop stop-color="#decca3" stop-opacity=".5"/><stop offset="1" stop-color="#decca3" stop-opacity="0"/></radialGradient></defs>
+  <path fill="url(#paper)" d="M0 0h1600v1000H0z"/><ellipse cx="1200" cy="160" rx="720" ry="600" fill="url(#glow)"/>
+  <g fill="none" stroke="#7f927f" stroke-opacity=".16" stroke-width="2"><path d="M-200 920C350 190 850 1180 1800 260"/><path d="M-100 1030C500 330 850 1120 1760 470"/><path d="M-120 840C430 110 980 1010 1800 100"/></g>
+</svg>

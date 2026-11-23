@@ -1,0 +1,914 @@
+/*
+ * Heritage terminal visual contract — v0.42.16 CSS consolidation
+ * ===============================================================
+ * Imported after the Heritage token/color/analytics layers and before the narrow
+ * ambient, motion, navigation and optical-refinement modules.
+ *
+ * This file is the authoritative component paint contract; later modules may
+ * only override their explicitly scoped behavior/optical responsibilities. Historical Heritage CSS
+ * contains many release-era experiments; none of those decorative painters or
+ * per-surface animation systems is allowed to leak into the current UI.
+ *
+ * Active visual model:
+ *   1. bounded full-box color schemes with independent brightness/contrast;
+ *   2. independent semantic color coding;
+ *   3. one shared moving ambient field behind genuinely frosted glass surfaces;
+ *   4. tiered, bounded backdrop blur with geometry-sensitive exclusions;
+ *   5. spring-like button interaction motion with no sweep-light painter;
+ *   6. no GAS or per-card living-gradient animation; functional animations remain.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* 1. COLOR-SCHEME FOUNDATION                                                  */
+/* -------------------------------------------------------------------------- */
+
+html:root[data-frontend="heritage"]{
+  /* Retired legacy tint/GAS inputs stay hard-zero. */
+  --h-user-scheme-alpha:0%!important;
+  --h-user-scheme-soft-alpha:0%!important;
+  --h-user-tint-alpha:0%!important;
+  --h-user-tint-soft-alpha:0%!important;
+  --h-user-master-tint:0!important;
+
+  /* True-frost ladder consumes the canonical token kernel. The Appearance
+     blur control remains the single upstream input; tier ratios and ceilings
+     are named design tokens rather than component-local magic numbers. */
+  --h-terminal-major-blur:clamp(var(--h-ds-frost-major-min),calc(var(--h-user-glass-blur,30px) * var(--h-ds-frost-major-scale)),var(--h-ds-frost-major-max));
+  --h-terminal-panel-blur:clamp(var(--h-ds-frost-panel-min),calc(var(--h-user-glass-blur,30px) * var(--h-ds-frost-panel-scale)),var(--h-ds-frost-panel-max));
+  --h-terminal-card-blur:clamp(var(--h-ds-frost-card-min),calc(var(--h-user-glass-blur,30px) * var(--h-ds-frost-card-scale)),var(--h-ds-frost-card-max));
+  --h-terminal-control-blur:clamp(var(--h-ds-frost-control-min),calc(var(--h-user-glass-blur,30px) * var(--h-ds-frost-control-scale)),var(--h-ds-frost-control-max));
+
+  /* Stable semantic vocabulary. Decorative schemes never redefine these. */
+  --sire:var(--h-sire)!important;
+  --dam:var(--h-dam)!important;
+  --repeat:var(--h-warning)!important;
+  --danger:var(--h-danger)!important;
+  --success:var(--h-success)!important;
+}
+
+/* Scheme, semantic and contextual color processing is centralized in
+ * heritage.color.css. This terminal file only consumes those color roles. */
+
+
+html:root[data-frontend="heritage"] body{background:var(--bg)!important}
+html:root[data-frontend="heritage"] .app-shell{
+  position:relative;
+  isolation:isolate;
+  background:transparent!important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. SINGLE SURFACE CONTRACT                                                  */
+/* -------------------------------------------------------------------------- */
+
+/* Tier assignment. These variables are used by one shared paint formula. */
+html:root[data-frontend="heritage"] :is(
+  .premium-hero,.premium-page-head,.stats-hero,.table-panel,.welcome-workspace,.heritage-desk-head
+){--h-terminal-alpha:var(--h-contract-major-alpha);--h-terminal-blur:var(--h-terminal-major-blur)}
+
+html:root[data-frontend="heritage"] :is(
+  .premium-profile,.premium-pedigree,.premium-details,.record-workspace,.heritage-record-ledger,
+  .heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.profile-workspace-context,
+  .stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .pedigree-radial,.pedigree-map-shell,.pedigree-map-meta,.compare-box,.relationship-result,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger
+){--h-terminal-alpha:var(--h-contract-panel-alpha);--h-terminal-blur:var(--h-terminal-panel-blur)}
+
+html:root[data-frontend="heritage"] :is(
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,.stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,
+  .data-tile,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,.ped-ledger-head,.premium-metric,.quality-card,
+  .horse-insight,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,.coefficient-panel,.lineage-trails,
+  .pedigree-path-explorer,.horse-premium-pedigree,.horse-reference-intelligence,.breeding-diversity,
+  .breeding-science-ledger,.optimizer-science-ledger,.breeding-primary-result,.breeding-result,.admin-card,.data-state,
+  .stats-category-card,.stats-integrity-card,.person-results,.person-hero
+){--h-terminal-alpha:var(--h-contract-card-alpha);--h-terminal-blur:var(--h-terminal-card-blur)}
+
+html:root[data-frontend="heritage"] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .theme-settings-sidebar,.heritage-app-dock-row
+){--h-terminal-alpha:var(--h-contract-control-alpha);--h-terminal-blur:var(--h-terminal-control-blur)}
+
+/* Generic scheme character. The scheme tint is applied to the entire surface. */
+html:root[data-frontend="heritage"] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,.table-panel,.record-workspace,
+  .heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.welcome-workspace,
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row,.theme-settings-sidebar,
+  .pedigree-radial,.pedigree-map-shell,.pedigree-map-meta,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,.ped-ledger-head,
+  .premium-metric,.quality-card,.horse-insight,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,
+  .coefficient-panel,.lineage-trails,.pedigree-path-explorer,.horse-premium-pedigree,.horse-reference-intelligence,
+  .breeding-diversity,.breeding-science-ledger,.optimizer-science-ledger,.breeding-primary-result,.breeding-result,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.admin-card,.data-state,
+  .stats-category-card,.stats-integrity-card,.person-results,.person-hero
+){
+  --h-terminal-tone:var(--h-scheme-base);
+  --h-terminal-bg-tone:var(--h-scheme-base);
+  --h-terminal-tone-strength:var(--h-v13-scheme-soft,5.2%);
+}
+
+/* Contextual colored blocks are intentionally colorful but do not encode a
+   fixed state such as sire/dam/warning. They therefore use the independent
+   Contextual colored blocks controls instead of Scheme character. */
+html:root[data-frontend="heritage"] :is(
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,
+  .detail-card,.details-grid>article,.stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .premium-metric,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,.coefficient-panel,
+  .lineage-trails,.pedigree-path-explorer,.breeding-diversity,.breeding-science-ledger,.optimizer-science-ledger,
+  .breeding-primary-result,.breeding-result,.desk-panel,.stats-category-card,.stats-integrity-card,.person-results,.person-hero
+){--h-terminal-tone:var(--h-context-tone)!important;--h-terminal-bg-tone:var(--h-context-tone)!important;--h-terminal-tone-strength:var(--h-user-context-soft-alpha,8%)!important}
+
+/* Meaning-bearing surfaces use semantic hue instead of scheme hue. */
+html:root[data-frontend="heritage"] :is(
+  .lineage-card.sire,.ped-card.relation-father,.ped-card.sex-male,.ped-mobile-card.relation-father,
+  .ped-vertical-card.relation-father,.ped-ledger-row.relation-father,.mobile-registry-card.sex-male,.tone-sire
+){--h-terminal-tone:var(--h-sire)!important;--h-terminal-bg-tone:var(--h-sire-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+
+html:root[data-frontend="heritage"] :is(
+  .lineage-card.dam,.ped-card.relation-mother,.ped-card.sex-female,.ped-mobile-card.relation-mother,
+  .ped-vertical-card.relation-mother,.ped-ledger-row.relation-mother,.mobile-registry-card.sex-female,.tone-dam
+){--h-terminal-tone:var(--h-dam)!important;--h-terminal-bg-tone:var(--h-dam-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+
+html:root[data-frontend="heritage"] :is(.tone-info,.identity-card,.heritage-claim-panel){--h-terminal-tone:var(--h-info)!important;--h-terminal-bg-tone:var(--h-info-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+html:root[data-frontend="heritage"] :is(.tone-good,.is-success){--h-terminal-tone:var(--h-success)!important;--h-terminal-bg-tone:var(--h-success-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+html:root[data-frontend="heritage"] :is(.tone-warn,.has-repeat,.admin-card){--h-terminal-tone:var(--h-warning)!important;--h-terminal-bg-tone:var(--h-warning-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+html:root[data-frontend="heritage"] :is(.tone-danger,.is-error,.has-cycle,.quality-card,.governance-panel){--h-terminal-tone:var(--h-danger)!important;--h-terminal-bg-tone:var(--h-danger-bg)!important;--h-terminal-tone-strength:var(--h-user-semantic-soft-alpha,14%)!important}
+
+/* Semantic strength also reaches smaller color-coded blocks that are not part
+   of the main terminal-surface list. This makes the Color-coded blocks control
+   truthful across metrics, badges, table cells, status chips and breeding UI. */
+/* Premium pedigree/reference Intelligence metrics previously used an old fixed
+   7% gradient in heritage.system.css. That made semantic sliders color the text
+   while barely changing the boxes. Terminal authority now gives these boxes the
+   same semantic background channel as horse/pedigree cards. */
+html:root[data-frontend="heritage"] :is(.horse-premium-grid,.horse-reference-grid,.horse-reference-components){--metric-tone:var(--h-info)!important;--metric-bg-tone:var(--h-info-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-depth,.metric-coverage,.metric-kinship,.component-lowMeanKinship){--metric-tone:var(--h-info)!important;--metric-bg-tone:var(--h-info-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-diversity,.metric-dpi){--metric-tone:var(--h-success)!important;--metric-bg-tone:var(--h-success-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-rarity,.metric-concentration,.component-rareRecordedAncestors){--metric-tone:var(--h-warning)!important;--metric-bg-tone:var(--h-warning-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-repetition,.metric-crossbranch){--metric-tone:var(--h-danger)!important;--metric-bg-tone:var(--h-danger-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-sire,.component-rareTailMaleLine){--metric-tone:var(--h-sire)!important;--metric-bg-tone:var(--h-sire-bg)!important}
+html:root[data-frontend="heritage"] :is(.metric-dam,.component-rareTailFemaleLine){--metric-tone:var(--h-dam)!important;--metric-bg-tone:var(--h-dam-bg)!important}
+html:root[data-frontend="heritage"] :is(.horse-premium-grid,.horse-reference-grid)>div,
+html:root[data-frontend="heritage"] .horse-reference-components>span{
+  background:color-mix(in srgb,var(--metric-bg-tone,var(--h-info-bg)) var(--h-user-semantic-soft-alpha,14%),color-mix(in srgb,var(--h-frost-1-bg) 84%,transparent))!important;
+  background-image:none!important;
+  border-color:color-mix(in srgb,var(--metric-tone,var(--h-info)) var(--h-user-semantic-border-alpha,32%),var(--line))!important;
+}
+html:root[data-frontend="heritage"] :is(.horse-premium-grid,.horse-reference-grid)>div strong,
+html:root[data-frontend="heritage"] .horse-reference-components>span b{color:var(--metric-tone,var(--h-info))!important}
+
+html:root[data-frontend="heritage"] .registry-metrics>div:nth-child(4n+1){--h-metric-tone:var(--h-info)!important;--h-metric-bg-tone:var(--h-info-bg)!important;--h-metric-fill:var(--h-user-semantic-cell-alpha,8%)}
+html:root[data-frontend="heritage"] .registry-metrics>div:nth-child(4n+2){--h-metric-tone:var(--h-success)!important;--h-metric-bg-tone:var(--h-success-bg)!important;--h-metric-fill:var(--h-user-semantic-cell-alpha,8%)}
+html:root[data-frontend="heritage"] .registry-metrics>div:nth-child(4n+3){--h-metric-tone:var(--h-warning)!important;--h-metric-bg-tone:var(--h-warning-bg)!important;--h-metric-fill:var(--h-user-semantic-cell-alpha,8%)}
+html:root[data-frontend="heritage"] .registry-metrics>div:nth-child(4n){--h-metric-tone:var(--h-context-tone)!important;--h-metric-bg-tone:var(--h-context-tone)!important;--h-metric-fill:var(--h-user-context-soft-alpha,8%)}
+html:root[data-frontend="heritage"] .registry-metrics>div{
+  background:color-mix(in srgb,var(--h-metric-bg-tone,var(--h-metric-tone)) var(--h-metric-fill),color-mix(in srgb,var(--panel-solid) var(--h-contract-card-alpha),transparent))!important;
+  box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--h-metric-tone) var(--h-user-semantic-border-alpha,32%),transparent)!important;
+}
+html:root[data-frontend="heritage"] :is(.sex-badge.male,.breeding-role-choice button.active.sire){
+  background:color-mix(in srgb,var(--h-sire-bg) var(--h-user-semantic-cell-alpha,8%),var(--bg-elev))!important;
+  border-color:color-mix(in srgb,var(--h-sire) var(--h-user-semantic-border-alpha,32%),var(--line))!important;
+}
+html:root[data-frontend="heritage"] :is(.sex-badge.female,.breeding-role-choice button.active.dam){
+  background:color-mix(in srgb,var(--h-dam-bg) var(--h-user-semantic-cell-alpha,8%),var(--bg-elev))!important;
+  border-color:color-mix(in srgb,var(--h-dam) var(--h-user-semantic-border-alpha,32%),var(--line))!important;
+}
+html:root[data-frontend="heritage"] :is(.trust-badges span,.capability-state.live,.desk-capability-key .live){
+  background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important;
+  border-color:color-mix(in srgb,var(--h-success) var(--h-user-semantic-border-alpha,32%),var(--line))!important;
+}
+html:root[data-frontend="heritage"] :is(.claim-status,.capability-state.auth,.desk-capability-key .auth){
+  background:color-mix(in srgb,var(--h-info-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important;
+  border-color:color-mix(in srgb,var(--h-info) var(--h-user-semantic-border-alpha,32%),var(--line))!important;
+}
+html:root[data-frontend="heritage"] .visual-encoding .registry-table :is(.cell-sire,.cell-dam,.cell-place,.cell-breed){background-color:transparent!important}
+html:root[data-frontend="heritage"] .visual-encoding .registry-table .cell-sire{background:color-mix(in srgb,var(--h-sire-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important}
+html:root[data-frontend="heritage"] .visual-encoding .registry-table .cell-dam{background:color-mix(in srgb,var(--h-dam-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important}
+html:root[data-frontend="heritage"] .visual-encoding .registry-table .cell-place{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important}
+html:root[data-frontend="heritage"] .visual-encoding .registry-table .cell-breed{background:color-mix(in srgb,var(--h-warning-bg) var(--h-user-semantic-cell-alpha,8%),transparent)!important}
+
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>:is(.tone-info,.tone-sire){background:color-mix(in srgb,var(--h-info-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>.tone-sire{background:color-mix(in srgb,var(--h-sire-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>.tone-dam{background:color-mix(in srgb,var(--h-dam-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>.tone-good{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>.tone-warn{background:color-mix(in srgb,var(--h-warning-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] :is(.breeding-science-grid,.reference-method-ledger)>.tone-danger{background:color-mix(in srgb,var(--h-danger-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+
+/* Full-box paint formula. There are no gradient/image canvases on UI surfaces. */
+html:root[data-frontend="heritage"][data-glass="1"][data-h-legacy-motion][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,.table-panel,.record-workspace,
+  .heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.welcome-workspace,
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row,.theme-settings-sidebar,
+  .pedigree-radial,.pedigree-map-shell,.pedigree-map-meta,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,.ped-ledger-head,
+  .premium-metric,.quality-card,.horse-insight,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,
+  .coefficient-panel,.lineage-trails,.pedigree-path-explorer,.horse-premium-pedigree,.horse-reference-intelligence,
+  .breeding-diversity,.breeding-science-ledger,.optimizer-science-ledger,.breeding-primary-result,.breeding-result,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.admin-card,.data-state,
+  .stats-category-card,.stats-integrity-card,.person-results,.person-hero
+){
+  background:color-mix(
+    in srgb,
+    var(--h-terminal-bg-tone,var(--h-terminal-tone,var(--h-scheme-base))) var(--h-terminal-tone-strength,var(--h-v13-scheme-soft,5.2%)),
+    color-mix(in srgb,var(--panel-solid) var(--h-terminal-alpha,var(--h-contract-card-alpha)),transparent)
+  )!important;
+  background-image:none!important;
+  background-repeat:no-repeat!important;
+  background-size:auto!important;
+  background-position:0 0!important;
+  background-attachment:scroll!important;
+  -webkit-backdrop-filter:blur(var(--h-terminal-blur,var(--h-terminal-card-blur))) saturate(1.08)!important;
+  backdrop-filter:blur(var(--h-terminal-blur,var(--h-terminal-card-blur))) saturate(1.08)!important;
+  animation:none!important;
+  filter:none!important;
+  will-change:auto!important;
+}
+
+/* Solid mode remains genuinely solid and bounded. */
+html:root[data-frontend="heritage"][data-glass="0"][data-h-legacy-motion][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,.table-panel,.record-workspace,
+  .heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.welcome-workspace,
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row,.theme-settings-sidebar,
+  .pedigree-radial,.pedigree-map-shell,.pedigree-map-meta,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,.ped-ledger-head,
+  .premium-metric,.quality-card,.horse-insight,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,
+  .coefficient-panel,.lineage-trails,.pedigree-path-explorer,.horse-premium-pedigree,.horse-reference-intelligence,
+  .breeding-diversity,.breeding-science-ledger,.optimizer-science-ledger,.breeding-primary-result,.breeding-result,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.admin-card,.data-state,
+  .stats-category-card,.stats-integrity-card,.person-results,.person-hero
+){
+  background:color-mix(in srgb,var(--h-terminal-bg-tone,var(--h-terminal-tone,var(--h-scheme-base))) var(--h-terminal-tone-strength,var(--h-v13-scheme-soft,5.2%)),var(--panel-solid))!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  animation:none!important;
+}
+
+/* Pedigree horse cards are foreground objects. Keep them opaque and geometry-safe. */
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] .ped-card{
+  --h-ped-card-sex:var(--h-terminal-bg-tone,var(--h-terminal-tone,var(--h-scheme-base)));
+  --h-ped-card-foundation:color-mix(in srgb,var(--h-scheme-base) var(--h-v13-scheme-soft,5.2%),var(--h-pedigree-card-surface));
+  --h-ped-card-opaque:color-mix(in srgb,var(--h-ped-card-sex) var(--h-terminal-tone-strength,var(--h-v13-scheme-soft,5.2%)),var(--h-ped-card-foundation))!important;
+  --h-ped-card-opaque-hover:color-mix(in srgb,var(--h-ped-card-sex) var(--h-user-semantic-alpha,18%),var(--h-ped-card-foundation))!important;
+  background:var(--h-ped-card-opaque)!important;
+  background-image:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+  animation:none!important;
+  will-change:auto!important;
+}
+html:root[data-frontend="heritage"][data-mode="light"][data-glass][data-h-legacy-motion][data-palette] .ped-card{
+  --h-ped-card-foundation:color-mix(in srgb,var(--h-scheme-base) var(--h-v13-scheme-soft,5.2%),#fafaf8);
+}
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] .ped-card:hover{background:var(--h-ped-card-opaque-hover)!important;background-image:none!important}
+
+/* -------------------------------------------------------------------------- */
+/* 3. GLASS / COMPOSITOR / PSEUDO SAFETY                                       */
+/* -------------------------------------------------------------------------- */
+
+/* The moving atmosphere is shared, but the frost is owned by each bounded
+   surface. Geometry canvases and tiny repeated leaf cells deliberately remain
+   compositor-free; their parent glass already provides the optical blur. */
+html:root[data-frontend="heritage"][data-glass="1"][data-h-legacy-motion][data-palette] :is(
+  .ped-card,.pedigree-map-visual,.modern-pedigree,.ped-ledger-tree,
+  .reference-method-ledger>span,.breeding-science-grid>span,.optimizer-breakdown>article,
+  .heritage-record-ledger dl>div,.person-link,.relationship-coefficients>div,
+  .relationship-path-atlas article,.pedigree-generation-row,.pedigree-branch-row,
+  .pedigree-repeat-leaders li,.trust-badges span
+){
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+/* Floating menus are independent frost owners even when they sit outside a
+   tiered workspace surface. */
+html:root[data-frontend="heritage"][data-glass="1"][data-h-legacy-motion][data-palette] :is(
+  .theme-settings-popover,.column-popover,.home-search-suggestions,.mobile-palette-popover,
+  .frontend-switcher-popover,.picker-options,.compare-options,.popover
+){
+  -webkit-backdrop-filter:blur(var(--h-terminal-control-blur)) saturate(1.12)!important;
+  backdrop-filter:blur(var(--h-terminal-control-blur)) saturate(1.12)!important;
+}
+
+/* Historical full-area pseudo painters are retired. */
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,.table-panel,.record-workspace,
+  .heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.welcome-workspace,
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .profile-workspace-nav,.profile-subnav,.profile-workspace-context,.stats-hero,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,.heritage-app-dock-row,.theme-settings-sidebar,
+  .pedigree-map-shell,.pedigree-map-meta,.pedigree-radial,.ped-ledger-tree,.ped-ledger-head,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,
+  .stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .ped-card,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,
+  .premium-metric,.reference-method-ledger>span,.breeding-science-grid>span,.optimizer-breakdown>article,
+  .heritage-record-ledger dl>div,.person-link,.compare-options,.closest-common,.relationship-coefficients>div,
+  .relationship-path-atlas article,.pedigree-generation-row,.pedigree-branch-row,.pedigree-repeat-leaders li,
+  .trust-badges span,.pedigree-insight,.pedigree-branch-balance,.pedigree-repeat-leaders,
+  .coefficient-panel,.lineage-trails,.pedigree-path-explorer,.horse-premium-pedigree,.horse-reference-intelligence,
+  .breeding-diversity,.breeding-optimizer-results>button,.governance-list article
+)::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  animation:none!important;
+  filter:none!important;
+  opacity:0!important;
+}
+
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] .ped-card::after,
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] .ped-card-frame::after{
+  content:none!important;display:none!important;background:none!important;background-image:none!important;
+  box-shadow:none!important;animation:none!important;filter:none!important;opacity:0!important;
+}
+
+/* Keep the intentional horse-insight semantic rail. */
+html:root[data-frontend="heritage"] .horse-insight{position:relative}
+html:root[data-frontend="heritage"] .horse-insight::after{
+  content:""!important;display:block!important;position:absolute!important;
+  inset-inline-start:0!important;inset-block:20% 20%!important;width:3px!important;border-radius:4px!important;
+  background:var(--h-surface-tone,var(--h-terminal-tone,var(--h-info)))!important;
+  box-shadow:0 0 10px color-mix(in srgb,var(--h-surface-tone,var(--h-info)) 45%,transparent)!important;
+  opacity:.9!important;pointer-events:none!important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. DECORATIVE MOTION: ONE AMBIENT FIELD ONLY                               */
+/* -------------------------------------------------------------------------- */
+
+/* Retire every historical per-surface decorative animation with a selector that
+   matches/exceeds the old animated-state authorities. Functional SVG/data
+   animations are not in this surface list and remain untouched. */
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,.table-panel,.record-workspace,
+  .heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,.relationship-lab,.welcome-workspace,
+  .welcome-summary-card,.workspace-summary-card,.feature-card,.feature-art-card,.result-card,.mobile-registry-card,
+  .identity-card,.lineage-card,.detail-card,.details-grid>article,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .stats-card,.stats-kpi,.stats-ranking-card,.stats-load-card,.data-tile,
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row,.theme-settings-sidebar,
+  .pedigree-radial,.pedigree-map-shell,.pedigree-map-visual,.modern-pedigree,.pedigree-map-meta,
+  .ped-card,.ped-mobile-card,.ped-vertical-card,.ped-ledger-row,.ped-ledger-head,
+  .premium-metric,.reference-method-ledger>span,.breeding-science-grid>span,.optimizer-breakdown>article,
+  .compare-box,.relationship-result,.pedigree-branch-balance,.pedigree-repeat-leaders,.coefficient-panel,.lineage-trails,
+  .pedigree-path-explorer,.pedigree-insight,.horse-insight,.heritage-desk-head,.desk-panel,.governance-panel,
+  .admin-canonical-ledger,.admin-card,.quality-card,.breeding-science-ledger,.optimizer-science-ledger,
+  .breeding-primary-result,.breeding-result,.heritage-record-ledger dl>div,.person-link,.compare-options,.closest-common,
+  .relationship-coefficients>div,.relationship-path-atlas article,.pedigree-generation-row,.pedigree-branch-row,
+  .pedigree-repeat-leaders li,.trust-badges span,.registry-metrics>div,.quick-match,.stats-category-card,
+  .stats-integrity-card,.stats-category-row,.stats-composition-row,.stats-coverage-row,.stats-sex-row,.person-results,
+  .person-hero,.data-state
+){
+  animation:none!important;
+  will-change:auto!important;
+}
+
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row
+) button:is(.active,.is-active),
+html:root[data-frontend="heritage"][data-h-legacy-motion] :is(
+  .data-chip,.rank-no,.coefficient-value,.stats-era-cell,.pedigree-radial-key span,.ped-ledger-key span
+){animation:none!important;will-change:auto!important}
+
+/* Sweep-light pseudo elements on active navigation are always off. */
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row
+) button:is(.active,.is-active)::before,
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row
+) button:is(.active,.is-active)::after{
+  animation:none!important;
+  background-image:none!important;
+  filter:none!important;
+}
+
+/* The scene artwork is static. Motion comes from the separate ambient layer. */
+html:root[data-frontend="heritage"] .app-shell::before{z-index:-3!important;animation:none!important;will-change:auto!important}
+
+/* One oversized, soft, full-viewport field. It moves as a single compositor
+   layer like an ambient-video backdrop; no card owns or clips this gradient.
+
+   IMPORTANT: transform/opacity remain !important so this terminal authority
+   defeats historical rules, but the ANIMATED VALUES live in registered custom
+   properties. This avoids the CSS cascade trap where !important transform or
+   opacity declarations silently freeze an otherwise-running keyframe. */
+
+
+
+
+
+
+
+
+
+html:root[data-frontend="heritage"][data-h-legacy-motion="still"] .app-shell::after{
+  content:none!important;display:none!important;background:none!important;background-image:none!important;
+  animation:none!important;transform:none!important;opacity:0!important;will-change:auto!important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. SETTINGS / CHROME                                                        */
+/* -------------------------------------------------------------------------- */
+
+html:root[data-frontend="heritage"] .theme-settings-choice.palette.professional{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html:root[data-frontend="heritage"] .theme-settings-choice.palette.professional button{justify-content:flex-start;min-width:0}
+html:root[data-frontend="heritage"] .appearance-swatch.neutral{background:linear-gradient(135deg,#5f6a70 0 50%,#b8b4aa 50%)}
+html:root[data-frontend="heritage"] .appearance-swatch.midnight{background:linear-gradient(135deg,#29445d 0 50%,#9fc5dc 50%)}
+html:root[data-frontend="heritage"] .theme-tuning-grid.tint-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html:root[data-frontend="heritage"] .theme-settings-note{display:block;margin-top:8px;color:var(--muted);font-size:11.5px;line-height:1.55}
+
+/* Active tabs get a bounded static semantic/full-box state — never a sweep. */
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion][data-palette] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,.heritage-app-dock-row
+) button:is(.active,.is-active){
+  background-image:none!important;
+  background-color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 10%,color-mix(in srgb,var(--panel-solid) var(--h-contract-control-alpha),transparent))!important;
+  border-color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 34%,var(--h-glass-border-soft))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 4px 12px rgba(0,0,0,.06)!important;
+}
+
+/* Professional button motion: spring-like lift + compression, never a travelling
+   light. Scope is explicit so positioned picker controls and pedigree cards keep
+   their own geometry transforms. */
+html:root[data-frontend="heritage"] :is(
+  .primary,.ghost,.danger,.main-nav button,
+  .profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.theme-settings-choice button,.theme-settings-advanced button,.segmented button,
+  .ped-fit-group button,.ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button,
+  .registry-pulse>footer button,.stats-ranking-card li button,.premium-root-list button,.lineage-trail button,
+  .breeding-optimizer-results>button
+){
+  transform-origin:center!important;
+  transition:transform .18s cubic-bezier(.2,.78,.2,1),box-shadow .22s ease,border-color .18s ease,background-color .18s ease,color .18s ease!important;
+  will-change:auto!important;
+}
+
+@media(hover:hover){
+  html:root[data-frontend="heritage"] :is(
+    .primary,.ghost,.danger,.main-nav button,
+    .profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+    .heritage-app-dock-row button,.theme-settings-choice button,.theme-settings-advanced button,.segmented button,
+    .ped-fit-group button,.ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button,
+    .registry-pulse>footer button,.stats-ranking-card li button,.premium-root-list button,.lineage-trail button,
+    .breeding-optimizer-results>button
+  ):not(:disabled):hover{
+    transform:translateY(-1.5px) scale(1.008)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 8px 18px rgba(0,0,0,.10)!important;
+  }
+}
+
+html:root[data-frontend="heritage"] :is(
+  .primary,.ghost,.danger,.main-nav button,
+  .profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.theme-settings-choice button,.theme-settings-advanced button,.segmented button,
+  .ped-fit-group button,.ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button,
+  .registry-pulse>footer button,.stats-ranking-card li button,.premium-root-list button,.lineage-trail button,
+  .breeding-optimizer-results>button
+):not(:disabled):active{
+  transform:translateY(0) scale(.975)!important;
+  transition-duration:.075s!important;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.06)!important;
+}
+
+html:root[data-frontend="heritage"] :is(
+  .primary,.ghost,.danger,.main-nav button,
+  .profile-workspace-nav button,.profile-subnav button,.stats-subnav button,.stats-subtabs button,.stats-tertiary-nav button,
+  .heritage-app-dock-row button,.theme-settings-choice button,.theme-settings-advanced button,.segmented button,
+  .ped-fit-group button,.ped-mobile-view-switch button,.ped-desktop-view-switch button,.pedigree-radial-zoom button
+):focus-visible{
+  outline:none!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent),0 6px 18px rgba(0,0,0,.10)!important;
+}
+
+@media(max-width:520px){
+  html:root[data-frontend="heritage"] .theme-settings-choice.palette.professional{grid-template-columns:1fr 1fr!important}
+  html:root[data-frontend="heritage"] .theme-tuning-grid.tint-controls{grid-template-columns:1fr!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html:root[data-frontend="heritage"] .app-shell::after{
+    content:none!important;display:none!important;background:none!important;background-image:none!important;
+    animation:none!important;transform:none!important;opacity:0!important;will-change:auto!important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. HOTFIX 20 — SEAMLESS LOCAL AMBIENT GLASS + APPEARANCE STUDIO           */
+/* -------------------------------------------------------------------------- */
+/*
+ * Hotfix 19 restored the correct local-ambient architecture, but it moved
+ * oversized background-image rectangles around each host. Even though the
+ * radial gradients themselves faded, the moving image canvases could expose
+ * their rectangular bounds as obvious square seams.
+ *
+ * Hotfix 20 removes the moving-canvas model completely. Every ambient image
+ * now permanently covers 100% of its host. Only the radial gradient CENTRES
+ * move through registered coordinates. Because the image canvas never moves,
+ * there is no rectangular edge that can enter the visible area.
+ *
+ * Ambient visibility is a separate master channel. It changes presence only;
+ * motion speed, scheme character and semantic color remain independent.
+ */
+
+
+
+
+
+
+
+html:root[data-frontend="heritage"][data-glass="1"][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,
+  .table-panel,.record-workspace,.heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,
+  .relationship-lab,.welcome-workspace,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .horse-premium-pedigree,.horse-reference-intelligence,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.person-results,.person-hero
+){
+  position:relative!important;
+  isolation:isolate!important;
+}
+
+
+
+
+
+
+html:root[data-frontend="heritage"][data-glass][data-h-legacy-motion="still"][data-palette] :is(
+  .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,
+  .table-panel,.record-workspace,.heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,
+  .relationship-lab,.welcome-workspace,.profile-workspace-context,
+  .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+  .horse-premium-pedigree,.horse-reference-intelligence,
+  .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.person-results,.person-hero
+)::before{
+  content:none!important;display:none!important;background:none!important;background-image:none!important;
+  animation:none!important;opacity:0!important;will-change:auto!important;
+}
+
+/* Secondary glass chrome uses the same seam-free language at lower energy.
+   R39 fix: this block used to force position:relative!important on every chrome
+   rail, which silently demoted the sticky-designed navs (.stats-subnav,
+   .profile-workspace-nav). Their top:66px offsets stayed in force, so the
+   stats sub-tabs rendered 66px below their flow slot — a dead hole between the
+   banner and the tabs that also overlapped the section below it. Sticky is
+   already a positioning context for the glass pseudos, so isolation keeps
+   working while each rail keeps its designed position. */
+html:root[data-frontend="heritage"][data-glass="1"][data-palette] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .heritage-app-dock-row,.theme-settings-sidebar
+){isolation:isolate!important}
+/* Rails designed to ride under the topbar. (.profile-workspace-nav is
+   deliberately NOT here: heritage.system.css pins it static on desktop —
+   "never a sticky floating rail covering the changing context title" — and
+   sticky on phones, so it must inherit its designed position untouched.) */
+html:root[data-frontend="heritage"][data-glass="1"][data-palette] .stats-subnav{
+  position:sticky!important;
+}
+/* Chrome that is never sticky still needs its positioning context. */
+html:root[data-frontend="heritage"][data-glass="1"][data-palette] :is(
+  .profile-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .heritage-app-dock-row,.theme-settings-sidebar
+){position:relative!important}
+
+html:root[data-frontend="heritage"][data-h-legacy-motion="still"] :is(
+  .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+  .heritage-app-dock-row,.theme-settings-sidebar
+)::before{content:none!important;display:none!important;animation:none!important;background:none!important;opacity:0!important}
+
+@media(prefers-reduced-motion:reduce){
+  html:root[data-frontend="heritage"] :is(
+    .premium-hero,.premium-page-head,.premium-profile,.premium-pedigree,.premium-details,
+    .table-panel,.record-workspace,.heritage-record-ledger,.heritage-claim-panel,.heritage-breeding-panel,
+    .relationship-lab,.welcome-workspace,.profile-workspace-context,
+    .stats-hero,.stats-workspace-context,.stats-tab-stage,.stats-nested-workspace,.stats-nested-stage,
+    .horse-premium-pedigree,.horse-reference-intelligence,
+    .heritage-desk-head,.desk-panel,.governance-panel,.admin-canonical-ledger,.person-results,.person-hero,
+    .profile-workspace-nav,.profile-subnav,.stats-subnav,.stats-subtabs,.stats-tertiary-nav,
+    .heritage-app-dock-row,.theme-settings-sidebar
+  )::before{animation:none!important;will-change:auto!important}
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. APPEARANCE STUDIO — STRUCTURED CONTROLS + ACCESSIBLE HELP               */
+/* -------------------------------------------------------------------------- */
+html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar{
+  width:min(488px,calc(100vw - 20px))!important;
+  gap:12px!important;
+  padding:14px!important;
+  scrollbar-gutter:stable!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-sidebar>header{
+  padding:2px 3px 12px!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-sidebar>header strong{font-size:15px!important;letter-spacing:-.01em}
+html:root[data-frontend="heritage"] .theme-settings-sidebar>header small{font-size:11.5px!important;line-height:1.45!important;max-width:390px}
+
+html:root[data-frontend="heritage"] .theme-settings-sidebar>.theme-settings-block{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:10px!important;
+  align-items:stretch!important;
+  padding:12px!important;
+  border:1px solid color-mix(in srgb,var(--h-glass-border-soft) 82%,transparent)!important;
+  border-radius:9px!important;
+  background:color-mix(in srgb,var(--panel-solid) 22%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.055)!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-block-head{
+  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:12px!important;
+  padding-bottom:9px!important;border-bottom:1px solid color-mix(in srgb,var(--h-glass-border-soft) 70%,transparent)!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-block-head>div{display:grid;gap:3px;min-width:0}
+html:root[data-frontend="heritage"] .theme-settings-block-head strong{font:850 12px/1.2 var(--h-font-ui);color:var(--ink)}
+html:root[data-frontend="heritage"] .theme-settings-block-head small{font:650 10.5px/1.45 var(--h-font-ui);color:var(--muted)}
+
+html:root[data-frontend="heritage"] .theme-setting-row{
+  display:grid!important;grid-template-columns:minmax(118px,.72fr) minmax(0,1.28fr)!important;gap:10px!important;align-items:center!important;
+}
+html:root[data-frontend="heritage"] .theme-setting-copy{min-width:0;text-align:start}
+html:root[data-frontend="heritage"] .theme-setting-copy>strong,
+html:root[data-frontend="heritage"] .theme-slider-name{
+  display:inline-flex;align-items:center;gap:6px;color:var(--muted);font:800 10.5px/1.3 var(--h-font-ui)
+}
+html:root[data-frontend="heritage"] .theme-settings-choice{border-radius:7px!important;padding:4px!important}
+html:root[data-frontend="heritage"] .theme-settings-choice button{min-height:34px!important}
+html:root[data-frontend="heritage"] .theme-settings-choice.palette.professional{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+html:root[data-frontend="heritage"] .theme-tuning-grid{gap:8px!important}
+html:root[data-frontend="heritage"] .theme-tuning-grid.tint-controls,
+html:root[data-frontend="heritage"] .theme-tuning-grid.atmosphere-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html:root[data-frontend="heritage"] .theme-tuning-grid.scheme-expression-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html:root[data-frontend="heritage"] .theme-tuning-grid.color-channel-controls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+html:root[data-frontend="heritage"] .theme-tuning-slider{
+  gap:7px!important;padding:9px 10px!important;border-radius:7px!important;
+  background:color-mix(in srgb,var(--panel-solid) 20%,transparent)!important;
+}
+html:root[data-frontend="heritage"] .theme-slider-meta{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:8px!important}
+html:root[data-frontend="heritage"] .theme-tuning-slider b{font-size:10px!important;white-space:nowrap}
+html:root[data-frontend="heritage"] .theme-tuning-slider input[type="range"]{height:18px!important}
+
+html:root[data-frontend="heritage"] .theme-help{
+  position:relative;display:inline-grid;place-items:center;flex:0 0 auto;
+  width:16px;height:16px;border:1px solid color-mix(in srgb,var(--muted) 34%,transparent);border-radius:50%;
+  color:var(--muted);background:color-mix(in srgb,var(--panel-solid) 34%,transparent);
+  font:850 10px/1 var(--h-font-ui);cursor:help;outline:none;
+}
+html:root[data-frontend="heritage"] .theme-help::after{
+  content:attr(data-tip);position:absolute;z-index:50;inset-inline-start:50%;inset-block-end:calc(100% + 8px);
+  width:min(270px,72vw);padding:8px 9px;border:1px solid var(--h-popover-border);border-radius:6px;
+  background:color-mix(in srgb,var(--panel-solid) 94%,var(--bg));color:var(--ink);
+  box-shadow:0 10px 30px rgba(0,0,0,.22);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  font:650 10.5px/1.45 var(--h-font-ui);text-align:start;white-space:normal;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,4px);transition:opacity .14s ease,transform .14s ease,visibility .14s ease;
+}
+html[dir="rtl"][data-frontend="heritage"] .theme-help::after{transform:translate(50%,4px)}
+html:root[data-frontend="heritage"] .theme-help:is(:hover,:focus-visible)::after{opacity:1;visibility:visible;transform:translate(-50%,0)}
+html[dir="rtl"][data-frontend="heritage"] .theme-help:is(:hover,:focus-visible)::after{transform:translate(50%,0)}
+html:root[data-frontend="heritage"] .theme-help:focus-visible{border-color:color-mix(in srgb,var(--accent) 62%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+
+html:root[data-frontend="heritage"] .theme-settings-subgroup{display:grid;gap:7px;padding-top:1px}
+html:root[data-frontend="heritage"] .theme-settings-subgroup>strong{
+  color:var(--ink-2);font:800 10.5px/1.2 var(--h-font-ui);padding-inline:2px
+}
+html:root[data-frontend="heritage"] .theme-settings-advanced-head>button{
+  min-height:30px!important;padding:5px 10px!important;border-radius:6px!important
+}
+html:root[data-frontend="heritage"] .theme-json-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-auto-flow:row!important;
+  align-items:stretch!important;
+  justify-items:stretch!important;
+  gap:8px!important;
+  width:100%!important;
+  min-width:0!important;
+  margin-top:2px!important;
+  padding-top:10px!important;
+  border-top:1px solid color-mix(in srgb,var(--h-glass-border-soft) 68%,transparent)!important;
+}
+html:root[data-frontend="heritage"] .theme-json-actions>*{min-width:0!important;max-width:100%!important}
+html:root[data-frontend="heritage"] .theme-json-actions-head{width:100%!important;min-width:0!important}
+html:root[data-frontend="heritage"] .theme-json-actions-head strong{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2);font:800 10.5px/1.25 var(--h-font-ui)}
+html:root[data-frontend="heritage"] .theme-json-buttons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;width:100%!important;min-width:0!important}
+html:root[data-frontend="heritage"] .theme-json-buttons button{min-width:0!important;width:100%!important;min-height:34px!important;padding:6px 8px!important;border-radius:6px!important;font-size:10.5px!important;overflow:hidden!important;text-overflow:ellipsis!important}
+html:root[data-frontend="heritage"] .theme-json-file{display:none!important}
+html:root[data-frontend="heritage"] .theme-json-status{display:block;color:var(--muted);font:650 10.5px/1.45 var(--h-font-ui)}
+html:root[data-frontend="heritage"] .theme-json-status.error{color:color-mix(in srgb,var(--h-danger) 72%,var(--ink))!important}
+
+@media(max-width:560px){
+  html:root[data-frontend="heritage"] .theme-setting-row{grid-template-columns:1fr!important;gap:6px!important}
+  html:root[data-frontend="heritage"] .theme-tuning-grid.tint-controls,
+  html:root[data-frontend="heritage"] .theme-tuning-grid.atmosphere-controls,
+  html:root[data-frontend="heritage"] .theme-tuning-grid.scheme-expression-controls,
+  html:root[data-frontend="heritage"] .theme-tuning-grid.color-channel-controls{grid-template-columns:1fr!important}
+  html:root[data-frontend="heritage"] .theme-json-buttons{grid-template-columns:1fr!important}
+  html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar{padding:11px!important}
+}
+
+@media(max-width:620px){
+  html:root[data-frontend="heritage"] .theme-tuning-grid.scheme-expression-controls,
+  html:root[data-frontend="heritage"] .theme-tuning-grid.atmosphere-controls{grid-template-columns:1fr!important}
+  html:root[data-frontend="heritage"] .theme-setting-row{grid-template-columns:1fr!important;gap:6px!important}
+}
+
+/* ========================================================================== */
+/* v0.42.16 HOTFIX 21 — BIPOLAR AMBIENT LIGHT + APPEARANCE CONTROL POLISH    */
+/* ========================================================================== */
+/* Ambient is now centred around neutral glass rather than being additive-only:
+   a soft light cloud lifts luminance while an independent soft shadow cloud
+   deepens it. Both are feathered radial fields whose centres move; the canvas
+   itself never moves, so there is no rectangular seam to reveal. */
+html:root[data-frontend="heritage"]{
+  --h-ambient-lift-strength:26%;
+  --h-ambient-depth-strength:20%;
+  --h-ambient-chroma-strength:14%;
+  --h-ambient-metal-strength:8%;
+}
+html:root[data-frontend="heritage"][data-mode="light"]{
+  --h-ambient-lift-strength:18%;
+  --h-ambient-depth-strength:24%;
+  --h-ambient-chroma-strength:11%;
+  --h-ambient-metal-strength:6%;
+}
+
+
+
+
+/* Appearance Studio: keep the scroll rail clean and on the physical right even
+   when content is Persian/RTL. The old global themed scrollbar on an RTL
+   scroller produced the stacked/slivered artifact visible at the left edge. */
+html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar{
+  overflow-x:hidden!important;
+  scrollbar-gutter:auto!important;
+  scrollbar-width:thin!important;
+  scrollbar-color:color-mix(in srgb,var(--accent) 30%,var(--line-strong)) transparent!important;
+}
+html[dir="rtl"][data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar{direction:ltr!important}
+html[dir="rtl"][data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar>*{direction:rtl!important}
+html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar::-webkit-scrollbar{width:8px!important;height:8px!important}
+html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar::-webkit-scrollbar-track{background:transparent!important}
+html[data-frontend="heritage"] body>.theme-settings-portal-layer>.theme-settings-sidebar::-webkit-scrollbar-thumb{
+  border:2px solid transparent!important;
+  border-radius:7px!important;
+  background:color-mix(in srgb,var(--accent) 28%,var(--line-strong))!important;
+  background-clip:padding-box!important;
+  box-shadow:none!important;
+}
+
+/* Help bubbles become a single stable viewport/sidebar toast instead of a wide
+   pseudo-element trying to straddle RTL edges. This prevents clipped tooltip
+   slivers and gives every control a consistent readable explanation. */
+html:root[data-frontend="heritage"] .theme-help::after,
+html[dir="rtl"][data-frontend="heritage"] .theme-help::after{
+  position:fixed!important;
+  left:50%!important;right:auto!important;top:auto!important;
+  bottom:max(18px,env(safe-area-inset-bottom))!important;
+  inset-inline-start:auto!important;inset-inline-end:auto!important;inset-block-end:auto!important;
+  width:min(420px,calc(100vw - 36px))!important;
+  max-width:420px!important;
+  transform:translate(-50%,8px)!important;
+  z-index:2147483646!important;
+  border-radius:8px!important;
+  padding:10px 12px!important;
+  font:650 11px/1.55 var(--h-font-ui)!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.08)!important;
+}
+html:root[data-frontend="heritage"] .theme-help:is(:hover,:focus-visible)::after,
+html[dir="rtl"][data-frontend="heritage"] .theme-help:is(:hover,:focus-visible)::after{transform:translate(-50%,0)!important}
+
+/* Four fine controls are easier to scan as a balanced 2×2 laboratory than a
+   cramped three-column row. */
+html:root[data-frontend="heritage"] .theme-tuning-grid.color-channel-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+/* Explicit Light-mode brightness inversion checkbox. */
+html:root[data-frontend="heritage"] .theme-checkbox-row{
+  display:grid!important;
+  grid-template-columns:18px minmax(0,1fr)!important;
+  align-items:start!important;
+  gap:9px!important;
+  padding:9px 10px!important;
+  margin-top:2px!important;
+  border:1px solid color-mix(in srgb,var(--h-glass-border-soft) 86%,transparent)!important;
+  border-radius:7px!important;
+  background:color-mix(in srgb,var(--panel-solid) 18%,transparent)!important;
+  cursor:pointer!important;
+}
+html:root[data-frontend="heritage"] .theme-checkbox-row>input{
+  width:16px!important;height:16px!important;margin:1px 0 0!important;
+  accent-color:var(--accent)!important;cursor:pointer!important;
+}
+html:root[data-frontend="heritage"] .theme-checkbox-copy{display:grid!important;gap:3px!important;min-width:0!important}
+html:root[data-frontend="heritage"] .theme-checkbox-copy>strong{
+  display:inline-flex!important;align-items:center!important;gap:6px!important;
+  color:var(--ink-2)!important;font:800 10.5px/1.3 var(--h-font-ui)!important;
+}
+html:root[data-frontend="heritage"] .theme-checkbox-copy>small{color:var(--muted)!important;font:650 10px/1.45 var(--h-font-ui)!important}
+
+@media(max-width:560px){
+  html:root[data-frontend="heritage"] .theme-tuning-grid.color-channel-controls{grid-template-columns:1fr!important}
+}
+
+
+/* ========================================================================== */
+/* v0.42.16 HOTFIX 22 — THEME PRESET GRID CRUSH FIX                          */
+/* ========================================================================== */
+/* Legacy Heritage CSS defined `.theme-json-actions` as a two-column grid.
+   Its `auto` column was sized by the long preset status sentence, starving the
+   Export / Import / Copy group down to a few pixels. In RTL that strip appears
+   on the left; in LTR it appears on the right. Keep this section strictly
+   single-column so every child receives the full sidebar width. */
+html:root[data-frontend="heritage"] .theme-settings-advanced .theme-json-actions{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto auto auto!important;
+  grid-auto-columns:minmax(0,1fr)!important;
+  grid-auto-flow:row!important;
+  align-items:stretch!important;
+  justify-items:stretch!important;
+  overflow:visible!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-advanced .theme-json-actions :is(.theme-json-actions-head,.theme-json-buttons,.theme-json-status){
+  grid-column:1!important;
+  width:100%!important;
+  min-width:0!important;
+}
+html:root[data-frontend="heritage"] .theme-settings-advanced .theme-json-buttons{
+  position:static!important;
+  inset:auto!important;
+  transform:none!important;
+}
+
+
+/* Hotfix 23 — semantic foreground/background independence + prominent ambient control */
+html:root[data-frontend="heritage"] .theme-color-lab-part{display:grid;gap:7px;padding:9px;border:1px solid color-mix(in srgb,var(--line-strong) 72%,transparent);border-radius:8px;background:color-mix(in srgb,var(--panel-solid) 48%,transparent)}
+html:root[data-frontend="heritage"] .theme-color-lab-part>span{font:850 10.5px/1.2 var(--h-font-ui);letter-spacing:.025em;color:var(--ink-2)}
+html:root[data-frontend="heritage"] .semantic-lab{gap:9px!important}
+html:root[data-frontend="heritage"] .ambient-strength-group{padding:10px!important;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line))!important;border-radius:8px!important;background:color-mix(in srgb,var(--accent) 4%,transparent)!important}
+html:root[data-frontend="heritage"] .ambient-strength-group>strong{font-size:11.5px!important;color:var(--ink)!important}
+html:root[data-frontend="heritage"] .ambient-strength-group .theme-tuning-slider:first-child{border-color:color-mix(in srgb,var(--accent) 36%,var(--line))!important}
+@media(max-width:720px){html:root[data-frontend="heritage"] .theme-color-lab-part{padding:8px}}
+
+/* Semantic background authority for remaining compact/color-coded blocks.
+   Foreground colors continue to use --h-info/--h-success/etc.; only painted
+   fills consume the independent *-bg tones and background-strength channel. */
+html:root[data-frontend="heritage"] :is(.sex-badge.male,.ped-sex-chip.male){background:color-mix(in srgb,var(--h-sire-bg) var(--h-user-semantic-cell-alpha,10%),var(--bg-elev))!important}
+html:root[data-frontend="heritage"] :is(.sex-badge.female,.ped-sex-chip.female){background:color-mix(in srgb,var(--h-dam-bg) var(--h-user-semantic-cell-alpha,10%),var(--bg-elev))!important}
+@media(min-width:821px){
+  html:root[data-frontend="heritage"] .visual-encoding .registry-table tbody tr.sex-male{--row-sex:var(--h-sire)!important;--row-sex-bg:var(--h-sire-bg)!important}
+  html:root[data-frontend="heritage"] .visual-encoding .registry-table tbody tr.sex-female{--row-sex:var(--h-dam)!important;--row-sex-bg:var(--h-dam-bg)!important}
+  html:root[data-frontend="heritage"] .visual-encoding .registry-table tbody tr.sex-gelding{--row-sex:var(--h-warning)!important;--row-sex-bg:var(--h-warning-bg)!important}
+  html:root[data-frontend="heritage"] .visual-encoding .registry-table .cell-sex{background:color-mix(in srgb,var(--row-sex-bg,var(--row-sex)) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+}
+html:root[data-frontend="heritage"] .desk-person-counts em:first-child{background:color-mix(in srgb,var(--h-sire-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .desk-person-counts em:nth-child(2){background:color-mix(in srgb,var(--h-dam-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .horse-reference-intelligence>header>b{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] .premium-interval-history span{background:color-mix(in srgb,var(--h-warning-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .breeding-diversity{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-soft-alpha,14%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] .optimizer-score-components>span{background:color-mix(in srgb,var(--h-info-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .breeding-optimizer-results>button.rank-top{background:color-mix(in srgb,var(--h-warning-bg) var(--h-user-semantic-cell-alpha,10%),var(--h-frost-1-bg))!important}
+html:root[data-frontend="heritage"] .breeding-optimizer-results>button.rank-best{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-soft-alpha,14%),var(--h-frost-1-bg))!important;background-image:none!important}
+html:root[data-frontend="heritage"] .optimizer-breakdown>article.rank-best{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-soft-alpha,14%),var(--h-frost-1-bg))!important;background-image:none!important}
+html:root[data-frontend="heritage"] .governance-list article>span button{background:color-mix(in srgb,var(--h-success-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .governance-list article>span button.reject{background:color-mix(in srgb,var(--h-danger-bg) var(--h-user-semantic-cell-alpha,10%),transparent)!important}
+html:root[data-frontend="heritage"] .influence-trajectory-group{--trajectory-bg-tone:var(--h-info-bg);background-image:linear-gradient(180deg,color-mix(in srgb,var(--trajectory-bg-tone) var(--h-user-semantic-cell-alpha,10%),transparent),transparent 36%)!important}
+html:root[data-frontend="heritage"] .influence-trajectory-group.trajectory-rising{--trajectory-bg-tone:var(--h-success-bg)}
+html:root[data-frontend="heritage"] .influence-trajectory-group.trajectory-fading{--trajectory-bg-tone:var(--h-danger-bg)}
+
+/* v0.42.16 HOTFIX 24 — FULL-SPECTRUM SCHEME AMBIENT */
+html:root[data-frontend="heritage"][data-palette]{
+  /* The moving atmosphere is a tonal family derived entirely from the fully
+     processed Color Scheme. Bright/deep lobes preserve scheme hue instead of
+     washing the glass toward neutral white/black. */
+  --h-ambient-scheme-tone:color-mix(in srgb,var(--h-scheme-base) var(--h-user-ambient-scheme-character,82%),var(--h-scheme-neutral-anchor))!important;
+  --h-ambient-scheme-metal:color-mix(in srgb,var(--h-scheme-chrome) var(--h-user-ambient-scheme-character,82%),var(--h-scheme-neutral-anchor))!important;
+  --h-ambient-scheme-lift:color-mix(in srgb,var(--h-ambient-scheme-tone) 86%,white)!important;
+  --h-ambient-scheme-depth:color-mix(in srgb,var(--h-ambient-scheme-tone) 84%,black)!important;
+  --h-ambient-chroma-strength:var(--h-user-ambient-scheme-chroma,20%)!important;
+  --h-ambient-metal-strength:var(--h-user-ambient-scheme-metal,12%)!important;
+}
+
+/* ============================================================================
+   R136 — Chromium quirk: <button> elements with display:grid/flex do not grow
+   with their content. The card's intrinsic (auto) block size collapses to the
+   tap-target minimum (44px) or lower, so content spills past the card border
+   and overlaps the next card (competitions event cards were the worst case).
+   Intrinsic sizing keywords restore the content-driven height without
+   touching the grid/flex layout itself. Card/row buttons only — never
+   segmented controls or chips, which legitimately stretch.
+   ============================================================================ */
+:is(.h-mod-task-list button,.h-mod-workspace-list button,.h-mod-sheet-parents button,
+    .audit-list button,.quality-list button,.pedigree-repeat-leaders button){
+  height:-webkit-max-content;
+  height:max-content;
+  height:fit-content;
+}

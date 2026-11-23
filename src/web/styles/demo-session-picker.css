@@ -1,0 +1,13 @@
+.demo-session-picker { position:relative; z-index:41; box-sizing:border-box; margin:0; background:#edf4ed; color:#233d32; border-block-end:1px solid #c6d8cb; font:400 14px/1.6 Arial,Tahoma,sans-serif; }
+.demo-session-picker > summary { cursor:pointer; min-block-size:36px; padding:.35rem max(1rem,env(safe-area-inset-left)); font-weight:700; }
+.demo-session-picker > summary > span { font-size:.8rem; font-weight:400; margin-inline-start:.6rem; }
+.demo-session-picker-body { max-inline-size:75rem; margin-inline:auto; padding:.5rem 1rem 1rem; }
+.demo-session-picker-body p { font-size:.875rem; margin:0 0 .75rem; color:inherit; }
+.demo-session-picker form { display:flex; align-items:flex-end; gap:.75rem; flex-wrap:wrap; }
+.demo-session-picker label { display:grid; gap:.25rem; min-inline-size:0; font-size:.8rem; }
+.demo-session-picker :is(select,button) { min-block-size:44px; max-inline-size:100%; padding:.5rem .75rem; border:1px solid #93ae9b; border-radius:.3rem; background:#fff; color:#233d32; font:inherit; }
+.demo-session-picker button { cursor:pointer; font-weight:700; }
+.demo-session-picker button:disabled { cursor:wait; opacity:.65; }
+.demo-session-picker :is(summary,select,button):focus-visible { outline:3px solid #34755a; outline-offset:2px; }
+@media (max-width:390px) { .demo-session-picker label { flex-basis:100%; } .demo-session-picker button { flex:1 1 100%; } }
+@media print { .demo-session-picker { display:none; } }

@@ -1,0 +1,458 @@
+@import "tailwindcss";
+@import "./tokens.generated.css";
+
+@theme {
+  --font-sans: "Inter", "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Source Serif 4", "Noto Naskh Arabic", Georgia, serif;
+  /* firmer, more formal corners */
+  --radius-lg: 0.4rem;
+  --radius-xl: 0.55rem;
+  --radius-2xl: 0.7rem;
+  --radius-3xl: 0.95rem;
+
+
+
+  --animate-enter: enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-kenburns: kenburns 26s ease-in-out infinite alternate;
+  --animate-shimmer: shimmer 3.2s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pop: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-flow: flow 1.4s linear infinite;
+}
+
+/* Colour tokens are written at runtime by appearance.tsx (scheme × mode). These are the Forest/light fallbacks. */
+@theme static {
+  --color-od-navy-50: #f3f6f7;
+  --color-od-gold-50: #fdf0e8;
+  --color-od-comp-50: #eff2f6;
+  --color-od-navy-100: #e4ebed;
+  --color-od-gold-100: #f6d9c5;
+  --color-od-comp-100: #d6dde6;
+  --color-od-navy-200: #c7d8dc;
+  --color-od-gold-200: #efb68f;
+  --color-od-comp-200: #b0becf;
+  --color-od-navy-300: #9cbdc4;
+  --color-od-gold-300: #e99863;
+  --color-od-comp-300: #90a4bb;
+  --color-od-navy-400: #6aa3af;
+  --color-od-gold-400: #e17b37;
+  --color-od-comp-400: #718aa8;
+  --color-navy-50: #f3f6f7;
+  --color-gold-50: #fdf0e8;
+  --color-comp-50: #eff2f6;
+  --color-navy-100: #e4ebed;
+  --color-gold-100: #f6d9c5;
+  --color-comp-100: #d6dde6;
+  --color-navy-200: #c7d8dc;
+  --color-gold-200: #efb68f;
+  --color-comp-200: #b0becf;
+  --color-navy-300: #9cbdc4;
+  --color-gold-300: #e99863;
+  --color-comp-300: #90a4bb;
+  --color-fg-navy-300: #9cbdc4;
+  --color-navy-400: #6aa3af;
+  --color-gold-400: #e17b37;
+  --color-comp-400: #718aa8;
+  --color-fg-navy-400: #6aa3af;
+  --color-navy-500: #458d9c;
+  --color-gold-500: #c76e32;
+  --color-comp-500: #657b95;
+  --color-fg-navy-500: #458d9c;
+  --color-fg-gold-500: #c76e32;
+  --color-fg-comp-500: #657b95;
+  --color-navy-600: #327481;
+  --color-gold-600: #a65926;
+  --color-comp-600: #51657b;
+  --color-fg-navy-600: #327481;
+  --color-fg-gold-600: #a65926;
+  --color-fg-comp-600: #51657b;
+  --color-navy-700: #255a65;
+  --color-gold-700: #81451d;
+  --color-comp-700: #3f4e5f;
+  --color-fg-navy-700: #255a65;
+  --color-fg-gold-700: #81451d;
+  --color-fg-comp-700: #3f4e5f;
+  --color-navy-800: #1a444c;
+  --color-gold-800: #653515;
+  --color-comp-800: #303c4a;
+  --color-fg-navy-800: #1a444c;
+  --color-fg-gold-800: #653515;
+  --color-fg-comp-800: #303c4a;
+  --color-navy-900: #13333a;
+  --color-gold-900: #48260f;
+  --color-comp-900: #222b35;
+  --color-fg-navy-900: #13333a;
+  --color-fg-gold-900: #48260f;
+  --color-fg-comp-900: #222b35;
+  --color-navy-950: #0b1f23;
+  --color-gold-950: #2a1609;
+  --color-comp-950: #14191f;
+  --color-fg-navy-950: #0b1f23;
+  --color-fg-gold-950: #2a1609;
+  --color-fg-comp-950: #14191f;
+  --color-canvas: #dde3e4;
+  --color-surface: #f6f8f8;
+  --color-surface-2: #eaedee;
+  --color-line: #c8d0d2;
+  --color-sidebar: #13333a;
+  --color-sidebar-2: #0b1f23;
+  --color-field: #feffff;
+  --color-sky-50: #f3f6f7;
+  --color-od-sky-50: #f3f6f7;
+  --color-sky-100: #e4ebed;
+  --color-od-sky-100: #e4ebed;
+  --color-sky-200: #c7d8dc;
+  --color-od-sky-200: #c7d8dc;
+  --color-sky-300: #9cbdc4;
+  --color-fg-sky-300: #9cbdc4;
+  --color-od-sky-300: #9cbdc4;
+  --color-sky-400: #6aa3af;
+  --color-fg-sky-400: #6aa3af;
+  --color-od-sky-400: #6aa3af;
+  --color-sky-500: #458d9c;
+  --color-fg-sky-500: #458d9c;
+  --color-sky-600: #327481;
+  --color-fg-sky-600: #327481;
+  --color-sky-700: #255a65;
+  --color-fg-sky-700: #255a65;
+  --color-sky-800: #1a444c;
+  --color-fg-sky-800: #1a444c;
+  --color-sky-900: #13333a;
+  --color-fg-sky-900: #13333a;
+  --color-sky-950: #0b1f23;
+  --color-fg-sky-950: #0b1f23;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes kenburns {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to { transform: scale(1.16) translate3d(-1.5%, -1%, 0); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-gold-500) 45%, transparent); }
+  80%, 100% { box-shadow: 0 0 0 14px color-mix(in oklab, var(--color-gold-500) 0%, transparent); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes flow {
+  to { stroke-dashoffset: -24; }
+}
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes node-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes check-draw {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+html[lang="fa"] body {
+  font-family: "Vazirmatn", "Inter", sans-serif;
+}
+html[lang="fa"] .font-display {
+  font-family: "Noto Naskh Arabic", "Vazirmatn", serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+/* Nastaliq — the calligraphic Persian hand, used sparingly for a few headline phrases */
+.font-nastaliq {
+  font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  font-weight: 600;
+  line-height: 2.05;
+  letter-spacing: 0;
+}
+html[lang="fa"] * {
+  letter-spacing: normal !important;
+}
+body {
+  background: var(--color-canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-od-gold-300) 70%, transparent);
+  color: #0b1411;
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.gold-text {
+  background: linear-gradient(100deg, var(--color-gold-500) 0%, var(--color-od-gold-200) 50%, var(--color-gold-500) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-gold {
+  background: linear-gradient(180deg, var(--color-gold-500), var(--color-gold-600));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 1px 2px rgb(0 0 0 / .22);
+}
+.btn-gold:hover {
+  background: linear-gradient(180deg, var(--color-gold-400), var(--color-gold-500));
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.card-shadow {
+  box-shadow: 0 1px 2px rgb(var(--shadow-rgb) / .05), 0 12px 32px -14px rgb(var(--shadow-rgb) / .18);
+}
+
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { scrollbar-width: none; }
+
+.thin-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+.thin-scroll::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 8px; }
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+
+.noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.draw-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.check-path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: check-draw 0.6s 0.2s ease-out forwards;
+}
+
+input[type="range"] {
+  accent-color: var(--color-od-gold-300);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+html, body, #root { height: 100%; }
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  box-shadow: 0 1px 0 var(--hl) inset, 0 1px 2px rgb(var(--shadow-rgb) / .04), 0 14px 28px -22px rgb(var(--shadow-rgb) / .32);
+}
+.panel-flat {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+}
+
+/* ---- Content never clips: text wraps instead of ending in "…" (navigation chrome keeps its single-line rows) ---- */
+main .truncate { overflow: visible; text-overflow: clip; white-space: normal; overflow-wrap: anywhere; }
+main [class*="line-clamp-"] { display: block; overflow: visible; -webkit-line-clamp: unset; }
+
+/* Symmetric responsive grid: as many equal columns as fit */
+.auto-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--min, 220px)), 1fr)); }
+
+/* ---- dark mode refinements (colour variables themselves are remapped in appearance.tsx / tokens.generated.css) ---- */
+html { transition: background-color .3s ease; }
+html.dark main img { filter: brightness(.9) saturate(1.02); }
+html.dark .panel { box-shadow: 0 1px 0 var(--hl) inset, 0 12px 30px -22px rgb(0 0 0 / .8); }
+html.dark input, html.dark select, html.dark textarea { color-scheme: dark; }
+html.dark ::selection { color: #fff; background: color-mix(in oklab, var(--color-gold-500) 55%, transparent); }
+
+/* theme-aware decorative helpers */
+.geo-fade { -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 20%, transparent 78%); mask-image: radial-gradient(ellipse 75% 70% at 50% 40%, #000 20%, transparent 78%); }
+.arch { border-radius: 999px 999px 28px 28px; }
+
+/* ============ display scale (auto-fit for laptops) ============ */
+.app-root { height: 100vh; height: 100dvh; }
+@supports (zoom: 1) {
+  .app-root { zoom: var(--ui-zoom, 1); height: calc(100dvh / var(--ui-zoom, 1)); }
+}
+
+/* ============ finish ============ */
+.app-glow {
+  background-image:
+    radial-gradient(900px 440px at 88% -10%, color-mix(in oklab, var(--color-od-gold-300) 12%, transparent), transparent),
+    radial-gradient(760px 420px at -4% 108%, color-mix(in oklab, var(--color-od-comp-300) 11%, transparent), transparent);
+}
+html.dark .app-glow {
+  background-image:
+    radial-gradient(900px 440px at 88% -10%, color-mix(in oklab, var(--color-od-gold-300) 6%, transparent), transparent),
+    radial-gradient(760px 420px at -4% 108%, color-mix(in oklab, var(--color-od-comp-300) 6%, transparent), transparent);
+}
+.fade-x { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 10px, #000 calc(100% - 18px), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 10px, #000 calc(100% - 18px), transparent 100%); }
+@media (min-width: 1024px) { .fade-x { -webkit-mask-image: none; mask-image: none; } }
+:root { --ring-field: color-mix(in oklab, var(--color-od-gold-300) 28%, transparent); }
+input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea { box-shadow: inset 0 1px 2px rgb(var(--shadow-rgb) / .06); }
+a, button { -webkit-tap-highlight-color: transparent; }
+@media (max-width: 1023px) { .safe-b { padding-bottom: env(safe-area-inset-bottom); } }
+
+/* =====================================================================
+   SIDEBAR TOKENS (dark navy in Modern, light paper in Classic)
+   ===================================================================== */
+:root { --sb-bg1: #13333a; --sb-bg2: #0b1f23; --sb-fg: #fff; --sb-fg2: #cfd9de; --sb-fg3: #7f98a3; --sb-hover: rgba(255,255,255,.06); --sb-active: rgba(255,255,255,.1); --sb-line: rgba(255,255,255,.1); --sb-chip: rgba(255,255,255,.06); --sb-accent: #e0a262; --sb-card: rgba(255,255,255,.05); }
+.sidebar-bg { background: linear-gradient(180deg, var(--sb-bg1) 0%, var(--sb-bg1) 55%, var(--sb-bg2) 100%); box-shadow: inset -1px 0 0 color-mix(in oklab, var(--color-od-gold-300) 22%, transparent); }
+html[dir="rtl"] .sidebar-bg { box-shadow: inset 1px 0 0 color-mix(in oklab, var(--color-od-gold-300) 22%, transparent); }
+.sb-fg { color: var(--sb-fg); } .sb-fg2 { color: var(--sb-fg2); } .sb-fg3 { color: var(--sb-fg3); } .sb-accent { color: var(--sb-accent); }
+.sb-hv { transition: background-color .2s, color .2s; } .sb-hv:hover { background: var(--sb-hover); color: var(--sb-fg); }
+.sb-act { background: var(--sb-active); color: var(--sb-fg); }
+.sb-bd { border-color: var(--sb-line); } .sb-rule { background: var(--sb-line); } .sb-bar { background: var(--sb-accent); }
+.sb-chip { background: var(--sb-chip); color: var(--sb-fg2); box-shadow: inset 0 0 0 1px var(--sb-line); }
+.sb-card { background: var(--sb-card); }
+
+/* =====================================================================
+   CLASSIC STYLE — quiet, editorial, hand-set.
+   Hairlines instead of boxes, paper instead of glass, one ink, serif display type,
+   no icon tiles, photographs toned like prints. Everything keys off html[data-style="classic"].
+   ===================================================================== */
+html[data-style="classic"] {
+  --font-display: "Cormorant Garamond", "Noto Naskh Arabic", Georgia, serif;
+  --radius-lg: .2rem; --radius-xl: .25rem; --radius-2xl: .3rem; --radius-3xl: .4rem;
+}
+html[data-style="classic"][lang="en"] .font-display { font-size-adjust: .47; letter-spacing: .004em; }
+html[data-style="classic"] body { text-rendering: optimizeLegibility; }
+
+html[data-style="classic"] .panel { border-radius: 6px; box-shadow: none; }
+html[data-style="classic"] .panel-flat { border-radius: 4px; }
+html[data-style="classic"] [data-ico] { display: none; }
+html[data-style="classic"] .ph { margin-bottom: .75rem; padding-bottom: .5rem; border-bottom: 1px solid var(--color-line); }
+html[data-style="classic"] .ph-title { font-family: var(--font-display); font-size: 1.14rem; font-weight: 600; line-height: 1.15; }
+html[lang="en"][data-style="classic"] .ph-title { font-size-adjust: .47; }
+html[data-style="classic"] .page-title { font-size: 1.9rem; font-weight: 500; line-height: 1.06; margin-top: .3rem; }
+html[data-style="classic"] .title-bar { border-inline-start-width: 0; padding-inline-start: 0; }
+html[data-style="classic"] .kpi-value { font-size: 1.7rem; font-weight: 500; }
+html[data-style="classic"] .kpi-label { letter-spacing: .12em; }
+@media (max-width: 639px) { html[data-style="classic"] .page-title { font-size: 1.6rem; } }
+
+html[data-style="classic"] .btn-gold { background: var(--color-gold-600); box-shadow: none; letter-spacing: .02em; }
+html[data-style="classic"] .btn-gold:hover { background: var(--color-gold-500); }
+html[data-style="classic"] .gold-text { background: none; -webkit-text-fill-color: currentColor; color: var(--color-fg-gold-700); }
+html[data-style="classic"] .trust-badge:not(.trust-compact) { background: transparent; border-color: transparent; padding-inline: 0; }
+html[data-style="classic"] .cal-toggle { display: none; }
+html[data-style="classic"] [data-gh] { color: var(--color-fg-gold-700); }
+html[data-style="classic"] [data-dot] { background: var(--color-od-gold-400); }
+
+/* sidebar */
+html[data-style="classic"] .sidebar-bg { box-shadow: none; }
+html[data-style="classic"] .sb { border-inline-end: 1px solid var(--sb-line); }
+html[data-style="classic"] .sb[data-rail="0"] .sb-ico { display: none; }
+html[data-style="classic"] .sb-label { font-family: var(--font-display); font-size: 15.5px; font-weight: 600; line-height: 1.2; }
+html[data-style="classic"] .sb-card { background: transparent; border-top: 1px solid var(--sb-line); border-radius: 0; }
+
+/* photographs: a gentle print tone */
+html[data-style="classic"] main img { filter: sepia(.07) saturate(.93) contrast(1.02); }
+html.dark[data-style="classic"] main img { filter: sepia(.05) saturate(.9) brightness(.9); }
+
+/* paper grain + the faintest warm wash */
+html[data-style="classic"] .app-glow {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42  0 0 0 0 0.34  0 0 0 0 0.24  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), radial-gradient(900px 460px at 92% -12%, color-mix(in oklab, var(--color-od-gold-300) 9%, transparent), transparent);
+  background-size: 180px 180px, auto;
+}
+html.dark[data-style="classic"] .app-glow {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), radial-gradient(900px 460px at 92% -12%, color-mix(in oklab, var(--color-od-gold-300) 5%, transparent), transparent);
+  background-size: 180px 180px, auto;
+}
+/* a framed plate: paper mat + hairline + outer hairline */
+.plate { border: 1px solid var(--color-line); background: var(--color-surface); padding: .5rem; box-shadow: 0 0 0 4px var(--color-canvas), 0 0 0 5px var(--color-line); }
+
+/* numerals: Cormorant's figures read as letters ("1" looks like "I"), so numbers use a lining serif */
+html[data-style="classic"] .kpi-value, html[data-style="classic"] .stat-num { font-family: "Source Serif 4", Georgia, serif; font-variant-numeric: lining-nums; font-weight: 600; }
+html[data-style="classic"] .kpi-value { font-size: 1.5rem; }
+html[data-style="classic"] .stat-tile { background: transparent; border: 1px solid var(--color-line); }
+/* Persian is never slanted — a synthetic italic distorts the letterforms */
+html[lang="fa"] .italic, html[lang="fa"] em, html[lang="fa"] i { font-style: normal; }
+html[lang="fa"] input::placeholder { font-style: normal; }
+html[data-style="classic"] .font-display { font-variant-numeric: lining-nums; }
+html[data-style="classic"] .stat-tile { color: var(--color-fg-gold-700); }
+
+/* ---- short screens (landscape phones, split-screen windows): give the content the height ---- */
+@media (max-height: 520px) and (max-width: 1023px) {
+  .page-head { position: static !important; background: transparent !important; backdrop-filter: none !important; }
+  .bn > a, .bn > button { flex-direction: row; justify-content: center; align-items: center; min-height: 44px; }
+  .bn > :is(a,button) > span:first-child { width:auto; padding-inline:.25rem; }
+  .bn > a, .bn > button { padding-top: .25rem; padding-bottom: .25rem; }
+}
+@media (max-height: 520px) and (min-width: 1024px) {
+  .page-head { gap-row: 0; }
+}
+
+/* ---- touch screens: every control reaches a comfortable tap size (desktop density is untouched) ---- */
+@media (pointer: coarse) {
+  [role="tab"] { min-height: 42px; }
+  main button[aria-pressed], main button[role="radio"], main button[role="checkbox"] { min-height: 36px; }
+  main a.inline-flex, main button.inline-flex, main button.rounded-full.border { min-height: 36px; }
+  main select, main input:not([type="checkbox"]):not([type="radio"]) { min-height: 38px; }
+  nav[aria-label="Breadcrumb"] a { padding-block: .6rem; }
+  footer a { display: inline-block; padding-block: .6rem; }
+  main a.text-xs.font-semibold { display: inline-flex; align-items: center; min-height: 34px; min-width: 34px; justify-content: center; padding-inline: .35rem; }
+  main button.rounded-lg.border, main button.rounded-xl.border { min-height: 36px; }
+}
+
+@media (max-width:1023px){ .bn > :is(a,button){ min-inline-size:0; min-height:44px; } .sb{max-inline-size:calc(100vw - 2.5rem);padding-block:env(safe-area-inset-top) env(safe-area-inset-bottom)} }
+@media(prefers-reduced-motion:reduce){.sb, .bn *, .sb-scrim{transition-duration:0s!important}}

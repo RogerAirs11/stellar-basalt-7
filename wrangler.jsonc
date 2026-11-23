@@ -1,0 +1,89 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "equine-registry-live",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "GEMINI_RELAY",
+        "class_name": "GeminiRelay"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v55_gemini_relay",
+      "new_sqlite_classes": ["GeminiRelay"]
+    }
+  ],
+  "vars": {
+    "APP_ENV": "production",
+    "SESSION_COOKIE_NAME": "horse_registry_session",
+    "DB_PROVIDER_MODE": "turso_full",
+    "DB_HEALTH_CACHE_MS": "2000",
+    "ENABLE_DEMO_ADMIN_LOGIN": "0",
+    "AI_ASSISTANT_ENABLED": "1",
+    "AI_GEMINI_WEB_GROUNDING_ENABLED": "1",
+    "GEMINI_BASE_URL": "https://gateway.ai.cloudflare.com/v1/d75bc9215eaa1c0fc53b7f716195fdfc/horse-registry/google-ai-studio/v1beta",
+    "DEMO_PAYMENTS_ENABLED": "0",
+    "DEMO_NOTIFICATIONS_ENABLED": "0"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "horse-registry",
+      "database_id": "f527d88f-c274-4a11-8d17-37dc43ba9027",
+      "preview_database_id": "horse-registry-local",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "hyperdrive": [
+    {
+      "binding": "SUPABASE_HYPERDRIVE",
+      "id": "4edcb0cca1584744ad004b38c740ef6b"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "PUBLIC_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 300, "period": 60 }
+    },
+    {
+      "name": "AUTH_RATE_LIMITER",
+      "namespace_id": "1002",
+      "simple": { "limit": 10, "period": 60 }
+    },
+    {
+      "name": "EXPENSIVE_RATE_LIMITER",
+      "namespace_id": "1003",
+      "simple": { "limit": 12, "period": 60 }
+    },
+    {
+      "name": "WRITE_RATE_LIMITER",
+      "namespace_id": "1004",
+      "simple": { "limit": 30, "period": 60 }
+    },
+    {
+      "name": "ACCOUNT_RATE_LIMITER",
+      "namespace_id": "1005",
+      "simple": { "limit": 5, "period": 60 }
+    }
+  ],
+  "observability": {
+    "enabled": true
+  },
+
+  // R95-N09: the durable notification worker cadence (bounded batch drain).
+  // This is a dispatch attempt cadence, NOT a delivery SLA.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  }
+}

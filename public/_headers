@@ -1,0 +1,81 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  X-Frame-Options: SAMEORIGIN
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
+
+# R56 — the Classic Registry frontend is an iframe hosted BY this same origin
+# (the React shell embeds /classic-registry/). Cloudflare _headers STACKS every
+# matching rule: the earlier scoped frame-ancestors 'self' override was emitted
+# ALONGSIDE the global 'none' and browsers enforce the strictest — the app could
+# never be framed, not even by its own parent. The global policy itself is now
+# frame-ancestors 'self' (first-party embeds allowed, every third-party site
+# still blocked). This scoped rule stays for documentation/robustness.
+/classic-registry/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'
+
+# R89 — the synthetic demonstrator and the planning calculator are explicitly
+# NOT production product surfaces (R88 demo-data policy): static assets bypass
+# the Worker's withSecurityHeaders, so their noindex must live here too.
+/demo-workbench/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+/business-model/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# R107 NEXT-12 — deliver the Worker's approved x-robots intent on the deployed
+# asset path. src/security/responseHeaders.ts noindexes /admin* responses, but
+# wrangler run_worker_first only sends /api/* to the Worker, so the hosted
+# /admin staff-workspace documents are asset-served and never received it
+# (verified live on Version 40b5a026: /admin and /admin/ had no X-Robots-Tag).
+# Both forms are listed because /admin is an SPA-fallback route with no real
+# directory, so the asset layer never normalizes it to a trailing slash.
+/admin
+  X-Robots-Tag: noindex, nofollow, noarchive
+/admin/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# R107 NEXT-12 same-class extension (flagged for reviewer confirmation): the
+# FEI Classic management surface is a restricted staff page (curation, audit,
+# claims, change review — the same permission-gated class as /admin) served by
+# the same SPA-fallback asset path. No policy layer ever noindexed it; the
+# NEXT-12 hosted evidence records the pre-fix state and this alignment.
+/f/fei-classic/management
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+
+# R131 performance pass. Vite emits content-hashed filenames under /assets/,
+# so those responses are immutable: one year + immutable stops the browser
+# from re-downloading ~2MB of JS/CSS on every visit (the "site loads slow"
+# report). index.html and every non-hashed path keep the default no-cache
+# behaviour, so a new deploy is picked up immediately. Stacking rules above
+# (security headers) still apply to /assets/* responses — Cloudflare stacks
+# every matching block; this block only adds Cache-Control.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# R132 self-hosted fonts (public/fonts/). The woff2 files are content-stable
+# Google exports (hash-named, never rewritten in place), so they cache
+# immutably like the hashed /assets/ bundle. fonts.css itself is regenerated
+# by scripts/selfhost-fonts.mjs; it stays revalidating so a font-set refresh
+# is picked up, while its referenced font files are hash-named and never
+# change under a live URL.
+/fonts/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/fonts/fonts.css
+  Cache-Control: public, max-age=3600
+
+# R134 — real photos (horse profiles, competition covers, article figures)
+# are served from /images/ without hash names, but they are append-mostly:
+# turn-33 added ~1,000 files and existing ones are never rewritten. The old
+# default (no Cache-Control) made every repeat visit revalidate or re-download
+# the full bytes; a 7-day window + revalidation keeps fixes reachable while
+# repeat profile views load the photo from the local cache.
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400

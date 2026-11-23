@@ -1,0 +1,207 @@
+/* R112: Federation-owned shell and current controls, independent of donor fixed widths. */
+.fei-classic-ui { --fc-form-gap:.875rem; --fc-form-radius:.35rem; --fc-form-control:2.75rem; }
+.fei-classic-ui .fc112-header { border-block-start:3px solid var(--fc-nav-accent); }
+.fei-classic-ui .fc112-brand > span:last-child { display:grid; gap:.1rem; }
+.fei-classic-ui .fc112-brand .fc102-brand-mark { padding:0; letter-spacing:0; }
+.fei-classic-ui .fc102-layout-bar { display:flex; align-items:center; min-inline-size:0; padding:.35rem .75rem; color:var(--fc-muted); background:var(--fc-bg); border-block-end:1px solid var(--fc-line); }
+.fei-classic-ui .fc102-layout-bar small { font-size:.75rem; line-height:1.5; overflow-wrap:anywhere; }
+.fei-classic-ui .fc102-content,.fei-classic-ui .fei-content-shell { min-inline-size:0; max-inline-size:100%; }
+.fei-classic-ui[data-navigation-layout="sidebar"] .fc-main { inline-size:100%; max-inline-size:100%; }
+.fei-classic-ui .fei-tabs { display:flex!important; flex-wrap:wrap!important; gap:.375rem!important; inline-size:100%!important; block-size:auto!important; height:auto!important; margin-block:1rem .5rem!important; position:static!important; overflow:visible!important; border:0!important; }
+.fei-classic-ui .fei-tabs button { flex:1 1 9rem!important; inline-size:auto!important; width:auto!important; min-inline-size:0!important; min-block-size:var(--fc-form-control)!important; height:auto!important; padding:.625rem .75rem!important; text-align:center!important; white-space:normal!important; overflow-wrap:anywhere; color:var(--fc-nav-ink)!important; background:var(--fc-bg)!important; border:1px solid var(--fc-line)!important; border-radius:var(--fc-form-radius)!important; font:inherit!important; font-size:.875rem!important; line-height:1.5!important; }
+.fei-classic-ui .fei-tabs button.active { color:var(--fc-nav-accent)!important; background:var(--fc-nav-selected)!important; border-color:var(--fc-nav-accent)!important; font-weight:700!important; top:auto!important; }
+.fei-classic-ui :is(.fc-filter-row,.fc-searchline,.fei-form-grid,.fei-field,.fei-donor-grid,.fc-section,.fc-record) { min-inline-size:0; }
+.fei-classic-ui :is(.fc-searchline,.fei-form-grid,.fei-field) :is(input,select,textarea) { min-inline-size:0; max-inline-size:100%; box-sizing:border-box; }
+.fei-classic-ui .fc112-account { overflow-wrap:anywhere; }
+@media(max-width:520px) { .fei-classic-ui .fc112-brand strong { display:none; } .fei-classic-ui .fc112-brand small { max-inline-size:4.5rem; } }
+
+/* Shared editor primitives within this skin; profile and organization use the same system. */
+.fei-classic-ui .fc112-editor { min-inline-size:0; margin-block:1rem 2rem; padding:clamp(.875rem,2.5vw,1.5rem); border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); font:inherit; font-size:.9375rem; line-height:1.65; overflow-wrap:anywhere; }
+.fei-classic-ui .fc112-editor :is(h2,h3,h4,p,dl,ul) { color:inherit; max-inline-size:100%; }
+.fei-classic-ui .fc112-editor h2 { margin:0 0 .5rem; font-size:1.5rem; line-height:1.4; }
+.fei-classic-ui .fc112-editor h3 { margin:.5rem 0; font-size:1.125rem; line-height:1.5; }
+.fei-classic-ui .fc112-editor h4 { margin:.5rem 0; font-size:1rem; line-height:1.5; }
+.fei-classic-ui .fc112-editor :is(button,a) { touch-action:manipulation; }
+.fei-classic-ui .fc112-editor button { min-inline-size:0; min-block-size:var(--fc-form-control); border:1px solid var(--fc-nav-accent); border-radius:var(--fc-form-radius); padding:.5rem .875rem; background:var(--fc-nav-selected); color:var(--fc-nav-accent); box-shadow:none; font:inherit; font-size:.875rem; line-height:1.5; font-weight:650; white-space:normal; overflow-wrap:anywhere; cursor:pointer; }
+.fei-classic-ui .fc112-editor button.secondary { background:transparent; border-color:var(--fc-nav-line); color:var(--fc-nav-ink); }
+.fei-classic-ui .fc112-editor button:disabled { opacity:.5; cursor:default; }
+.fei-classic-ui .fc112-editor :is(button,a,input,select,textarea,summary):focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:2px; }
+.fei-classic-ui .fc112-editor :is(input:not([type="checkbox"]),select,textarea) { display:block; inline-size:100%; min-inline-size:0; max-inline-size:100%; min-block-size:var(--fc-form-control); box-sizing:border-box; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); padding:.625rem .75rem; font:inherit; font-size:1rem; line-height:1.5; }
+.fei-classic-ui .fc112-editor input[type="checkbox"] { flex:0 0 auto; inline-size:1.125rem; block-size:1.125rem; margin:.2rem 0 0; accent-color:var(--fc-nav-accent); }
+.fei-classic-ui .fc112-editor textarea { resize:vertical; }
+.fei-classic-ui .fc112-editor-field { display:grid; gap:.375rem; min-inline-size:0; margin:0; color:var(--fc-nav-ink); font-weight:600; }
+.fei-classic-ui .fc112-editor :is(small,.fc112-editor-note) { color:var(--fc-nav-muted); font-size:.8125rem; font-weight:400; line-height:1.65; }
+.fei-classic-ui .fc112-editor-form, .fei-classic-ui .fc112-editor-fields { display:grid; gap:var(--fc-form-gap); min-inline-size:0; }
+.fei-classic-ui .fc112-editor-form { margin-block:1rem; }
+.fei-classic-ui .fc112-editor-fields { padding:0; margin:0; border:0; }
+.fei-classic-ui .fc112-editor-legend { font-weight:700; padding:0; margin-block-end:.75rem; }
+.fei-classic-ui .fc112-editor-choice-group { min-inline-size:0; padding:.75rem; margin:0; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc112-editor-choice-group legend { padding-inline:.375rem; font-size:.875rem; font-weight:600; }
+.fei-classic-ui .fc112-editor-checks { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.25rem .75rem; }
+.fei-classic-ui .fc112-editor-checks label,.fei-classic-ui .fc112-editor-check { display:flex; align-items:flex-start; gap:.625rem; min-inline-size:0; min-block-size:2.75rem; padding-block:.5rem; font-size:.875rem; line-height:1.65; }
+.fei-classic-ui .fc112-editor-check { display:flex; gap:.625rem; align-items:flex-start; }
+.fei-classic-ui .fc112-editor-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--fc-form-gap); }
+.fei-classic-ui .fc112-editor-hours { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr)); gap:var(--fc-form-gap); }
+.fei-classic-ui .fc112-editor :is(.fc112-editor-target,.fc112-editor-notice,.fc112-editor-conflict) { display:grid; gap:.625rem; min-inline-size:0; padding:1rem; margin-block:1rem; background:var(--fc-nav-selected); border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc112-editor-target > div { display:flex; align-items:stretch; gap:.5rem; min-inline-size:0; }
+.fei-classic-ui .fc112-editor-target input { flex:1 1 0; inline-size:0; }
+.fei-classic-ui .fc112-editor-target button { flex:0 0 auto; }
+.fei-classic-ui .fc112-editor-meta { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.375rem 1rem; color:var(--fc-nav-muted); font-size:.8125rem; }
+.fei-classic-ui .fc112-editor-notice p,.fei-classic-ui .fc112-editor-conflict p { margin:0; }
+.fei-classic-ui .fc112-editor-notice.is-alert,.fei-classic-ui .fc112-editor-conflict { border-inline-start:3px solid var(--fc-nav-accent); }
+.fei-classic-ui .fc112-editor-conflict dl { display:grid; gap:.5rem; margin:0; }
+.fei-classic-ui .fc112-editor-conflict dl > div { padding:.75rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); }
+.fei-classic-ui .fc112-editor-conflict dt { font-weight:700; }
+.fei-classic-ui .fc112-editor-conflict dd { margin:0; }
+.fei-classic-ui .fc112-editor-conflict dd > span { display:block; color:var(--fc-nav-muted); font-size:.75rem; margin-block-start:.5rem; }
+.fei-classic-ui .fc112-editor-actions { display:flex; flex-wrap:wrap; gap:.5rem; margin-block-start:.5rem; }
+.fei-classic-ui .fc112-editor-claims { margin-block-start:1.5rem; padding-block-start:1.25rem; border-block-start:1px solid var(--fc-nav-line); }
+.fei-classic-ui .fc112-editor-claims form { display:grid; gap:.75rem; margin-block:1rem; }
+.fei-classic-ui .fc112-editor summary { min-block-size:2.75rem; padding-block:.625rem; font-weight:650; font-size:.875rem; line-height:1.5; cursor:pointer; }
+.fei-classic-ui .fc112-editor-section-head { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.5rem; margin-block-start:1rem; }
+.fei-classic-ui .fc112-editor-claim-list { display:grid; gap:.75rem; list-style:none; padding:0; }
+.fei-classic-ui .fc112-editor-claim-list > li { padding:.875rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc112-editor-claim-list p { margin:.35rem 0; }
+@media(max-width:600px) { .fei-classic-ui .fc112-editor-grid { grid-template-columns:minmax(0,1fr); } .fei-classic-ui .fc112-editor-actions > button { flex:1 1 10rem; } }
+
+.fei-classic-ui .fei-data-table th .fc112-table-sort { display:inline-flex; align-items:center; justify-content:flex-start; gap:.35rem; min-block-size:2.75rem; padding:.25rem 0; border:0; border-radius:0; box-shadow:none; background:transparent; color:inherit; font:inherit; text-align:start; cursor:pointer; }
+.fei-classic-ui .fei-data-table th .fc112-table-sort:focus-visible { outline:2px solid var(--fc-nav-accent); outline-offset:2px; }
+.fei-classic-ui .fei-pagination { flex-wrap:wrap; gap:.625rem; min-inline-size:0; }
+.fei-classic-ui .fei-goto { display:flex; gap:.25rem; min-inline-size:0; margin:0; }
+.fei-classic-ui .fei-pagination :is(button,select,input) { min-block-size:2.75rem; }
+
+/* R113 federation forms and chronological registers use the native purple system. */
+.fei-classic-ui .fc113-workflows { scroll-margin-block-start:7rem; font-size:.9375rem; line-height:1.6; }
+.fei-classic-ui .fc113-workflow-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; align-items:start; }
+.fei-classic-ui .fc113-workflow-grid > * { min-inline-size:0; }
+.fei-classic-ui .fc113-workflows .fc-workflow-form > fieldset { display:grid; gap:var(--fc-form-gap); border:0; padding:0; margin:0; min-inline-size:0; }
+.fei-classic-ui .fc113-workflows .fei-field { display:grid; grid-template-columns:minmax(0,1fr); gap:.375rem; min-inline-size:0; }
+.fei-classic-ui .fc113-workflows .fei-field > label { inline-size:auto; max-inline-size:100%; margin:0; color:var(--fc-nav-ink); font-size:.875rem; line-height:1.5; font-weight:600; }
+.fei-classic-ui .fc113-workflows .fei-field > div { min-inline-size:0; }
+.fei-classic-ui .fc113-workflows .fei-field :is(input,select,textarea) { inline-size:100%; max-inline-size:100%; min-inline-size:0; min-block-size:var(--fc-form-control); box-sizing:border-box; padding:.625rem .75rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); color:var(--fc-nav-ink); font:inherit; font-size:1rem; }
+.fei-classic-ui .fc113-workflows textarea { resize:vertical; }
+.fei-classic-ui .fc113-workflows :is(button,a,summary) { min-inline-size:0; min-block-size:var(--fc-form-control); white-space:normal; overflow-wrap:anywhere; line-height:1.5; }
+.fei-classic-ui .fc113-workflows :is(button,input,textarea,select,a,summary):focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:2px; }
+.fei-classic-ui .fc113-workflows :is(p,small,h3,time,bdi,dd) { overflow-wrap:anywhere; white-space:normal; }
+.fei-classic-ui .fc113-workflows summary { cursor:pointer; font-weight:650; padding-block:.65rem; }
+.fei-classic-ui .fc113-workflows .fc-muted { font-size:.8125rem; line-height:1.7; }
+.fei-classic-ui .fc113-notice { padding:.875rem; margin-block:.75rem; color:var(--fc-nav-ink); background:var(--fc-nav-selected); border:1px solid var(--fc-nav-line); border-inline-start:4px solid var(--fc-nav-accent); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc113-notice p { margin:.375rem 0; }
+.fei-classic-ui .fc113-notice > small { display:block; margin-block:.5rem; }
+.fei-classic-ui .fc113-recovery-actions { display:flex; flex-wrap:wrap; gap:.5rem; }
+.fei-classic-ui .fc113-recovery-actions > p { flex-basis:100%; }
+.fei-classic-ui .fc113-request-register { display:grid; gap:.75rem; }
+.fei-classic-ui .fc113-request-register > article { padding:1rem; min-inline-size:0; border:1px solid var(--fc-nav-line); background:var(--fc-nav-surface); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc113-request-register article > header { display:flex; flex-wrap:wrap; align-items:start; justify-content:space-between; gap:.5rem; }
+.fei-classic-ui .fc113-request-register h3 { margin:0; min-inline-size:0; font-size:1rem; line-height:1.5; }
+.fei-classic-ui .fc113-workflows button.fc113-record-title { padding:.25rem 0; text-align:start; border:0; background:transparent; box-shadow:none; color:var(--fc-nav-accent); font:inherit; font-weight:650; }
+.fei-classic-ui .fc113-record-meta { display:flex; flex-wrap:wrap; align-items:center; gap:.375rem 1rem; margin-block:.5rem; font-size:.75rem; color:var(--fc-nav-muted); }
+.fei-classic-ui .fc113-form-hints { color:var(--fc-nav-muted); margin:0; padding-inline-start:1.25rem; font-size:.8125rem; }
+.fei-classic-ui .fc113-proposal-list > div { border-block-start:1px solid var(--fc-nav-line); padding-block:.75rem; }
+.fei-classic-ui .fc113-proposal-list dt { font-weight:650; }
+.fei-classic-ui .fc113-proposal-list dd { margin:0; }
+@media(max-width:800px) { .fei-classic-ui .fc113-workflow-grid,.fei-classic-ui .fc113-workflows .fc-two-col-fields { grid-template-columns:minmax(0,1fr); } }
+
+.fei-classic-ui .fc113-directory-filters { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:var(--fc-form-gap); align-items:end; }
+.fei-classic-ui .fc113-directory-filters > .fc-inline-actions { grid-column:1/-1; }
+.fei-classic-ui .fc113-directory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr)); padding:0; list-style:none; gap:1rem; }
+.fei-classic-ui .fc113-directory-grid li { min-inline-size:0; }
+.fei-classic-ui .fc113-directory-grid article { display:flex; flex-direction:column; align-items:start; gap:.5rem; block-size:100%; padding:1rem; border:1px solid var(--fc-nav-line); border-block-start:3px solid var(--fc-nav-accent); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); }
+.fei-classic-ui .fc113-directory-grid h3,.fei-classic-ui .fc113-directory-grid p { margin:0; font-size:1rem; }
+.fei-classic-ui .fc113-services a { color:var(--fc-nav-accent); text-decoration:underline; text-underline-offset:.2em; overflow-wrap:anywhere; }
+.fei-classic-ui .fc113-directory-grid small { font-size:.8125rem; }
+.fei-classic-ui .fc113-directory-grid .fc-badge { margin-block-start:auto; }
+.fei-classic-ui .fc113-professional-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr)); gap:1rem; margin-block:1rem; }
+.fei-classic-ui .fc113-professional-facts > div { min-inline-size:0; }
+.fei-classic-ui .fc113-professional-facts dt { font-size:.8125rem; color:var(--fc-nav-muted); }
+.fei-classic-ui .fc113-professional-facts dd { margin:0; }
+.fei-classic-ui .fc113-service-views { display:flex; flex-wrap:wrap; gap:.5rem; margin-block:1rem; }
+.fei-classic-ui .fc113-service-views button[aria-pressed="true"] { background:var(--fc-nav-selected); border-color:var(--fc-nav-accent); color:var(--fc-nav-accent); }
+.fei-classic-ui :is(.fc113-service-note,.fc113-service-contact) { padding:1rem; margin-block:1rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); }
+.fei-classic-ui .fc113-service-note p { white-space:pre-wrap; }
+.fei-classic-ui .fc113-service-privacy { padding-block:.5rem; margin-block-start:1rem; border-block-start:1px solid var(--fc-nav-line); }
+.fei-classic-ui .fc113-consent { display:flex!important; flex-direction:row!important; align-items:start; gap:.75rem; line-height:1.6; font-size:.875rem; }
+.fei-classic-ui .fc113-consent input[type="checkbox"] { flex:0 0 auto; inline-size:1.125rem; block-size:1.125rem; min-block-size:0; padding:0; margin-block-start:.25rem; accent-color:var(--fc-nav-accent); }
+.fei-classic-ui .fc113-services .fc-pagination { display:flex; flex-wrap:wrap; gap:.75rem; }
+@media(max-width:700px) { .fei-classic-ui .fc113-directory-filters { grid-template-columns:minmax(0,1fr); } .fei-classic-ui .fc113-services .fc-inline-actions > button { flex:1 1 10rem; } }
+
+/* R113 measured contrast repairs: one semantic text/action palette. */
+.fei-classic-ui { --fc-muted:#5f5564; --fc-action-ink:#321b36; --fc-action-fill:#f1a03e; --fc-neutral-action-fill:#eee8ef; }
+.fei-classic-ui :is(.fei-donor-footer,.fei-pagination,.fc-profile-head dt) { color:var(--fc-nav-muted); }
+.fei-classic-ui .fei-donor-footer :is(a,button) { color:var(--fc-nav-muted); }
+.fei-classic-ui :is(.btn-reset,.fc-btn-gray) { background:var(--fc-neutral-action-fill); color:var(--fc-action-ink); text-shadow:none; border:1px solid var(--fc-nav-line); }
+.fei-classic-ui :is(.btn-search,.fc-btn-orange) { background:var(--fc-action-fill); color:var(--fc-action-ink); text-shadow:none; }
+.fei-classic-ui :is(.btn-reset,.fc-btn-gray):hover:not(:disabled) { color:var(--fc-action-ink); background:var(--fc-nav-selected); }
+.fei-classic-ui .fc-section.fc-section-purple > header { background:var(--fc-nav-accent); color:var(--fc-nav-surface); }
+.fei-classic-ui .fc-section.fc-section-orange > header { background:var(--fc-action-fill); color:var(--fc-action-ink); }
+.fei-classic-ui .fc-section > header h2 { color:inherit; }
+.fei-classic-ui .fc-parent-card em { opacity:1; color:var(--fc-nav-muted); }
+.fei-classic-ui a.fc113-table-link { display:inline-flex; align-items:center; min-block-size:2.75rem; color:var(--fc-nav-accent); text-decoration:underline; text-underline-offset:.2em; white-space:normal; overflow-wrap:anywhere; }
+.fei-classic-ui a.fc113-table-link:focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:2px; }
+
+.fei-classic-ui .fc113-review-queue { min-inline-size:0; color:var(--fc-nav-ink); font-size:.9375rem; line-height:1.65; }
+.fei-classic-ui .fc113-review-file { margin-block:.75rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); background:var(--fc-nav-surface); min-inline-size:0; }
+.fei-classic-ui .fc113-review-file > summary { padding:.75rem; min-block-size:2.75rem; font-weight:650; cursor:pointer; color:var(--fc-nav-ink); }
+.fei-classic-ui .fc113-review-file > summary .fc-badge { margin-inline-start:.625rem; }
+.fei-classic-ui .fc113-review-file-body { padding:.875rem; border-block-start:1px solid var(--fc-nav-line); min-inline-size:0; }
+.fei-classic-ui .fc113-review-file-body h3 { color:var(--fc-nav-accent); font-size:1rem; margin-block:1rem .5rem; }
+.fei-classic-ui .fc113-review-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.75rem; margin-block:0 1rem; }
+.fei-classic-ui .fc113-review-evidence { display:grid; gap:.75rem; }
+.fei-classic-ui .fc113-review-evidence > div { min-inline-size:0; padding:.75rem; background:var(--fc-nav-selected); border-inline-start:3px solid var(--fc-nav-line); }
+.fei-classic-ui :is(.fc113-review-facts,.fc113-review-evidence) dt { color:var(--fc-nav-muted); font-size:.8125rem; }
+.fei-classic-ui :is(.fc113-review-facts,.fc113-review-evidence) dd { margin:0; white-space:pre-wrap; }
+.fei-classic-ui .fc113-review-queue :is(p,dd,dt,h3,small,time,bdi,summary) { overflow-wrap:anywhere; }
+.fei-classic-ui .fc113-review-queue :is(button,summary) { min-block-size:var(--fc-form-control); min-inline-size:0; max-inline-size:100%; white-space:normal; line-height:1.5; }
+.fei-classic-ui .fc113-review-queue fieldset { display:grid; gap:var(--fc-form-gap); min-inline-size:0; padding:0; margin:1rem 0 0; border:0; }
+.fei-classic-ui .fc113-review-queue legend { padding:0; font-weight:650; margin-block-end:.5rem; }
+.fei-classic-ui .fc113-review-queue .fei-field { display:grid; gap:.375rem; grid-template-columns:minmax(0,1fr); min-inline-size:0; }
+.fei-classic-ui .fc113-review-queue .fei-field > label { inline-size:auto; margin:0; color:var(--fc-nav-ink); font-weight:600; }
+.fei-classic-ui .fc113-review-queue .fei-field > div { min-inline-size:0; }
+.fei-classic-ui .fc113-review-queue textarea { inline-size:100%; min-inline-size:0; max-inline-size:100%; min-block-size:7rem; padding:.625rem .75rem; border:1px solid var(--fc-nav-line); border-radius:var(--fc-form-radius); color:var(--fc-nav-ink); background:var(--fc-nav-surface); font:inherit; font-size:1rem; line-height:1.65; resize:vertical; box-sizing:border-box; }
+.fei-classic-ui .fc113-review-queue :is(button,textarea,summary):focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:2px; }
+.fei-classic-ui .fc-management-page button.fc113-record-title { min-block-size:2.75rem; max-inline-size:100%; padding:.375rem 0; border:0; background:transparent; color:var(--fc-nav-accent); text-align:start; font:inherit; white-space:normal; overflow-wrap:anywhere; }
+.fei-classic-ui .fei-content-admin-filters > label { display:grid; gap:.375rem; min-inline-size:0; color:var(--fc-nav-ink); font-size:.8125rem; font-weight:600; }
+.fei-classic-ui .fei-content-admin-filters select { inline-size:100%; min-inline-size:0; max-inline-size:100%; min-block-size:var(--fc-form-control); }
+.fei-classic-ui .fc-management-page .fc-table-wrap[tabindex]:focus-visible { outline:3px solid var(--fc-nav-accent); outline-offset:2px; }
+@media(max-width:600px) { .fei-classic-ui .fc113-review-queue .fc-inline-actions > button { flex:1 1 10rem; } }
+
+/* R117 compact records baseline. Coarse pointers keep a 44px target. These
+ * scoped exceptions replace the remaining donor-important table/form spacing;
+ * delete the matching donor declarations only after all record views are tested. */
+.fei-classic-ui { --fc-form-gap:.5rem; --fc-form-control:2rem; --fc-nav-control:2rem; --fc-nav-gap:.5rem; --fc-nav-rail:13.5rem; --fc-nav-header:7rem; }
+.fei-classic-ui[data-navigation-layout="sidebar"] { --fc-nav-header:4rem; }
+.fei-classic-ui .fc112-identity-row { padding-block:4px; min-block-size:42px; }
+.fei-classic-ui .fc102-layout-bar { padding-block:2px; }
+.fei-classic-ui .fc-main,.fei-classic-ui[dir="rtl"] .fc-main { padding:8px 12px 16px!important; max-width:none!important; }
+.fei-classic-ui :is(.fc-page-title,.fei-page-title) { margin-block:0 8px!important; padding-block:0!important; }
+.fei-classic-ui :is(.fc-page-title,.fei-page-title) h1 { font-size:1.4rem!important; line-height:1.35!important; margin-block:0 4px!important; }
+.fei-classic-ui :is(.fc-page-title,.fei-page-title) p { margin-block:0!important; font-size:.85rem!important; line-height:1.5!important; }
+.fei-classic-ui :is(.fei-search-form-stack,.fei-donor-grid,.fc-form-grid) { gap:8px!important; }
+.fei-classic-ui .fei-search-form-stack { margin-block:0 8px!important; }
+.fei-classic-ui :is(.fei-search-panel,.fei-results-panel) { padding:8px!important; margin-block:0 8px!important; }
+.fei-classic-ui .fei-donor-grid.two { grid-template-columns:repeat(4,minmax(0,1fr))!important; }
+.fei-classic-ui .fei-donor-grid.three { grid-template-columns:repeat(4,minmax(0,1fr))!important; }
+.fei-classic-ui :is(.fei-input,.fei-select,.fc-input) { min-height:32px!important; height:auto!important; padding:4px 7px!important; font-size:.875rem!important; line-height:1.5!important; }
+.fei-classic-ui .fei-advanced-search>summary { min-height:32px!important; padding:5px 8px!important; }
+.fei-classic-ui .fei-search-actions { margin-block:4px 0!important; padding-block:0!important; }
+.fei-classic-ui :is(.fc-table,.fei-data-table) :is(th,td) { padding:2px 6px!important; height:auto!important; line-height:1.4!important; font-size:.8125rem!important; vertical-align:middle; }
+.fei-classic-ui :is(.fc-table,.fei-data-table) th { font-size:.8rem!important; }
+.fei-classic-ui :is(.fc-table,.fei-data-table) :is(a.fc113-table-link,button) { min-block-size:28px!important; padding-block:2px; }
+.fei-classic-ui .fei-tabs { margin-block:6px!important; gap:4px!important; }
+.fei-classic-ui .fei-tabs button { flex:0 1 auto!important; min-block-size:32px!important; padding:4px 10px!important; }
+.fei-classic-ui :is(.fc113-review-file,.fc113-review-file-body) { padding:8px; margin-block:6px; }
+.fei-classic-ui .fc113-review-file>summary { padding:6px; min-block-size:32px; }
+.fei-classic-ui :is(.fc-table-wrap,.fei-table-scroll) { max-inline-size:100%; overflow-x:auto; }
+.fei-classic-ui :is(.fc-table,.fei-data-table) { font-variant-numeric:tabular-nums; }
+/* Bridge the legacy physical-height token to the shared control size. A
+ * minimum-block-size rule alone loses to older important min-height rules. */
+.fei-classic-ui,.fei-classic-ui[data-density] { --fei-control-h:var(--fc-form-control); }
+.fei-classic-ui .fei-donor-grid:is(.two,.three) { gap:8px!important; align-items:start!important; }
+.fei-classic-ui .fei-search-form-stack .fei-field { display:grid!important; grid-template-columns:minmax(4.5rem,.38fr) minmax(0,1fr); align-items:center; gap:6px; min-inline-size:0; }
+.fei-classic-ui .fei-search-form-stack .fei-field>label { inline-size:auto!important; min-inline-size:0; margin:0; font-size:.8125rem; line-height:1.4; overflow-wrap:anywhere; }
+.fei-classic-ui .fei-search-form-stack .fei-field>div { min-inline-size:0; }
+.fei-classic-ui .fei-search-form-stack .fei-field :is(input,select) { inline-size:100%; min-inline-size:0; }
+@media(max-width:1000px){.fei-classic-ui .fei-donor-grid:is(.two,.three) { grid-template-columns:repeat(2,minmax(0,1fr))!important; }}
+@media(max-width:600px){.fei-classic-ui .fei-donor-grid:is(.two,.three) { grid-template-columns:minmax(0,1fr)!important; } .fei-classic-ui :is(.fei-input,.fei-select,.fc-input) { font-size:16px!important; } .fei-classic-ui .fc-main { padding-inline:8px!important; }}
+@media(pointer:coarse){.fei-classic-ui { --fc-form-control:44px; --fc-nav-control:44px; } .fei-classic-ui :is(button,summary,.fei-input,.fei-select,.fc-input,.fc113-table-link),.fei-classic-ui :is(.fc-table,.fei-data-table) :is(a.fc113-table-link,button) { min-block-size:44px!important; } }
+@media print{.fei-classic-ui .fc112-header,.fei-classic-ui .fc102-sidebar { display:none; } .fei-classic-ui .fc102-workspace { display:block!important; }}

@@ -1,0 +1,439 @@
+/* R148 source archive has no webfont files. Use installed fonts and
+   existing system fallbacks; restore licensed font assets before fidelity QA. */
+/*
+ * Horse-DB-3 Federation Classic — R63 header & top-button polish layer.
+ *
+ * Charter (owner request 2026-09-26): make the FEI header and its top
+ * buttons "more aligned, more professional, more polished" while keeping
+ * the approved legacy donor theme EXACTLY as it is (colors, gradients,
+ * dome geometry, five-column nav, purple keel states all untouched).
+ *
+ * What this layer changes — and nothing else:
+ *   1. Typography: self-hosted Source Sans 3 (EN) + Vazirmatn (FA)
+ *      replace Arial for the header/nav/drawer, with per-locale stacks.
+ *      Farsi never receives letter-spacing (it breaks script joining).
+ *   2. Alignment: one shared page gutter for the utility strip and the
+ *      nav band (they now share exact edges), vertically centered strip
+ *      controls on a single 24px control line, perfectly centered nav
+ *      buttons, optically aligned dropdowns.
+ *   3. Button polish: consistent 24px control heights, unified pill
+ *      radii, crisp CSS-drawn chevrons (font-glyph carets render
+ *      differently per platform), underline offsets, focus-visible
+ *      rings in the theme purple, and a subtle dropdown entrance.
+ *
+ * Cascade contract: imported LAST, after fei-classic-header-pro.css.
+ * Everything stays scoped under .fei-classic-ui (cross-frontend CSS
+ * leak lesson, R62). No layout architecture is redesigned (R60 lesson:
+ * the owner reverted a redesign; this is strictly a refinement).
+ */
+
+/* ------------------------------------------------------------------ */
+/* Self-hosted webfonts (CSP: font-src 'self')                          */
+/* Persian users cannot rely on fonts.gstatic.com — ship locally.       */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Source Sans 3";
+  src: local("Source Sans 3");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: local("Source Sans 3");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: local("Source Sans 3");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: local("Vazirmatn");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: local("Vazirmatn");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Locale-aware header typography tokens. */
+.fei-classic-ui[data-locale="en"] .fei-donor-header {
+  --fei-hfont: "Source Sans 3", "Segoe UI", "Vazirmatn", Tahoma, Arial, sans-serif;
+  --fei-hls: 0.012em;
+}
+.fei-classic-ui[data-locale="fa"] .fei-donor-header {
+  --fei-hfont: "Vazirmatn", "Source Sans 3", "Segoe UI", Tahoma, Arial, sans-serif;
+  --fei-hls: 0;
+}
+
+/* Crisper glyphs in the header band. */
+.fei-classic-ui .fei-donor-header {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Keyboard focus rings in the theme purple (mouse clicks unaffected). */
+.fei-classic-ui .fei-donor-header button:focus-visible {
+  outline: 2px solid #8d3f90;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared: CSS-drawn chevrons                                          */
+/* Font-glyph carets (⌄) vary per platform/font — draw them instead.    */
+/* ------------------------------------------------------------------ */
+.fei-classic-ui .fei-chevron,
+.fei-classic-ui .fei-drawer-toggle .fei-chevron {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  padding: 0;
+  margin: 0;
+  border: 0 solid currentColor;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: none;
+  text-shadow: none;
+  font-size: 0;
+  line-height: 0;
+  opacity: 0.72;
+  transform: rotate(45deg) translate(0, -1px);
+  transition: transform 0.15s ease;
+}
+.fei-classic-ui .fei-nav-desktop > ul > li.open .fei-chevron,
+.fei-classic-ui .fei-nav-desktop > ul > li:focus-within .fei-chevron {
+  transform: rotate(225deg) translate(0, -1px);
+}
+.fei-classic-ui .fei-drawer-toggle .fei-chevron.open {
+  transform: rotate(225deg) translate(0, -1px);
+}
+
+/* Home pill: crisp inline SVG mark, optically centered. */
+.fei-classic-ui .fei-home-pill {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+.fei-classic-ui .fei-home-pill .fc-icon {
+  width: 11px;
+  height: 11px;
+  stroke-width: 2.4;
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop ≥ 1000px                                                    */
+/* ------------------------------------------------------------------ */
+@media (min-width: 1000px) {
+  /* One shared page gutter: the utility strip and the nav band now
+     start and end on the exact same edges. */
+  .fei-classic-ui .fei-top-inner,
+  .fei-classic-ui[dir="rtl"] .fei-top-inner {
+    padding: 0 clamp(24px, 4.25vw, 72px) !important;
+    align-items: center !important;
+  }
+  .fei-classic-ui .fei-nav-desktop,
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop {
+    width: min(1680px, calc(100% - clamp(48px, 8.5vw, 144px))) !important;
+  }
+
+  /* Utility row: every control lives on one 24px line, centered. */
+  .fei-classic-ui .fei-db-home {
+    min-height: 24px !important;
+    height: 24px !important;
+    gap: 7px !important;
+  }
+  .fei-classic-ui .fei-db-home > span:nth-child(2) {
+    font-family: var(--fei-hfont) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    letter-spacing: var(--fei-hls) !important;
+  }
+  .fei-classic-ui .fei-db-home small {
+    font-family: var(--fei-hfont) !important;
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    color: #8a7d8c !important;
+    letter-spacing: 0.02em !important;
+    font-variant-numeric: tabular-nums;
+    margin: 0 0 0 1px !important;
+    align-self: baseline !important;
+  }
+
+  .fei-classic-ui .fei-auth-control {
+    height: 24px !important;
+    min-height: 24px !important;
+    align-items: center !important;
+    gap: 12px !important;
+    font-family: var(--fei-hfont) !important;
+  }
+  .fei-classic-ui .fei-welcome {
+    font-size: 11px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.015em !important;
+  }
+  .fei-classic-ui .fei-auth-control .fei-link {
+    height: 24px !important;
+    min-height: 24px !important;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 0 2px !important;
+    font-family: var(--fei-hfont) !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    letter-spacing: var(--fei-hls) !important;
+    border-radius: 4px;
+    transition: color 0.12s ease;
+  }
+  .fei-classic-ui .fei-auth-control .fei-link:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+  }
+  /* Locale toggle stays in its approved text form (no new chrome) — but gets
+     the shared typography and a consistent hover underline. This selector
+     deliberately outranks the donor-exact .fei-auth-control .fei-locale lock
+     that silently outranked the pro layer's pill rules. */
+  .fei-classic-ui .fei-auth-control .fei-locale,
+  .fei-classic-ui .fei-locale {
+    height: 20px !important;
+    min-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center;
+    padding: 0 2px !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #64166b !important;
+    font-family: var(--fei-hfont) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.03em !important;
+    transition: color 0.12s ease;
+  }
+  .fei-classic-ui .fei-auth-control .fei-locale:hover {
+    color: #4f0e58 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+  }
+
+  /* Nav band: buttons perfectly centered in the 76px row. */
+  .fei-classic-ui .fei-nav-desktop > ul > li {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 7px !important;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li.open > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li:focus-within > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li > button.active {
+    font-family: var(--fei-hfont) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: var(--fei-hls) !important;
+    gap: 8px !important;
+  }
+
+  /* Dropdown: same typography family, refined rhythm, soft entrance. */
+  .fei-classic-ui .fei-dropdown button {
+    font-family: var(--fei-hfont) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+    letter-spacing: var(--fei-hls) !important;
+    padding: 10px 14px !important;
+    min-height: 40px !important;
+  }
+}
+
+/* Dropdown entrance: center-positioned panels drop straight down;
+   edge-clamped panels (first/last item) keep their static transform. */
+@keyframes fei-polish-dd-center {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+@keyframes fei-polish-dd-edge {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1000px) {
+  .fei-classic-ui .fei-dropdown {
+    animation: fei-polish-dd-center 0.15s ease-out !important;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li:first-child .fei-dropdown,
+  .fei-classic-ui .fei-nav-desktop > ul > li:last-child .fei-dropdown {
+    animation: fei-polish-dd-edge 0.15s ease-out !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Tablet 768–999px — same grammar, shared 4.5% gutter                 */
+/* ------------------------------------------------------------------ */
+@media (min-width: 768px) and (max-width: 999px) {
+  .fei-classic-ui .fei-top-inner,
+  .fei-classic-ui[dir="rtl"] .fei-top-inner {
+    padding: 0 4.5% !important;
+    align-items: center !important;
+  }
+  .fei-classic-ui .fei-nav-desktop,
+  .fei-classic-ui[dir="rtl"] .fei-nav-desktop {
+    width: 91% !important;
+  }
+  .fei-classic-ui .fei-db-home {
+    min-height: 24px !important;
+    height: 24px !important;
+    gap: 6px !important;
+  }
+  .fei-classic-ui .fei-db-home > span:nth-child(2) {
+    font-family: var(--fei-hfont) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+  .fei-classic-ui .fei-auth-control {
+    height: 24px !important;
+    min-height: 24px !important;
+    align-items: center !important;
+    font-family: var(--fei-hfont) !important;
+  }
+  .fei-classic-ui .fei-auth-control .fei-link {
+    height: 24px !important;
+    display: inline-flex !important;
+    align-items: center;
+    font-family: var(--fei-hfont) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+  .fei-classic-ui .fei-locale {
+    height: 20px !important;
+    min-height: 20px !important;
+    display: inline-flex !important;
+    align-items: center;
+    font-family: var(--fei-hfont) !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px !important;
+  }
+  .fei-classic-ui .fei-nav-desktop > ul > li > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li.open > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li:focus-within > button,
+  .fei-classic-ui .fei-nav-desktop > ul > li > button.active {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: var(--fei-hls) !important;
+  }
+  .fei-classic-ui .fei-dropdown button {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+    letter-spacing: var(--fei-hls) !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile ≤ 767px — typography + control consistency                   */
+/* ------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  .fei-classic-ui .fei-donor-header {
+    font-family: var(--fei-hfont);
+  }
+  .fei-classic-ui .fei-top-inner {
+    padding: 0 12px !important;
+    align-items: center !important;
+  }
+  .fei-classic-ui .fei-auth-control {
+    font-family: var(--fei-hfont) !important;
+    gap: 10px !important;
+  }
+  .fei-classic-ui .fei-auth-control .fei-link,
+  .fei-classic-ui .fei-locale {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+  }
+  .fei-classic-ui .fei-mobile-bar {
+    align-items: center !important;
+    gap: 12px;
+    padding: 7px 14px 8px !important;
+  }
+  .fei-classic-ui .fei-hamburger {
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.12s ease, background-color 0.12s ease;
+  }
+  .fei-classic-ui .fei-hamburger:hover {
+    border-color: #a997ac !important;
+    background: linear-gradient(#fff, #f6f2f6) !important;
+  }
+  .fei-classic-ui .fei-mobile-bottom-nav button {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 600 !important;
+    letter-spacing: var(--fei-hls) !important;
+  }
+  .fei-classic-ui .fei-mobile-bottom-nav button small {
+    letter-spacing: var(--fei-hls) !important;
+  }
+
+  /* Drawer typography joins the header family. */
+  .fei-classic-ui .fei-mobile-drawer aside {
+    font-family: var(--fei-hfont) !important;
+  }
+  .fei-classic-ui .fei-drawer-group > div:first-child > button:first-child {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    letter-spacing: var(--fei-hls) !important;
+  }
+  .fei-classic-ui .fei-drawer-sub button {
+    font-family: var(--fei-hfont) !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+  }
+  .fei-classic-ui .fei-drawer-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  .fei-classic-ui .fei-drawer-foot {
+    font-family: var(--fei-hfont) !important;
+  }
+}

@@ -1,0 +1,45 @@
+/* Transitional compatibility layer. Consolidate old winning declarations after
+   full five-frontend screenshots are available; do not accumulate more overrides. */
+.equidata-elite-ui { --edx-space-1:4px; --edx-space-2:8px; --edx-space-3:12px; --edx-space-4:18px; --edx-space-5:24px; font-size:var(--edx-compact-body-size); }
+.equidata-elite-ui .edx-content { width:min(var(--edx-compact-content-max),calc(100% - 2 * var(--edx-compact-gutter))); }
+.equidata-elite-ui .edx-page { padding-block:18px 28px; }
+.equidata-elite-ui .edx-hero { min-height:0; padding-block:24px; padding-inline:max(var(--edx-compact-gutter),calc((100vw - 1480px)/2)); gap:24px; grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr); }
+.equidata-elite-ui .edx-hero h1 { font-size:clamp(32px,4.2vw,60px); line-height:1.08; margin-block:12px 16px; }
+.equidata-elite-ui :is(.edx-panel,.edx-card) { min-inline-size:0; }
+.equidata-elite-ui :is(p,td) { font-size:max(14px,1em); }
+.equidata-elite-ui :is(label,th,.edx-muted) { font-size:var(--edx-compact-label-size); }
+.equidata-elite-ui :is(button,input,select) { min-block-size:var(--edx-compact-control-height); }
+.equidata-elite-ui :is(button,a,input,select,textarea):focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+.equidata-elite-ui .edx-footer { padding:14px var(--edx-compact-gutter); gap:12px; flex-wrap:wrap; }
+.equidata-elite-ui .edx-footer a { display:inline-flex; align-items:center; min-height:36px; color:inherit; text-decoration:underline; text-underline-offset:3px; }
+.equidata-elite-ui .edx-skip-link { position:absolute; inset-inline-start:12px; inset-block-start:4px; z-index:999; inline-size:1px; block-size:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; background:var(--edx-bg,#08131f); color:var(--edx-text,#fff); }
+.equidata-elite-ui .edx-skip-link:focus { inline-size:auto; block-size:auto; margin:0; padding:10px 16px; overflow:visible; clip-path:none; }
+@media(max-width:760px) {
+ .equidata-elite-ui { --edx-compact-gutter:12px; }
+ .equidata-elite-ui .edx-hero { grid-template-columns:minmax(0,1fr); gap:16px; padding-block:18px; }
+ .equidata-elite-ui :is(input,select,textarea) { font-size:16px; }
+ .equidata-elite-ui .edx-footer>div { flex-wrap:wrap; gap:8px; }
+}
+@media(pointer:coarse) { .equidata-elite-ui :is(button,input,select,.edx-footer a) { min-block-size:var(--edx-compact-touch-height); } }
+@media(prefers-reduced-motion:reduce) { .equidata-elite-ui *, .equidata-elite-ui *::before, .equidata-elite-ui *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+
+/* R111: keep dense navigation and long localized copy within its own surface. */
+.equidata-elite-ui .edx-topbar { min-block-size:68px; block-size:auto; gap:12px; }
+.equidata-elite-ui .edx-topbar > nav { min-inline-size:0; flex-wrap:wrap; padding-block:8px; }
+.equidata-elite-ui .edx-topbar > nav > button { white-space:normal; line-height:1.35; }
+.equidata-elite-ui .edx-top-actions { flex-shrink:0; }
+.equidata-elite-ui :is(.edx-directory-card,.edx-request-list,.edx-state,.edx-filterbar,.edx-data-grid) { min-inline-size:0; overflow-wrap:anywhere; }
+.equidata-elite-ui :is(.edx-filterbar,.edx-page-heading,.edx-section-title) { flex-wrap:wrap; }
+.equidata-elite-ui :is(input,select,textarea) { max-inline-size:100%; min-inline-size:0; }
+.equidata-elite-ui :is(.edx-table-wrap,.edx-table-scroll) { max-inline-size:100%; overflow:auto; overscroll-behavior-inline:contain; }
+@media(max-width:1180px) { .equidata-elite-ui .edx-topbar > nav { inset-block-start:100%; max-block-size:65dvh; overflow:auto; overscroll-behavior:contain; } }
+@media(max-width:520px) {
+ .equidata-elite-ui .edx-topbar { padding:8px 10px; flex-wrap:wrap; justify-content:space-between; }
+ .equidata-elite-ui .edx-brand { min-inline-size:0; }
+ .equidata-elite-ui .edx-brand b { font-size:12px; }
+ .equidata-elite-ui .edx-brand small { display:none; }
+ .equidata-elite-ui .edx-top-actions { flex-wrap:wrap; gap:5px; }
+ .equidata-elite-ui .edx102-layout select { max-inline-size:6.8rem; }
+ .equidata-elite-ui .edx-topbar > nav > button { flex:1 1 40%; min-block-size:44px; text-align:start; }
+ .equidata-elite-ui :is(.edx-directory-card,.edx-request-card) { padding:14px; }
+}

@@ -1,0 +1,408 @@
+/* Heritage Core Visual Architecture v2 — MATERIAL DEPTH authority (H42)
+ * -------------------------------------------------------------------
+ * One optical contract for every Core glass surface. Runtime surface-role
+ * assignment comes from heritageSurfaceRegistry.ts and is exposed as
+ * data-h-material-role="major|panel|card|control".
+ *
+ * Material owns ONLY:
+ *   - fill / transparency
+ *   - per-depth tone brightness + saturation
+ *   - real recursive backdrop blur
+ *   - restrained major-surface halo
+ *
+ * Lighting never owns any of these properties.
+ */
+
+html:root[data-frontend="heritage"][data-visual-architecture="2"]{
+  --h-v2-frost-runtime-scale:1;
+  --h-v2-major-opacity:var(--h-user-major-alpha,22%);
+  --h-v2-panel-opacity:var(--h-user-panel-alpha,28%);
+  --h-v2-card-opacity:var(--h-user-card-alpha,36%);
+  --h-v2-control-opacity:var(--h-user-control-alpha,44%);
+  --h-v2-major-blur:var(--h-user-major-blur,24px);
+  --h-v2-panel-blur:var(--h-user-panel-blur,14px);
+  --h-v2-card-blur:var(--h-user-card-blur,8px);
+  --h-v2-control-blur:var(--h-user-control-blur,4px);
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-frost-load="medium"]{--h-v2-frost-runtime-scale:.86}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-frost-load="high"]{--h-v2-frost-runtime-scale:.72}
+
+/* Semantic Material Depth. All four roles keep nonzero recursive frost; the
+ * radius is intentionally depth-specific so nested glass is both legible and
+ * much cheaper than H39's 30px × every layer policy. Dense screens receive a small automatic runtime scale; every layer remains genuinely blurred. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"] [data-h-material-role="major"]{
+  --h-material-role:major;
+  --h-material-opacity:var(--h-v2-major-opacity);
+  --h-material-blur:calc(var(--h-v2-major-blur) * var(--h-v2-frost-runtime-scale,1));
+  --h-material-darken:var(--h-user-major-darken,0%);
+  --h-material-brighten:var(--h-user-major-brighten,0%);
+  --h-material-tone-scale:var(--h-user-major-tone-scale,1);
+  --h-material-chroma-scale:var(--h-user-major-chroma-scale,1);
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] [data-h-material-role="panel"]{
+  --h-material-role:panel;
+  --h-material-opacity:var(--h-v2-panel-opacity);
+  --h-material-blur:calc(var(--h-v2-panel-blur) * var(--h-v2-frost-runtime-scale,1));
+  --h-material-darken:var(--h-user-panel-darken,0%);
+  --h-material-brighten:var(--h-user-panel-brighten,0%);
+  --h-material-tone-scale:var(--h-user-panel-tone-scale,1);
+  --h-material-chroma-scale:var(--h-user-panel-chroma-scale,1);
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] [data-h-material-role="card"]{
+  --h-material-role:card;
+  --h-material-opacity:var(--h-v2-card-opacity);
+  --h-material-blur:calc(var(--h-v2-card-blur) * var(--h-v2-frost-runtime-scale,1));
+  --h-material-darken:var(--h-user-card-darken,0%);
+  --h-material-brighten:var(--h-user-card-brighten,0%);
+  --h-material-tone-scale:var(--h-user-card-tone-scale,1);
+  --h-material-chroma-scale:var(--h-user-card-chroma-scale,1);
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] [data-h-material-role="control"]{
+  --h-material-role:control;
+  --h-material-opacity:var(--h-v2-control-opacity);
+  --h-material-blur:calc(var(--h-v2-control-blur) * var(--h-v2-frost-runtime-scale,1));
+  --h-material-darken:var(--h-user-control-darken,0%);
+  --h-material-brighten:var(--h-user-control-brighten,0%);
+  --h-material-tone-scale:var(--h-user-control-tone-scale,1);
+  --h-material-chroma-scale:var(--h-user-control-chroma-scale,1);
+}
+
+/* Final v2 paint authority. High root specificity deliberately outranks the
+ * retained historical unlayered !important rules without reintroducing giant
+ * selector inventories. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass][data-palette][data-mode][data-scene] [data-h-material-role]{
+  --h-material-tone:var(--h-terminal-bg-tone,var(--h-terminal-tone,var(--h-scheme-base,var(--panel-solid))));
+  --h-material-tone-strength:var(--h-terminal-tone-strength,var(--h-v13-scheme-soft,5.2%));
+  --h-material-tone-strength-effective:calc(var(--h-material-tone-strength) * var(--h-material-tone-scale,1));
+  --h-material-tone-depth:var(--h-material-tone);
+  --h-material-base-depth:var(--panel-solid);
+  --h-material-base-shaded:color-mix(
+    in srgb,
+    color-mix(in srgb,var(--h-material-base-depth),black var(--h-material-darken,0%)),
+    white var(--h-material-brighten,0%)
+  );
+  background-color:color-mix(
+    in srgb,
+    var(--h-material-tone-depth) var(--h-material-tone-strength-effective),
+    color-mix(in srgb,var(--h-material-base-shaded) var(--h-material-opacity,var(--h-v2-card-opacity)),transparent)
+  )!important;
+  background-image:none!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 100%!important;
+  background-position:0 0!important;
+  background-attachment:scroll!important;
+  filter:none!important;
+  will-change:auto!important;
+}
+
+/* Modern browsers (the supported local launcher targets) can grade the material
+ * chroma directly in OKLCH. Signed shade is applied separately to the actual translucent base, allowing true black glass at -100. Text, semantic foregrounds, Ambient and backdrop-filter stay independent. */
+@supports (color:oklch(from red l c h)){
+  html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass][data-palette][data-mode][data-scene] [data-h-material-role]{
+    --h-material-tone-depth:oklch(
+      from var(--h-material-tone)
+      l
+      calc(c * var(--h-material-chroma-scale,1))
+      h
+    );
+    --h-material-base-depth:oklch(
+      from var(--panel-solid)
+      l
+      calc(c * var(--h-material-chroma-scale,1))
+      h
+    );
+  }
+}
+
+/* Pedigree relation tint is Material, not Lighting. Map, Lineage and mobile
+ * pedigree cards therefore resolve through one sire/dam/offspring vocabulary. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"] :is(
+  .ped-card.relation-father,.ped-mobile-card.relation-father,.ped-vertical-card.relation-father,
+  .ped-ledger-item.relation-father>.ped-ledger-row
+){--h-material-tone:var(--h-sire-bg)!important;--h-material-tone-strength:var(--h-user-semantic-strong-alpha,26%)!important}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] :is(
+  .ped-card.relation-mother,.ped-mobile-card.relation-mother,.ped-vertical-card.relation-mother,
+  .ped-ledger-item.relation-mother>.ped-ledger-row
+){--h-material-tone:var(--h-dam-bg)!important;--h-material-tone-strength:var(--h-user-semantic-strong-alpha,26%)!important}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] :is(
+  .ped-card.relation-offspring,.ped-mobile-card.relation-offspring,.ped-vertical-card.relation-offspring,
+  .ped-ledger-item.relation-offspring>.ped-ledger-row
+){--h-material-tone:var(--h-context-tone,var(--accent))!important;--h-material-tone-strength:var(--h-user-semantic-strong-alpha,26%)!important}
+
+/* Frosted = every semantic surface samples what is immediately behind it.
+ * This remains recursive by design; only the radius changes with Material Depth. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"][data-palette][data-mode][data-scene] [data-h-material-role]{
+  -webkit-backdrop-filter:blur(var(--h-material-blur))!important;
+  backdrop-filter:blur(var(--h-material-blur))!important;
+}
+
+/* Solid changes only the material sampling contract. Lighting remains separate. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="0"][data-palette][data-mode][data-scene] [data-h-material-role]{
+  background-color:color-mix(in srgb,var(--h-material-tone-depth) var(--h-material-tone-strength-effective),var(--h-material-base-shaded))!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+/* Major surfaces keep a restrained halo. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"][data-palette][data-mode][data-scene] [data-h-material-role="major"]{
+  --h-material-halo-softness:var(--h-user-halo-softness,30px);
+  box-shadow:
+    0 18px calc(var(--h-material-halo-softness) * .72) color-mix(in srgb,black 17%,transparent),
+    0 0 var(--h-material-halo-softness) color-mix(in srgb,var(--h-scheme-chrome,var(--accent)) 3.5%,transparent),
+    inset 0 1px 0 color-mix(in srgb,white 5%,transparent)!important;
+}
+
+/* Raw geometry/canvas primitives are not material boxes. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"] :where(
+  .pedigree-map-visual,.modern-pedigree,.ped-ledger-tree,.radial-slice,
+  .registry-table,.registry-table :is(th,td),.ped-edge-flow
+){
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+
+
+/* R24 pedigree visualizer DRY authority ---------------------------------------
+   Map, Lineage and Radial are three geometries on ONE literal stage and ONE
+   semantic horse-surface palette. Do not add geometry-specific background or
+   sire/dam paint below this block: change these shared tokens instead. */
+html:root[data-frontend="heritage"] .pedigree-map-shell{
+  --h-pedigree-stage-grid-image:
+    linear-gradient(0deg,color-mix(in srgb,var(--h-pedigree-grid,rgba(60,70,55,.12)) 90%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--h-pedigree-grid,rgba(60,70,55,.12)) 90%,transparent) 1px,transparent 1px),
+    radial-gradient(circle at 20% 15%,rgba(255,255,255,.08),transparent 28%);
+  --h-pedigree-stage-grid-size:32px 32px,32px 32px,100% 100%;
+  --h-pedigree-role-ink:var(--h-accent-data,var(--accent));
+  --h-pedigree-role-surface:color-mix(in srgb,var(--h-pedigree-role-ink) var(--h-sex-block-alpha,26%),var(--h-pedigree-card-surface));
+  --h-pedigree-role-border:color-mix(in srgb,var(--h-pedigree-role-ink) 42%,var(--h-pedigree-card-border,var(--line)));
+}
+html:root[data-frontend="heritage"][data-mode="light"] .pedigree-map-shell{--h-pedigree-grid:rgba(92,104,88,.12)}
+html:root[data-frontend="heritage"][data-mode="dark"] .pedigree-map-shell{--h-pedigree-grid:rgba(118,169,164,.12)}
+
+/* Exactly the same canvas declaration is consumed by Map, Lineage and Radial. */
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-visual-stage{
+  background-color:var(--h-pedigree-stage)!important;
+  background-image:var(--h-pedigree-stage-grid-image)!important;
+  background-size:var(--h-pedigree-stage-grid-size)!important;
+  background-position:0 0,0 0,0 0!important;
+  background-repeat:repeat,repeat,no-repeat!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial-view.pedigree-visual-stage{
+  position:relative!important;
+  isolation:isolate!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial,
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial-host{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial::before,
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial::after,
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial-view::before,
+html:root[data-frontend="heritage"] .pedigree-map-shell .pedigree-radial-view::after{
+  content:none!important;display:none!important;background:none!important;
+  background-image:none!important;opacity:0!important;animation:none!important;filter:none!important;
+}
+html:root[data-frontend="heritage"] .pedigree-radial>.heritage-v2-surface-effects{display:none!important}
+
+/* One semantic color source for Map horse cards, Lineage rows and Radial slices.
+   This deliberately removes Radial's old frost mix + generation brightness
+   ladder, which was the source of the visibly washed-out sectors. */
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice){
+  --h-pedigree-role-ink:var(--h-accent-data,var(--accent));
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).relation-father{--h-pedigree-role-ink:var(--h-sire)}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).relation-mother{--h-pedigree-role-ink:var(--h-dam)}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).relation-offspring{--h-pedigree-role-ink:var(--accent)}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).relation-self{--h-pedigree-role-ink:var(--metal,var(--accent))}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice){
+  --h-pedigree-role-surface:color-mix(in srgb,var(--h-pedigree-role-ink) var(--h-sex-block-alpha,26%),var(--h-pedigree-card-surface));
+  --h-pedigree-role-border:color-mix(in srgb,var(--h-pedigree-role-ink) 42%,var(--h-pedigree-card-border,var(--line)));
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice):is(:hover,:focus-within){
+  --h-pedigree-role-border:color-mix(in srgb,var(--h-pedigree-role-ink) var(--h-user-semantic-hover-border-alpha,68%),var(--h-pedigree-card-border,var(--line-strong)));
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .ped-card,
+html:root[data-frontend="heritage"] .pedigree-map-shell .ped-ledger-item>.ped-ledger-row{
+  background:var(--h-pedigree-role-surface)!important;
+  background-image:none!important;
+  border-color:var(--h-pedigree-role-border)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 4px 13px var(--h-ds-shadow-quiet)!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .radial-slice path{
+  fill:var(--h-pedigree-role-surface)!important;
+  stroke:var(--h-pedigree-role-border)!important;
+  filter:none!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell .radial-core circle{
+  fill:color-mix(in srgb,var(--h-accent-data,var(--accent)) var(--h-sex-block-alpha,26%),var(--h-pedigree-card-surface))!important;
+  stroke:color-mix(in srgb,var(--h-accent-data,var(--accent)) 42%,var(--h-pedigree-card-border,var(--line)))!important;
+}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).repeated{--h-pedigree-role-border:var(--h-warning)}
+html:root[data-frontend="heritage"] .pedigree-map-shell :is(.ped-card,.ped-ledger-item,.radial-slice).cycle{--h-pedigree-role-border:var(--h-danger)}
+
+/* The pedigree section already owns its panel material. The title/controls row
+   is content, not another nested glass plate. */
+html:root[data-frontend="heritage"] .pedigree-section>.pedigree-section-toolbar{
+  background:transparent!important;background-image:none!important;border:0!important;
+  box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+}
+
+/* Do not allow the runtime Material binder (including a stale HMR attribute)
+   to turn the pedigree title/control row back into an opaque control plate. */
+html:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar,
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass][data-palette][data-mode][data-scene] .pedigree-section .pedigree-section-toolbar,
+html:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar[data-h-material-role]{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+html:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar>.heritage-v2-surface-effects,
+html:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar::before,
+html:root[data-frontend="heritage"] .pedigree-section .pedigree-section-toolbar::after{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  opacity:0!important;
+}
+
+
+/* R19 — Registry Explorer data rows are semantic Depth 03 content cards.
+ * ---------------------------------------------------------------------
+ * The table panel itself remains Depth 01 (Outer shell), but each desktop
+ * registry record now gets its own Card material. This mirrors the existing
+ * mobile-registry-card contract and prevents dense fields from visually
+ * collapsing into the weak outer-shell glass.
+ *
+ * We paint the inherited Card material through the cells because browsers do
+ * not consistently composite backdrop-filter on table-row boxes. The row is
+ * still registered as role=card, so Appearance Studio's 03 controls remain the
+ * single source of truth for opacity/tone/blur semantics. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"][data-palette][data-mode][data-scene]
+.registry-table tbody tr[data-h-material-role="card"]{
+  --h-registry-entry-base:color-mix(
+    in srgb,
+    var(--h-material-tone-depth) var(--h-material-tone-strength-effective),
+    color-mix(in srgb,var(--h-material-base-shaded) var(--h-material-opacity,var(--h-v2-card-opacity)),transparent)
+  );
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="0"][data-palette][data-mode][data-scene]
+.registry-table tbody tr[data-h-material-role="card"]{
+  --h-registry-entry-base:color-mix(
+    in srgb,
+    var(--h-material-tone-depth) var(--h-material-tone-strength-effective),
+    var(--h-material-base-shaded)
+  );
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-palette][data-mode][data-scene]
+.registry-table tbody tr[data-h-material-role="card"] > td{
+  --h-registry-field-tone:var(--h-material-tone-depth);
+  --h-registry-field-strength:0%;
+  background:color-mix(
+    in srgb,
+    var(--h-registry-field-tone) var(--h-registry-field-strength),
+    var(--h-registry-entry-base)
+  )!important;
+  background-image:none!important;
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-palette][data-mode][data-scene]
+.registry-table tbody tr[data-h-material-role="card"]:nth-child(even) > td{
+  background:color-mix(in srgb,var(--accent-soft) 5%,var(--h-registry-entry-base))!important;
+}
+
+/* Preserve the useful field-color encoding, but tint it over Depth 03 instead
+ * of over transparent Outer material. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-palette][data-mode][data-scene]
+.visual-encoding .registry-table tbody tr[data-h-material-role="card"] > td{
+  background:color-mix(
+    in srgb,
+    var(--h-registry-field-tone) var(--h-registry-field-strength),
+    var(--h-registry-entry-base)
+  )!important;
+}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-id{--h-registry-field-tone:var(--metal);--h-registry-field-strength:7%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-name{--h-registry-field-tone:var(--accent);--h-registry-field-strength:5%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-native{--h-registry-field-tone:#6f8fd8;--h-registry-field-strength:7%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-year{--h-registry-field-tone:var(--metal);--h-registry-field-strength:8%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-sex{--h-registry-field-tone:var(--row-sex-bg,var(--row-sex,var(--metal)));--h-registry-field-strength:10%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-breed{--h-registry-field-tone:var(--h-warning-bg,#8c9b52);--h-registry-field-strength:8%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-place{--h-registry-field-tone:var(--h-success-bg,#4f9c91);--h-registry-field-strength:8%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-sire{--h-registry-field-tone:var(--h-sire-bg,var(--h-sire));--h-registry-field-strength:10%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-dam{--h-registry-field-tone:var(--h-dam-bg,var(--h-dam));--h-registry-field-strength:10%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"] .visual-encoding .registry-table .cell-register{--h-registry-field-tone:#8b78c8;--h-registry-field-strength:8%}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-palette][data-mode][data-scene]
+.visual-encoding .registry-table tbody tr[data-h-material-role="card"]:hover > td{
+  background:color-mix(in srgb,var(--row-sex-bg,var(--row-sex,var(--accent))) 12%,var(--h-registry-entry-base))!important;
+}
+
+/* ============================================================================
+   R135 — nested-frost collapse (the big blur win)
+   ----------------------------------------------------------------------------
+   backdrop-filter re-blurs what is BEHIND the element. When a card/control
+   sits inside an already-frosted panel, its own blur re-processes an already
+   blurred backdrop — visually almost identical to no blur of its own, but a
+   full extra composite pass per element (and nested backdrop-roots multiply
+   raster cost on weak GPUs). The binder marks such surfaces with
+   data-h-frost-nested="1"; they keep their translucent fill (slightly raised
+   so text contrast holds) and drop only the redundant blur pass.
+   Top-level frost (topbar, page heads, panels, portaled popovers, dock) is
+   untouched — the foreground still stands out of the background.
+   ============================================================================ */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"][data-palette][data-mode][data-scene] [data-h-material-role][data-h-frost-nested="1"]{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
+/* Compensate: a little more fill where a blur layer used to add body. */
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"] [data-h-frost-nested="1"][data-h-material-role="panel"]{--h-material-opacity:calc(var(--h-v2-panel-opacity) + 12%)}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"] [data-h-frost-nested="1"][data-h-material-role="card"]{--h-material-opacity:calc(var(--h-v2-card-opacity) + 12%)}
+html:root[data-frontend="heritage"][data-visual-architecture="2"][data-glass="1"] [data-h-frost-nested="1"][data-h-material-role="control"]{--h-material-opacity:calc(var(--h-v2-control-opacity) + 10%)}
+
+/* ============================================================================
+   R135 — phone blur budget
+   ----------------------------------------------------------------------------
+   Blur cost scales with radius x area; phones pay the most with the least
+   cooling headroom. Radii drop (same look at a glance), fills rise a touch
+   so contrast never depends on the blur itself, and the legacy token kernel
+   (system.css glass rules + popovers) follows the same curve.
+   ============================================================================ */
+@media(max-width:720px){
+  html:root[data-frontend="heritage"][data-visual-architecture="2"]{
+    --h-v2-major-blur:15px;
+    --h-v2-panel-blur:10px;
+    --h-v2-card-blur:3px;
+    --h-v2-control-blur:0px;
+    --h-v2-card-opacity:46%;
+    --h-v2-control-opacity:50%;
+  }
+  :root[data-frontend="heritage"]{
+    --h-frost-1-blur:13px;
+    --h-frost-2-blur:8px;
+    --h-frost-3-blur:13px;
+    --h-glass-saturation:1.04;
+    --h-popover-blur:13px;
+    --h-terminal-blur:12px;
+    --h-terminal-card-blur:8px;
+    --h-terminal-control-blur:6px;
+  }
+  /* The hero's pseudo-element glass and the sticky topbar are the two big
+     always-painted surfaces; keep them real but light. */
+  :root[data-frontend="heritage"][data-glass="1"] .premium-hero::after{
+    -webkit-backdrop-filter:blur(12px)!important;
+    backdrop-filter:blur(12px)!important;
+  }
+}

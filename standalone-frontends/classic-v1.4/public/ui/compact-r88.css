@@ -1,0 +1,27 @@
+/* Native iframe document: host CSS cannot cross this boundary. */
+body[data-classic-registry] { --control-h:36px; --content-max:var(--cr-compact-content-max); font-size:var(--cr-compact-body-size); }
+body[data-classic-registry] .workspace { padding-inline:var(--cr-compact-gutter); }
+body[data-classic-registry] :is(td,.field label,.empty) { font-size:14px; line-height:1.55; }
+body[data-classic-registry] :is(button,input,select,.btn) { min-block-size:var(--cr-compact-control-height); }
+body[data-classic-registry] :is(button,a,input,select,textarea):focus-visible { outline:3px solid currentColor; outline-offset:3px; }
+@media(max-width:760px) { body[data-classic-registry] :is(input,select,textarea) { font-size:16px; } }
+@media(pointer:coarse) { body[data-classic-registry] :is(button,input,select,.btn) { min-block-size:var(--cr-compact-touch-height); } }
+@media(prefers-reduced-motion:reduce) { body[data-classic-registry] *, body[data-classic-registry] *::before, body[data-classic-registry] *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+
+/* R111: bounded dialogs/long content; page-wide overflow must not replace table scrolling. */
+body[data-classic-registry] :is(.panel,.panel-body,.page-head,.record-card,.profile-title,.brand-copy) { min-inline-size:0; overflow-wrap:anywhere; }
+body[data-classic-registry] :is(input,select,textarea) { max-inline-size:100%; min-inline-size:0; box-sizing:border-box; }
+body[data-classic-registry] .data-wrap { max-inline-size:100%; overflow:auto; overscroll-behavior-inline:contain; }
+body[data-classic-registry] .modal { inline-size:min(44rem,calc(100vw - 1rem)); max-inline-size:calc(100vw - 1rem); max-block-size:calc(100dvh - 1rem); overflow:auto; overscroll-behavior:contain; }
+body[data-classic-registry] .preference-drawer { max-inline-size:100vw; max-block-size:100dvh; }
+body[data-classic-registry] .header-tools { flex-wrap:wrap; }
+body[data-classic-registry] .user-chip { max-inline-size:14rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+@media(max-width:520px) {
+ body[data-classic-registry] .masthead { gap:.65rem; }
+ body[data-classic-registry] .header-tools { inline-size:100%; justify-content:flex-start; }
+ body[data-classic-registry] .header-tools > :is(button,a) { flex:1 1 auto; }
+ body[data-classic-registry] .user-chip { max-inline-size:100%; }
+ body[data-classic-registry] .form-grid { grid-template-columns:minmax(0,1fr); }
+ body[data-classic-registry] .form-grid > * { grid-column:auto; }
+ body[data-classic-registry] .preference-head { gap:.5rem; }
+}

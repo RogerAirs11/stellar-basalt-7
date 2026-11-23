@@ -1,0 +1,43 @@
+/* ============================================================================
+   R64 — registry visual encoding for Federation Classic (donor-consistent).
+   Parity with the core frontend: the SAME Appearance-Studio toggle
+   (localStorage "registry-visual-encoding", src/web/registryVisualEncoding.ts)
+   controls this layer. entry.tsx mirrors the flag onto [data-encoding] of
+   .fei-classic-ui, so CSS can react without re-rendering rows.
+   Colours stay inside the donor's palette family (plum/grey + functional
+   identity colours for sex), never touching the donor header chrome.
+   ========================================================================== */
+
+/* ── sex identity chips (dot + label) ── */
+.fei-classic-ui .fei-sex-chip{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.fei-classic-ui .fei-sex-chip::before{
+  content:"";flex:0 0 auto;width:8px;height:8px;border-radius:50%;
+  background:#8a8a8a;box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);
+}
+.fei-classic-ui .fei-sex-chip.fei-sex-stallion::before{background:#2456b8}
+.fei-classic-ui .fei-sex-chip.fei-sex-mare::before{background:#a21caf}
+.fei-classic-ui .fei-sex-chip.fei-sex-gelding::before{background:#0f766e}
+.fei-classic-ui .fei-sex-chip.fei-sex-young::before{background:#b45309}
+
+/* when the shared encoding toggle is OFF: dots vanish, labels stay readable */
+.fei-classic-ui[data-encoding="off"] .fei-sex-chip::before{display:none}
+
+/* ── row readability (zebra + hover) — only while encoding is on ── */
+.fei-classic-ui[data-encoding="on"] .fc-table tbody tr:nth-child(even)>td{background:#f6f2f7}
+.fei-classic-ui[data-encoding="on"] .fc-table tbody tr:hover>td{background:#ede3ef}
+.fei-classic-ui[data-encoding="on"] .fei-data-table tbody tr.alt>td{background:#f6f2f7}
+.fei-classic-ui[data-encoding="on"] .fei-data-table tbody tr:hover>td{background:#ede3ef}
+
+/* ── lifecycle badge tuning (same hues the core frontend encodes with) ── */
+.fei-classic-ui .fc-badge-active{color:#166534;background:#e5f5ea;border:1px solid #bfe3cb}
+.fei-classic-ui .fc-badge-dead{color:#7f1d1d;background:#fdeaea;border:1px solid #f2c9c9}
+.fei-classic-ui .fc-badge-imported{color:#92400e;background:#fdf1de;border:1px solid #f1d9b4}
+.fei-classic-ui .fc-badge-purple{color:#5f065f;background:#f5ebf6;border:1px solid #e0cbe2}
+.fei-classic-ui .fc-badge{border-radius:2px;font-weight:bold}
+
+/* ── pedigree parent lines: sire/dam keep their encoded colours ── */
+.fei-classic-ui .fc-parent-sire span{color:#2456b8}
+.fei-classic-ui .fc-parent-dam span{color:#a21caf}
+
+/* ── coverage meter keeps the donor purple family ── */
+.fei-classic-ui .fc-meter>span{background:linear-gradient(to bottom,#91488f,#5f065f)}

@@ -1,0 +1,167 @@
+:root[data-frontend="heritage"]{--h-mobile-dock-stack-height:0px}
+.heritage-global-app-dock{display:none}
+@media(max-width:820px){
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .topbar .main-nav{display:none!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .topbar{grid-template-columns:minmax(0,1fr) auto!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .app-shell>main{padding-bottom:calc(var(--h-mobile-dock-stack-height) + 22px)!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .site-footer{margin-bottom:var(--h-mobile-dock-stack-height)!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock{
+    display:flex!important;position:fixed!important;left:5px!important;right:5px!important;bottom:calc(5px + env(safe-area-inset-bottom))!important;
+    z-index:var(--h-z-chrome-dock,2147483640)!important;flex-direction:column!important;gap:4px!important;pointer-events:none!important;
+    max-width:calc(100vw - 10px)!important;min-width:0!important;
+  }
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock>*{pointer-events:auto!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-app-dock-row{
+    width:100%!important;max-width:100%!important;min-width:0!important;display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important;
+    gap:3px!important;padding:4px!important;border:1px solid color-mix(in srgb,var(--line) 82%,transparent)!important;border-radius:9px!important;
+    background:color-mix(in srgb,var(--panel-solid) 88%,transparent)!important;-webkit-backdrop-filter:blur(18px) saturate(1.15)!important;backdrop-filter:blur(18px) saturate(1.15)!important;
+    box-shadow:0 8px 22px rgba(0,0,0,.2),inset 0 1px 0 color-mix(in srgb,#fff 20%,transparent)!important;
+    overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-inline:contain!important;overscroll-behavior-block:none!important;touch-action:pan-x!important;
+    scrollbar-width:none!important;
+  }
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-app-dock-row::-webkit-scrollbar{display:none!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-app-dock-row button{
+    flex:1 1 0!important;min-width:48px!important;min-height:43px!important;padding:4px 4px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+    gap:2px!important;border:1px solid transparent!important;border-radius:6px!important;background:transparent!important;color:var(--ink)!important;font-family:var(--h-font-ui)!important;
+    box-shadow:none!important;white-space:normal!important;overflow:hidden!important;
+  }
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-app-dock-row button small{
+    display:block!important;max-width:100%!important;color:var(--ink)!important;font:800 clamp(10px,2.65vw,11.5px)/1.06 var(--h-font-ui)!important;overflow:hidden!important;text-overflow:ellipsis!important;text-align:center!important;
+  }
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-app-dock-row button.active{
+    color:var(--ink)!important;border-color:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 38%,var(--line))!important;background:color-mix(in srgb,var(--h-tab-tone,var(--accent)) 13%,var(--panel-strong))!important;
+    box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--h-tab-tone,var(--accent)) 8%,transparent),0 1px 5px rgba(0,0,0,.08)!important;
+  }
+  .heritage-global-app-dock .heritage-dock-icon{display:grid!important;place-items:center!important;width:19px!important;height:19px!important;flex:0 0 19px!important}
+  .heritage-global-app-dock .heritage-dock-icon svg{display:block!important;width:18px!important;height:18px!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .dock-secondary,
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .dock-tertiary{padding:3px!important;border-radius:8px!important}
+  .heritage-global-app-dock .h112-dock-section{
+    display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:.5rem;
+    inline-size:100%;min-inline-size:0;padding-inline:.375rem;font:600 .75rem/1.4 var(--h-font-ui);color:var(--muted);
+  }
+  .heritage-global-app-dock .h112-dock-section>span{min-inline-size:0;overflow-wrap:anywhere}
+  .heritage-global-app-dock .h112-dock-section select{
+    inline-size:100%;min-inline-size:0;max-inline-size:100%;min-block-size:2.75rem;box-sizing:border-box;
+    border:1px solid var(--line);border-radius:.5rem;padding:.375rem;color:var(--ink);background:var(--panel-solid);font:inherit;
+  }
+  .heritage-global-app-dock .h112-dock-section select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .dock-tertiary{opacity:.98}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .profile-app-dock,
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .stats-app-dock{display:none!important}
+  :root[data-frontend="heritage"] [data-view-transition-anchor],
+  :root[data-frontend="heritage"] .profile-workspace-context,
+  :root[data-frontend="heritage"] .stats-workspace-context,
+  :root[data-frontend="heritage"] .heritage-news-reader{scroll-margin-top:74px}
+}
+@media(max-width:430px){
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-main-dock button{min-width:46px!important}
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] body>.heritage-global-app-dock .heritage-main-dock button small{font-size:10.5px!important}
+}
+
+/* Splash geometry is owned exclusively by heritage.assets.css. */
+
+/* The shell-owned dock is the single compact navigation authority. */
+@media (max-width: 820px) {
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .horse-page,
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .stats-page {
+    padding-bottom: calc(var(--h-mobile-dock-stack-height, 64px) + 18px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* R131: hide the in-page section rails ONLY when the dock that replaces them
+     is actually mounted (data-dock-active is set by HeritageMobileDockProvider
+     when it renders the portal). The old data-tab-hierarchy condition desynced
+     from the render condition in sidebar/both layouts and left docked phones
+     with zero section navigation — the "clicking options does nothing" report. */
+  :root[data-frontend="heritage"][data-dock-active="1"] .profile-workspace-nav,
+  :root[data-frontend="heritage"][data-dock-active="1"] .profile-subnav,
+  :root[data-frontend="heritage"][data-dock-active="1"] .stats-subnav,
+  :root[data-frontend="heritage"][data-dock-active="1"] .stats-subtabs {
+    display: none !important;
+  }
+
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .stats-tertiary-nav,
+  :root[data-frontend="heritage"][data-tab-hierarchy="docked"] .pedigree-controls .segmented-control {
+    position: static !important;
+    inset: auto !important;
+    max-height: none !important;
+    overflow-y: hidden !important;
+  }
+
+  .heritage-global-app-dock,
+  .heritage-global-app-dock .heritage-app-dock-row {
+    overscroll-behavior: contain;
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Mobile splash containment mirror. Geometry values remain owned by the shared
+   --hero-art-* variables in app.css; this late-loaded file only reasserts the
+   same containment contract so no legacy mobile rule can crop tall artwork. */
+@media(max-width:820px){
+  html[data-page="home"]:root[data-frontend="heritage"] .hero-art>.hero-crest-frame,
+  html[data-page="home"]:root[data-frontend="heritage"] .hero-art-q8>.hero-crest-frame{
+    top:var(--hero-art-top-ui,7px)!important;
+    right:var(--hero-art-side-pad,7px)!important;
+    bottom:var(--hero-art-bottom-ui,32px)!important;
+    left:var(--hero-art-side-pad,7px)!important;
+    width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+    max-width:none!important;max-height:none!important;aspect-ratio:auto!important;
+    transform:none!important;margin:0!important;overflow:hidden!important;
+    background:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;
+  }
+  html[data-page="home"]:root[data-frontend="heritage"] .hero-art>.hero-crest-frame>.hero-crest,
+  html[data-page="home"]:root[data-frontend="heritage"] .hero-art-q8>.hero-crest-frame>.hero-crest{
+    position:static!important;width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+    max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center center!important;
+    transform:none!important;scale:clamp(.55,var(--h-splash-art-scale,1),1)!important;margin:auto!important;
+  }
+}
+
+
+/* R29.9 — mobile advanced-search scroll recovery */
+
+@media(max-width:720px){
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.advanced-open{
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    min-height:0!important;
+    overscroll-behavior-y:contain!important;
+    -webkit-overflow-scrolling:touch!important;
+    touch-action:pan-y!important;
+    scrollbar-gutter:stable both-edges;
+  }
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.advanced-open :is(.table-toolbar,.mobile-registry-view-toggle,.advanced-registry-bar,.heritage-facet-strip,.table-subbar,.table-pager){
+    flex:0 0 auto!important;
+  }
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.advanced-open :is(.advanced-registry-bar,.heritage-facet-strip){
+    max-height:none!important;
+    overflow:visible!important;
+    touch-action:pan-y!important;
+  }
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.advanced-open .mobile-registry-list{
+    flex:0 0 auto!important;
+    min-height:auto!important;
+    overflow:visible!important;
+    overscroll-behavior:auto!important;
+    touch-action:pan-y!important;
+  }
+  html[data-page="browse"][data-frontend="heritage"] .table-panel.advanced-open .table-pager{
+    position:relative!important;
+    bottom:auto!important;
+  }
+}
+
+/* R39 — stacked phone rails keep their designed sticky positioning.
+   heritage.final.css demotes glass chrome to position:relative!important with
+   higher specificity than the stacked-mode rules in heritage.system.css, which
+   would strand the phone tab hierarchy (subtabs/tertiary pinned mid-scroll).
+   This restore is equally specific, loaded later, and scoped to the same
+   phone media gate. (.stats-subnav and .profile-workspace-nav already resolve
+   sticky through the corrected final.css block; .profile-subnav is designed
+   relative in stacked mode, so it stays untouched.) */
+@media(max-width:820px){
+  html:root[data-frontend="heritage"][data-glass="1"][data-palette][data-tab-hierarchy="stacked"] :is(.stats-subtabs,.stats-tertiary-nav){
+    position:sticky!important;
+  }
+}

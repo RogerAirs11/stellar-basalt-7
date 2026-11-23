@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="description" content="Next-generation horse registry, search and pedigree explorer" />
+    <!-- R135 phone space economy: installed home-screen sessions run
+         standalone (no browser address bar) with the brand icon and theme
+         color; viewport-fit exposes the notch safe areas the shell pads for. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" id="meta-viewport-base" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Horse Registry" />
+    <meta name="theme-color" content="#0b0f0e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/assets/fallbacks/registry-mark.svg" />
+    <!-- R148: original webfonts were absent from the supplied archive.
+         This local stylesheet uses installed/system fallbacks without remote requests. -->
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+    <title>Horse Registry</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/web/main.tsx"></script>
+  </body>
+</html>

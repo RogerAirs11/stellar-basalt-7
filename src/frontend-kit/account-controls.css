@@ -1,0 +1,37 @@
+/* Component-local layout only; colors and typography inherit each frontend. */
+.hdb-account-controls{margin-block:1.25rem;padding:clamp(1rem,3vw,1.75rem);border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 22%,transparent);border-radius:.75rem;min-width:0}
+.hdb-account-controls h2,.hdb-account-controls h3,.hdb-account-controls h4{margin-block:0 .55rem;line-height:1.35}
+.hdb-account-controls p{line-height:1.65;margin-block:.6rem}
+.hdb-account-controls header{margin-block-end:1rem}
+.hdb-account-controls button{font:inherit;cursor:pointer;min-height:2.75rem;padding:.6rem 1rem;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 35%,transparent);border-radius:.45rem;color:inherit;background:transparent;white-space:normal;text-align:center}
+.hdb-account-controls button:disabled{cursor:not-allowed;opacity:.55}
+.hdb-account-controls button:focus-visible,.hdb-account-controls input:focus-visible,.hdb-account-controls select:focus-visible,.hdb-account-controls summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.hdb-account-controls label{display:grid;gap:.4rem;min-width:0;font-weight:500}
+.hdb-account-controls input:not([type=checkbox]),.hdb-account-controls select,.hdb-account-controls textarea{box-sizing:border-box;width:100%;min-width:0;min-height:2.75rem;padding:.65rem .75rem;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 30%,transparent);border-radius:.4rem;font:inherit;color:inherit;background:transparent}
+.hdb-account-controls textarea{resize:vertical;min-height:5rem}
+.hdb-account-controls .hdb-account-check{display:flex;align-items:start;gap:.65rem;line-height:1.6}
+.hdb-account-check input{flex:0 0 auto;margin-block-start:.3rem;width:1.1rem;height:1.1rem}
+.hdb-account-controls fieldset{min-width:0;padding:0;border:0;margin:0;display:grid;gap:1rem}
+.hdb-account-controls legend{font-weight:650;margin-block-end:.75rem}
+.hdb-account-controls details{margin-block:.6rem}
+.hdb-account-controls summary{cursor:pointer;font-weight:650;padding-block:.6rem}
+.hdb-account-controls dl{display:grid;gap:.65rem;margin-block:1rem}
+.hdb-account-controls dl>div{display:grid;grid-template-columns:minmax(8rem,1fr) minmax(0,2fr);gap:.5rem}
+.hdb-account-controls dt{font-weight:600}
+.hdb-account-controls dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.hdb-account-controls ul{padding-inline-start:1.2rem;margin:0}
+.hdb-account-stack,.hdb-account-form,.hdb-account-grant-list{display:grid;gap:1rem}
+.hdb-account-inline{display:flex;align-items:end;flex-wrap:wrap;gap:.75rem;margin-block:1rem}
+.hdb-account-inline label{flex:1 1 12rem}
+.hdb-account-inline h3{flex:1 1 12rem;align-self:center}
+.hdb-account-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.hdb-account-grant{border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 22%,transparent);border-radius:.5rem;padding:1rem;min-width:0}
+.hdb-account-grant header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem;overflow-wrap:anywhere}
+.hdb-account-permission-options{grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.75rem!important}
+.hdb-account-permission-options label{display:flex;align-items:start;gap:.6rem;line-height:1.5;font-weight:400}
+.hdb-account-permission-options input{flex:0 0 auto;margin-block-start:.2rem;width:1.1rem;height:1.1rem}
+.hdb-account-note{font-size:.9em;opacity:.85}
+.hdb-account-warning,.hdb-account-success{border-inline-start:3px solid currentColor;padding:.8rem 1rem;background:color-mix(in srgb,currentColor 6%,transparent);overflow-wrap:anywhere}
+.hdb-account-controls pre{overflow-wrap:anywhere;white-space:pre-wrap;padding:1rem;border:1px solid currentColor;border-radius:.4rem;line-height:1.75;user-select:all}
+.hdb-account-controls code{overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:600px){.hdb-account-columns{grid-template-columns:1fr}.hdb-account-controls dl>div{grid-template-columns:1fr;gap:.2rem}.hdb-account-inline>button{width:100%}}

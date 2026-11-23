@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "status": "original-photo-assets-absent",
+  "photograph_count": 0,
+  "note": "The supplied source archive did not contain the 26 optional illustrative horse photographs. The fallback is a non-photographic missing-image symbol, not a horse identity claim.",
+  "fallback": {
+    "src": "/assets/fallbacks/record-image-unavailable.svg",
+    "width": 800,
+    "height": 1000,
+    "evidence": false
+  }
+}

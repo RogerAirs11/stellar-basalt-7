@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo Payment Gateway — Horse Registry</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="stylesheet" href="./pay.css">
+</head>
+<body>
+  <main class="pay-shell" id="shell">
+    <header class="demo-banner" id="demo-banner">
+      <span class="demo-banner-mark" aria-hidden="true">◆</span>
+      <span class="demo-banner-text" id="banner-text">Demonstration gateway — simulated settlement, no real money moves</span>
+    </header>
+
+    <section class="card" id="session-card" hidden>
+      <h1 class="card-title" id="title">Demo payment</h1>
+      <p class="card-sub" id="subtitle">This page imitates a payment provider's hosted checkout. No card, bank or personal data is collected.</p>
+
+      <dl class="facts">
+        <div class="fact"><dt id="lbl-amount">Amount</dt><dd><strong id="amount-toman">—</strong> <span class="unit" id="unit-toman">toman</span> <span class="secondary" id="amount-rial"></span></dd></div>
+        <div class="fact"><dt id="lbl-desc">Description</dt><dd id="description">—</dd></div>
+        <div class="fact"><dt id="lbl-status">Session status</dt><dd><span class="status-pill" id="session-status">—</span></dd></div>
+        <div class="fact"><dt id="lbl-expiry">Completable until</dt><dd id="expires-at">—</dd></div>
+      </dl>
+
+      <div class="actions">
+        <button class="btn pay" id="btn-pay" type="button" data-en="Simulate successful payment" data-fa="شبیه‌سازی پرداخت موفق">Simulate successful payment</button>
+        <button class="btn cancel" id="btn-cancel" type="button" data-en="Simulate cancellation" data-fa="شبیه‌سازی انصراف">Simulate cancellation</button>
+        <button class="btn cancel" id="btn-fail" type="button">Simulate provider failure</button>
+      </div>
+
+      <p class="fineprint" id="fineprint">After you choose an outcome, you are redirected back to the application exactly like a real gateway. The redirect's status parameter is never trusted: the application verifies this settlement server-side before granting anything.</p>
+    </section>
+
+    <section class="card" id="result-card" hidden>
+      <h1 class="card-title" id="result-title">—</h1>
+      <p class="card-sub" id="result-note">—</p>
+      <div class="actions">
+        <button class="btn pay" id="btn-verify" type="button" hidden>Verify simulated payment</button>
+        <a class="btn return" id="btn-return" href="/">Return to the application</a>
+      </div>
+      <p class="fineprint" id="result-fineprint">Provider reference: <code id="provider-ref"></code></p>
+      <p class="fineprint" id="verification-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card" id="error-card" hidden>
+      <h1 class="card-title" id="error-title">Demo session unavailable</h1>
+      <p class="card-sub" id="error-note">This demo payment session does not exist, has expired, or the demonstration gateway is not enabled.</p>
+      <a class="btn return" href="/">Return to the application</a>
+    </section>
+
+    <footer class="page-foot">
+      <span id="foot-note">Horse Registry — demonstration payment gateway (free placeholder in place of a real merchant account)</span>
+    </footer>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>

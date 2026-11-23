@@ -1,0 +1,35 @@
+{
+  "CI": {
+    "url": "https://github.com/RogerAirs11/horse-registry/actions/runs/44851551182",
+    "conclusion": "failure",
+    "annotations": [
+      "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings",
+      "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings"
+    ]
+  },
+  "Deploy to Cloudflare": {
+    "url": "https://github.com/RogerAirs11/horse-registry/actions/runs/44851551175",
+    "conclusion": "failure",
+    "annotations": [
+      "The job was not started because recent account payments have failed or your spending limit needs to be increased. Please check the 'Billing & plans' section in your settings"
+    ]
+  },
+  "cloudflare_latest": {
+    "id": "86ffc293-fa75-4a3a-80f3-5a47938f2c65",
+    "created_on": "2026-10-30T00:28:36.388718Z",
+    "versions": [
+      {
+        "version_id": "0bc6d013-6ddf-4fc7-a0fb-d74c6eb28cd0",
+        "percentage": 100
+      }
+    ]
+  },
+  "modern_initial_JS": {
+    "before_bytes": 924699,
+    "before_gzip": 272309,
+    "after_bytes": 524828,
+    "after_gzip": 170180,
+    "after_entry_plus_preloads": 13,
+    "measurement": "initial HTML script + modulepreload JS only, not full route or measured network timing"
+  }
+}

@@ -1,0 +1,58 @@
+/* R37 — user layout & spacing customization (Appearance Studio → Layout).
+   The whole layer is gated on data-layout-tuning="1", which heritageLayout.ts
+   only sets while at least one slider differs from its default. Stock density
+   mode, responsive breakpoints and curated rhythms stay authoritative until
+   the user explicitly customizes. All rules are heritage-scoped. */
+
+:root[data-frontend="heritage"][data-layout-tuning="1"] .page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .home-page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .admin-page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-studio.page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-newsroom.page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .browse-page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .stats-page{
+  padding-top:var(--h-user-layout-top,12px)!important;
+  padding-bottom:var(--h-user-layout-bottom,24px)!important;
+  padding-inline:var(--h-user-layout-gutter,18px)!important;
+}
+
+:root[data-frontend="heritage"][data-layout-tuning="1"] .page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .admin-page{
+  max-width:var(--h-user-layout-width,1440px)!important;
+}
+:root[data-frontend="heritage"][data-layout-tuning="1"] .home-page{
+  max-width:calc(var(--h-user-layout-width,1440px) + 220px)!important;
+}
+
+/* Uniform vertical rhythm between top-level containers of a page. */
+:root[data-frontend="heritage"][data-layout-tuning="1"] .page>*+*,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .home-page>*+*,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .admin-page>*+*,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .browse-page>*+*,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-desk-page>*+*{
+  margin-top:var(--h-user-layout-gap,10px)!important;
+}
+/* Grid/flex pages separate sections via gap, not margins. */
+:root[data-frontend="heritage"][data-layout-tuning="1"] .stats-page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-desk-page,
+:root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-newsroom{
+  gap:var(--h-user-layout-gap,10px)!important;
+}
+
+/* Container inset for the primary panel material. */
+:root[data-frontend="heritage"][data-layout-tuning="1"] .panel{
+  padding:var(--h-user-layout-inset,12px)!important;
+}
+
+@media(max-width:560px){
+  /* On phones the gutter slider still applies, but never below touch comfort. */
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .home-page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .admin-page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-studio.page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .heritage-newsroom.page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .browse-page,
+  :root[data-frontend="heritage"][data-layout-tuning="1"] .stats-page{
+    padding-inline:max(10px,var(--h-user-layout-gutter,18px) * .55)!important;
+  }
+}

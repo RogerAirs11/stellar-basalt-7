@@ -1,0 +1,308 @@
+[
+  {
+    "module": "src/api/modules/requestEvidence.ts",
+    "dispatcher": "routeRequestEvidence",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/change-requests/:request_id/evidence",
+        "access": "request owner or registry reviewer",
+        "budget": "12 active metadata records; no bytes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/change-requests/:request_id/evidence",
+        "access": "draft owner and CSRF; active session at commit",
+        "budget": "8 MiB file; 12 files / 48 MiB per draft; 16 chunks maximum; atomic quota and receipt"
+      },
+      {
+        "method": "DELETE",
+        "path": "/api/change-requests/:request_id/evidence/:evidence_id",
+        "access": "draft owner and CSRF; active session at commit",
+        "budget": "one tombstone, bounded blob deletion and atomic quota decrement"
+      },
+      {
+        "method": "GET",
+        "path": "/api/change-requests/:request_id/evidence/:evidence_id/file",
+        "access": "request owner or registry reviewer",
+        "budget": "at most 8 MiB / 16 chunks; byte digest verified; private attachment"
+      }
+    ]
+  },
+  {
+    "module": "src/api/modules/equineCare.ts",
+    "dispatcher": "routeEquineCare",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/care/capabilities",
+        "access": "authenticated",
+        "budget": "five exact horse-scoped permission checks; feature defaults off"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/clinical",
+        "access": "current private_health_read grant; care activated",
+        "budget": "50 records; offset bounded to 10000"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/clinical/:record_id",
+        "access": "current private_health_read grant; recipient scope when applicable",
+        "budget": "one private record"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/clinical/:record_id/history",
+        "access": "current private_health_read grant; historical recipient scopes",
+        "budget": "100 immutable history entries; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/clinical",
+        "access": "clinical_write or sample_submit as appropriate; CSRF; care activated",
+        "budget": "64 KiB request; immutable operation receipt; locks and live scope predicates"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/horses/:horse_id/care/clinical/:record_id",
+        "access": "current clinical_write grant; CSRF; expected version",
+        "budget": "one amendment, receipt, history and minimal audit; atomic"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reproduction",
+        "access": "current private_health_read grant; care activated",
+        "budget": "50 records; offset bounded to 10000"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reproduction/:record_id",
+        "access": "current private_health_read grant; recipient scope when applicable",
+        "budget": "one private record"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reproduction/:record_id/history",
+        "access": "current private_health_read grant; historical recipient scopes",
+        "budget": "100 immutable history entries; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/reproduction",
+        "access": "clinical_write or sample_submit as appropriate; CSRF; care activated",
+        "budget": "64 KiB request; immutable operation receipt; locks and live scope predicates"
+      },
+      {
+        "method": "PATCH",
+        "path": "/api/horses/:horse_id/care/reproduction/:record_id",
+        "access": "current clinical_write grant; CSRF; expected version",
+        "budget": "one amendment, receipt, history and minimal audit; atomic"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/samples",
+        "access": "current private_health_read grant; care activated",
+        "budget": "50 records; offset bounded to 10000"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/samples/:record_id",
+        "access": "current private_health_read grant; recipient scope when applicable",
+        "budget": "one private record"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/samples/:record_id/history",
+        "access": "current private_health_read grant; historical recipient scopes",
+        "budget": "100 immutable history entries; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/samples",
+        "access": "clinical_write or sample_submit as appropriate; CSRF; care activated",
+        "budget": "64 KiB request; immutable operation receipt; locks and live scope predicates"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/samples/:record_id/custody",
+        "access": "current private_health_read grant",
+        "budget": "100 custody records; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/samples/:record_id/custody",
+        "access": "current sample_submit grant; CSRF",
+        "budget": "one immutable custody event and receipt"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reports",
+        "access": "current private_health_read grant; care activated",
+        "budget": "50 records; offset bounded to 10000"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reports/:record_id",
+        "access": "current private_health_read grant; recipient scope when applicable",
+        "budget": "one private record"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/care/reports/:record_id/history",
+        "access": "current private_health_read grant; historical recipient scopes",
+        "budget": "100 immutable history entries; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/reports",
+        "access": "clinical_write or sample_submit as appropriate; CSRF; care activated",
+        "budget": "64 KiB request; immutable operation receipt; locks and live scope predicates"
+      },
+      {
+        "method": "POST",
+        "path": "/api/horses/:horse_id/care/reports/:record_id/review",
+        "access": "evidence_review and private_file_export; CSRF; independent reviewer",
+        "budget": "expected version; same-horse stored-byte hash and live evidence guard"
+      },
+      {
+        "method": "POST",
+        "path": "/api/care/analysis/base-color",
+        "access": "private read on both subjects; CSRF",
+        "budget": "two-locus MC1R/ASIP; complete accepted evidence sets bounded to 100 per participant"
+      },
+      {
+        "method": "POST",
+        "path": "/api/care/analysis/str-parentage",
+        "access": "private read on all three subjects; CSRF",
+        "budget": "bounded shared panel comparison; no probability or official parentage claim"
+      }
+    ]
+  },
+  {
+    "module": "src/api/modules/registryMetadata.ts",
+    "dispatcher": "routeRegistryMetadata",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/registry/metadata",
+        "access": "public",
+        "budget": "100 active public definitions; truncation explicit"
+      },
+      {
+        "method": "GET",
+        "path": "/api/registry/metadata/:field_key/filter",
+        "access": "public",
+        "budget": "50 current-definition visible horses; offset at most 10000"
+      },
+      {
+        "method": "GET",
+        "path": "/api/horses/:horse_id/supplementary",
+        "access": "public live horse",
+        "budget": "100 public values; original definition retained; no private sources"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/metadata/fields",
+        "access": "registry administrator",
+        "budget": "100 definitions; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/metadata/fields",
+        "access": "registry administrator and CSRF; rechecked at commit",
+        "budget": "32 KiB bounded declarative definition; draft only; atomic receipt/history"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/metadata/fields/:field_key",
+        "access": "registry administrator",
+        "budget": "at most 100 definitions and 100 decisions; truncation explicit"
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/metadata/fields/:field_key/versions",
+        "access": "registry administrator and CSRF; expected revision",
+        "budget": "type and visibility immutable; at most 100 versions"
+      },
+      {
+        "method": "POST",
+        "path": "/api/admin/metadata/fields/:field_key/activate",
+        "access": "registry administrator and CSRF; expected revision",
+        "budget": "one activation or withdrawal; immutable receipt and history"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/horses/:horse_id/supplementary",
+        "access": "registry administrator",
+        "budget": "100 values with private source references; truncation explicit"
+      },
+      {
+        "method": "GET",
+        "path": "/api/admin/horses/:horse_id/supplementary/history",
+        "access": "registry administrator",
+        "budget": "100 private value decisions; truncation explicit"
+      },
+      {
+        "method": "PUT",
+        "path": "/api/admin/horses/:horse_id/supplementary/:field_key",
+        "access": "registry administrator and CSRF; expected value version",
+        "budget": "one typed value; live subject and definition guard; receipt/history/audit atomic"
+      }
+    ]
+  },
+  {
+    "module": "src/auth/mfa.ts",
+    "dispatcher": "routeMfa",
+    "routes": [
+      {
+        "method": "GET",
+        "path": "/api/auth/mfa/status",
+        "access": "current own session",
+        "budget": "current factor, assurance, recovery-code count and 20 minimal events; private no-store"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/enroll",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/activate",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/challenge",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/recover",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/recovery-codes",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/disable",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      },
+      {
+        "method": "POST",
+        "path": "/api/auth/mfa/cancel",
+        "access": "current own session + CSRF; current password/factor or narrowly scoped recovery where required",
+        "budget": "4 KiB request; account lockout; single-use codes; factor/session locks, atomic rotation and event; at most 10 recovery hashes"
+      }
+    ]
+  }
+]
