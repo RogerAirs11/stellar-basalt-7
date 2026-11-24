@@ -26,7 +26,7 @@
   "vars": {
     "APP_ENV": "production",
     "SESSION_COOKIE_NAME": "horse_registry_session",
-    "DB_PROVIDER_MODE": "turso_full",
+    "DB_PROVIDER_MODE": "d1_full",
     "DB_HEALTH_CACHE_MS": "2000",
     "ENABLE_DEMO_ADMIN_LOGIN": "0",
     "AI_ASSISTANT_ENABLED": "1",
@@ -84,6 +84,6 @@
   // R95-N09: the durable notification worker cadence (bounded batch drain).
   // This is a dispatch attempt cadence, NOT a delivery SLA.
   "triggers": {
-    "crons": ["*/5 * * * *"]
+    "crons": ["0 * * * *"]
   }
 }
