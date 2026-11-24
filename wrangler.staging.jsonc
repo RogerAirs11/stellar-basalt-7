@@ -1,0 +1,76 @@
+// Agent A isolated Cloudflare Free staging certification config.
+// Isolated resources only: worker + D1 named horse-registry-v118-cert-agent-a-20260906.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "horse-registry-v118-cert-agent-a-20260906",
+  "main": "./src/worker.ts",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+  "vars": {
+    "APP_ENV": "production",
+    "SESSION_COOKIE_NAME": "horse_registry_session",
+    "DB_PROVIDER_MODE": "d1_only",
+    "DB_HEALTH_CACHE_MS": "2000"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "horse-registry-v118-cert-agent-a-20260906",
+      "database_id": "9d31f217-a5d7-48a2-8bee-2e3e14310406",
+      "preview_database_id": "horse-registry-v118-cert-agent-a-20260906",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "PUBLIC_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 300,
+        "period": 60
+      }
+    },
+    {
+      "name": "AUTH_RATE_LIMITER",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 10,
+        "period": 60
+      }
+    },
+    {
+      "name": "EXPENSIVE_RATE_LIMITER",
+      "namespace_id": "1003",
+      "simple": {
+        "limit": 12,
+        "period": 60
+      }
+    },
+    {
+      "name": "WRITE_RATE_LIMITER",
+      "namespace_id": "1004",
+      "simple": {
+        "limit": 30,
+        "period": 60
+      }
+    },
+    {
+      "name": "ACCOUNT_RATE_LIMITER",
+      "namespace_id": "1005",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
