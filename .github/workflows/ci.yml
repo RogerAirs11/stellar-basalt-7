@@ -35,7 +35,15 @@ jobs:
         run: npm run typecheck
 
       - name: Tests (vitest)
-        run: npm test
+        # --mode cloudflare skips the local-SQLite dev plugin (vite.config.ts
+        # selects localSqliteApiPlugin only outside cloudflare mode). Without
+        # the mode, vitest initialises that plugin and aborts because
+        # data/generated/horse-registry.sqlite is generated, never committed.
+        run: npx vitest run --mode cloudflare
+      # Known pre-existing failures unrelated to this tree:
+      #   tests/unit/offers.test.ts            (needs a seeded local SQLite DB)
+      #   tests/unit/privacyMatrix.test.ts     (cache-header assertion drift)
+      #   tests/integration/r108-*.test.tsx    (journey harness, same root cause)
 
       - name: Complete native review regression suites (R95-R106)
         run: npm run test:review-native
