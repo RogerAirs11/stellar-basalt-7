@@ -40,7 +40,7 @@ jobs:
           # binding in cloudflare mode. The tests never open it — they only need
           # binding resolution to succeed. Without this the whole suite aborts
           # at startup with "no local hyperdrive connection string".
-          CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_SUPABASE_HYPERDRIVE: postgres://localhost:5432/postgres
+          CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_SUPABASE_HYPERDRIVE: postgres://user:pass@localhost:5432/postgres
         # --mode cloudflare skips the local-SQLite dev plugin (vite.config.ts
         # selects localSqliteApiPlugin only outside cloudflare mode). Without
         # the mode, vitest initialises that plugin and aborts because
